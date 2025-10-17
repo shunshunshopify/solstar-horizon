@@ -7,7 +7,6 @@
     if image
       assign fly_to_cart_image = image | image_url: width: 120
     endif
-    assign first_option_name = product.options_with_values | first | default: nil
   %}
 
   <style>
@@ -136,8 +135,14 @@
       grid-template-areas: "button";
     }
 
-    /* Variant select – follow Horizon input tokens */
-    #md-sticky-atc .select{ grid-area: variant; min-width: 0; }
+    /* Variant selects – support up to three options */
+    #md-sticky-atc .variant-controls{
+      grid-area: variant;
+      display: grid;
+      gap: .5rem;
+      min-width: 0;
+    }
+    #md-sticky-atc .variant-controls .select{ min-width: 0; }
     #md-sticky-atc .select select{
       width: 100%;
       padding: var(--input-padding, .45rem .75rem);
@@ -240,8 +245,16 @@
       // Elements
       const imgEl = bar.querySelector('.product-content img');
       const priceEl = bar.querySelector('.price');
-      const stickySelectWrapper = bar.querySelector('.select');
-      const stickySelect = bar.querySelector('select[name="id"]');
+      const variantControls = bar.querySelector('.variant-controls');
+      const stickyOptionSelects = variantControls
+        ? Array.from(variantControls.querySelectorAll('.select--variant-option select'))
+        : [];
+      const stickySelect = bar.querySelector('.select--variant-id select');
+      const variantsDataEl = bar.querySelector('[data-sticky-variants]');
+      const variants = variantsDataEl ? JSON.parse(variantsDataEl.textContent) : [];
+      if (variantsDataEl) variantsDataEl.remove();
+      let currentVariantId = stickySelect ? String(stickySelect.value) : null;
+      let isSyncingOptionSelects = false;
       const qtyInput = bar.querySelector('.quantity__input');
       const minusBtn = bar.querySelector('.quantity__button[name="minus"]');
       const plusBtn  = bar.querySelector('.quantity__button[name="plus"]');
@@ -275,6 +288,61 @@
           stickyAddBtn.dataset.productVariantMedia = stickyFallbackMedia;
         } else {
           delete stickyAddBtn.dataset.productVariantMedia;
+        }
+      };
+
+      const findVariantById = (variantId) =>
+        variants.find((variant) => String(variant.id) === String(variantId));
+
+      const updateOptionSelectorsFromVariant = (variant) => {
+        if (!variant || !stickyOptionSelects.length) return;
+        isSyncingOptionSelects = true;
+        stickyOptionSelects.forEach((select) => {
+          const position = Number(select.dataset.optionPosition);
+          if (!position) return;
+          const optionValue = variant[`option${position}`];
+          if (optionValue && select.value !== optionValue) {
+            select.value = optionValue;
+          }
+        });
+        isSyncingOptionSelects = false;
+      };
+
+      const findVariantFromOptionSelectors = () => {
+        if (!stickyOptionSelects.length || !variants.length) return null;
+        const selections = stickyOptionSelects.map((select) => ({
+          position: Number(select.dataset.optionPosition),
+          value: select.value,
+        }));
+        return variants.find((variant) =>
+          selections.every(({ position, value }) => position && variant[`option${position}`] === value)
+        );
+      };
+
+      const setStickyVariant = (variantId, { source = 'external', variantData = null } = {}) => {
+        if (!variantId || !stickySelect) return;
+        const target = stickySelect.querySelector(`option[value="${variantId}"]`);
+        if (!target) return;
+        if (stickySelect.value !== String(variantId)) {
+          stickySelect.value = String(variantId);
+        }
+        currentVariantId = String(variantId);
+        updateStickyFromOption(target);
+        const variant = variantData || findVariantById(variantId);
+        if (variant) {
+          if (source !== 'options') {
+            updateOptionSelectorsFromVariant(variant);
+          }
+          setMediaFromVariant(variant);
+        }
+        if (source !== 'external' && mainVariantControl) {
+          if (mainVariantControl.tagName === 'SELECT' && mainVariantControl.value !== stickySelect.value) {
+            mainVariantControl.value = stickySelect.value;
+            mainVariantControl.dispatchEvent(new Event('change', { bubbles: true }));
+          } else if (mainVariantControl.tagName === 'INPUT' && mainVariantControl.value !== stickySelect.value) {
+            mainVariantControl.value = stickySelect.value;
+            mainVariantControl.dispatchEvent(new Event('change', { bubbles: true }));
+          }
         }
       };
 
@@ -338,30 +406,21 @@
           }
         }
       }
-      function syncStickyToVariantId(variantId){
-        if (!stickySelect) return;
-        const target = stickySelect.querySelector(`option[value="${variantId}"]`);
-        if (target){
-          stickySelect.value = String(variantId);
-          updateStickyFromOption(target);
-        }
-      }
-
       document.addEventListener('variant:change', (e) => {
         const v = e.detail && e.detail.variant;
-        if (v && v.id) syncStickyToVariantId(v.id);
-        if (v) setMediaFromVariant(v);
+        if (v && v.id) setStickyVariant(v.id, { source: 'external', variantData: v });
       });
       document.addEventListener('variantChange', (e) => {
-        const v = e.detail && (e.detail.variant || e.detail);
-        if (v && v.id) syncStickyToVariantId(v.id);
-        if (v) setMediaFromVariant(v);
+        const detail = e.detail && (e.detail.variant || e.detail);
+        if (detail && detail.id) {
+          setStickyVariant(detail.id, { source: 'external', variantData: detail });
+        }
       });
 
       if (mainVariantControl){
         const onMainVariantChange = () => {
           const id = mainVariantControl.value || mainVariantControl.getAttribute('value');
-          if (id) syncStickyToVariantId(id);
+          if (id) setStickyVariant(id, { source: 'external', variantData: findVariantById(id) });
         };
         mainVariantControl.addEventListener('change', onMainVariantChange);
         if ('MutationObserver' in window){
@@ -372,17 +431,36 @@
 
       if (stickySelect){
         stickySelect.addEventListener('change', () => {
-          const opt = stickySelect.options[stickySelect.selectedIndex];
-          updateStickyFromOption(opt);
-          if (mainVariantControl && mainVariantControl.tagName === 'SELECT'){
-            if (mainVariantControl.value !== stickySelect.value) {
-              mainVariantControl.value = stickySelect.value;
-              mainVariantControl.dispatchEvent(new Event('change', { bubbles: true }));
-            }
+          const selectedId = stickySelect.value;
+          if (selectedId) {
+            setStickyVariant(selectedId, { source: 'select', variantData: findVariantById(selectedId) });
           }
         });
-        // Initial paint
-        updateStickyFromOption(stickySelect.options[stickySelect.selectedIndex]);
+        if (stickySelect.value) {
+          setStickyVariant(stickySelect.value, {
+            source: 'external',
+            variantData: findVariantById(stickySelect.value),
+          });
+        }
+      } else if (variants.length) {
+        const fallbackVariant = variants.find((variant) => variant.available) || variants[0];
+        if (fallbackVariant) {
+          setStickyVariant(fallbackVariant.id, { source: 'external', variantData: fallbackVariant });
+        }
+      }
+      if (stickyOptionSelects.length){
+        stickyOptionSelects.forEach((select) => {
+          select.addEventListener('change', () => {
+            if (isSyncingOptionSelects) return;
+            const variant = findVariantFromOptionSelectors();
+            if (variant) {
+              setStickyVariant(variant.id, { source: 'options', variantData: variant });
+            } else if (currentVariantId) {
+              const currentVariant = findVariantById(currentVariantId);
+              updateOptionSelectorsFromVariant(currentVariant);
+            }
+          });
+        });
       }
 
       const animateFlyToCart = () => {
@@ -460,7 +538,7 @@
 
       // ---- Layout optimization (no empty space when controls are hidden) ----
       function updateLayoutFlags(){
-        const hasVariant = !!(stickySelectWrapper && stickySelectWrapper.offsetParent !== null);
+        const hasVariant = !!(variantControls && stickyOptionSelects.length && variantControls.offsetParent !== null);
         const hasQty = !!(qtyWrapper && qtyWrapper.offsetParent !== null);
         bar.classList.toggle('no-variant', !hasVariant);
         bar.classList.toggle('no-qty', !hasQty);
@@ -502,18 +580,33 @@
           <product-form class="product-form">
             {%- form 'product', product, id: product_form_id, class: 'form' -%}
               <div class="product-form__controls">
-                <!-- Variant select (hidden when product has only default variant) -->
-                <div class="select" style="{% if product.has_only_default_variant %}display:none;{% endif %}">
+                <!-- Variant selects (render up to three options when available) -->
+                {% unless product.has_only_default_variant %}
+                  <div class="variant-controls">
+                    {% for option in product.options_with_values %}
+                      <div class="select select--variant-option">
+                        <select
+                          name="options[{{ option.name | escape }}]"
+                          aria-label="{{ option.name | escape }}"
+                          data-option-position="{{ option.position }}"
+                        >
+                          {% for option_value in option.values %}
+                            <option
+                              value="{{ option_value | escape }}"
+                              {% if option_value.selected %}selected{% endif %}
+                            >
+                              {{ option_value | escape }}
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endunless %}
+
+                <!-- Variant id select kept for data + submission -->
+                <div class="select select--variant-id" style="display:none;">
                   <select name="id" aria-label="Select variant">
-                    {% comment %}
-                      Add a non-selectable option that displays the first option name as a label
-                      (e.g. "-- Size --") at the top of the native dropdown.
-                    {% endcomment %}
-                    {% if first_option_name %}
-                      <option value="" disabled>
-                        -- {{ first_option_name.name | default: first_option_name | escape | downcase }} --
-                      </option>
-                    {% endif %}
                     {% for variant in product.variants %}
                       {% assign variant_image = variant.image | default: product.featured_image %}
                       <option
@@ -529,6 +622,9 @@
                     {% endfor %}
                   </select>
                 </div>
+                <script type="application/json" data-sticky-variants>
+                  {{ product.variants | json }}
+                </script>
 
                 <!-- Quantity (toggle via setting) -->
                 {% if section.settings.show_qty %}

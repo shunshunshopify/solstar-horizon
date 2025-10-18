@@ -109,46 +109,32 @@
     #md-sticky-atc .product-form__controls{
       display: grid;
       gap: .5rem;
-      align-items: stretch;
+      align-items: center;
     }
-    #md-sticky-atc .product-form__controls > *{
-      min-width: 0;
-    }
+    #md-sticky-atc .product-form__controls > *{ min-width: 0; }
 
-    /* Variant selects – support up to three options */
+    /* Variant selects – align to original styling */
     #md-sticky-atc .variant-controls{
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
       gap: .5rem;
-      min-width: 0;
-    }
-    #md-sticky-atc .variant-controls .variant-option{
-      margin: 0;
-      flex: 1 1 160px;
-    }
-    #md-sticky-atc .variant-controls .variant-option__select-wrapper{
       width: 100%;
-      margin-top: 0;
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr;
     }
-    #md-sticky-atc .variant-controls .variant-option__select{
-      min-height: var(--minimum-touch-target, 44px);
+    #md-sticky-atc .variant-controls[data-option-count="1"]{
+      grid-template-columns: 1fr;
     }
-    #md-sticky-atc .variant-controls .variant-option__select-wrapper .icon{
-      right: var(--padding-md);
+    #md-sticky-atc .variant-controls[data-option-count="2"]{
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    /* Quantity – align with Horizon quantity selector */
-    #md-sticky-atc .quantity-selector{ width: 100%; min-width: 0; }
-    #md-sticky-atc .quantity-selector .quantity__button{
-      padding: 0;
-    }
-    #md-sticky-atc .quantity-selector .svg-wrapper{
-      display: inline-flex;
+    #md-sticky-atc .variant-controls[data-option-count="3"]{
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     @media (max-width: 989px){
       #md-sticky-atc .product-form__controls{
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
       }
       #md-sticky-atc .product-form__controls[data-variant-count="0"],
       #md-sticky-atc .product-form__controls[data-variant-count="1"]{
@@ -157,20 +143,12 @@
       #md-sticky-atc .product-form__submit.button{
         grid-column: 1 / -1;
       }
-      #md-sticky-atc .variant-controls{
-        display: contents;
-      }
-      #md-sticky-atc .variant-option{
-        grid-column: span 1;
-      }
-      #md-sticky-atc .variant-controls[data-option-count="1"] .variant-option{
+      #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
+      #md-sticky-atc .product-form__controls[data-variant-count="3"] .variant-controls{
         grid-column: 1 / -1;
       }
-      #md-sticky-atc .variant-controls[data-option-count="3"] .variant-option:nth-child(3){
-        grid-column: 2;
-      }
       #md-sticky-atc .quantity-selector{
-        grid-column: 1;
+        grid-column: span 1;
       }
       #md-sticky-atc .product-form__controls[data-variant-count="0"] .quantity-selector,
       #md-sticky-atc .product-form__controls[data-variant-count="1"] .quantity-selector{
@@ -209,17 +187,10 @@
       }
 
       #md-sticky-atc .variant-controls{
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
         gap: .5rem;
       }
-      #md-sticky-atc .variant-option{
-        flex: 1 1 160px;
-      }
-      #md-sticky-atc .quantity-selector{
-        grid-column: auto;
-        min-width: 140px;
-      }
+      #md-sticky-atc .quantity-selector{ grid-column: auto; }
       #md-sticky-atc .product-form__submit.button{
         grid-column: auto;
         width: auto;
@@ -589,9 +560,7 @@
                     {% for option in product.options_with_values %}
                       {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
                       <div class="variant-option variant-option--dropdowns">
-                        <label class="visually-hidden" for="{{ sticky_option_id }}">
-                          {{ option.name | escape }}
-                        </label>
+                        <label for="{{ sticky_option_id }}">{{ option.name | escape }}</label>
                         <div class="variant-option__select-wrapper">
                           <select
                             id="{{ sticky_option_id }}"
@@ -662,6 +631,7 @@
                       value="1"
                       form="{{ product_form_id }}"
                       inputmode="numeric"
+                      aria-label="{{ 'accessibility.quantity' | t }}"
                     >
                     <button
                       class="button button-unstyled quantity-plus quantity__button"

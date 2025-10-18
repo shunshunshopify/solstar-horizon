@@ -569,7 +569,7 @@
                     {% for option in product.options_with_values %}
                       {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
                       <div class="variant-option variant-option--dropdowns">
-                        <label for="{{ sticky_option_id }}">{{ option.name | escape }}</label>
+                        <label class="visually-hidden" for="{{ sticky_option_id }}">{{ option.name | escape }}</label>
                         <div class="variant-option__select-wrapper">
                           <select
                             id="{{ sticky_option_id }}"
@@ -578,6 +578,9 @@
                             aria-label="{{ option.name | escape }}"
                             data-option-position="{{ option.position }}"
                           >
+                            <option value="" disabled {% if option.selected_value == blank %}selected{% endif %}>
+                              {{ '-- ' | append: option.name | append: ' --' | escape }}
+                            </option>
                           {% for option_value in option.values %}
                             <option
                               value="{{ option_value | escape }}"

@@ -14,16 +14,10 @@
         break
       endif
     endfor
-    assign variant_block_enabled = false
-    if variant_block
-      assign variant_block_enabled = true
-    endif
     assign variant_option_count = 0
-    if variant_block_enabled
-      unless product.has_only_default_variant
-        assign variant_option_count = product.options_with_values | size
-      endunless
-    endif
+    unless product.has_only_default_variant
+      assign variant_option_count = product.options_with_values | size
+    endunless
   %}
 
   <style>
@@ -154,7 +148,9 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: stretch;
       }
-      #md-sticky-atc .product-form__controls[data-variant-count="0"],
+      #md-sticky-atc .product-form__controls[data-variant-count="0"]{
+        grid-template-columns: 1fr;
+      }
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"]{
         grid-template-columns: 1fr;
       }
@@ -582,8 +578,7 @@
                 alt="{{ product.title | escape }}"
                 width="{{ section.settings.img_width }}"
                 height="{{ section.settings.img_height }}"
-                loading="lazy">
-            {% endif %}
+                loading="lazy">\n            {% endif %}
             <div style="min-width:0;">
               <h3 class="product__title">{{ product.title }}</h3>
               <div class="price">{{ current_variant.price | money }}</div>
@@ -599,7 +594,7 @@
               {% endif %}
               <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
                 {% if variant_option_count > 0 %}
-                  <div class="variant-controls" data-option-count="{{ variant_option_count }}" {{ variant_block.shopify_attributes }}>
+                  <div class="variant-controls" data-option-count="{{ variant_option_count }}" {% if variant_block %}{{ variant_block.shopify_attributes }}{% endif %}>
                     {% for option in product.options_with_values %}
                       {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
                       <div class="variant-option variant-option--dropdowns">

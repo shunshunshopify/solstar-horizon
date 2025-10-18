@@ -7,6 +7,10 @@
     if image
       assign fly_to_cart_image = image | image_url: width: 120
     endif
+    assign variant_option_count = 0
+    unless product.has_only_default_variant
+      assign variant_option_count = product.options_with_values | size
+    endunless
   %}
 
   <style>
@@ -104,46 +108,23 @@
     #md-sticky-atc .product-form{ grid-area: controls; }
     #md-sticky-atc .product-form__controls{
       display: grid;
-      grid-template-columns: 1fr 120px;
-      grid-template-areas:
-        "variant qty"
-        "button button";
       gap: .5rem;
-      align-items: center;
+      align-items: stretch;
     }
-
-    /* When there is NO variant select */
-    #md-sticky-atc.no-variant .product-form__controls{
-      grid-template-columns: 120px 1fr;
-      grid-template-areas:
-        {% if section.settings.show_qty %}
-          "qty button"
-        {% else %}
-          "button button"
-        {% endif %};
-    }
-
-    /* When there is NO quantity */
-    #md-sticky-atc.no-qty .product-form__controls{
-      grid-template-columns: 1fr auto;
-      grid-template-areas: "variant button";
-    }
-
-    /* When there is NEITHER variant NOR qty -> button full width */
-    #md-sticky-atc.no-variant.no-qty .product-form__controls{
-      grid-template-columns: 1fr;
-      grid-template-areas: "button";
+    #md-sticky-atc .product-form__controls > *{
+      min-width: 0;
     }
 
     /* Variant selects – support up to three options */
     #md-sticky-atc .variant-controls{
-      grid-area: variant;
-      display: grid;
+      display: flex;
+      flex-wrap: wrap;
       gap: .5rem;
       min-width: 0;
     }
     #md-sticky-atc .variant-controls .variant-option{
       margin: 0;
+      flex: 1 1 160px;
     }
     #md-sticky-atc .variant-controls .variant-option__select-wrapper{
       width: 100%;
@@ -157,11 +138,7 @@
     }
 
     /* Quantity – align with Horizon quantity selector */
-    #md-sticky-atc .quantity-selector{
-      grid-area: qty;
-      width: 100%;
-      min-width: 0;
-    }
+    #md-sticky-atc .quantity-selector{ width: 100%; min-width: 0; }
     #md-sticky-atc .quantity-selector .quantity__button{
       padding: 0;
     }
@@ -169,12 +146,43 @@
       display: inline-flex;
     }
 
-    /* Add to cart – uses Horizon primary .button styles */
-    #md-sticky-atc .product-form__submit.button{
-      grid-area: button;
-      width: 100%;
-      border-radius: var(--style-border-radius-buttons-primary);
+    @media (max-width: 989px){
+      #md-sticky-atc .product-form__controls{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      #md-sticky-atc .product-form__controls[data-variant-count="0"],
+      #md-sticky-atc .product-form__controls[data-variant-count="1"]{
+        grid-template-columns: 1fr;
+      }
+      #md-sticky-atc .product-form__submit.button{
+        grid-column: 1 / -1;
+      }
+      #md-sticky-atc .variant-controls{
+        display: contents;
+      }
+      #md-sticky-atc .variant-option{
+        grid-column: span 1;
+      }
+      #md-sticky-atc .variant-controls[data-option-count="1"] .variant-option{
+        grid-column: 1 / -1;
+      }
+      #md-sticky-atc .variant-controls[data-option-count="3"] .variant-option:nth-child(3){
+        grid-column: 2;
+      }
+      #md-sticky-atc .quantity-selector{
+        grid-column: 1;
+      }
+      #md-sticky-atc .product-form__controls[data-variant-count="0"] .quantity-selector,
+      #md-sticky-atc .product-form__controls[data-variant-count="1"] .quantity-selector{
+        grid-column: 1 / -1;
+      }
+      #md-sticky-atc.no-qty .product-form__submit.button{
+        grid-column: 1 / -1;
+      }
     }
+
+    /* Add to cart – uses Horizon primary .button styles */
+    #md-sticky-atc .product-form__submit.button{ width: 100%; border-radius: var(--style-border-radius-buttons-primary); }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
 
     /* Desktop */
@@ -186,26 +194,37 @@
         gap: 1rem;
       }
       #md-sticky-atc .product-form__controls{
-        grid-template-columns: minmax(220px, 300px) 140px auto;
-        grid-template-areas: "variant qty button";
-        gap: .5rem;
+        grid-template-columns: minmax(260px, 1fr) 140px auto;
+        align-items: center;
       }
 
-      /* Desktop optimizations when items are hidden */
+      #md-sticky-atc.no-qty .product-form__controls{
+        grid-template-columns: minmax(260px, 1fr) auto;
+      }
       #md-sticky-atc.no-variant .product-form__controls{
         grid-template-columns: 140px auto;
-        grid-template-areas: {% if section.settings.show_qty %}"qty button"{% else %}"button button"{% endif %};
-      }
-      #md-sticky-atc.no-qty .product-form__controls{
-        grid-template-columns: minmax(220px, 300px) auto;
-        grid-template-areas: "variant button";
       }
       #md-sticky-atc.no-variant.no-qty .product-form__controls{
         grid-template-columns: auto;
-        grid-template-areas: "button";
       }
 
-      #md-sticky-atc .product-form__submit{ width: auto; min-width: 180px; }
+      #md-sticky-atc .variant-controls{
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+      }
+      #md-sticky-atc .variant-option{
+        flex: 1 1 160px;
+      }
+      #md-sticky-atc .quantity-selector{
+        grid-column: auto;
+        min-width: 140px;
+      }
+      #md-sticky-atc .product-form__submit.button{
+        grid-column: auto;
+        width: auto;
+        min-width: 180px;
+      }
     }
   </style>
 
@@ -217,6 +236,7 @@
       // Elements
       const imgEl = bar.querySelector('.product-content img');
       const priceEl = bar.querySelector('.price');
+      const controls = bar.querySelector('.product-form__controls');
       const variantControls = bar.querySelector('.variant-controls');
       const stickyOptionSelects = variantControls
         ? Array.from(variantControls.querySelectorAll('.variant-option__select'))
@@ -234,6 +254,16 @@
       const stickyAddBtn = bar.querySelector('button[name="add"]');
       const stickyFallbackMedia = stickyAddBtn ? stickyAddBtn.dataset.productVariantMedia : '';
       const cartIcon = document.querySelector('.header-actions__cart-icon');
+
+      const setVariantCountAttributes = (hasVisibleVariants) => {
+        const optionCount = stickyOptionSelects.length;
+        if (variantControls) {
+          variantControls.setAttribute('data-option-count', optionCount);
+        }
+        if (controls) {
+          controls.setAttribute('data-variant-count', hasVisibleVariants ? optionCount : 0);
+        }
+      };
 
       // Main PDP add button (outside sticky)
       const allAddBtns = document.querySelectorAll('button[name="add"]');
@@ -512,6 +542,7 @@
       function updateLayoutFlags(){
         const hasVariant = !!(variantControls && stickyOptionSelects.length && variantControls.offsetParent !== null);
         const hasQty = !!(qtyWrapper && qtyWrapper.offsetParent !== null);
+        setVariantCountAttributes(hasVariant);
         bar.classList.toggle('no-variant', !hasVariant);
         bar.classList.toggle('no-qty', !hasQty);
       }
@@ -551,10 +582,10 @@
           <!-- Controls -->
           <product-form class="product-form">
             {%- form 'product', product, id: product_form_id, class: 'form' -%}
-              <div class="product-form__controls">
+              <div class="product-form__controls" data-variant-count="{{ variant_option_count }}">
                 <!-- Variant selects (render up to three options when available) -->
                 {% unless product.has_only_default_variant %}
-                  <div class="variant-controls">
+                  <div class="variant-controls" data-option-count="{{ variant_option_count }}">
                     {% for option in product.options_with_values %}
                       {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
                       <div class="variant-option variant-option--dropdowns">

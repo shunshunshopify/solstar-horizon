@@ -104,6 +104,16 @@
       font-weight: var(--button-font-weight-primary);
     }
 
+    /* Title shown together with image in sticky bar */
+    #md-sticky-atc .sticky-product-title{
+      font-size: 0.95rem;
+      line-height: 1.1;
+      color: var(--color-foreground);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     /* Controls wrapper (default: variant + qty above button on mobile) */
     #md-sticky-atc .product-form{ grid-area: controls; }
     #md-sticky-atc .product-form__controls{
@@ -473,7 +483,7 @@
         if (!media) return;
 
         const flyToCartElement = /** @type {FlyToCart} */ (document.createElement('fly-to-cart'));
-        flyToCartElement.style.setProperty('background-image', `url(${media})`);
+        flyToCartElement.style.setProperty('background-image', `url(${media}`);
         flyToCartElement.source = stickyAddBtn;
         flyToCartElement.destination = cartIcon;
         document.body.appendChild(flyToCartElement);
@@ -565,16 +575,20 @@
         <div class="page-width-inner">
           <!-- Product summary -->
           <div class="product-content">
-            {% if section.settings.show_img and image %}
-              <img
-                src="{{ image | image_url: width: section.settings.img_width, height: section.settings.img_height, crop: 'center' }}"
-                alt="{{ product.title | escape }}"
-                width="{{ section.settings.img_width }}"
-                height="{{ section.settings.img_height }}"
-                loading="lazy">
+            {% if section.settings.show_img %}
+              <div class="sticky-product-media" aria-hidden="false">
+                {% if image %}
+                  <img
+                    src="{{ image | image_url: width: section.settings.img_width, height: section.settings.img_height, crop: 'center' }}"
+                    alt="{{ product.title | escape }}"
+                    width="{{ section.settings.img_width }}"
+                    height="{{ section.settings.img_height }}"
+                    loading="lazy">
+                {% endif %}
+                <div class="sticky-product-title">{{ product.title }}</div>
+              </div>
             {% endif %}
             <div style="min-width:0;">
-              <h3 class="product__title">{{ product.title }}</h3>
               <div class="price">{{ current_variant.price | money }}</div>
             </div>
           </div>
@@ -709,13 +723,13 @@
     { "type": "header", "content": "General" },
     { "type": "checkbox", "id": "enable_section", "label": "Enable \"Sticky ATC\"", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "checkbox", "id": "show_img", "label": "Show product image", "default": true },
     { "type": "text", "id": "img_width", "label": "Image width (px)", "default": "60" },
     { "type": "text", "id": "img_height", "label": "Image height (px)", "default": "60" },
 
     { "type": "header", "content": "Controls" },
     { "type": "checkbox", "id": "show_qty", "label": "Show quantity picker", "default": true },
     { "type": "checkbox", "id": "show_variant_picker", "label": "Show variant picker", "default": true },
+    { "type": "checkbox", "id": "show_img", "label": "Show product image and title", "default": true },
 
     { "type": "header", "content": "Spacing" },
     { "type": "range", "id": "pt", "label": "Padding top (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 },

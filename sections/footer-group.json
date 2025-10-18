@@ -17,10 +17,10 @@
       "settings": {
         "enable_section": true,
         "color_scheme": "scheme-1",
-        "show_img": true,
+        "show_img": false,
         "img_width": "60",
         "img_height": "60",
-        "show_qty": true,
+        "show_qty": false,
         "show_variant_picker": false,
         "pt": 0.5,
         "pb": 0.5

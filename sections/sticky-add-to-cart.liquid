@@ -121,6 +121,10 @@
       grid-column: 1 / -1;
       grid-template-columns: 1fr;
     }
+    #md-sticky-atc .variant-option__select-wrapper{
+      margin-top: 0;
+      min-height: var(--height-buy-buttons);
+    }
     #md-sticky-atc .variant-controls[data-option-count="1"]{
       grid-template-columns: 1fr;
     }
@@ -198,7 +202,8 @@
         flex: 1 1 0;
       }
       #md-sticky-atc .quantity-selector{
-        flex: 0 1 var(--quantity-selector-width);
+        flex: 0 0 var(--quantity-selector-width);
+        min-width: var(--quantity-selector-width);
         align-self: stretch;
       }
       #md-sticky-atc .product-form__submit.button{

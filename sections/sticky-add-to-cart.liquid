@@ -7,13 +7,6 @@
     if image
       assign fly_to_cart_image = image | image_url: width: 120
     endif
-    assign variant_block = nil
-    for block in section.blocks
-      if block.type == 'variant_picker'
-        assign variant_block = block
-        break
-      endif
-    endfor
     assign variant_option_count = 0
     unless product.has_only_default_variant
       assign variant_option_count = product.options_with_values | size
@@ -578,7 +571,8 @@
                 alt="{{ product.title | escape }}"
                 width="{{ section.settings.img_width }}"
                 height="{{ section.settings.img_height }}"
-                loading="lazy">\n            {% endif %}
+                loading="lazy">
+            {% endif %}
             <div style="min-width:0;">
               <h3 class="product__title">{{ product.title }}</h3>
               <div class="price">{{ current_variant.price | money }}</div>
@@ -589,12 +583,12 @@
           <product-form class="product-form">
             {%- form 'product', product, id: product_form_id, class: 'form' -%}
               {% assign controls_variant_count = 0 %}
-              {% if variant_option_count > 0 %}
+              {% if variant_option_count > 0 and section.settings.show_variant_picker %}
                 {% assign controls_variant_count = variant_option_count %}
               {% endif %}
               <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
-                {% if variant_option_count > 0 %}
-                  <div class="variant-controls" data-option-count="{{ variant_option_count }}" {% if variant_block %}{{ variant_block.shopify_attributes }}{% endif %}>
+                {% if variant_option_count > 0 and section.settings.show_variant_picker %}
+                  <div class="variant-controls" data-option-count="{{ variant_option_count }}">
                     {% for option in product.options_with_values %}
                       {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
                       <div class="variant-option variant-option--dropdowns">
@@ -721,25 +715,12 @@
 
     { "type": "header", "content": "Controls" },
     { "type": "checkbox", "id": "show_qty", "label": "Show quantity picker", "default": true },
+    { "type": "checkbox", "id": "show_variant_picker", "label": "Show variant picker", "default": true },
 
     { "type": "header", "content": "Spacing" },
     { "type": "range", "id": "pt", "label": "Padding top (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 },
     { "type": "range", "id": "pb", "label": "Padding bottom (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 }
   ],
-  "blocks": [
-    {
-      "type": "variant_picker",
-      "name": "Variant picker",
-      "limit": 1
-    }
-  ],
-  "presets": [
-    {
-      "name": "Sticky ATC",
-      "blocks": [
-        { "type": "variant_picker" }
-      ]
-    }
-  ]
+  "presets": [{ "name": "Sticky ATC" }]
 }
 {% endschema %}

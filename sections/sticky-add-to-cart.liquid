@@ -181,7 +181,7 @@
       }
       #md-sticky-atc .product-form__controls{
         display: flex;
-        align-items: center;
+        align-items: stretch;
         gap: .75rem;
         flex-wrap: nowrap;
         width: 100%;
@@ -198,12 +198,14 @@
         flex: 1 1 0;
       }
       #md-sticky-atc .quantity-selector{
-        flex: 0 0 var(--quantity-selector-width, 140px);
+        flex: 0 1 var(--quantity-selector-width);
+        align-self: stretch;
       }
       #md-sticky-atc .product-form__submit.button{
-        flex: 0 0 auto;
-        width: auto;
-        min-width: 180px;
+        flex: 1 1 185px;
+        width: 100%;
+        min-width: fit-content;
+        height: var(--height-buy-buttons);
       }
     }
   </style>

@@ -142,59 +142,31 @@
       gap: .5rem;
       min-width: 0;
     }
-    #md-sticky-atc .variant-controls .select{ min-width: 0; }
-    #md-sticky-atc .select select{
+    #md-sticky-atc .variant-controls .variant-option{
+      margin: 0;
+    }
+    #md-sticky-atc .variant-controls .variant-option__select-wrapper{
       width: 100%;
-      padding: var(--input-padding, .45rem .75rem);
-      border: var(--style-border-width-inputs) solid var(--color-input-border);
-      border-radius: var(--style-border-radius-inputs);
-      appearance: none;
-      font-size: .95rem;
-      background-color: var(--color-input-background);
-      color: var(--color-input-text);
-      transition: background-color var(--animation-speed) var(--animation-easing);
+      margin-top: 0;
     }
-    #md-sticky-atc .select select:hover{ background-color: var(--color-input-hover-background); }
-
-    /* Quantity – match Horizon quantity-selector look */
-    #md-sticky-atc .quantity{
-      grid-area: qty;
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: .25rem;
-      border: var(--style-border-width-inputs) solid var(--color-input-border);
-      border-radius: var(--style-border-radius-inputs);
-      padding: 0 .35rem;
+    #md-sticky-atc .variant-controls .variant-option__select{
       min-height: var(--minimum-touch-target, 44px);
-      background-color: var(--color-input-background);
-      color: var(--color-input-text);
-      transition: background-color var(--animation-speed) var(--animation-easing);
     }
-    #md-sticky-atc .quantity:hover{ background-color: var(--color-input-hover-background); }
-    #md-sticky-atc .quantity__input{
-      width: 56px;
-      text-align: center;
-      border: none;
-      background: transparent;
-      color: var(--color-input-text);
-      font: inherit;
+    #md-sticky-atc .variant-controls .variant-option__select-wrapper .icon{
+      right: var(--padding-md);
+    }
+
+    /* Quantity – align with Horizon quantity selector */
+    #md-sticky-atc .quantity-selector{
+      grid-area: qty;
+      width: 100%;
+      min-width: 0;
+    }
+    #md-sticky-atc .quantity-selector .quantity__button{
       padding: 0;
-      appearance: textfield;
     }
-    #md-sticky-atc .quantity__input::-webkit-outer-spin-button,
-    #md-sticky-atc .quantity__input::-webkit-inner-spin-button{ appearance: none; margin:0; }
-    #md-sticky-atc .quantity__button{
-      background: transparent;
-      border: none;
+    #md-sticky-atc .quantity-selector .svg-wrapper{
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--minimum-touch-target, 40px);
-      height: var(--minimum-touch-target, 40px);
-      cursor: pointer;
-      color: var(--color-input-text);
-      padding: 0;
     }
 
     /* Add to cart – uses Horizon primary .button styles */
@@ -247,7 +219,7 @@
       const priceEl = bar.querySelector('.price');
       const variantControls = bar.querySelector('.variant-controls');
       const stickyOptionSelects = variantControls
-        ? Array.from(variantControls.querySelectorAll('.select--variant-option select'))
+        ? Array.from(variantControls.querySelectorAll('.variant-option__select'))
         : [];
       const stickySelect = bar.querySelector('.select--variant-id select');
       const variantsDataEl = bar.querySelector('[data-sticky-variants]');
@@ -255,10 +227,10 @@
       if (variantsDataEl) variantsDataEl.remove();
       let currentVariantId = stickySelect ? String(stickySelect.value) : null;
       let isSyncingOptionSelects = false;
-      const qtyInput = bar.querySelector('.quantity__input');
-      const minusBtn = bar.querySelector('.quantity__button[name="minus"]');
-      const plusBtn  = bar.querySelector('.quantity__button[name="plus"]');
-      const qtyWrapper = bar.querySelector('.quantity');
+      const qtyWrapper = bar.querySelector('.quantity-selector');
+      const qtyInput = qtyWrapper ? qtyWrapper.querySelector('.quantity__input') : null;
+      const minusBtn = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="minus"]') : null;
+      const plusBtn  = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="plus"]') : null;
       const stickyAddBtn = bar.querySelector('button[name="add"]');
       const stickyFallbackMedia = stickyAddBtn ? stickyAddBtn.dataset.productVariantMedia : '';
       const cartIcon = document.querySelector('.header-actions__cart-icon');
@@ -584,12 +556,19 @@
                 {% unless product.has_only_default_variant %}
                   <div class="variant-controls">
                     {% for option in product.options_with_values %}
-                      <div class="select select--variant-option">
-                        <select
-                          name="options[{{ option.name | escape }}]"
-                          aria-label="{{ option.name | escape }}"
-                          data-option-position="{{ option.position }}"
-                        >
+                      {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
+                      <div class="variant-option variant-option--dropdowns">
+                        <label class="visually-hidden" for="{{ sticky_option_id }}">
+                          {{ option.name | escape }}
+                        </label>
+                        <div class="variant-option__select-wrapper">
+                          <select
+                            id="{{ sticky_option_id }}"
+                            name="options[{{ option.name | escape }}]"
+                            class="variant-option__select"
+                            aria-label="{{ option.name | escape }}"
+                            data-option-position="{{ option.position }}"
+                          >
                           {% for option_value in option.values %}
                             <option
                               value="{{ option_value | escape }}"
@@ -598,7 +577,11 @@
                               {{ option_value | escape }}
                             </option>
                           {% endfor %}
-                        </select>
+                          </select>
+                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
+                            {% render 'icon', icon: 'caret' %}
+                          </svg>
+                        </div>
                       </div>
                     {% endfor %}
                   </div>
@@ -628,8 +611,17 @@
 
                 <!-- Quantity (toggle via setting) -->
                 {% if section.settings.show_qty %}
-                  <quantity-input class="quantity">
-                    <button class="quantity__button" name="minus" type="button" aria-label="Decrease quantity">−</button>
+                  <div class="quantity-selector">
+                    <button
+                      class="button button-unstyled quantity-minus quantity__button"
+                      name="minus"
+                      type="button"
+                    >
+                      <span class="visually-hidden">{{ 'accessibility.decrease_quantity' | t }}</span>
+                      <span class="svg-wrapper icon-minus">
+                        {{- 'icon-minus.svg' | inline_asset_content -}}
+                      </span>
+                    </button>
                     <input
                       class="quantity__input"
                       type="number"
@@ -638,9 +630,19 @@
                       min="1"
                       value="1"
                       form="{{ product_form_id }}"
-                      inputmode="numeric">
-                    <button class="quantity__button" name="plus" type="button" aria-label="Increase quantity">+</button>
-                  </quantity-input>
+                      inputmode="numeric"
+                    >
+                    <button
+                      class="button button-unstyled quantity-plus quantity__button"
+                      name="plus"
+                      type="button"
+                    >
+                      <span class="visually-hidden">{{ 'accessibility.increase_quantity' | t }}</span>
+                      <span class="svg-wrapper icon-plus">
+                        {{- 'icon-plus.svg' | inline_asset_content -}}
+                      </span>
+                    </button>
+                  </div>
                 {% endif %}
 
                 <!-- Add to cart -->

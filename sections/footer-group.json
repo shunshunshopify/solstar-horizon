@@ -20,7 +20,7 @@
         "show_img": true,
         "img_width": "60",
         "img_height": "60",
-        "show_qty": true,
+        "show_qty": false,
         "pt": 0.5,
         "pb": 0.5
       }

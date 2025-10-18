@@ -7,10 +7,23 @@
     if image
       assign fly_to_cart_image = image | image_url: width: 120
     endif
+    assign variant_block = nil
+    for block in section.blocks
+      if block.type == 'variant_picker'
+        assign variant_block = block
+        break
+      endif
+    endfor
+    assign variant_block_enabled = false
+    if variant_block
+      assign variant_block_enabled = true
+    endif
     assign variant_option_count = 0
-    unless product.has_only_default_variant
-      assign variant_option_count = product.options_with_values | size
-    endunless
+    if variant_block_enabled
+      unless product.has_only_default_variant
+        assign variant_option_count = product.options_with_values | size
+      endunless
+    endif
   %}
 
   <style>
@@ -580,10 +593,13 @@
           <!-- Controls -->
           <product-form class="product-form">
             {%- form 'product', product, id: product_form_id, class: 'form' -%}
-              <div class="product-form__controls" data-variant-count="{{ variant_option_count }}">
-                <!-- Variant selects (render up to three options when available) -->
-                {% unless product.has_only_default_variant %}
-                  <div class="variant-controls" data-option-count="{{ variant_option_count }}">
+              {% assign controls_variant_count = 0 %}
+              {% if variant_option_count > 0 %}
+                {% assign controls_variant_count = variant_option_count %}
+              {% endif %}
+              <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
+                {% if variant_option_count > 0 %}
+                  <div class="variant-controls" data-option-count="{{ variant_option_count }}" {{ variant_block.shopify_attributes }}>
                     {% for option in product.options_with_values %}
                       {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
                       <div class="variant-option variant-option--dropdowns">
@@ -615,7 +631,7 @@
                       </div>
                     {% endfor %}
                   </div>
-                {% endunless %}
+                {% endif %}
 
                 <!-- Variant id select kept for data + submission -->
                 <div class="select select--variant-id" style="display:none;">
@@ -715,6 +731,20 @@
     { "type": "range", "id": "pt", "label": "Padding top (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 },
     { "type": "range", "id": "pb", "label": "Padding bottom (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 }
   ],
-  "presets": [{ "name": "Sticky ATC" }]
+  "blocks": [
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky ATC",
+      "blocks": [
+        { "type": "variant_picker" }
+      ]
+    }
+  ]
 }
 {% endschema %}

@@ -18,9 +18,9 @@
         "enable_section": true,
         "mobile_only": false,
         "color_scheme": "scheme-1",
-        "show_qty": false,
-        "show_variant_picker": false,
-        "show_img": false,
+        "show_qty": true,
+        "show_variant_picker": true,
+        "show_img": true,
         "pt": 0.5,
         "pb": 0.5
       }

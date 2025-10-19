@@ -144,6 +144,9 @@
       min-height: var(--height-buy-buttons);
       border: var(--style-border-width) solid var(--color-variant-border);
     }
+    #md-sticky-atc .variant-option__select{
+      padding-block: 0;
+    }
     #md-sticky-atc .variant-controls[data-option-count="1"]{
       grid-template-columns: 1fr;
     }
@@ -211,7 +214,7 @@
       #md-sticky-atc .page-width-inner{
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: 2rem;
         flex-wrap: nowrap;
         max-width: 100%;
@@ -239,9 +242,10 @@
         flex-wrap: nowrap;
         width: 100%;
         min-width: 0;
+        justify-content: flex-start;
       }
       #md-sticky-atc.no-variant .product-form__controls{
-        justify-content: flex-end;
+        justify-content: flex-start;
       }
       #md-sticky-atc .variant-controls{
         display: flex;

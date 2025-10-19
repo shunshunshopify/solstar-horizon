@@ -73,6 +73,10 @@
         "content"
         "controls";
     }
+    /* Remove gap when all optional elements are disabled */
+    #md-sticky-atc.no-variant.no-qty.no-product-info .page-width-inner{
+      gap: 0;
+    }
 
     /* Product summary (image + text) */
     #md-sticky-atc .product-content{
@@ -193,6 +197,10 @@
         margin-top: 1rem;
       }
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
+        margin-top: 0;
+      }
+      /* Remove margin when all optional elements are disabled */
+      #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
         margin-top: 0;
       }
       #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
@@ -612,9 +620,11 @@
       function updateLayoutFlags(){
         const hasVariant = !!(variantControls && stickyOptionSelects.length && variantControls.offsetParent !== null);
         const hasQty = !!(qtyWrapper && qtyWrapper.offsetParent !== null);
+        const hasProductInfo = !!(bar.querySelector('.product-content') && bar.querySelector('.product-content').offsetParent !== null);
         setVariantCountAttributes(hasVariant);
         bar.classList.toggle('no-variant', !hasVariant);
         bar.classList.toggle('no-qty', !hasQty);
+        bar.classList.toggle('no-product-info', !hasProductInfo);
       }
       updateLayoutFlags();
       window.addEventListener('resize', updateLayoutFlags);

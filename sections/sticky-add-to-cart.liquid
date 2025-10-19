@@ -60,10 +60,14 @@
     /* =========================
        LAYOUT
        ========================= */
+    #md-sticky-atc .page-width{
+      max-width: var(--page-width);
+      margin: 0 auto;
+      padding: 0 var(--page-margin);
+    }
     #md-sticky-atc .page-width-inner{
       display: grid;
       gap: .75rem;
-      padding: 0 1rem;
       grid-template-columns: 1fr;
       grid-template-areas:
         "content"
@@ -202,6 +206,7 @@
         justify-content: space-between;
         gap: 2rem;
         flex-wrap: nowrap;
+        max-width: 100%;
       }
       #md-sticky-atc .product-content{
         flex: 0 1 auto;
@@ -217,6 +222,7 @@
       #md-sticky-atc .product-form{
         flex: 1 1 auto;
         max-width: 60%;
+        min-width: 0;
       }
       #md-sticky-atc .product-form__controls{
         display: flex;
@@ -224,6 +230,7 @@
         gap: .75rem;
         flex-wrap: nowrap;
         width: 100%;
+        min-width: 0;
       }
       #md-sticky-atc.no-variant .product-form__controls{
         justify-content: flex-end;
@@ -232,19 +239,22 @@
         display: flex;
         flex: 1 1 auto;
         gap: .5rem;
+        min-width: 0;
       }
       #md-sticky-atc .variant-controls > *{
         flex: 1 1 0;
+        min-width: 0;
       }
       #md-sticky-atc .quantity-selector{
-        flex: 0 0 var(--quantity-selector-width);
-        min-width: var(--quantity-selector-width);
+        flex: 0 0 auto;
+        width: clamp(80px, var(--quantity-selector-width, 120px), 120px);
         align-self: stretch;
       }
       #md-sticky-atc .product-form__submit.button{
-        flex: 0 0 185px;
-        width: 185px;
-        min-width: 185px;
+        flex: 0 0 auto;
+        width: clamp(140px, 185px, 185px);
+        min-width: 140px;
+        max-width: 185px;
         height: var(--height-buy-buttons);
       }
     }

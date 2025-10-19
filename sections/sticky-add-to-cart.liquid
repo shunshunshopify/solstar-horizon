@@ -210,6 +210,10 @@
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
         margin-top: 0;
       }
+      /* Add gap when only one variant option is available (no product info, no qty) */
+      #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"] .product-form__submit.button{
+        margin-top: .5rem;
+      }
       #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
       #md-sticky-atc .product-form__controls[data-variant-count="3"] .variant-controls,
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .variant-controls{

@@ -73,7 +73,11 @@
         "content"
         "controls";
     }
-    /* Remove gap when all optional elements are disabled */
+    /* Remove gap and padding when all optional elements are disabled */
+    #md-sticky-atc.no-variant.no-qty.no-product-info{
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
     #md-sticky-atc.no-variant.no-qty.no-product-info .page-width-inner{
       gap: 0;
     }
@@ -199,7 +203,10 @@
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
         margin-top: 0;
       }
-      /* Remove margin when all optional elements are disabled */
+      /* Remove margin and gap when all optional elements are disabled on mobile */
+      #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
+        gap: 0;
+      }
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
         margin-top: 0;
       }
@@ -620,11 +627,20 @@
       function updateLayoutFlags(){
         const hasVariant = !!(variantControls && stickyOptionSelects.length && variantControls.offsetParent !== null);
         const hasQty = !!(qtyWrapper && qtyWrapper.offsetParent !== null);
-        const hasProductInfo = !!(bar.querySelector('.product-content') && bar.querySelector('.product-content').offsetParent !== null);
+        const productContent = bar.querySelector('.product-content');
+        const hasProductInfo = !!(productContent && productContent.children.length > 0 && getComputedStyle(productContent).display !== 'none');
         setVariantCountAttributes(hasVariant);
         bar.classList.toggle('no-variant', !hasVariant);
         bar.classList.toggle('no-qty', !hasQty);
         bar.classList.toggle('no-product-info', !hasProductInfo);
+        
+        // Debug logging
+        console.log('Layout flags:', {
+          hasVariant,
+          hasQty,
+          hasProductInfo,
+          classes: Array.from(bar.classList)
+        });
       }
       updateLayoutFlags();
       window.addEventListener('resize', updateLayoutFlags);

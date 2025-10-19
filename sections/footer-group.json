@@ -19,7 +19,7 @@
         "color_scheme": "scheme-1",
         "img_width": "60",
         "img_height": "60",
-        "show_qty": true,
+        "show_qty": false,
         "show_variant_picker": true,
         "show_img": true,
         "pt": 0.5,

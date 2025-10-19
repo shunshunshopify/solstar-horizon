@@ -16,7 +16,7 @@
       "name": "Sticky ATC",
       "settings": {
         "enable_section": true,
-        "mobile_only": false,
+        "mobile_only": true,
         "color_scheme": "scheme-1",
         "show_qty": false,
         "show_variant_picker": false,

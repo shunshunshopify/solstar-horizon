@@ -17,8 +17,8 @@
       "settings": {
         "enable_section": true,
         "color_scheme": "scheme-5",
-        "show_qty": false,
-        "show_variant_picker": true,
+        "show_qty": true,
+        "show_variant_picker": false,
         "show_img": false,
         "pt": 0.5,
         "pb": 0.5

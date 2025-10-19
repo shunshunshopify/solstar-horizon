@@ -43,6 +43,15 @@
     #md-sticky-atc.color-scheme::before,
     #md-sticky-atc[class*="color-"]::before{ content:none !important; display:none !important; }
 
+    /* Hide on desktop when mobile-only is enabled */
+    {% if section.settings.mobile_only %}
+    @media (min-width: 990px){
+      #md-sticky-atc{
+        display: none !important;
+      }
+    }
+    {% endif %}
+
     /* Opaque background layer */
     #md-sticky-atc .md-sticky-atc__bg{
       position: absolute;
@@ -812,6 +821,7 @@
   "settings": [
     { "type": "header", "content": "General" },
     { "type": "checkbox", "id": "enable_section", "label": "Enable \"Sticky ATC\"", "default": true },
+    { "type": "checkbox", "id": "mobile_only", "label": "Show mobile screen only", "default": false },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
 
     { "type": "header", "content": "Controls" },

@@ -91,8 +91,8 @@
       flex: 1;
     }
     #md-sticky-atc .sticky-product-media img{
-      width: {{ section.settings.img_width }}px;
-      height: {{ section.settings.img_height }}px;
+      width: 60px;
+      height: 60px;
       object-fit: cover;
       border-radius: 6px;
       flex-shrink: 0;
@@ -158,15 +158,23 @@
       #md-sticky-atc .product-form__controls{
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: stretch;
+        gap: .5rem;
       }
       #md-sticky-atc .product-form__controls[data-variant-count="0"]{
         grid-template-columns: 1fr;
+        gap: 0;
       }
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"]{
         grid-template-columns: 1fr;
+        gap: 0;
       }
       #md-sticky-atc .product-form__submit.button{
         grid-column: 1 / -1;
+        margin-top: .5rem;
+      }
+      #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button,
+      #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
+        margin-top: 0;
       }
       #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
       #md-sticky-atc .product-form__controls[data-variant-count="3"] .variant-controls,
@@ -244,6 +252,16 @@
       #md-sticky-atc .variant-controls > *{
         flex: 1 1 0;
         min-width: 0;
+      }
+      #md-sticky-atc .variant-controls[data-option-count="1"]{
+        flex: 0 0 auto;
+        width: clamp(140px, 185px, 185px);
+        min-width: 140px;
+        max-width: 185px;
+      }
+      #md-sticky-atc .variant-controls[data-option-count="1"] > *{
+        flex: 1;
+        width: 100%;
       }
       #md-sticky-atc .quantity-selector{
         flex: 0 0 auto;
@@ -601,10 +619,10 @@
               <div class="sticky-product-media">
                 {% if image %}
                   <img
-                    src="{{ image | image_url: width: section.settings.img_width, height: section.settings.img_height, crop: 'center' }}"
+                    src="{{ image | image_url: width: 60, height: 60, crop: 'center' }}"
                     alt="{{ product.title | escape }}"
-                    width="{{ section.settings.img_width }}"
-                    height="{{ section.settings.img_height }}"
+                    width="60"
+                    height="60"
                     loading="lazy">
                 {% endif %}
                 <div class="sticky-product-info">
@@ -665,7 +683,7 @@
                       {% assign variant_image = variant.image | default: product.featured_image %}
                       <option
                         value="{{ variant.id }}"
-                        data-img="{% if variant_image %}{{ variant_image | image_url: width: section.settings.img_width, height: section.settings.img_height, crop: 'center' }}{% endif %}"
+                        data-img="{% if variant_image %}{{ variant_image | image_url: width: 60, height: 60, crop: 'center' }}{% endif %}"
                         data-price-html="{{ variant.price | money }}"
                         data-animation-img="{% if variant_image %}{{ variant_image | image_url: width: 120 }}{% endif %}"
                         data-available="{{ variant.available }}"
@@ -745,8 +763,6 @@
     { "type": "header", "content": "General" },
     { "type": "checkbox", "id": "enable_section", "label": "Enable \"Sticky ATC\"", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "text", "id": "img_width", "label": "Image width (px)", "default": "60" },
-    { "type": "text", "id": "img_height", "label": "Image height (px)", "default": "60" },
 
     { "type": "header", "content": "Controls" },
     { "type": "checkbox", "id": "show_qty", "label": "Show quantity picker", "default": true },

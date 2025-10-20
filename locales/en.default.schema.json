@@ -1082,4 +1082,11 @@
     "shop_our_latest_arrivals": "Shop our latest arrivals!",
     "welcome_to_our_store": "Welcome to our store"
   }
+  ,
+  "blocks": {
+    "contact_form": {
+      "first_name": "First name",
+      "last_name": "Last name"
+    }
+  }
 }

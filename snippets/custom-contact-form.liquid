@@ -1,0 +1,22 @@
+<h2>Contact</h2>
+
+{% form 'contact' %}
+  {{ form.errors | default_errors }}
+
+  <div>
+     <label>First name</label>
+     <input type="text" name="contact[first name]" placeholder="John Smith" id="first name">
+  </div>
+{% endform %}
+
+{% schema %}
+
+{
+    "name": "Custom contact form",
+    "settings": [],
+    "preset": [{
+        "name": "Custom contact form"
+    }]
+}
+
+{% endschema %}

@@ -1,22 +1,77 @@
-<h2>Contact</h2>
+<div class="contact-form-wrapper section-wrapper">
+  <div class="contact-form-container page-width">
+    {% if section.settings.heading != blank %}
+      <h2 class="contact-form-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
 
-{% form 'contact' %}
-  {{ form.errors | default_errors }}
+    {% form 'contact', class: 'contact-form' %}
+      {% if form.errors %}
+        <div class="form-errors">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
 
-  <div>
-     <label>First name</label>
-     <input type="text" name="contact[first name]" placeholder="John Smith" id="first name">
+      <div class="field-group">
+        <label for="ContactFormFirstName" class="field-label">First name</label>
+        <input 
+          type="text" 
+          name="contact[first_name]" 
+          id="ContactFormFirstName"
+          class="field-input"
+          placeholder="John"
+          required
+        >
+      </div>
+
+      <div class="field-group">
+        <label for="ContactFormEmail" class="field-label">Email</label>
+        <input 
+          type="email" 
+          name="contact[email]" 
+          id="ContactFormEmail"
+          class="field-input"
+          placeholder="john@example.com"
+          required
+        >
+      </div>
+
+      <div class="field-group">
+        <label for="ContactFormMessage" class="field-label">Message</label>
+        <textarea 
+          name="contact[body]" 
+          id="ContactFormMessage"
+          class="field-input field-textarea"
+          placeholder="Your message..."
+          rows="5"
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn contact-form-submit">
+        Send Message
+      </button>
+    {% endform %}
   </div>
-{% endform %}
+</div>
 
 {% schema %}
-
 {
-    "name": "Custom contact form",
-    "settings": [],
-    "preset": [{
-        "name": "Custom contact form"
-    }]
+  "name": "Custom contact form",
+  "tag": "section",
+  "class": "contact-form-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Contact Us"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom contact form",
+      "category": "Custom"
+    }
+  ]
 }
-
 {% endschema %}

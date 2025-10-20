@@ -48,22 +48,44 @@
     {%- endif -%}
 
     <div class="contact-form__form-row">
-      <label
-        class="visually-hidden"
-        for="ContactForm-name"
-      >
-        {{- 'blocks.contact_form.name' | t -}}
-      </label>
-      <input
-        type="text"
-        id="ContactForm-name"
-        class="contact-form__input"
-        autocomplete="name"
-        name="contact[name]"
-        value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-        placeholder="{{ 'blocks.contact_form.name' | t }}"
-      >
+      <div class="contact-form__field">
+        <label
+          class="visually-hidden"
+          for="ContactForm-first-name"
+        >
+          {{- 'blocks.contact_form.first_name' | default: 'First name' | t -}}
+        </label>
+        <input
+          type="text"
+          id="ContactForm-first-name"
+          class="contact-form__input"
+          autocomplete="given-name"
+          name="contact[first_name]"
+          value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}"
+          placeholder="{{ 'blocks.contact_form.first_name' | default: 'First name' | t }}"
+        >
+      </div>
 
+      <div class="contact-form__field">
+        <label
+          class="visually-hidden"
+          for="ContactForm-last-name"
+        >
+          {{- 'blocks.contact_form.last_name' | default: 'Last name' | t -}}
+        </label>
+        <input
+          type="text"
+          id="ContactForm-last-name"
+          class="contact-form__input"
+          autocomplete="family-name"
+          name="contact[last_name]"
+          value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}"
+          placeholder="{{ 'blocks.contact_form.last_name' | default: 'Last name' | t }}"
+        >
+      </div>
+    </div>
+
+    <div class="contact-form__form-row">
       <label
         class="visually-hidden"
         for="ContactForm-email"
@@ -141,6 +163,17 @@
     @media screen and (min-width: 750px) {
       flex-direction: row;
       align-items: center;
+    }
+  }
+
+  /* New responsive helper for split-name fields */
+  .contact-form__field {
+    width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .contact-form__field {
+      flex: 1 1 0;
     }
   }
 

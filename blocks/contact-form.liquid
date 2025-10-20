@@ -15,14 +15,8 @@
       "id": "width",
       "label": "t:settings.width_desktop",
       "options": [
-        {
-          "value": "fit-content",
-          "label": "t:options.fit_content"
-        },
-        {
-          "value": "custom",
-          "label": "t:options.custom"
-        }
+        { "value": "fit-content", "label": "t:options.fit_content" },
+        { "value": "custom", "label": "t:options.custom" }
       ],
       "default": "fit-content"
     },
@@ -42,14 +36,8 @@
       "id": "width_mobile",
       "label": "t:settings.width_mobile",
       "options": [
-        {
-          "value": "fit-content",
-          "label": "t:options.fit_content"
-        },
-        {
-          "value": "custom",
-          "label": "t:options.custom"
-        }
+        { "value": "fit-content", "label": "t:options.fit_content" },
+        { "value": "custom", "label": "t:options.custom" }
       ],
       "default": "fit-content"
     },
@@ -120,64 +108,7 @@
       "step": 1,
       "unit": "px",
       "default": 0
-    }
-  ],
-  "blocks": [
-    {
-      "type": "request_select",
-      "name": "Dropdown",
-      "settings": [
-        {
-          "type": "text",
-          "id": "select_label",
-          "label": "Dropdown label",
-          "default": "What is this regarding?"
-        },
-        {
-          "type": "checkbox",
-          "id": "select_required",
-          "label": "Required",
-          "default": false
-        },
-        {
-          "type": "text",
-          "id": "option_1",
-          "label": "Option 1",
-          "default": "Returns"
-        },
-        {
-          "type": "text",
-          "id": "option_2",
-          "label": "Option 2",
-          "default": "Shipping"
-        },
-        {
-          "type": "text",
-          "id": "option_3",
-          "label": "Option 3",
-          "default": "Custom order"
-        },
-        {
-          "type": "text",
-          "id": "option_4",
-          "label": "Option 4",
-          "default": "Other"
-        },
-        {
-          "type": "text",
-          "id": "option_5",
-          "label": "Option 5",
-          "default": ""
-        },
-        {
-          "type": "text",
-          "id": "option_6",
-          "label": "Option 6",
-          "default": ""
-        }
-      ]
-    }
-    ,
+    },
     {
       "type": "header",
       "content": "Form fields"
@@ -243,6 +174,22 @@
       "label": "Option 6",
       "default": "",
       "visible_if": "{{ block.settings.include_select }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "request_select",
+      "name": "Dropdown",
+      "settings": [
+        { "type": "text", "id": "select_label", "label": "Dropdown label", "default": "What is this regarding?" },
+        { "type": "checkbox", "id": "select_required", "label": "Required", "default": false },
+        { "type": "text", "id": "option_1", "label": "Option 1", "default": "Returns" },
+        { "type": "text", "id": "option_2", "label": "Option 2", "default": "Shipping" },
+        { "type": "text", "id": "option_3", "label": "Option 3", "default": "Custom order" },
+        { "type": "text", "id": "option_4", "label": "Option 4", "default": "Other" },
+        { "type": "text", "id": "option_5", "label": "Option 5", "default": "" },
+        { "type": "text", "id": "option_6", "label": "Option 6", "default": "" }
+      ]
     }
   ],
   "presets": [

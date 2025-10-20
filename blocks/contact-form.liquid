@@ -120,6 +120,73 @@
       "unit": "px",
       "default": 0
     }
+    ,
+    {
+      "type": "header",
+      "content": "Form fields"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_select",
+      "label": "Include dropdown",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "select_label",
+      "label": "Dropdown label",
+      "default": "What is this regarding?",
+      "visible_if": "{{ block.settings.include_select }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "select_required",
+      "label": "Required",
+      "default": false,
+      "visible_if": "{{ block.settings.include_select }}"
+    },
+    {
+      "type": "text",
+      "id": "option_1",
+      "label": "Option 1",
+      "default": "",
+      "visible_if": "{{ block.settings.include_select }}"
+    },
+    {
+      "type": "text",
+      "id": "option_2",
+      "label": "Option 2",
+      "default": "",
+      "visible_if": "{{ block.settings.include_select }}"
+    },
+    {
+      "type": "text",
+      "id": "option_3",
+      "label": "Option 3",
+      "default": "",
+      "visible_if": "{{ block.settings.include_select }}"
+    },
+    {
+      "type": "text",
+      "id": "option_4",
+      "label": "Option 4",
+      "default": "",
+      "visible_if": "{{ block.settings.include_select }}"
+    },
+    {
+      "type": "text",
+      "id": "option_5",
+      "label": "Option 5",
+      "default": "",
+      "visible_if": "{{ block.settings.include_select }}"
+    },
+    {
+      "type": "text",
+      "id": "option_6",
+      "label": "Option 6",
+      "default": "",
+      "visible_if": "{{ block.settings.include_select }}"
+    }
   ],
   "presets": [
     {

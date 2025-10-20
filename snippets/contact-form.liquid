@@ -144,33 +144,6 @@
       {{- form.body -}}
     </textarea>
 
-    {%- comment -%} Render child blocks (e.g. request_select) immediately before the submit button {%- endcomment -%}
-    {%- if block and block.blocks and block.blocks.size > 0 -%}
-      {%- for child in block.blocks -%}
-        {%- if child.type == 'request_select' -%}
-          <div class="contact-form__form-row">
-            <label class="visually-hidden" for="ContactForm-request-type-{{ child.id }}">
-              {{- child.settings.select_label | default: 'What is this regarding?' -}}
-            </label>
-            <select
-              id="ContactForm-request-type-{{ child.id }}"
-              class="contact-form__input"
-              name="contact[request_type]"
-              {% if child.settings.select_required %}aria-required="true" required{% endif %}
-            >
-              {%- for i in (1..6) -%}
-                {%- assign key = 'option_' | append: i -%}
-                {%- assign val = child.settings[key] -%}
-                {%- if val and val != '' -%}
-                  <option value="{{ val }}">{{ val }}</option>
-                {%- endif -%}
-              {%- endfor -%}
-            </select>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-
     {{ submit_button }}
   {%- endform -%}
 </div>

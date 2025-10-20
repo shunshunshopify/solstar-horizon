@@ -2,8 +2,7 @@
   {% content_for 'block', type: 'contact-form-submit-button', id: 'submit-button' %}
 {% endcapture %}
 
-{%- comment -%} Pass the whole block so the snippet can render nested child blocks (like request_select) {%- endcomment -%}
-{% render 'contact-form', settings: block.settings, submit_button: submit_button, block: block %}
+{% render 'contact-form', settings: block.settings, submit_button: submit_button %}
 
 {% schema %}
 {
@@ -136,5 +135,3 @@
   ]
 }
 {% endschema %}
-
-

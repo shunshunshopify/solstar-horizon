@@ -85,29 +85,6 @@
       </div>
     </div>
 
-    {%- if block.settings.include_select -%}
-      <div class="contact-form__form-row">
-        <label class="visually-hidden" for="ContactForm-request-type">
-          {{- block.settings.select_label | default: 'What is this regarding?' -}}
-        </label>
-        <select
-          id="ContactForm-request-type"
-          class="contact-form__input"
-          name="contact[request_type]"
-          {% if block.settings.select_required %}aria-required="true" required{% endif %}
-        >
-          {%- assign opts = '' -%}
-          {%- for i in (1..6) -%}
-            {%- assign key = 'option_' | append: i -%}
-            {%- assign val = block.settings[key] -%}
-            {%- if val and val != '' -%}
-              <option value="{{ val }}">{{ val }}</option>
-            {%- endif -%}
-          {%- endfor -%}
-        </select>
-      </div>
-    {%- endif -%}
-
     <div class="contact-form__form-row">
       <label
         class="visually-hidden"

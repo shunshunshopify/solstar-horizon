@@ -2,8 +2,7 @@
   {% content_for 'block', type: 'contact-form-submit-button', id: 'submit-button' %}
 {% endcapture %}
 
-{%- comment -%} Pass the whole block so the snippet can render nested child blocks (like request_select) {%- endcomment -%}
-{% render 'contact-form', settings: block.settings, submit_button: submit_button, block: block %}
+{% render 'contact-form', settings: block.settings, submit_button: submit_button %}
 
 {% schema %}
 {
@@ -120,62 +119,6 @@
       "step": 1,
       "unit": "px",
       "default": 0
-    }
-  ],
-  "blocks": [
-    {
-      "type": "request_select",
-      "name": "Dropdown",
-      "settings": [
-        {
-          "type": "text",
-          "id": "select_label",
-          "label": "Dropdown label",
-          "default": "What is this regarding?"
-        },
-        {
-          "type": "checkbox",
-          "id": "select_required",
-          "label": "Required",
-          "default": false
-        },
-        {
-          "type": "text",
-          "id": "option_1",
-          "label": "Option 1",
-          "default": "Returns"
-        },
-        {
-          "type": "text",
-          "id": "option_2",
-          "label": "Option 2",
-          "default": "Shipping"
-        },
-        {
-          "type": "text",
-          "id": "option_3",
-          "label": "Option 3",
-          "default": "Custom order"
-        },
-        {
-          "type": "text",
-          "id": "option_4",
-          "label": "Option 4",
-          "default": "Other"
-        },
-        {
-          "type": "text",
-          "id": "option_5",
-          "label": "Option 5",
-          "default": ""
-        },
-        {
-          "type": "text",
-          "id": "option_6",
-          "label": "Option 6",
-          "default": ""
-        }
-      ]
     }
     ,
     {

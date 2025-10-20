@@ -8,7 +8,6 @@
   assign media_width_mobile = '100vw'
   assign sizes = '(min-width: 750px) ' | append: media_width_desktop | append: ', ' | append: media_width_mobile
   assign widths = '832, 1200, 1600, 1920, 2560, 3840'
-
   assign has_image_1 = false
   assign has_image_2 = false
   assign has_video_1 = false
@@ -31,7 +30,9 @@
   if section.settings.video_2 != blank and media_type_2 == 'video'
     assign has_video_2 = true
   endif
-
+  if section.settings.image_1_mobile != blank and media_type_1 == 'image'
+    assign has_image_1_mobile = true
+  endif 
   if has_image_1 or has_image_2
     assign has_image = true
   endif
@@ -44,15 +45,12 @@
   if has_image or has_video
     assign has_media = true
   endif
-
   assign alpha = section.settings.overlay_color.alpha
   assign is_transparent = true
   if alpha == 1 and section.settings.toggle_overlay
     assign is_transparent = false
   endif
-
   assign fetch_priority = 'auto'
-
   if section.index == 1
     assign fetch_priority = 'high'
   endif
@@ -69,48 +67,73 @@
         widths: widths,
         height: section.settings.image_1.height,
         alt: section.settings.image_1.alt,
-        class: 'hero__image',
+        class: 'hero__image hero__image--desktop',
         sizes: sizes,
         fetchpriority: fetch_priority
     }}
+    {%- if has_image_1_mobile -%}
+      {{
+        section.settings.image_1_mobile
+        | image_url: width: 3840
+        | image_tag:
+          width: section.settings.image_1_mobile.width,
+          widths: widths,
+          height: section.settings.image_1_mobile.height,
+          alt: section.settings.image_1_mobile.alt,
+          class: 'hero__image hero__image--mobile',
+          sizes: sizes,
+          fetchpriority: fetch_priority
+      }}
+    {%- else -%}
+      {{
+        section.settings.image_1
+        | image_url: width: 3840
+        | image_tag:
+          width: section.settings.image_1.width,
+          widths: widths,
+          height: section.settings.image_1.height,
+          alt: section.settings.image_1.alt,
+          class: 'hero__image hero__image--mobile',
+          sizes: sizes,
+          fetchpriority: fetch_priority
+      }}
+    {%- endif -%}
   {%- endif -%}
-
+  
   {%- if has_video_1 -%}
     {% assign media_count = media_count | plus: 1 %}
-    <div class="hero__video-wrapper">
-      {%- if section.settings.video_1.preview_image -%}
-        {% liquid
-          assign fetch_priority_poster = false
-          if section.index == 1
-            assign fetch_priority_poster = 'high'
-          endif
-        %}
-        {{
-          section.settings.video_1.preview_image
-          | image_url: width: 3840
-          | image_tag:
-            width: section.settings.video_1.preview_image.width,
-            widths: widths,
-            height: section.settings.video_1.preview_image.height,
-            alt: section.settings.video_1.alt,
-            class: 'hero__video-poster',
-            sizes: sizes,
-            fetchpriority: fetch_priority_poster
-        }}
-      {%- endif -%}
+    {%- if section.settings.video_1.preview_image -%}
+      {% liquid
+        assign fetch_priority_poster = false
+        if section.index == 1
+          assign fetch_priority_poster = 'high'
+        endif
+      %}
       {{
-        section.settings.video_1
-        | video_tag:
-          poster: nil,
-          autoplay: true,
-          loop: true,
-          controls: false,
-          muted: true,
-          class: 'hero__video'
+        section.settings.video_1.preview_image
+        | image_url: width: 3840
+        | image_tag:
+          width: section.settings.video_1.preview_image.width,
+          widths: widths,
+          height: section.settings.video_1.preview_image.height,
+          alt: section.settings.video_1.alt,
+          class: 'hero__video-poster',
+          sizes: sizes,
+          fetchpriority: fetch_priority_poster
       }}
-    </div>
+    {%- endif -%}
+    {{
+      section.settings.video_1
+      | video_tag:
+        poster: nil,
+        autoplay: true,
+        loop: true,
+        controls: false,
+        muted: true,
+        class: 'hero__video'
+    }}
   {%- endif -%}
-
+  
   {%- if has_image_2 -%}
     {% assign media_count = media_count | plus: 1 %}
     {{
@@ -126,36 +149,34 @@
         fetchpriority: fetch_priority
     }}
   {%- endif -%}
-
+  
   {%- if has_video_2 -%}
     {% assign media_count = media_count | plus: 1 %}
-    <div class="hero__video-wrapper">
-      {%- if section.settings.video_2.preview_image -%}
-        {{
-          section.settings.video_2.preview_image
-          | image_url: width: 3840
-          | image_tag:
-            width: section.settings.video_2.preview_image.width,
-            widths: widths,
-            height: section.settings.video_2.preview_image.height,
-            alt: section.settings.video_2.alt,
-            class: 'hero__video-poster',
-            sizes: sizes
-        }}
-      {%- endif -%}
+    {%- if section.settings.video_2.preview_image -%}
       {{
-        section.settings.video_2
-        | video_tag:
-          poster: nil,
-          autoplay: true,
-          loop: true,
-          controls: false,
-          muted: true,
-          class: 'hero__video'
+        section.settings.video_2.preview_image
+        | image_url: width: 3840
+        | image_tag:
+          width: section.settings.video_2.preview_image.width,
+          widths: widths,
+          height: section.settings.video_2.preview_image.height,
+          alt: section.settings.video_2.alt,
+          class: 'hero__video-poster',
+          sizes: sizes
       }}
-    </div>
+    {%- endif -%}
+    {{
+      section.settings.video_2
+      | video_tag:
+        poster: nil,
+        autoplay: true,
+        loop: true,
+        controls: false,
+        muted: true,
+        class: 'hero__video'
+    }}
   {%- endif -%}
-
+  
   {% if has_media == false and is_transparent %}
     {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__image' }}
   {%- endif -%}
@@ -195,18 +216,30 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}"
+  class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.section_height == 'adapt-image' %} hero--adapt-image{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
     --hero-border-opacity: {{ section.settings.border_opacity }}%;
     --blur-opacity: {{ section.settings.reflection_opacity | divided_by: 100.0 }};
     {% if section.settings.section_height == 'custom' %}
-      --hero-min-height: {{ section.settings.section_height_custom }}svh;
-    {% elsif section.settings.section_height == "full-screen" %}
-       --hero-min-height: 100svh;
+      --hero-min-height-desktop: {{ section.settings.section_height_custom_desktop }}svh;
+      --hero-min-height-mobile: {{ section.settings.section_height_custom_mobile }}svh;
+    {% elsif section.settings.section_height == 'full-screen' %}
+      --hero-min-height-desktop: 100svh;
+      --hero-min-height-mobile: 100svh;
+    {% elsif section.settings.section_height == 'adapt-image' %}
+      {% if section.settings.image_1 != blank %}
+        --hero-desktop-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};
+      {% endif %}
+      {% if has_image_1_mobile and section.settings.image_1_mobile != blank %}
+        --hero-mobile-aspect-ratio: {{ section.settings.image_1_mobile.aspect_ratio }};
+      {% elsif section.settings.image_1 != blank %}
+        --hero-mobile-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};
+      {% endif %}
     {% else %}
-      --hero-min-height: var(--section-height-{{ section.settings.section_height }});
+      --hero-min-height-desktop: var(--section-height-{{ section.settings.section_height }});
+      --hero-min-height-mobile: var(--section-height-{{ section.settings.section_height }});
     {% endif %}
   "
   {% if request.visual_preview_mode %}
@@ -223,15 +256,10 @@
       </div>
     {% endunless %}
   {% endif %}
-
-  {% comment %}
-    Hardcoded to section--full-width bc the media has to be full width in all cases.
-    hero__content-wrapper applies section_width.
-  {% endcomment %}
-
+  
   <div
     class="hero__container spacing-style section section--full-width"
-    style="      {% render 'spacing-style', settings: section.settings %}"
+    style="{% render 'spacing-style', settings: section.settings %}"
   >
     {%- if section.settings.link != blank -%}
       <a
@@ -242,9 +270,12 @@
         {% endif %}
       ></a>
     {%- endif -%}
+    
     <div
       class="hero__media-wrapper"
-      style="--hero-media-count: {{ media_count }};{%- if section.settings.image_1 != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};{% endif %}"
+      {%- if section.settings.image_1 != blank -%}
+        style="--hero-media-aspect-ratio: {{ section.settings.image_1.aspect_ratio }}; --hero-media-count: {{ media_count }};"
+      {%- endif -%}
     >
       {% liquid
         if section.settings.toggle_overlay
@@ -253,6 +284,7 @@
       %}
       {{ media }}
     </div>
+    
     <div
       class="
         hero__content-wrapper
@@ -269,172 +301,236 @@
     </div>
   </div>
 </div>
-
+<style>
+{% if section.settings.section_height == 'adapt-image' %} 
+.section-content-wrapper.section-content-wrapper {
+    position: absolute;
+}
+{% endif %}
+{% if section.settings.section_height == 'adapt-image' and section.settings.vertical_alignment_flex_direction_column == 'flex-end' %} 
+.section-content-wrapper.section-content-wrapper {
+    padding: 0px 0 50px 0;
+}
+{% endif %}
+</style>
 {% stylesheet %}
-  .hero-wrapper {
-    --hero-height-offset: 0px;
-  }
+/* Mobile image responsive styles with fallback */
+.hero__image--mobile {
+  display: none;
+}
 
-  /* Being extra specific in the selector for performance reasons */
-  body:has(> #header-group > .header-section > #header-component) .hero-wrapper:first-child {
-    --hero-height-offset: var(--header-group-height, 0);
+@media screen and (max-width: 749px) {
+  .hero__image--desktop {
+    display: none;
   }
+  .hero__image--mobile {
+    display: block;
+  }
+}
 
+/* Separate height settings for desktop and mobile */
+.hero-wrapper {
+  --hero-height-offset: 0px;
+}
+
+body:has(> #header-group > .header-section > #header-component[transparent]):not(
+    :has(> #header-group > .header-section + .shopify-section)
+  )
+  .hero-wrapper:first-child {
+  --hero-height-offset: var(--header-group-height, 0);
+}
+
+.hero {
+  position: relative;
+  min-height: calc(var(--hero-min-height-desktop) - var(--hero-height-offset));
+}
+
+@media screen and (max-width: 749px) {
   .hero {
-    position: relative;
-    min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
+    min-height: calc(var(--hero-min-height-mobile) - var(--hero-height-offset));
   }
+}
 
-  .hero[data-shopify-visual-preview] {
-    --hero-min-height: 600px;
+/* Adapt to image height styles */
+.hero--adapt-image {
+  min-height: auto;
+}
 
-    min-height: 600px;
+.hero--adapt-image .hero__container {
+  min-height: auto;
+}
+
+.hero--adapt-image .hero__media-wrapper {
+  position: relative;
+  aspect-ratio: var(--hero-desktop-aspect-ratio);
+}
+
+@media screen and (max-width: 749px) {
+  .hero--adapt-image .hero__media-wrapper {
+    aspect-ratio: var(--hero-mobile-aspect-ratio);
   }
+}
 
+.hero--adapt-image .hero__image,
+.hero--adapt-image .hero__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.hero[data-shopify-visual-preview] {
+  --hero-min-height-desktop: 600px;
+  --hero-min-height-mobile: 600px;
+  min-height: 600px;
+}
+
+.hero__container {
+  position: relative;
+  overflow: hidden;
+  border: var(--hero-border-width) var(--hero-border-style) rgb(var(--color-border-rgb) / var(--hero-border-opacity));
+  min-height: inherit;
+  align-items: var(--vertical-alignment-mobile);
+  justify-content: var(--horizontal-alignment);
+  z-index: var(--layer-base);
+}
+
+@media screen and (min-width: 750px) {
   .hero__container {
-    position: relative;
-    overflow: hidden;
-    border: var(--hero-border-width) var(--hero-border-style) rgb(var(--color-border-rgb) / var(--hero-border-opacity));
-    min-height: inherit;
-    align-items: var(--vertical-alignment-mobile);
-    justify-content: var(--horizontal-alignment);
-    z-index: var(--layer-base);
-
-    @media screen and (min-width: 750px) {
-      align-items: var(--vertical-alignment);
-    }
+    align-items: var(--vertical-alignment);
   }
+}
 
-  .hero__content-wrapper.page-width {
-    grid-column: 2 / 3;
-  }
+.hero__content-wrapper.page-width {
+  grid-column: 2 / 3;
+}
 
-  .hero__content-wrapper {
-    position: relative;
-    inset: 0;
-    z-index: var(--layer-flat);
-  }
+.hero__content-wrapper {
+  position: relative;
+  inset: 0;
+  z-index: var(--layer-flat);
+}
 
-  .hero__content-wrapper .group-block-content {
-    position: relative;
-  }
+.hero__content-wrapper .group-block-content {
+  position: relative;
+}
 
-  .hero__media-wrapper {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(var(--hero-media-count, 1), 1fr);
-  }
+.hero__media-wrapper {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(var(--hero-media-count, 1), 1fr);
+}
 
-  .hero--auto .hero__image,
-  .hero--auto .hero__video {
-    aspect-ratio: var(--hero-media-aspect-ratio);
-  }
+.hero--auto .hero__image,
+.hero--auto .hero__video {
+  aspect-ratio: var(--hero-media-aspect-ratio);
+}
 
-  .hero--no-blocks-auto-height {
-    :is(.hero__image, .hero__video) {
-      width: 100%;
-      aspect-ratio: auto;
-    }
+.hero--no-blocks-auto-height :is(.hero__image, .hero__video) {
+  width: 100%;
+  aspect-ratio: auto;
+}
 
-    .hero__media-wrapper {
-      /* When there are no blocks and the height is auto, allow the image to appear. */
-      position: relative;
-    }
-  }
+.hero--no-blocks-auto-height .hero__media-wrapper {
+  position: relative;
+}
 
-  .hero__image,
-  .hero__video,
-  .hero__video-poster {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center center;
-    overflow: hidden;
-    position: relative;
-    z-index: var(--layer-base);
-  }
+.hero__image,
+.hero__video,
+.hero__video-poster {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center center;
+  overflow: hidden;
+  position: relative;
+  z-index: var(--layer-base);
+}
 
-  .hero__video-wrapper {
-    position: relative;
-  }
+.hero__video-poster {
+  position: absolute;
+}
 
-  .hero__video-poster {
-    position: absolute;
-  }
+.hero__link {
+  position: absolute;
+  inset: 0;
+  grid-column: 1 / -1;
+}
 
-  .hero__link {
-    position: absolute;
-    inset: 0;
-    grid-column: 1 / -1;
-  }
+.hero__media-wrapper,
+.hero__content-wrapper {
+  pointer-events: none;
+}
 
-  .hero__media-wrapper,
-  .hero__content-wrapper {
-    pointer-events: none;
+.hero__media-wrapper :is(a, button, input, textarea, select),
+.hero__content-wrapper :is(a, button, input, textarea, select) {
+  pointer-events: auto;
+}
 
-    :is(a, button, input, textarea, select) {
-      pointer-events: auto;
-    }
-  }
+.hero__content-wrapper--design-mode * {
+  pointer-events: auto;
+}
 
-  .hero__content-wrapper--design-mode * {
-    pointer-events: auto;
-  }
+.hero[data-blur-shadow='true'] {
+  --blurred-reflection-filter-saturate: saturate(1.5);
+  --blurred-reflection-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+  --blurred-reflection-box-shadow: rgb(0 0 0 / 5%) 0 0 1rem;
+  --blurred-reflection-filter-blur: blur(20px);
+  --blurred-reflection-scale: scale(2, 1.25);
+  --blurred-reflection-padding-block-end: 60px;
+}
 
-  .hero[data-blur-shadow='true'] {
-    --blurred-reflection-filter-saturate: saturate(1.5);
-    --blurred-reflection-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
-    --blurred-reflection-box-shadow: rgb(0 0 0 / 5%) 0 0 1rem;
-    --blurred-reflection-filter-blur: blur(20px);
-    --blurred-reflection-scale: scale(2, 1.25);
-    --blurred-reflection-padding-block-end: 60px;
-  }
+.hero[data-blur-shadow='true'] .hero__container {
+  overflow: inherit;
+}
 
-  .hero[data-blur-shadow='true'] .hero__container::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    box-shadow: var(--blurred-reflection-box-shadow);
-    mix-blend-mode: overlay;
-    pointer-events: none;
-    z-index: -1;
-  }
+.hero[data-blur-shadow='true'] .hero__container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: var(--blurred-reflection-box-shadow);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: -1;
+}
 
-  .hero__blurred-image {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    mask-image: var(--blurred-reflection-mask-image);
-    filter: var(--blurred-reflection-filter-saturate);
-    pointer-events: none;
-    transform: translateY(50%);
-    overflow: hidden;
-  }
+.hero__blurred-image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  mask-image: var(--blurred-reflection-mask-image);
+  filter: var(--blurred-reflection-filter-saturate);
+  pointer-events: none;
+  transform: translateY(50%);
+  overflow: hidden;
+}
 
-  .hero__blurred-image img,
-  .hero__blurred-image svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    filter: var(--blurred-reflection-filter-blur);
-    opacity: var(--blur-opacity);
-    transform: var(--blurred-reflection-scale);
-    padding-block-end: var(--blurred-reflection-padding-block-end);
+.hero__blurred-image img,
+.hero__blurred-image svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: var(--blurred-reflection-filter-blur);
+  opacity: var(--blur-opacity);
+  transform: var(--blurred-reflection-scale);
+  padding-block-end: var(--blurred-reflection-padding-block-end);
+}
 
-    &:not(:only-child) {
-      width: 50%;
+.hero__blurred-image img:not(:only-child),
+.hero__blurred-image svg:not(:only-child) {
+  width: 50%;
+}
 
-      &:last-child {
-        right: 0;
-        left: auto;
-      }
-    }
-  }
+.hero__blurred-image img:not(:only-child):last-child,
+.hero__blurred-image svg:not(:only-child):last-child {
+  right: 0;
+  left: auto;
+}
 {% endstylesheet %}
 
 {% schema %}
@@ -503,6 +599,13 @@
       "id": "video_1",
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.media_type_1 == 'video' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1_mobile",
+      "label": "Mobile image",
+      "info": "If not selected, desktop image will be used for mobile",
+      "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
     },
     {
       "type": "header",
@@ -713,6 +816,10 @@
           "label": "t:options.auto"
         },
         {
+          "value": "adapt-image",
+          "label": "Adapt to image height"
+        },
+        {
           "value": "small",
           "label": "t:options.small"
         },
@@ -737,12 +844,23 @@
     },
     {
       "type": "range",
-      "id": "section_height_custom",
-      "label": "t:settings.custom_height",
+      "id": "section_height_custom_desktop",
+      "label": "Custom height - Desktop",
       "min": 0,
       "max": 100,
       "step": 1,
       "default": 50,
+      "unit": "%",
+      "visible_if": "{{ section.settings.section_height == 'custom' }}"
+    },
+    {
+      "type": "range",
+      "id": "section_height_custom_mobile",
+      "label": "Custom height - Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40,
       "unit": "%",
       "visible_if": "{{ section.settings.section_height == 'custom' }}"
     },
@@ -931,173 +1049,6 @@
         "padding-block-end": 40,
         "toggle_overlay": true,
         "overlay_style": "gradient"
-      }
-    },
-    {
-      "name": "t:names.hero_bottom_aligned",
-      "category": "t:categories.banners",
-      "blocks": {
-        "group_main": {
-          "type": "group",
-          "name": "t:names.group",
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 18,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "content_group": {
-              "type": "group",
-              "name": "t:names.group",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 6,
-                "width": "custom",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_intro": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h2><em>Introducing</em></h2>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h6",
-                    "font": "var(--font-accent--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  }
-                },
-                "text_main": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h1>Our Newest Arrivals</h1>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h2",
-                    "font": "var(--font-primary--family)",
-                    "font_size": "",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  }
-                }
-              },
-              "block_order": ["text_intro", "text_main"]
-            },
-            "text_description": {
-              "type": "text",
-              "name": "t:names.text",
-              "settings": {
-                "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
-                "width": "fit-content",
-                "max_width": "none",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            }
-          },
-          "block_order": ["content_group", "text_description"]
-        }
-      },
-      "block_order": ["group_main"],
-      "settings": {
-        "media_type_1": "image",
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 16,
-        "section_height": "large",
-        "color_scheme": "scheme-5",
-        "padding-block-start": 40,
-        "padding-block-end": 40,
-        "toggle_overlay": true,
-        "overlay_style": "gradient",
-        "gradient_direction": "to top"
       }
     }
   ]

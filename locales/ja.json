@@ -11,6 +11,8 @@
     "payment_methods": "決済方法",
     "contact_form": {
       "name": "名前",
+      "first_name": "名",
+      "last_name": "姓",
       "email": "メールアドレス",
       "phone": "電話",
       "comment": "コメント",

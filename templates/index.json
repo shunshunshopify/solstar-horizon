@@ -587,7 +587,7 @@
         "question_hd37Ce": {
           "type": "question",
           "settings": {
-            "quesition": "Who are you?",
+            "question": "Who are you?",
             "answer": "I am Shun"
           }
         }

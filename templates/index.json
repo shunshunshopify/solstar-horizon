@@ -580,6 +580,13 @@
         "padding-block-start": 24,
         "padding-block-end": 24
       }
+    },
+    "faq_QnR939": {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": {
+        "headline": "Headline is here"
+      }
     }
   },
   "order": [
@@ -587,6 +594,7 @@
     "marquee_zTFqdW",
     "section_U7PW4U",
     "product_list_fa6P9H",
-    "collection_list_A9g4yQ"
+    "collection_list_A9g4yQ",
+    "faq_QnR939"
   ]
 }

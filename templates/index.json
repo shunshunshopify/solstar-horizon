@@ -587,8 +587,8 @@
         "question_hd37Ce": {
           "type": "question",
           "settings": {
-            "quesition": "",
-            "answer": ""
+            "quesition": "Who are you?",
+            "answer": "I am Shun"
           }
         }
       },
@@ -597,7 +597,7 @@
       ],
       "name": "FAQ",
       "settings": {
-        "headline": "Headline is here"
+        "headline": "FAQ"
       }
     }
   },

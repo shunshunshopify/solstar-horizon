@@ -583,6 +583,18 @@
     },
     "faq_QnR939": {
       "type": "faq",
+      "blocks": {
+        "question_hd37Ce": {
+          "type": "question",
+          "settings": {
+            "quesition": "",
+            "answer": ""
+          }
+        }
+      },
+      "block_order": [
+        "question_hd37Ce"
+      ],
       "name": "FAQ",
       "settings": {
         "headline": "Headline is here"

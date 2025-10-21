@@ -16,8 +16,6 @@
   assign has_video = false
   assign has_video_multiple = false
   assign has_media = false
-  assign has_image_1_mobile = false
-  assign has_image_2_mobile = false
   assign media_type_1 = section.settings.media_type_1
   assign media_type_2 = section.settings.media_type_2
   if section.settings.image_1 != blank and media_type_1 == 'image'
@@ -68,7 +66,7 @@
         width: section.settings.image_1.width,
         widths: widths,
         height: section.settings.image_1.height,
-        alt: section.settings.image_1.alt | default: '',
+        alt: section.settings.image_1.alt,
         class: 'hero__image hero__image--desktop',
         sizes: sizes,
         fetchpriority: fetch_priority
@@ -81,7 +79,7 @@
           width: section.settings.image_1_mobile.width,
           widths: widths,
           height: section.settings.image_1_mobile.height,
-          alt: section.settings.image_1_mobile.alt | default: '',
+          alt: section.settings.image_1_mobile.alt,
           class: 'hero__image hero__image--mobile',
           sizes: sizes,
           fetchpriority: fetch_priority
@@ -94,7 +92,7 @@
           width: section.settings.image_1.width,
           widths: widths,
           height: section.settings.image_1.height,
-          alt: section.settings.image_1.alt | default: '',
+          alt: section.settings.image_1.alt,
           class: 'hero__image hero__image--mobile',
           sizes: sizes,
           fetchpriority: fetch_priority
@@ -138,17 +136,17 @@
   
   {%- if has_image_2 -%}
     {% assign media_count = media_count | plus: 1 %}
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_2.width,
-          widths: widths,
-          height: section.settings.image_2.height,
-          alt: section.settings.image_2.alt | default: '',
-          class: 'hero__image',
-          sizes: sizes,
-          fetchpriority: fetch_priority
+    {{
+      section.settings.image_2
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image_2.width,
+        widths: widths,
+        height: section.settings.image_2.height,
+        alt: section.settings.image_2.alt,
+        class: 'hero__image',
+        sizes: sizes,
+        fetchpriority: fetch_priority
     }}
   {%- endif -%}
   
@@ -199,16 +197,16 @@
     }}
   {% endif %}
   {% if has_image_2 %}
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_2.width,
-          widths: widths,
-          height: section.settings.image_2.height,
-          alt: '',
-          class: 'hero__image',
-          sizes: sizes
+    {{
+      section.settings.image_2
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image_2.width,
+        widths: widths,
+        height: section.settings.image_2.height,
+        alt: '',
+        class: 'hero__image',
+        sizes: sizes
     }}
   {% endif %}
   {% if has_media == false and is_transparent %}
@@ -264,11 +262,9 @@
     style="{% render 'spacing-style', settings: section.settings %}"
   >
     {%- if section.settings.link != blank -%}
-      {%- assign link_label = section.settings.link_label | default: 'Hero link' | t -%}
       <a
         href="{{ section.settings.link }}"
         class="hero__link"
-        aria-label="{{ link_label }}"
         {% if section.settings.open_in_new_tab %}
           target="_blank" rel="noopener"
         {% endif %}

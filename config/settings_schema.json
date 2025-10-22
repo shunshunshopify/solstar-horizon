@@ -1,12 +1,75 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Horizon",
+    "theme_name": "Horizon Based Theme",
     "theme_version": "3.0.0",
     "theme_author": "Shopify",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
   },
+  {
+  "name": "Video intro",
+  "settings": [
+    {
+      "type": "url",
+      "id": "intro_audio_file",
+      "label": "Background Audio"
+    },
+    {
+      "type": "url",
+      "id": "intro_desktop_video",
+      "label": "Desktop Video"
+    },
+    {
+      "type": "url",
+      "id": "intro_mobile_video",
+      "label": "Mobile Video"
+    },
+    {
+      "type": "range",
+      "id": "volume_intro",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Audio Volume",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "intro_autoplay",
+      "label": "Autoplay Video",
+      "default": false,
+      "info": "Enable to automatically start playing the video intro when the page loads"
+    },
+    {
+      "type": "header",
+      "content": "Video Intro Settings"
+    },
+    {
+      "type": "text",
+      "id": "intro_skip",
+      "label": "Skip Button Text",
+      "default": "Skip Intro",
+      "info": "Leave blank to hide the skip button"
+    },
+    {
+      "type": "color",
+      "id": "skip_color",
+      "label": "Skip Button Color",
+      "default": "#ffffff",
+      "info": "Color for the skip button text and border"
+    },
+    {
+      "type": "text",
+      "id": "click_for_sound",
+      "label": "Click for sound text",
+      "default": "Click for sound",
+      "info": "Browsers mute autoplay videos by default; users must click to hear sound."
+    }
+
+  ]
+},
   {
     "name": "t:names.logo_and_favicon",
     "settings": [

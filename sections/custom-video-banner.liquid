@@ -1,17 +1,8 @@
-{% assign text_animation = section.settings.text_animation %}
-
 {%- style -%}
   .hero__text-wrap--absolute{
   position: absolute !important;
   width: 100%;
 }
-
-{% if text_animation %}
-.hero--{{ section.id }} .hero__title, .hero--{{ section.id }}  .hero__subtitle, .hero--{{ section.id }}  .hero__link{
-    animation: 2s cubic-bezier(.26,.54,.32,1) .3s forwards;
-    animation-name: rise-up; 
-}
-{% endif %}
   
 .hero--{{ section.id }} .hero__media, .hero--{{ section.id }} .hero__media iframe{
     width: 100%;
@@ -463,8 +454,7 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           {%- endif -%}
 
           <div class="hero__link">
-            <a href="{{ link_href }}" class="btn{% if section.settings.button_style_secondary_1 %} button--secondary{% endif %}"
-            >
+            <a href="{{ link_href }}" class="btn">
               {{ section.settings.link_text }}
             </a>
           </div>
@@ -508,12 +498,6 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
       "label": "Button text",
       "default": "Optional button"
     },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary_1",
-          "default": false,
-          "label": "Use outline button style"
-        },
     {
       "type": "url",
       "id": "link",
@@ -550,12 +534,6 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           "label": "Bottom right"
         }
       ]
-    },
-    {
-        "type": "checkbox",
-        "id": "text_animation",
-        "label": "Enable animation",
-        "default": true
     },
     {
       "type": "text",

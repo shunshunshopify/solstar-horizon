@@ -171,60 +171,7 @@
   opacity: 1;
 }
 {% endif %}
-  
-{%- endstyle -%}
 
-<div
-  data-section-id="{{ section.id }}"
-  data-mobile-natural="false"
-  class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
-  >
-
-  <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;">
-
-    {% if section.settings.video_url == blank  %}{% else %}
-    {% assign extension = section.settings.video_url | slice: -4, 4 %}
-    {% if extension == '.mp4' %}
-      <video
-        id="Mp4Video-{{ section.id }}"
-        class="video-div"
-        src="{{ section.settings.video_url }}"
-        data-type="mp4"
-        loop muted playsinline autoplay></video>
-    {% else %}
-
-         {% if section.settings.video_url contains 'embed' %}
-        {% assign video_parts = section.settings.video_url | split: 'embed/' %}
-        {% assign video_id = video_parts[1] %}
-      {% else %}
-        {% assign video_parts = section.settings.video_url | split: '=' %}
-        {% assign video_id = video_parts[1] %}
-      {% endif %}
-
-
-      <style>
-        #shopify-section-{{ section.id }}{
-          position: relative !important;
-/*           padding-bottom: 56.25% !important;
-          height: 0 !important;
-          max-width: 1920px !important;
-          margin: 0 auto !important; */
-        }
-        .hero--{{ section.id }}.hero__media {
-          height: 100%;
-          width: 100%;
-        }
-        .hero--{{ section.id }} .hero__media iframe {
-          position: absolute !important;
-/*           top: 0 !important;
-          left: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          max-height: 1080px !important; */
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        }
 
         /* Hero-video */
 .hero__text-content{
@@ -380,6 +327,60 @@
     height: 2rem !important;
     opacity: 0.7;
 }
+  
+{%- endstyle -%}
+
+<div
+  data-section-id="{{ section.id }}"
+  data-mobile-natural="false"
+  class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
+  >
+
+  <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;">
+
+    {% if section.settings.video_url == blank  %}{% else %}
+    {% assign extension = section.settings.video_url | slice: -4, 4 %}
+    {% if extension == '.mp4' %}
+      <video
+        id="Mp4Video-{{ section.id }}"
+        class="video-div"
+        src="{{ section.settings.video_url }}"
+        data-type="mp4"
+        loop muted playsinline autoplay></video>
+    {% else %}
+
+         {% if section.settings.video_url contains 'embed' %}
+        {% assign video_parts = section.settings.video_url | split: 'embed/' %}
+        {% assign video_id = video_parts[1] %}
+      {% else %}
+        {% assign video_parts = section.settings.video_url | split: '=' %}
+        {% assign video_id = video_parts[1] %}
+      {% endif %}
+
+
+      <style>
+        #shopify-section-{{ section.id }}{
+          position: relative !important;
+/*           padding-bottom: 56.25% !important;
+          height: 0 !important;
+          max-width: 1920px !important;
+          margin: 0 auto !important; */
+        }
+        .hero--{{ section.id }}.hero__media {
+          height: 100%;
+          width: 100%;
+        }
+        .hero--{{ section.id }} .hero__media iframe {
+          position: absolute !important;
+/*           top: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          max-height: 1080px !important; */
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
       </style>
 
 <script>

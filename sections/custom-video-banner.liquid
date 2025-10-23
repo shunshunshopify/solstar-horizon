@@ -532,29 +532,27 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
             </div>
           </h2>
         {%- endunless -%}
-        {%- if section.settings.subheading or section.settings.link -%}
-          {%- unless section.settings.subheading == blank -%}
-            <div class="hero__subtitle">
-              <div class="animation-contents">
-                {{ section.settings.subheading | escape }}
-              </div>
+        {%- unless section.settings.subheading == blank -%}
+          <div class="hero__subtitle">
+            <div class="animation-contents">
+              {{ section.settings.subheading | escape }}
             </div>
-          {%- endunless -%}
-          {%- if section.settings.link_text != blank -%}
-            {%- assign link_href = section.settings.link -%}
-            {%- if section.settings.link == blank -%}
-              {%- assign link_href = section.settings.video_url -%}
-            {%- endif -%}
-
-            <div class="hero__link">
-                <div class="animation-contents">
-                  <a href="{{ link_href }}" class="btn{% if section.settings.button_style_secondary_1 %} button--secondary{% endif %}"
-                  >
-                    {{ section.settings.link_text }}
-                  </a>
-                </div>
-            </div>
+          </div>
+        {%- endunless -%}
+        {%- if section.settings.link_text != blank -%}
+          {%- assign link_href = section.settings.link -%}
+          {%- if section.settings.link == blank -%}
+            {%- assign link_href = section.settings.video_url -%}
           {%- endif -%}
+
+          <div class="hero__link">
+              <div class="animation-contents">
+                <a href="{{ link_href }}" class="btn{% if section.settings.button_style_secondary_1 %} button--secondary{% endif %}"
+                >
+                  {{ section.settings.link_text }}
+                </a>
+              </div>
+          </div>
         {%- endif -%}
 
       </div>

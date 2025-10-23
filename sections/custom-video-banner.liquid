@@ -244,7 +244,7 @@
 <div
   data-section-id="{{ section.id }}"
   data-mobile-natural="false"
-  class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }} color-{{ section.settings.color_scheme }}"
+  class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
   >
 
   <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;">
@@ -464,7 +464,7 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           {%- endif -%}
 
           <div class="hero__link">
-            <a href="{{ link_href }}" class="{{ section.settings.style_class }}">
+            <a href="{{ link_href }}" class="{{ section.settings.style_class }} color-{{ section.settings.color_scheme }}">
               {{ section.settings.link_text }}
             </a>
           </div>

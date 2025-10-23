@@ -159,6 +159,35 @@
     height: 100%;
 }
 
+.hero__text-content {
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+/* Vertical alignment classes */
+.hero__text-content.vertical-center {
+    vertical-align: middle;
+}
+
+.hero__text-content.vertical-bottom {
+    vertical-align: bottom;
+}
+
+/* Horizontal alignment classes work with text-align */
+.hero__text-content.horizontal-left {
+    text-align: left;
+}
+
+.hero__text-content.horizontal-center {
+    text-align: center;
+}
+
+.hero__text-content.horizontal-right {
+    text-align: right;
+}
+
 {% if section.settings.video_url == blank %}
 .hero__title, .hero__subtitle, .animation-contents{
   color: #000;
@@ -170,7 +199,8 @@
 
 <div
   data-section-id="{{ section.id }}"
-  data-mobile-natural="false"
+  data-mobile-natural="{% if section.settings.mobile_height == 'auto' %}true{% else %}false{% endif %}"
+  {% if section.settings.section_height == 'natural' %}data-natural="true"{% endif %}
   class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
   >
 
@@ -520,6 +550,10 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
       "label": "Desktop height",
       "default": "650px",
       "options": [
+        {
+          "label": "Natural",
+          "value": "natural"
+        },
         {
           "label": "16:9",
           "value": "16-9"

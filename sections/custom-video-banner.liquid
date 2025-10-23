@@ -161,7 +161,7 @@
 }
 
 {% if section.settings.video_url == blank %}
-.hero__title, .hero__subtitle, .animation-contents{
+.hero__title, .hero__subtitle{
   color: #000;
   opacity: 1;
 }
@@ -224,7 +224,7 @@
     object-fit: cover;
 }
 
-.hero__title, .hero__subtitle, .animation-contents{
+.hero__title, .hero__subtitle{
   color: #fff;
   opacity: 1;
 }
@@ -448,16 +448,12 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
       <div class="hero__text-content {{ section.settings.text_align }}">
         {%- unless section.settings.title == blank -%}
           <h2 class="hero__title">
-            <div class="animation-contents">
             {{ section.settings.title | newline_to_br }}
-            </div>
           </h2>
         {%- endunless -%}
         {%- unless section.settings.subheading == blank -%}
           <div class="hero__subtitle">
-            <div class="animation-contents">
-              {{ section.settings.subheading | escape }}
-            </div>
+            {{ section.settings.subheading | escape }}
           </div>
         {%- endunless -%}
         {%- if section.settings.link_text != blank -%}
@@ -467,12 +463,10 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           {%- endif -%}
 
           <div class="hero__link">
-              <div class="animation-contents">
-                <a href="{{ link_href }}" class="btn{% if section.settings.button_style_secondary_1 %} button--secondary{% endif %}"
-                >
-                  {{ section.settings.link_text }}
-                </a>
-              </div>
+            <a href="{{ link_href }}" class="btn{% if section.settings.button_style_secondary_1 %} button--secondary{% endif %}"
+            >
+              {{ section.settings.link_text }}
+            </a>
           </div>
         {%- endif -%}
 

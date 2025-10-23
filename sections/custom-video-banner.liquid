@@ -225,6 +225,161 @@
           left: 50%;
           transform: translate(-50%, -50%);
         }
+
+        /* Hero-video */
+.hero__text-content{
+  position:relative;
+  padding:20px;
+}
+
+@media only screen and (min-width:590px){
+
+.hero__text-content{
+    padding:60px
+}
+  }
+
+[data-dots=true] .hero__text-content{
+    padding-right:50px
+}
+
+
+.hero__text-content{
+  display:table-cell
+}
+
+.hero__text-content.horizontal-left{
+    text-align:left;
+  }
+
+.hero__text-content.horizontal-center{
+    text-align:center;
+  }
+
+.hero__text-content.horizontal-right{
+    text-align:right;
+  }
+
+.hero__text-content.vertical-center{
+    vertical-align:middle
+  }
+
+.hero__text-content.vertical-center .hero__subtitle{
+      margin-right:0;
+    }
+
+.hero__text-content.vertical-center .hero__link{
+      display:block
+    }
+
+@media only screen and (min-width:590px){
+
+.hero__text-content.vertical-center .hero__link{
+        margin-top:20px
+    }
+      }
+
+.hero__text-content.vertical-center .hero__link .btn{
+        margin-left:0;
+      }
+
+.hero__text-content.vertical-bottom{
+    vertical-align:bottom;
+  }
+
+.hero__media video{
+    object-fit: cover;
+}
+
+.hero__link .btn{
+  --shadow-horizontal-offset: var(--buttons-shadow-horizontal-offset);
+    --shadow-vertical-offset: var(--buttons-shadow-vertical-offset);
+    --shadow-blur-radius: var(--buttons-shadow-blur-radius);
+    --shadow-opacity: var(--buttons-shadow-opacity);
+    --shadow-visible: var(--buttons-shadow-visible);
+    --border-offset: var(--buttons-border-offset);
+    --border-opacity: calc(1 - var(--buttons-border-opacity));
+    border-radius: var(--buttons-radius-outset);
+    position: relative;
+}
+  
+.hero__link .btn{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: 0 3rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: rgb(var(--color-button-text));
+  transition: box-shadow var(--duration-short) ease;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: rgba(var(--color-button), var(--alpha-button-background));
+  min-width: calc(12rem + var(--buttons-border-width) * 2);
+  min-height: calc(4.5rem + var(--buttons-border-width) * 2);
+}
+
+.hero__link .btn{
+  --color-button-text: var(--color-base-outline-button-labels);
+  --color-button: var(--color-background);
+  --alpha-button-background: 1;
+}
+
+.hero__link .button--secondary{
+    --color-button: 255, 255, 255;
+    --color-button-text: 255, 255, 255;
+    --alpha-button-background: 0;
+}
+
+.btn:before{
+  content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: var(--buttons-radius-outset);
+    box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius) rgba(var(--color-shadow), var(--shadow-opacity));
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+    line-height: calc(1 + 0.2 / var(--font-body-scale));
+}
+
+.btn:hover::after {
+    --border-offset: 1.3px;
+    box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset)) rgba(var(--color-button-text), var(--border-opacity)), 0 0 0 calc(var(--buttons-border-width) + 1px) rgba(var(--color-button), var(--alpha-button-background));
+}
+  
+.btn:after{
+  content: '';
+    position: absolute;
+    top: var(--buttons-border-width);
+    right: var(--buttons-border-width);
+    bottom: var(--buttons-border-width);
+    left: var(--buttons-border-width);
+    z-index: 1;
+    border-radius: var(--buttons-radius);
+    box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset)) rgba(var(--color-button-text), var(--border-opacity)), 0 0 0 var(--buttons-border-width) rgba(var(--color-button), var(--alpha-button-background));
+    transition: box-shadow var(--duration-short) ease;
+}
+
+.hero__title, .hero__subtitle, .animation-contents{
+  color: #fff;
+  opacity: 1;
+}
+
+
+.icon-ng {
+  fill: rgb(var(--color-foreground))!important; 
+  color: rgb(var(--color-foreground)) !important;
+    width: 3.4rem !important;
+    height: 2rem !important;
+    opacity: 0.7;
+}
       </style>
 
 <script>
@@ -369,9 +524,6 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
 
   });
 </script>
-
-    
-      
       
     {%- endif -%}
 {% endif %}

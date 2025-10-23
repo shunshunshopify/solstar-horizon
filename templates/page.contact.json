@@ -93,7 +93,7 @@
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0,
-            "show_dropdown": false,
+            "show_dropdown": true,
             "dropdown_label": "お問い合わせの種類",
             "dropdown_options_list": "サポート,見積もり,その他"
           },

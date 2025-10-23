@@ -4,6 +4,24 @@
   .hero__text-wrap--absolute{
   position: absolute !important;
   width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__text-wrap--absolute .hero-text-page-width {
+  display: block;
+  width: 100%;
+}
+
+.hero__text-wrap--absolute .hero__text-content {
+  display: block;
+  padding: 20px;
 }
 
 {% if text_animation %}
@@ -181,10 +199,6 @@
   }
 }
 
-[data-dots=true] .hero__text-content{
-  padding-right: 50px;
-}
-
 .hero__text-content.horizontal-left{
     text-align:left;
   }
@@ -306,15 +320,6 @@
 .hero__title, .hero__subtitle, .animation-contents{
   color: #fff;
   opacity: 1;
-}
-
-
-.icon-ng {
-  fill: rgb(var(--color-foreground))!important; 
-  color: rgb(var(--color-foreground)) !important;
-    width: 3.4rem !important;
-    height: 2rem !important;
-    opacity: 0.7;
 }
   
 {%- endstyle -%}

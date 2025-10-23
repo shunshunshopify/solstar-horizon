@@ -119,6 +119,42 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "カスタム プルダウン設定"
+    },
+    // ★★★ このチェックボックスを追加 ★★★
+    {
+      "type": "checkbox",
+      "id": "show_dropdown",
+      "label": "プルダウンメニューを表示する",
+      "default": true
+    },
+    // ★★★ ここまで追加 ★★★
+    {
+      "type": "text",
+      "id": "dropdown_label",
+      "label": "プルダウンのラベル名",
+      "default": "お問い合わせの種類",
+      "visible_if": "{{ block.settings.show_dropdown }}" // 非表示のときは設定も隠す
+    },
+    // ... 既存のプルダウン設定（dropdown_name_attribute, dropdown_options_list）にも 'visible_if' を追加します ...
+    {
+      "type": "text",
+      "id": "dropdown_name_attribute",
+      "label": "フォーム送信名 (英語・内部用)",
+      "default": "subject",
+      "info": "この名前が送信されるデータに使用されます (例: contact[subject])",
+      "visible_if": "{{ block.settings.show_dropdown }}" // 追加
+    },
+    {
+      "type": "textarea", 
+      "id": "dropdown_options_list",
+      "label": "プルダウンの項目一覧",
+      "default": "サポート,見積もり,その他",
+      "info": "項目をカンマ (,) で区切って入力してください。最初の項目が値(value)と表示名(label)の両方に使用されます。",
+      "visible_if": "{{ block.settings.show_dropdown }}" // 追加
     }
   ],
   "presets": [

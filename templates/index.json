@@ -583,28 +583,21 @@
     },
     "custom_video_banner_NbUBTp": {
       "type": "custom-video-banner",
-      "blocks": {
-        "video_ax4DRC": {
-          "type": "video",
-          "settings": {
-            "video_link": "https://cdn.shopify.com/videos/c/o/v/2271738dc32048a6a1216fbf99483708.mp4",
-            "overlay_opacity": 0,
-            "title": "Video slide",
-            "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
-            "color_text": "#ffffff",
-            "button_label": "",
-            "button_link": "",
-            "color_btn_bg": "#ffffff",
-            "color_btn_text": "#000000",
-            "bgCol": "#000000"
-          }
-        }
-      },
-      "block_order": [
-        "video_ax4DRC"
-      ],
       "name": "Video Banner",
-      "settings": {}
+      "settings": {
+        "title": "Bring your\nbrand to life.",
+        "title_size": 80,
+        "subheading": "Seamless hero videos",
+        "link_text": "Optional button",
+        "button_style_secondary_1": false,
+        "link": "",
+        "text_align": "vertical-center horizontal-center",
+        "text_animation": true,
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/458f6d3c35574fa0b18f94e5e909167a.mp4",
+        "overlay_opacity": 0,
+        "section_height": "650px",
+        "mobile_height": "400px"
+      }
     }
   },
   "order": [

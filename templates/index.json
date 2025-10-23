@@ -580,6 +580,31 @@
         "padding-block-start": 24,
         "padding-block-end": 24
       }
+    },
+    "custom_video_banner_NbUBTp": {
+      "type": "custom-video-banner",
+      "blocks": {
+        "video_ax4DRC": {
+          "type": "video",
+          "settings": {
+            "video_link": "https://cdn.shopify.com/videos/c/o/v/2271738dc32048a6a1216fbf99483708.mp4",
+            "overlay_opacity": 0,
+            "title": "Video slide",
+            "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "color_text": "#ffffff",
+            "button_label": "",
+            "button_link": "",
+            "color_btn_bg": "#ffffff",
+            "color_btn_text": "#000000",
+            "bgCol": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "video_ax4DRC"
+      ],
+      "name": "Video Banner",
+      "settings": {}
     }
   },
   "order": [
@@ -587,6 +612,7 @@
     "marquee_zTFqdW",
     "section_U7PW4U",
     "product_list_fa6P9H",
-    "collection_list_A9g4yQ"
+    "collection_list_A9g4yQ",
+    "custom_video_banner_NbUBTp"
   ]
 }

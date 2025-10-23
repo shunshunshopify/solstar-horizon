@@ -592,7 +592,7 @@
         "link": "shopify://collections/all",
         "style_class": "button",
         "color_scheme": "scheme-6",
-        "text_align": "vertical-center horizontal-center",
+        "text_align": "vertical-bottom horizontal-left",
         "video_url": "https://cdn.shopify.com/videos/c/o/v/458f6d3c35574fa0b18f94e5e909167a.mp4",
         "overlay_opacity": 0,
         "section_height": "650px",

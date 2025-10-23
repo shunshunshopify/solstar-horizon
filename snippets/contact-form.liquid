@@ -128,6 +128,32 @@
       placeholder="{{ 'blocks.contact_form.phone' | t }}"
     >
 
+      <label
+      class="visually-hidden"
+      for="ContactForm-CustomDropdown"
+    >
+      {{ settings.dropdown_label | default: 'お問い合わせの種類' }}
+    </label>
+    {% assign options = settings.dropdown_options_list | split: ',' %}
+    <div class="contact-form__input contact-form__select-wrapper">
+      <select
+        id="ContactForm-CustomDropdown"
+        name="contact[{{ settings.dropdown_name_attribute | default: 'subject' }}]" 
+        class="contact-form__input--select"
+        required
+      >
+        <option value="" disabled selected>選択してください</option>
+        {% for option in options %}
+          {% assign trimmed_option = option | strip %}
+          <option
+            value="{{ trimmed_option | escape }}"
+          >
+            {{ trimmed_option | escape }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
     <label
       class="visually-hidden"
       for="ContactForm-body"

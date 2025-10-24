@@ -1,4 +1,4 @@
-{{ 'base.CSS' | asset_url | stylesheet_tag }}
+{{ 'base.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .hero__text-wrap--absolute{
@@ -457,7 +457,7 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
             {%- assign link_href = section.settings.video_url -%}
           {%- endif -%}
 
-          <div class="hero__link">
+          <div class="hero__link color-{{ section.settings.color_scheme }}">
             <a href="{{ link_href }}" class="button {{ section.settings.style_class }}" >
               {{ section.settings.link_text }}
             </a>

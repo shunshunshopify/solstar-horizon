@@ -29,13 +29,6 @@
   }
 }
 
-.hero__link{
-  display: block;
-  position: relative;
-}
-
-
-
 {% if section.settings.overlay_opacity > 0 %}
   .hero--{{ section.id }} .hero__text-wrap:after {
   content: '';
@@ -83,6 +76,7 @@
 .hero--100vh{
   height:100vh;
 }
+
 /* Data attributes included */
 @media only screen and (min-width:590px){
   .hero--natural[data-natural]{
@@ -162,8 +156,7 @@
 }
 {% endif %}
 
-
-        /* Hero-video */
+/* Hero-video */
 .hero__text-content{
   position: relative;
   padding: 20px;
@@ -205,7 +198,7 @@
     }
 
 .hero__text-content.horizontal-left .hero__link{
-    display: flex;
+    display: inline-block;
     justify-content: flex-start;
   }
 
@@ -219,6 +212,11 @@
     justify-content: flex-end;
   }
 
+.hero__link{
+  display: inline-block;
+  position: relative;
+}
+
 .hero__text-content.vertical-bottom{
     vertical-align:bottom;
   }
@@ -231,7 +229,6 @@
   color: #fff;
   opacity: 1;
 }
-
 
 .icon-ng {
   fill: rgb(var(--color-foreground))!important; 
@@ -412,8 +409,6 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
     }
   }
 
-
-
   document.addEventListener('shopify:section:load', ()=>{
 
   var player;
@@ -441,6 +436,7 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
       
     {%- endif -%}
 {% endif %}
+
 </div>
 
   <div class="hero__text-wrap{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}">

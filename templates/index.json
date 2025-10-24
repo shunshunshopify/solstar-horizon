@@ -581,22 +581,23 @@
         "padding-block-end": 72
       }
     },
-    "custom_video_banner_NbUBTp": {
-      "type": "custom-video-banner",
-      "name": "Video Banner",
+    "hero_video_MQqUGV": {
+      "type": "hero-video",
+      "name": "Hero video",
       "settings": {
-        "title": "Bring your\nbrand to life.",
+        "title": "This is heading",
         "title_size": 80,
-        "subheading": "Seamless hero videos",
-        "link_text": "Optional button",
+        "subheading": "This is subheading",
+        "subheading_size": 40,
+        "link_text": "Button",
         "link": "shopify://collections/all",
         "color_scheme": "scheme-5",
         "style_class": "button-secondary",
         "text_align": "vertical-bottom horizontal-left",
         "video_url": "https://cdn.shopify.com/videos/c/o/v/458f6d3c35574fa0b18f94e5e909167a.mp4",
         "overlay_opacity": 0,
-        "section_height": "750px",
-        "mobile_height": "500px"
+        "section_height": "650px",
+        "mobile_height": "auto"
       }
     }
   },
@@ -606,6 +607,6 @@
     "product_list_fa6P9H",
     "collection_list_A9g4yQ",
     "hero_jVaWmY",
-    "custom_video_banner_NbUBTp"
+    "hero_video_MQqUGV"
   ]
 }

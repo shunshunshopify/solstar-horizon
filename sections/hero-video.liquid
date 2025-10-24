@@ -17,16 +17,17 @@
   margin: 30px 0 0 0;
 }
 
-  .hero__subtitle{
+  .hero--{{ section.id }} .hero__subtitle{
     overflow-wrap: anywhere;
+    font-size: {{ section.settings.subheading_size | times: 0.7 }}px;
   }
   
 @media only screen and (min-width: 769px) {
   .hero--{{ section.id }} .hero__title {
   font-size: {{ section.settings.title_size }}px;
   }
-  .hero__subtitle{
-  font-size: {{ section.settings.title_size | times: 0.5 }}px;
+  .hero--{{ section.id }} .hero__subtitle{
+  font-size: {{ section.settings.subheading_size }}px;
   }
 }
 
@@ -309,6 +310,15 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
       "id": "subheading",
       "label": "Subheading",
       "default": "Seamless hero videos"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading text size",
+      "default": 40,
+      "min": 16,
+      "max": 60,
+      "unit": "px"
     },
     {
       "type": "text",

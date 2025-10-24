@@ -1,45 +1,4 @@
 
-  .hero__text-wrap--absolute{
-  position: absolute !important;
-  width: 100%;
-}
-  
-.hero--{{ section.id }} .hero__media, .hero--{{ section.id }} .hero__media iframe{
-    width: 100%;
-    height: 100%;
-}
-  
-.hero--{{ section.id }} .hero__title {
-  font-size: {{ section.settings.title_size | times: 0.5 }}px;
-  margin: 30px 0 0 0;
-}
-
-  .hero__subtitle{
-    overflow-wrap: anywhere;
-  }
-  
-@media only screen and (min-width: 769px) {
-  .hero--{{ section.id }} .hero__title {
-  font-size: {{ section.settings.title_size }}px;
-  }
-  .hero__subtitle{
-  font-size: {{ section.settings.title_size | times: 0.5 }}px;
-  }
-}
-
-{% if section.settings.overlay_opacity > 0 %}
-  .hero--{{ section.id }} .hero__text-wrap:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #000;
-  opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
-  z-index: -1;
-  }
-{% endif %}
   
 .video-parent-section{
   overflow: hidden;
@@ -147,12 +106,7 @@
     height: 100%;
 }
 
-{% if section.settings.video_url == blank %}
-.hero__title, .hero__subtitle{
-  color: #000;
-  opacity: 1;
-}
-{% endif %}
+
 
 /* Hero-video */
 .hero__text-content{

@@ -266,15 +266,16 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           </div>
         {%- endunless -%}
         {%- if section.settings.link_text != blank -%}
-          {%- assign link_href = section.settings.link -%}
-          {%- if section.settings.link == blank -%}
-            {%- assign link_href = section.settings.video_url -%}
-          {%- endif -%}
-
           <div class="hero__link color-{{ section.settings.color_scheme }}">
-            <a href="{{ link_href }}" class="{{ section.settings.style_class }}" >
-              {{ section.settings.link_text }}
-            </a>
+            {%- if section.settings.link != blank -%}
+              <a href="{{ section.settings.link }}" class="{{ section.settings.style_class }}">
+                {{ section.settings.link_text }}
+              </a>
+            {%- else -%}
+              <span class="{{ section.settings.style_class }}" style="cursor: default;">
+                {{ section.settings.link_text }}
+              </span>
+            {%- endif -%}
           </div>
         {%- endif -%}
 

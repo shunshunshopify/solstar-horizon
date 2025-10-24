@@ -17,16 +17,17 @@
   margin: 30px 0 0 0;
 }
 
-  .hero__subtitle{
+  .hero--{{ section.id }} .hero__subtitle{
     overflow-wrap: anywhere;
+    font-size: {{ section.settings.subheading_size | times: 0.7 }}px;
   }
   
 @media only screen and (min-width: 769px) {
   .hero--{{ section.id }} .hero__title {
   font-size: {{ section.settings.title_size }}px;
   }
-  .hero__subtitle{
-  font-size: {{ section.settings.title_size | times: 0.5 }}px;
+  .hero--{{ section.id }} .hero__subtitle{
+  font-size: {{ section.settings.subheading_size }}px;
   }
 }
 
@@ -286,14 +287,14 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
  
 {% schema %}
 {
-  "name": "Video Hero",
+  "name": "Hero video",
   "class": "index-section--hero",
   "settings": [
     {
       "type": "textarea",
       "id": "title",
       "label": "Heading",
-      "default": "Bring your\nbrand to life."
+      "default": "This is heading"
     },
     {
       "type": "range",
@@ -308,13 +309,22 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Seamless hero videos"
+      "default": "This is subheading"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading text size",
+      "default": 40,
+      "min": 16,
+      "max": 60,
+      "unit": "px"
     },
     {
       "type": "text",
       "id": "link_text",
       "label": "Button text",
-      "default": "Optional button"
+      "default": "Button"
     },
     {
       "type": "url",
@@ -464,7 +474,7 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
   ],
   "presets": [
     {
-      "name": "Video hero"
+      "name": "Hero video"
     }
   ]
 }

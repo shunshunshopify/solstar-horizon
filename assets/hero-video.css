@@ -239,3 +239,33 @@
 .hero__link .link:hover {
   color: var(--color-primary-hover) !important;
 }
+
+/* Styles for non-clickable button (when no link is provided) */
+.hero__link span.button,
+.hero__link span.button-secondary,
+.hero__link span.link {
+  display: inline-block;
+  text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+}
+
+.hero__link span.button {
+  background-color: var(--color-primary-button-background) !important;
+  color: var(--color-primary-button-text) !important;
+  border-color: var(--color-primary-button-border) !important;
+  opacity: 0.6;
+}
+
+.hero__link span.button-secondary {
+  background-color: var(--color-secondary-button-background) !important;
+  color: var(--color-secondary-button-text) !important;
+  border-color: var(--color-secondary-button-border) !important;
+  opacity: 0.6;
+}
+
+.hero__link span.link {
+  background-color: transparent !important;
+  color: var(--color-primary) !important;
+  opacity: 0.6;
+}

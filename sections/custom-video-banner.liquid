@@ -443,9 +443,6 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
 {% endif %}
 </div>
 
-
-  
-
   <div class="hero__text-wrap{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}">
     <div class="hero-text-page-width">
       <div class="hero__text-content {{ section.settings.text_align }}">
@@ -466,7 +463,7 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           {%- endif -%}
 
           <div class="hero__link">
-            <a href="{{ link_href }}" class="{{ section.settings.style_class }} color-{{ section.settings.color_scheme }}">
+            <a href="{{ link_href }}" class="color-{{ section.settings.color_scheme }} {{ section.settings.style_class }}">
               {{ section.settings.link_text }}
             </a>
           </div>
@@ -476,7 +473,6 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
     </div>
   </div>
 </div>
-
  
 {% schema %}
 {

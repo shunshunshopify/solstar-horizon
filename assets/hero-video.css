@@ -1,0 +1,236 @@
+
+  .hero__text-wrap--absolute{
+  position: absolute !important;
+  width: 100%;
+}
+  
+.hero--{{ section.id }} .hero__media, .hero--{{ section.id }} .hero__media iframe{
+    width: 100%;
+    height: 100%;
+}
+  
+.hero--{{ section.id }} .hero__title {
+  font-size: {{ section.settings.title_size | times: 0.5 }}px;
+  margin: 30px 0 0 0;
+}
+
+  .hero__subtitle{
+    overflow-wrap: anywhere;
+  }
+  
+@media only screen and (min-width: 769px) {
+  .hero--{{ section.id }} .hero__title {
+  font-size: {{ section.settings.title_size }}px;
+  }
+  .hero__subtitle{
+  font-size: {{ section.settings.title_size | times: 0.5 }}px;
+  }
+}
+
+{% if section.settings.overlay_opacity > 0 %}
+  .hero--{{ section.id }} .hero__text-wrap:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  z-index: -1;
+  }
+{% endif %}
+  
+.video-parent-section{
+  overflow: hidden;
+  position: relative;
+}
+
+.hero__media .video-div{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.hero--450px{
+  height:292.5px;
+}
+
+.hero--550px{
+  height:357.5px;
+}
+
+.hero--650px{
+  height:422.5px;
+}
+
+.hero--750px{
+  height:487.5px;
+}
+
+.hero--100vh{
+  height:100vh;
+}
+
+/* Data attributes included */
+@media only screen and (min-width:590px){
+  .hero--natural[data-natural]{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+  }
+  .hero--450px{
+    height:450px;
+  }
+  .hero--550px{
+    height:550px;
+  }
+  .hero--650px{
+    height:650px;
+  }
+  .hero--750px{
+    height:750px;
+  }
+  .hero--16-9{
+    height:0;
+    padding-bottom:56.25%;
+  }
+}
+
+/* Data attributes included */
+@media only screen and (max-width:589px){
+  .hero--mobile--auto[data-mobile-natural=true]{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    height:auto;
+  }
+  .hero--16-9.hero--mobile--auto{
+    height:0;
+    padding-bottom:56.25%;
+  }
+  .hero--natural[data-mobile-natural=false]{
+    height:500px;
+  }
+  .hero--mobile--250px[data-mobile-natural=false]{
+    height:250px;
+  }
+  .hero--mobile--300px[data-mobile-natural=false]{
+    height:300px;
+  }
+  .hero--mobile--400px[data-mobile-natural=false]{
+    height:400px;
+  }
+  .hero--mobile--500px[data-mobile-natural=false]{
+    height:500px;
+  }
+  .hero--mobile--100vh[data-mobile-natural=false]{
+    height:90vh;
+  }
+}
+
+.hero__text-wrap{
+  position:relative;
+  height: 100%;
+}
+
+.hero__text-wrap .hero-text-page-width {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+{% if section.settings.video_url == blank %}
+.hero__title, .hero__subtitle{
+  color: #000;
+  opacity: 1;
+}
+{% endif %}
+
+/* Hero-video */
+.hero__text-content{
+  position: relative;
+  padding: 20px;
+  display: table-cell;
+}
+
+@media only screen and (min-width:590px){
+  .hero__text-content{
+    padding: 60px;
+  }
+}
+
+[data-dots=true] .hero__text-content{
+  padding-right: 50px;
+}
+
+.hero__text-content.horizontal-left{
+    text-align:left;
+  }
+
+.hero__text-content.horizontal-center{
+    text-align:center;
+  }
+
+.hero__text-content.horizontal-right{
+    text-align:right;
+  }
+
+.hero__text-content.vertical-center{
+    vertical-align:middle
+  }
+
+.hero__text-content.vertical-center .hero__subtitle{
+      margin-right:0;
+    }
+
+.hero__text-content.vertical-center .hero__link{
+      display:inline-block;
+    }
+
+.hero__text-content.horizontal-left .hero__link{
+    display: inline-block;
+    justify-content: flex-start;
+  }
+
+.hero__text-content.horizontal-center .hero__link{
+    display: inline-block;
+    justify-content: center;
+  }
+
+.hero__text-content.horizontal-right .hero__link{
+    display: inline-block;
+    justify-content: flex-end;
+  }
+
+.hero__link{
+  position: relative;
+}
+
+.hero__text-content.vertical-bottom{
+    vertical-align: bottom;
+  }
+
+.hero__media video{
+    object-fit: cover;
+}
+
+.hero__title, .hero__subtitle{
+  color: #fff;
+  opacity: 1;
+}
+
+.icon-ng {
+  fill: rgb(var(--color-foreground))!important; 
+  color: rgb(var(--color-foreground)) !important;
+    width: 3.4rem !important;
+    height: 2rem !important;
+    opacity: 0.7;
+}

@@ -195,6 +195,10 @@
 }
 
 /* Override color scheme background conflicts for buttons */
+.hero__link {
+  background-color: transparent !important;
+}
+
 .hero__link .button,
 .hero__link .button-secondary,
 .hero__link .link {

@@ -197,6 +197,7 @@
 /* Override color scheme background conflicts for buttons */
 .hero__link {
   background-color: transparent !important;
+  margin-top: 24px;
 }
 
 .hero__link .button,

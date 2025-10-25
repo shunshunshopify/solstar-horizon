@@ -8,7 +8,7 @@
     border: var(--style-border-width-inputs) solid var(--color-input-border);
 }
 
-.contact-form__input contact-form__select-wrapper {
+.contact-form__input.contact-form__select-wrapper {
     padding: 0;
     border: none;
 }

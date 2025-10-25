@@ -130,20 +130,20 @@
 
 {% if settings.show_dropdown %}
   <label
-    class="visually-hidden"
     for="ContactForm-CustomDropdown"
   >
-    {{ settings.dropdown_label | default: 'お問い合わせの種類' }}
-  </label>
+    お問い合わせの種類
+  </label> 
   {% assign options = settings.dropdown_options_list | split: ',' %}
   <div class="contact-form__input contact-form__select-wrapper">
     <select
       id="ContactForm-CustomDropdown"
-      name="contact[{{ settings.dropdown_name_attribute | default: 'subject' }}]" 
+      name="contact[subject]" 
       class="contact-form__input--select"
       required
     >
-      <option value="" disabled selected>選択してください</option>
+      <option value="" disabled selected>{{ settings.dropdown_placeholder | default: '選択してください' }}</option>
+      
       {% for option in options %}
         {% assign trimmed_option = option | strip %}
         <option

@@ -45,12 +45,11 @@
   }
 {% endif %}
 
-{% if section.settings.video_url == blank %}
+{% comment %} Since we always have a video (either custom or default), text should always be white {% endcomment %}
 .hero__title, .hero__subtitle{
-  color: #000;
+  color: #fff;
   opacity: 1;
 }
-{% endif %}
 
 {% endstyle %}
 
@@ -62,37 +61,44 @@
 
   <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;">
 
-    {% if section.settings.video_url == blank  %}{% else %}
-    {% assign extension = section.settings.video_url | slice: -4, 4 %}
+    {% comment %} Set default video if no video URL is provided {% endcomment %}
+    {% assign default_video_url = 'https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH' %}
+    {% assign current_video_url = section.settings.video_url | default: default_video_url %}
+    
+    {% if current_video_url == blank %}
+      {% assign current_video_url = default_video_url %}
+    {% endif %}
+    
+    {% assign extension = current_video_url | slice: -4, 4 %}
     {% if extension == '.mp4' %}
       <video
         id="Mp4Video-{{ section.id }}"
         class="video-div"
-        src="{{ section.settings.video_url }}"
+        src="{{ current_video_url }}"
         data-type="mp4"
         loop muted playsinline autoplay></video>
     {% else %}
 
       {% comment %} Extract YouTube video ID from various URL formats {% endcomment %}
       {% assign video_id = '' %}
-      {% if section.settings.video_url contains 'youtu.be/' %}
+      {% if current_video_url contains 'youtu.be/' %}
         {% comment %} Format: https://youtu.be/VIDEO_ID {% endcomment %}
-        {% assign video_parts = section.settings.video_url | split: 'youtu.be/' %}
+        {% assign video_parts = current_video_url | split: 'youtu.be/' %}
         {% if video_parts.size > 1 %}
           {% assign video_id_with_params = video_parts[1] %}
           {% assign video_id = video_id_with_params | split: '?' | first | split: '&' | first %}
         {% endif %}
-      {% elsif section.settings.video_url contains 'youtube.com/embed/' %}
+      {% elsif current_video_url contains 'youtube.com/embed/' %}
         {% comment %} Format: https://www.youtube.com/embed/VIDEO_ID {% endcomment %}
-        {% assign video_parts = section.settings.video_url | split: 'embed/' %}
+        {% assign video_parts = current_video_url | split: 'embed/' %}
         {% if video_parts.size > 1 %}
           {% assign video_id_with_params = video_parts[1] %}
           {% assign video_id = video_id_with_params | split: '?' | first | split: '&' | first %}
         {% endif %}
-      {% elsif section.settings.video_url contains 'youtube.com/watch' %}
+      {% elsif current_video_url contains 'youtube.com/watch' %}
         {% comment %} Format: https://www.youtube.com/watch?v=VIDEO_ID {% endcomment %}
-        {% if section.settings.video_url contains 'v=' %}
-          {% assign video_parts = section.settings.video_url | split: 'v=' %}
+        {% if current_video_url contains 'v=' %}
+          {% assign video_parts = current_video_url | split: 'v=' %}
           {% if video_parts.size > 1 %}
             {% assign video_id_with_params = video_parts[1] %}
             {% assign video_id = video_id_with_params | split: '&' | first %}
@@ -131,9 +137,16 @@
         document.addEventListener('DOMContentLoaded', function() {
           {% if video_id != blank %}
             const videoId = '{{ video_id }}';
+            const isDefaultVideo = '{{ current_video_url }}' === '{{ default_video_url }}';
+            
+            console.log('Loading video for section {{ section.id }}:', {
+              videoId: videoId,
+              videoUrl: '{{ current_video_url }}',
+              isDefaultVideo: isDefaultVideo
+            });
             
             if (!videoId.trim()) {
-              console.error('Invalid YouTube video ID extracted from URL: {{ section.settings.video_url }}');
+              console.error('Invalid YouTube video ID extracted from URL: {{ current_video_url }}');
               return;
             }
             
@@ -253,7 +266,7 @@
             initializeYouTubePlayer();
             
           {% else %}
-            console.error('No valid YouTube video ID found for URL: {{ section.settings.video_url }}');
+            console.error('No valid YouTube video ID found for URL: {{ current_video_url }}');
           {% endif %}
         });
       </script>
@@ -261,7 +274,6 @@
       <div id="youtube-player-{{ section.id }}" class="youtube-video-container"></div>
       
     {%- endif -%}
-{% endif %}
 
 </div>
 
@@ -406,7 +418,7 @@
       "id": "video_url",
       "label": "Background video link",
       "default": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
-      "info": "Youtube or .MP4"
+      "info": "Youtube or .MP4 - Default video will play if left empty"
     },
     {
       "type": "range",

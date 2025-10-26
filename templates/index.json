@@ -596,7 +596,7 @@
         "text_align": "vertical-bottom horizontal-left",
         "video_url": "https://youtu.be/L_03hWOOgXU?si=lQUiLaOezz6cDu8A",
         "overlay_opacity": 0,
-        "section_height": "650px",
+        "section_height": "16-9",
         "mobile_height": "auto",
         "enable_autoplay": true,
         "enable_loop": true,

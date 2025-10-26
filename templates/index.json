@@ -594,13 +594,10 @@
         "color_scheme": "scheme-5",
         "style_class": "button-secondary",
         "text_align": "vertical-bottom horizontal-left",
-        "video_url": "https://youtu.be/25sn8rvkqDM?si=Y2lLfJl-jh6VRA_O",
+        "video_url": "https://cdn.shopify.com/s/files/1/0707/4660/3805/files/Bikini_Image_2.webp?v=1685350119",
         "overlay_opacity": 0,
         "section_height": "750px",
-        "mobile_height": "300px",
-        "enable_autoplay": false,
-        "enable_loop": false,
-        "show_controls": true
+        "mobile_height": "300px"
       }
     }
   },

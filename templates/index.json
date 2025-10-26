@@ -594,10 +594,13 @@
         "color_scheme": "scheme-5",
         "style_class": "button-secondary",
         "text_align": "vertical-bottom horizontal-left",
-        "video_url": "https://cdn.shopify.com/videos/c/o/v/458f6d3c35574fa0b18f94e5e909167a.mp4",
+        "video_url": "https://youtu.be/L_03hWOOgXU?si=lQUiLaOezz6cDu8A",
         "overlay_opacity": 0,
         "section_height": "650px",
-        "mobile_height": "auto"
+        "mobile_height": "auto",
+        "enable_autoplay": true,
+        "enable_loop": true,
+        "show_controls": false
       }
     }
   },

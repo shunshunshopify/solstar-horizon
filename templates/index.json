@@ -608,7 +608,7 @@
           "type": "video",
           "name": "t:names.video",
           "settings": {
-            "source": "url",
+            "source": "uploaded",
             "video": "shopify://files/videos/5.26.2023 Sandy Haze New Video0001-0753.mp4",
             "video_url": "https://youtu.be/25sn8rvkqDM?si=kGNgc_wHHIHbCKgx",
             "video_autoplay": true,

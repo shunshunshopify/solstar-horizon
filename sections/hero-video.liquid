@@ -174,11 +174,11 @@
                 width: '100%',
                 videoId: videoId,
                 playerVars: {
-                  autoplay: {{ section.settings.enable_autoplay | default: 0 }},
-                  mute: {{ section.settings.enable_autoplay | default: 0 }},
-                  loop: {{ section.settings.enable_loop | default: 0 }},
+                  autoplay: 1,
+                  mute: 1,
+                  loop: 1,
                   playlist: videoId, // Required for loop
-                  controls: {{ section.settings.show_controls | default: 1 }},
+                  controls: 0,
                   showinfo: 0,
                   rel: 0,
                   modestbranding: 1,
@@ -188,15 +188,15 @@
                 events: {
                   onReady: function(event) {
                     console.log('YouTube player ready for section {{ section.id }}');
-                    if ({{ section.settings.enable_autoplay | default: false }}) {
-                      event.target.mute();
-                      event.target.playVideo();
-                    }
+                    // Always autoplay and mute for hero video
+                    event.target.mute();
+                    event.target.playVideo();
                     // Trigger resize after player is ready
                     setTimeout(resizeVideo, 100);
                   },
                   onStateChange: function(event) {
-                    if (event.data === YT.PlayerState.ENDED && {{ section.settings.enable_loop | default: false }}) {
+                    // Always loop the video
+                    if (event.data === YT.PlayerState.ENDED) {
                       event.target.playVideo();
                     }
                   },
@@ -494,25 +494,6 @@
           "value": "100vh"
         }
       ]
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_autoplay",
-      "label": "Enable autoplay",
-      "default": true,
-      "info": "Videos will be muted for autoplay to work"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_loop",
-      "label": "Enable loop",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_controls",
-      "label": "Show video controls",
-      "default": false
     }
   ],
   "presets": [

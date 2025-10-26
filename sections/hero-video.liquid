@@ -54,6 +54,7 @@
   class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
   role="banner"
   aria-label="Hero video section"
+  style="padding-block-start: {{ section.settings.padding-block-start }}px; padding-block-end: {{ section.settings.padding-block-end }}px;"
   >
 
   <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;" aria-hidden="true">
@@ -366,7 +367,7 @@
 
   <div class="hero__container spacing-style section section--full-width">
     <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
-      <div class="hero__text-content {{ section.settings.text_align }}" style="padding-block-start: {{ section.settings.padding-block-start }}px; padding-block-end: {{ section.settings.padding-block-end }}px;">
+      <div class="hero__text-content {{ section.settings.text_align }}">
         {%- unless section.settings.title == blank -%}
           <h1 class="hero__title" id="hero-title-{{ section.id }}">
             {{ section.settings.title | newline_to_br }}

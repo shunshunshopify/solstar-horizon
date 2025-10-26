@@ -82,6 +82,7 @@
   position: relative;
   overflow: hidden;
   min-height: inherit;
+  height: 100%; /* Ensure full height for vertical alignment */
   align-items: center;
   justify-content: center;
   z-index: var(--layer-base, 1);
@@ -96,6 +97,7 @@
   inset: 0;
   z-index: var(--layer-flat, 2);
   min-height: inherit;
+  height: 100%; /* Ensure full height for vertical alignment */
 }
 
 /* Text content layout and positioning - Simplified approach */

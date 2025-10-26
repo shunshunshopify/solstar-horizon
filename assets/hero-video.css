@@ -64,9 +64,7 @@
   .hero--mobile--300px{ height: 300px; }
   .hero--mobile--400px{ height: 400px; }
   .hero--mobile--500px{ height: 500px; }
-  .hero--mobile--750px{ height: 750px; } /* Compact Phone */
   .hero--mobile--850px{ height: 850px; } /* iPhone Height */
-  .hero--mobile--900px{ height: 900px; } /* Large Phone */
   .hero--mobile--auto{ height: 500px; }
 }
 

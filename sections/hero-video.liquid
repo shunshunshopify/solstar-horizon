@@ -366,7 +366,7 @@
 
   <div class="hero__container spacing-style section section--full-width">
     <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
-      <div class="hero__text-content {{ section.settings.text_align }}" style="padding-inline-start: {{ section.settings.padding-inline-start }}px; padding-inline-end: {{ section.settings.padding-inline-end }}px;">
+      <div class="hero__text-content {{ section.settings.text_align }}" style="padding-block-start: {{ section.settings.padding-block-start }}px; padding-block-end: {{ section.settings.padding-block-end }}px;">
         {%- unless section.settings.title == blank -%}
           <h1 class="hero__title" id="hero-title-{{ section.id }}">
             {{ section.settings.title | newline_to_br }}
@@ -589,8 +589,8 @@
     },
     {
       "type": "range",
-      "id": "padding-inline-start",
-      "label": "t:settings.left",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
       "min": 0,
       "max": 32,
       "step": 1,
@@ -599,8 +599,8 @@
     },
     {
       "type": "range",
-      "id": "padding-inline-end",
-      "label": "t:settings.right",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
       "min": 0,
       "max": 32,
       "step": 1,

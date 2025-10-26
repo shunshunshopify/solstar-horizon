@@ -7,28 +7,58 @@
 
 .hero__text-wrap--absolute{
   position: absolute !important;
-  width: 100%;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   z-index: var(--layer-flat, 2);
+  /* Use flexbox for reliable centering and alignment */
+  display: flex;
+  align-items: center; /* Default vertical center */
+  justify-content: center; /* Default horizontal center */
 }
 
-/* Special handling for 16:9 absolute positioning */
-.hero__text-wrap--absolute.hero__content-wrapper.page-width {
-  grid-column: unset; /* Remove grid positioning for absolute elements */
-  left: 50%;
-  transform: translateX(-50%);
+/* Page-width constraint for 16:9 absolute layout */
+.hero__text-wrap--absolute .hero__text-content {
+  width: 100%;
   max-width: var(--page-width, 1200px);
-  width: min(var(--page-width, 1200px), calc(100% - 40px)); /* Maintain page-width constraint */
-  /* For 16:9, height needs to be calculated from padding-bottom */
-  height: 100%;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* Fix height calculation for 16:9 aspect ratio containers */
-.hero--16-9 .hero__text-wrap--absolute {
-  /* Use inset to reference the actual container size, not height: 0 */
-  inset: 0;
-  height: auto;
+@media only screen and (min-width: 590px){
+  .hero__text-wrap--absolute .hero__text-content {
+    padding: 60px;
+  }
+}
+
+/* Text alignment for 16:9 absolute layout */
+.hero__text-wrap--absolute.horizontal-left{ 
+  justify-content: flex-start; 
+}
+.hero__text-wrap--absolute.horizontal-center{ 
+  justify-content: center; 
+}
+.hero__text-wrap--absolute.horizontal-right{ 
+  justify-content: flex-end; 
+}
+
+.hero__text-wrap--absolute.vertical-center{ 
+  align-items: center; 
+}
+.hero__text-wrap--absolute.vertical-bottom{ 
+  align-items: flex-end; 
+}
+
+/* Text alignment within content for 16:9 */
+.hero__text-wrap--absolute .hero__text-content.horizontal-left{ 
+  text-align: left; 
+}
+.hero__text-wrap--absolute .hero__text-content.horizontal-center{ 
+  text-align: center; 
+}
+.hero__text-wrap--absolute .hero__text-content.horizontal-right{ 
+  text-align: right; 
 }
 
 .video-parent-section{
@@ -134,12 +164,9 @@
   display: table;
 }
 
-/* Special case for 16:9 absolute positioning */
-.hero--16-9 .hero__text-wrap {
-  /* Ensure table takes full height of the aspect ratio container */
-  position: absolute;
-  inset: 0;
-  display: table;
+/* Override table layout for 16:9 absolute positioning */
+.hero__text-wrap--absolute {
+  display: flex !important; /* Override table display for absolute layout */
 }
 
 .hero__text-content{
@@ -147,6 +174,11 @@
   padding: 20px;
   width: 100%;
   display: table-cell;
+}
+
+/* Override table-cell for 16:9 absolute positioning */
+.hero__text-wrap--absolute .hero__text-content {
+  display: block !important; /* Override table-cell for absolute layout */
 }
 
 @media only screen and (min-width: 590px){

@@ -601,7 +601,7 @@
         "enable_autoplay": true,
         "enable_sound": false,
         "enable_loop": true,
-        "show_controls": false
+        "show_controls": true
       }
     }
   },

@@ -593,7 +593,7 @@
         "link": "shopify://collections/all",
         "color_scheme": "scheme-5",
         "style_class": "button-secondary",
-        "text_align": "vertical-bottom horizontal-center",
+        "text_align": "vertical-bottom horizontal-right",
         "video_url": "https://youtu.be/TSNET--EMZQ?si=2_Oobn-D7CMCF3l8",
         "overlay_opacity": 0,
         "section_height": "650px",

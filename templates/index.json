@@ -593,11 +593,13 @@
         "link": "shopify://collections/all",
         "color_scheme": "scheme-5",
         "style_class": "button-secondary",
-        "text_align": "vertical-bottom horizontal-left",
+        "text_align": "vertical-center horizontal-center",
         "video_url": "https://cdn.shopify.com/videos/c/o/v/a69d3f51a82441979bf7ca5c73751665.mp4",
         "overlay_opacity": 0,
-        "section_height": "16-9",
-        "mobile_height": "400px"
+        "section_height": "750px",
+        "mobile_height": "850px",
+        "padding-block-start": 15,
+        "padding-block-end": 0
       }
     },
     "section_enCDPx": {

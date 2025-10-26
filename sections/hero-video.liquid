@@ -76,7 +76,34 @@
         class="video-div"
         src="{{ current_video_url }}"
         data-type="mp4"
-        loop muted playsinline autoplay></video>
+        loop playsinline
+        {% if section.settings.enable_autoplay %}autoplay muted{% elsif section.settings.enable_sound == false %}muted{% endif %}></video>
+      
+      <script>
+        // MP4 Video Sound Control
+        document.addEventListener('DOMContentLoaded', function() {
+          const mp4Video = document.getElementById('Mp4Video-{{ section.id }}');
+          if (mp4Video) {
+            // Handle sound settings for MP4 videos
+            if ({{ section.settings.enable_autoplay | default: false }}) {
+              // Autoplay requires muting for browser compliance
+              mp4Video.muted = true;
+            } else if ({{ section.settings.enable_sound | default: false }}) {
+              // If autoplay is off but sound is enabled, unmute
+              mp4Video.muted = false;
+            } else {
+              // No autoplay and no sound enabled, keep muted
+              mp4Video.muted = true;
+            }
+            
+            console.log('MP4 video sound settings for section {{ section.id }}:', {
+              autoplay: {{ section.settings.enable_autoplay | default: false }},
+              soundEnabled: {{ section.settings.enable_sound | default: false }},
+              videoMuted: mp4Video.muted
+            });
+          }
+        });
+      </script>
     {% else %}
 
       {% comment %} Extract YouTube video ID from various URL formats {% endcomment %}
@@ -142,7 +169,10 @@
             console.log('Loading video for section {{ section.id }}:', {
               videoId: videoId,
               videoUrl: '{{ current_video_url }}',
-              isDefaultVideo: isDefaultVideo
+              isDefaultVideo: isDefaultVideo,
+              autoplay: {{ section.settings.enable_autoplay | default: false }},
+              soundEnabled: {{ section.settings.enable_sound | default: false }},
+              willBeMuted: {% if section.settings.enable_autoplay %}true{% elsif section.settings.enable_sound %}false{% else %}true{% endif %}
             });
             
             if (!videoId.trim()) {
@@ -175,7 +205,7 @@
                 videoId: videoId,
                 playerVars: {
                   autoplay: {{ section.settings.enable_autoplay | default: 0 }},
-                  mute: {{ section.settings.enable_autoplay | default: 0 }},
+                  mute: {% if section.settings.enable_autoplay %}1{% elsif section.settings.enable_sound %}0{% else %}1{% endif %},
                   loop: {{ section.settings.enable_loop | default: 0 }},
                   playlist: videoId, // Required for loop
                   controls: {{ section.settings.show_controls | default: 1 }},
@@ -188,10 +218,20 @@
                 events: {
                   onReady: function(event) {
                     console.log('YouTube player ready for section {{ section.id }}');
+                    
+                    // Handle autoplay and sound settings
                     if ({{ section.settings.enable_autoplay | default: false }}) {
+                      // Autoplay requires muting for browser compliance
                       event.target.mute();
                       event.target.playVideo();
+                    } else if ({{ section.settings.enable_sound | default: false }}) {
+                      // If autoplay is off but sound is enabled, unmute
+                      event.target.unMute();
+                    } else {
+                      // No autoplay and no sound enabled, keep muted
+                      event.target.mute();
                     }
+                    
                     // Trigger resize after player is ready
                     setTimeout(resizeVideo, 100);
                   },
@@ -504,7 +544,14 @@
       "id": "enable_autoplay",
       "label": "Enable autoplay",
       "default": true,
-      "info": "Videos will be muted for autoplay to work"
+      "info": "Autoplay videos are automatically muted for browser compliance"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sound",
+      "label": "Enable sound",
+      "default": false,
+      "info": "Note: Most browsers require user interaction before playing audio"
     },
     {
       "type": "checkbox",

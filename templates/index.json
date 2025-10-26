@@ -585,19 +585,22 @@
       "type": "hero-video",
       "name": "Hero video",
       "settings": {
-        "title": "This is heading",
+        "title": "",
         "title_size": 80,
-        "subheading": "This is subheading",
+        "subheading": "",
         "subheading_size": 40,
-        "link_text": "Button",
-        "link": "shopify://collections/all",
+        "link_text": "",
+        "link": "",
         "color_scheme": "scheme-5",
         "style_class": "button-secondary",
         "text_align": "vertical-bottom horizontal-left",
-        "video_url": "https://cdn.shopify.com/videos/c/o/v/458f6d3c35574fa0b18f94e5e909167a.mp4",
+        "video_url": "https://youtu.be/L_03hWOOgXU?si=lQUiLaOezz6cDu8A",
         "overlay_opacity": 0,
-        "section_height": "650px",
-        "mobile_height": "auto"
+        "section_height": "16-9",
+        "mobile_height": "auto",
+        "enable_autoplay": true,
+        "enable_loop": true,
+        "show_controls": false
       }
     }
   },

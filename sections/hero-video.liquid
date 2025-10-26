@@ -73,12 +73,31 @@
         loop muted playsinline autoplay></video>
     {% else %}
 
-         {% if section.settings.video_url contains 'embed' %}
+      {% comment %} Extract YouTube video ID from various URL formats {% endcomment %}
+      {% assign video_id = '' %}
+      {% if section.settings.video_url contains 'youtu.be/' %}
+        {% comment %} Format: https://youtu.be/VIDEO_ID {% endcomment %}
+        {% assign video_parts = section.settings.video_url | split: 'youtu.be/' %}
+        {% if video_parts.size > 1 %}
+          {% assign video_id_with_params = video_parts[1] %}
+          {% assign video_id = video_id_with_params | split: '?' | first | split: '&' | first %}
+        {% endif %}
+      {% elsif section.settings.video_url contains 'youtube.com/embed/' %}
+        {% comment %} Format: https://www.youtube.com/embed/VIDEO_ID {% endcomment %}
         {% assign video_parts = section.settings.video_url | split: 'embed/' %}
-        {% assign video_id = video_parts[1] %}
-      {% else %}
-        {% assign video_parts = section.settings.video_url | split: '=' %}
-        {% assign video_id = video_parts[1] %}
+        {% if video_parts.size > 1 %}
+          {% assign video_id_with_params = video_parts[1] %}
+          {% assign video_id = video_id_with_params | split: '?' | first | split: '&' | first %}
+        {% endif %}
+      {% elsif section.settings.video_url contains 'youtube.com/watch' %}
+        {% comment %} Format: https://www.youtube.com/watch?v=VIDEO_ID {% endcomment %}
+        {% if section.settings.video_url contains 'v=' %}
+          {% assign video_parts = section.settings.video_url | split: 'v=' %}
+          {% if video_parts.size > 1 %}
+            {% assign video_id_with_params = video_parts[1] %}
+            {% assign video_id = video_id_with_params | split: '&' | first %}
+          {% endif %}
+        {% endif %}
       {% endif %}
 
 
@@ -107,146 +126,139 @@
         }
       </style>
 
-<script>
-function resizeSection() {
-const divElement = document.querySelector('.hero--{{ section.id }} .hero__media iframe');
-
-function resizeDiv() {
-  const containerWidth = divElement.parentNode.offsetWidth; // Get the width of the container element
-  const height = containerWidth * 9 / 16; // Calculate height based on 16:9 aspect ratio
-
-  if (height < divElement.parentNode.offsetHeight) {
-    const width = divElement.parentNode.offsetHeight * 16 / 9; // Calculate width based on 16:9 aspect ratio
-    divElement.style.width = width + 'px';
-    divElement.style.height = divElement.parentNode.offsetHeight + 'px';
-  } else {
-    divElement.style.width = containerWidth + 'px';
-    divElement.style.height = height + 'px';
-  }
-}
-
-window.addEventListener('resize', resizeDiv);
-
-resizeDiv();
-
-divElement.addEventListener('load', resizeDiv);
-}
-
-function waitForElm(selector) {
-    return new Promise(resolve => {
-        if (document.querySelector(selector)) {
-            return resolve(document.querySelector(selector));
-        }
-
-        const observer = new MutationObserver(mutations => {
-            if (document.querySelector(selector)) {
-                resolve(document.querySelector(selector));
-                observer.disconnect();
+      <script>
+        // YouTube Video Implementation
+        document.addEventListener('DOMContentLoaded', function() {
+          {% if video_id != blank %}
+            const videoId = '{{ video_id }}';
+            
+            if (!videoId.trim()) {
+              console.error('Invalid YouTube video ID extracted from URL: {{ section.settings.video_url }}');
+              return;
             }
+            
+            // Check if YouTube API is already loaded
+            function initializeYouTubePlayer() {
+              if (window.YT && window.YT.Player) {
+                createPlayer();
+              } else {
+                // Load YouTube IFrame API if not already loaded
+                if (!window.YT && !document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+                  const tag = document.createElement('script');
+                  tag.src = 'https://www.youtube.com/iframe_api';
+                  const firstScriptTag = document.getElementsByTagName('script')[0];
+                  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                }
+                
+                // Set up callback for when API loads
+                window.onYouTubeIframeAPIReady = createPlayer;
+              }
+            }
+            
+            function createPlayer() {
+              const player = new YT.Player('youtube-player-{{ section.id }}', {
+                height: '100%',
+                width: '100%',
+                videoId: videoId,
+                playerVars: {
+                  autoplay: {{ section.settings.enable_autoplay | default: 0 }},
+                  mute: {{ section.settings.enable_autoplay | default: 0 }},
+                  loop: {{ section.settings.enable_loop | default: 0 }},
+                  playlist: videoId, // Required for loop
+                  controls: {{ section.settings.show_controls | default: 1 }},
+                  showinfo: 0,
+                  rel: 0,
+                  modestbranding: 1,
+                  playsinline: 1,
+                  fs: 0
+                },
+                events: {
+                  onReady: function(event) {
+                    console.log('YouTube player ready for section {{ section.id }}');
+                    if ({{ section.settings.enable_autoplay | default: false }}) {
+                      event.target.mute();
+                      event.target.playVideo();
+                    }
+                    // Trigger resize after player is ready
+                    setTimeout(resizeVideo, 100);
+                  },
+                  onStateChange: function(event) {
+                    if (event.data === YT.PlayerState.ENDED && {{ section.settings.enable_loop | default: false }}) {
+                      event.target.playVideo();
+                    }
+                  },
+                  onError: function(event) {
+                    console.error('YouTube player error:', event.data, 'for video ID:', videoId);
+                    // Error handling for different error codes
+                    switch(event.data) {
+                      case 2:
+                        console.error('Invalid video ID: ' + videoId);
+                        break;
+                      case 5:
+                        console.error('HTML5 player error');
+                        break;
+                      case 100:
+                        console.error('Video not found or private');
+                        break;
+                      case 101:
+                      case 150:
+                        console.error('Video cannot be embedded');
+                        break;
+                    }
+                  }
+                }
+              });
+              
+              // Store player reference for resize function
+              window['player_{{ section.id }}'] = player;
+            }
+            
+            // Resize function
+            function resizeVideo() {
+              const container = document.getElementById('youtube-player-{{ section.id }}');
+              if (container && container.querySelector('iframe')) {
+                const iframe = container.querySelector('iframe');
+                const parentContainer = container.parentElement;
+                const containerWidth = parentContainer.offsetWidth;
+                const containerHeight = parentContainer.offsetHeight;
+                const aspectRatio = 16 / 9;
+                
+                let newWidth, newHeight;
+                
+                if (containerWidth / containerHeight > aspectRatio) {
+                  newWidth = containerWidth;
+                  newHeight = containerWidth / aspectRatio;
+                } else {
+                  newWidth = containerHeight * aspectRatio;
+                  newHeight = containerHeight;
+                }
+                
+                iframe.style.width = newWidth + 'px';
+                iframe.style.height = newHeight + 'px';
+                iframe.style.position = 'absolute';
+                iframe.style.left = (containerWidth - newWidth) / 2 + 'px';
+                iframe.style.top = (containerHeight - newHeight) / 2 + 'px';
+              }
+            }
+            
+            // Event listeners
+            window.addEventListener('resize', resizeVideo);
+            document.addEventListener('shopify:section:load', function() {
+              if (window['player_{{ section.id }}']) {
+                setTimeout(resizeVideo, 100);
+              }
+            });
+            
+            // Initialize the player
+            initializeYouTubePlayer();
+            
+          {% else %}
+            console.error('No valid YouTube video ID found for URL: {{ section.settings.video_url }}');
+          {% endif %}
         });
+      </script>
 
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    });
-}
-  
-waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
-    document.addEventListener("DOMContentLoaded", resizeSection);
-    window.addEventListener("resize", resizeSection);
-    document.addEventListener('shopify:section:load', resizeSection);
-    elm.onload = ()=>{resizeSection()};
-});
-
-</script>
-
-<div id="player-hero-vid-{{ section.id }}" class="js-youtube"></div>
-
-<script>
-  var tag = document.createElement('script');
-
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  // console.log(firstScriptTag)
-  // console.log(tag)
-
- 
-  var player;
-  function onYouTubeIframeAPIReady() {
-    // console.log("ready1  ")
-  player = new YT.Player('player-hero-vid-{{ section.id }}', {
-      height: '390',
-      width: '640',
-      playerVars: {
-        playsinline: 1,
-        controls: 0,
-        showinfo: 0,
-        fs: 0,
-        modestbranding: 1,
-        iv_load_policy: 1
-      },
-      videoId: '{{ video_id }}',
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  }
-  // console.log("ready")
-  function onPlayerReady(event) {
-    event.target.mute();
-    event.target.playVideo();
-  }
-
-  function onPlayerStateChange(event) {
-    // console.log(event)
-
-    if (event.data == YT.PlayerState.PLAYING) {
-      
-      setInterval(function() {
-        var duration = player.getDuration();
-        var currentTime = player.getCurrentTime();
-        // console.log(duration, " -- -", currentTime)
-
-        if (duration - currentTime <= 1) {
-          player.seekTo(0);
-        }
-      }, 500);
-    }
-
-    
-    if(event.data === YT.PlayerState.ENDED){
-        event.target.playVideo();
-    }
-  }
-
-  document.addEventListener('shopify:section:load', ()=>{
-
-  var player;
-    player = new YT.Player('player-hero-vid-{{ section.id }}', {
-      height: '390',
-      width: '640',
-      playerVars: {
-        playsinline: 1,
-        controls: 0,
-        showinfo: 0,
-        fs: 0,
-        modestbranding: 1,
-        iv_load_policy: 1
-      },
-      videoId: '{{ video_id }}',
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  
-
-  });
-</script>
+      <div id="youtube-player-{{ section.id }}" class="youtube-video-container"></div>
       
     {%- endif -%}
 {% endif %}
@@ -470,6 +482,29 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           "value": "100vh"
         }
       ]
+    },
+    {
+      "type": "header",
+      "content": "YouTube Video Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable autoplay",
+      "default": true,
+      "info": "Videos will be muted for autoplay to work"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_loop",
+      "label": "Enable loop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_controls",
+      "label": "Show video controls",
+      "default": false
     }
   ],
   "presets": [

@@ -12,18 +12,20 @@
   right: 0;
   bottom: 0;
   z-index: var(--layer-flat, 2);
-  /* Use flexbox for reliable centering and alignment */
-  display: flex;
-  align-items: center; /* Default vertical center */
-  justify-content: center; /* Default horizontal center */
+  /* Simple table layout like the normal version */
+  display: table;
+  width: 100%;
 }
 
 /* Page-width constraint for 16:9 absolute layout */
 .hero__text-wrap--absolute .hero__text-content {
+  /* Same table-cell approach but with page-width constraint */
+  display: table-cell;
   width: 100%;
   max-width: var(--page-width, 1200px);
   margin: 0 auto;
   padding: 20px;
+  position: relative;
 }
 
 @media only screen and (min-width: 590px){
@@ -32,25 +34,7 @@
   }
 }
 
-/* Text alignment for 16:9 absolute layout */
-.hero__text-wrap--absolute.horizontal-left{ 
-  justify-content: flex-start; 
-}
-.hero__text-wrap--absolute.horizontal-center{ 
-  justify-content: center; 
-}
-.hero__text-wrap--absolute.horizontal-right{ 
-  justify-content: flex-end; 
-}
-
-.hero__text-wrap--absolute.vertical-center{ 
-  align-items: center; 
-}
-.hero__text-wrap--absolute.vertical-bottom{ 
-  align-items: flex-end; 
-}
-
-/* Text alignment within content for 16:9 */
+/* Use the same alignment classes as the normal layout */
 .hero__text-wrap--absolute .hero__text-content.horizontal-left{ 
   text-align: left; 
 }
@@ -59,6 +43,13 @@
 }
 .hero__text-wrap--absolute .hero__text-content.horizontal-right{ 
   text-align: right; 
+}
+
+.hero__text-wrap--absolute .hero__text-content.vertical-center{ 
+  vertical-align: middle; 
+}
+.hero__text-wrap--absolute .hero__text-content.vertical-bottom{ 
+  vertical-align: bottom; 
 }
 
 .video-parent-section{
@@ -164,21 +155,11 @@
   display: table;
 }
 
-/* Override table layout for 16:9 absolute positioning */
-.hero__text-wrap--absolute {
-  display: flex !important; /* Override table display for absolute layout */
-}
-
 .hero__text-content{
   position: relative;
   padding: 20px;
   width: 100%;
   display: table-cell;
-}
-
-/* Override table-cell for 16:9 absolute positioning */
-.hero__text-wrap--absolute .hero__text-content {
-  display: block !important; /* Override table-cell for absolute layout */
 }
 
 @media only screen and (min-width: 590px){

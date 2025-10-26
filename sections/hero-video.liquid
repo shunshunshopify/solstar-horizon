@@ -1,12 +1,7 @@
 {{ 'hero-video.css' | asset_url | stylesheet_tag }}
 
 {% style %}
-
-  .hero__text-wrap--absolute{
-  position: absolute !important;
-  width: 100%;
-}
-  
+ 
 .hero--{{ section.id }} .hero__media, .hero--{{ section.id }} .hero__media iframe{
     width: 100%;
     height: 100%;
@@ -370,7 +365,7 @@
     {%- endif -%}</div>
 
   <div class="hero__container spacing-style section section--full-width">
-    <div class="hero__text-wrap hero__content-wrapper page-width{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}" role="main">
+    <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
       <div class="hero__text-content {{ section.settings.text_align }}">
         {%- unless section.settings.title == blank -%}
           <h1 class="hero__title" id="hero-title-{{ section.id }}">

@@ -80,8 +80,7 @@
         data-type="mp4"
         aria-label="Background video"
         aria-hidden="true"
-        {% if section.settings.video_autoplay %}autoplay{% endif %} 
-        loop muted playsinline></video>
+        autoplay loop muted playsinline></video>
     {% else %}
 
       {% comment %} Extract YouTube video ID from various URL formats {% endcomment %}
@@ -176,7 +175,6 @@
             
             // Check for reduced motion preference
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const videoAutoplay = {{ section.settings.video_autoplay | json }};
             const enableSoundControl = {{ section.settings.enable_sound_control | json }};
             
             console.log('Loading video for section {{ section.id }}:', {
@@ -184,7 +182,6 @@
               videoUrl: '{{ current_video_url }}',
               isDefaultVideo: isDefaultVideo,
               reducedMotion: prefersReducedMotion,
-              autoplay: videoAutoplay,
               soundControl: enableSoundControl
             });
 
@@ -201,7 +198,7 @@
             // Initialize YouTube player using the centralized manager
             YouTubeManager.createPlayer(containerId, videoId, {
               playerVars: {
-                autoplay: (videoAutoplay && !prefersReducedMotion) ? 1 : 0,  // Respect both autoplay setting and reduced motion
+                autoplay: prefersReducedMotion ? 0 : 1,  // Always autoplay unless reduced motion
                 mute: 1,
                 loop: 1,
                 playlist: videoId,
@@ -219,8 +216,8 @@
                   currentPlayer = event.target;
                   event.target.mute();
                   
-                  // Only autoplay if settings allow and user doesn't prefer reduced motion
-                  if (videoAutoplay && !prefersReducedMotion) {
+                  // Always autoplay unless user prefers reduced motion
+                  if (!prefersReducedMotion) {
                     event.target.playVideo();
                   }
                   
@@ -236,8 +233,8 @@
                   announceToScreenReader('Background video loaded');
                 },
                 onStateChange: function(event) {
-                  // Always loop the video if autoplay is enabled
-                  if (event.data === YT.PlayerState.ENDED && videoAutoplay && !prefersReducedMotion) {
+                  // Always loop the video unless reduced motion is preferred
+                  if (event.data === YT.PlayerState.ENDED && !prefersReducedMotion) {
                     event.target.playVideo();
                   }
                 },
@@ -421,7 +418,7 @@
       </div>
 
       <!-- Sound control button -->
-      {% if section.settings.video_autoplay and section.settings.enable_sound_control %}
+      {% if section.settings.enable_sound_control %}
       <button
         class="hero-video-sound-toggle button button-unstyled"
         id="sound-toggle-{{ section.id }}"
@@ -613,13 +610,6 @@
       "label": "Background video link",
       "default": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
       "info": "Youtube or .MP4 - Default video will play if left empty"
-    },
-    {
-      "type": "checkbox",
-      "id": "video_autoplay",
-      "label": "t:settings.video_autoplay",
-      "info": "t:info.video_autoplay",
-      "default": true
     },
     {
       "type": "checkbox",

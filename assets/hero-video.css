@@ -311,6 +311,10 @@
   backdrop-filter: blur(4px);
 }
 
+.hero-video-sound-toggle .hidden {
+  display: none !important;
+}
+
 .hero-video-sound-toggle:hover {
   background: rgba(0, 0, 0, 0.7) !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
@@ -323,8 +327,8 @@
 }
 
 .hero-video-sound-toggle svg {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   fill: currentColor;
 }
 

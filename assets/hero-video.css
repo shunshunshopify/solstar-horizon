@@ -17,39 +17,11 @@
   width: 100%;
 }
 
-/* Page-width constraint for 16:9 absolute layout */
+/* 16:9 table-cell content with normal alignment */
 .hero__text-wrap--absolute .hero__text-content {
-  /* Same table-cell approach but with page-width constraint */
   display: table-cell;
-  width: 100%;
-  max-width: var(--page-width, 1200px);
-  margin: 0 auto;
   padding: 20px;
   position: relative;
-}
-
-@media only screen and (min-width: 590px){
-  .hero__text-wrap--absolute .hero__text-content {
-    padding: 60px;
-  }
-}
-
-/* Use the same alignment classes as the normal layout */
-.hero__text-wrap--absolute .hero__text-content.horizontal-left{ 
-  text-align: left; 
-}
-.hero__text-wrap--absolute .hero__text-content.horizontal-center{ 
-  text-align: center; 
-}
-.hero__text-wrap--absolute .hero__text-content.horizontal-right{ 
-  text-align: right; 
-}
-
-.hero__text-wrap--absolute .hero__text-content.vertical-center{ 
-  vertical-align: middle; 
-}
-.hero__text-wrap--absolute .hero__text-content.vertical-bottom{ 
-  vertical-align: bottom; 
 }
 
 .video-parent-section{
@@ -132,10 +104,7 @@
   grid-template-columns: 1fr min(var(--page-width), 100%) 1fr;
 }
 
-/* Special case for 16:9 - no need for grid when using absolute positioning */
-.hero--16-9 .hero__container {
-  display: block; /* Remove grid layout for 16:9 aspect ratio */
-}
+/* Keep grid layout for 16:9 - don't override it */
 
 /* Content wrapper with page-width constraint */
 .video-parent-section .hero__content-wrapper.page-width {

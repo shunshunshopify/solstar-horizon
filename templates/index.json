@@ -598,7 +598,7 @@
         "overlay_opacity": 0,
         "section_height": "750px",
         "mobile_height": "300px",
-        "enable_autoplay": true,
+        "enable_autoplay": false,
         "enable_loop": true,
         "show_controls": true
       }

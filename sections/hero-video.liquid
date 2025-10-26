@@ -327,16 +327,16 @@
             function updateSoundIcon() {
               const soundButton = document.getElementById(`sound-toggle-${sectionId}`);
               if (soundButton) {
-                const mutedIcon = soundButton.querySelector('.icon-volume-muted');
-                const unmutedIcon = soundButton.querySelector('.icon-volume-on');
+                const mutedIcon = soundButton.querySelector('.sound-icon-muted');
+                const unmutedIcon = soundButton.querySelector('.sound-icon-unmuted');
                 
                 if (isMuted) {
-                  mutedIcon.classList.remove('hidden');
-                  unmutedIcon.classList.add('hidden');
+                  mutedIcon.style.display = 'block';
+                  unmutedIcon.style.display = 'none';
                   soundButton.setAttribute('aria-label', 'Unmute video');
                 } else {
-                  mutedIcon.classList.add('hidden');
-                  unmutedIcon.classList.remove('hidden');
+                  mutedIcon.style.display = 'none';
+                  unmutedIcon.style.display = 'block';
                   soundButton.setAttribute('aria-label', 'Mute video');
                 }
               }
@@ -442,13 +442,18 @@
           transition: all 0.3s ease;
         "
       >
-        <span class="deferred-media__poster-icon icon-volume-muted">
+        <span class="sound-icon sound-icon-muted" style="display: block;">
           <span class="visually-hidden">Unmute video</span>
-          {{- 'icon-volume-muted.svg' | inline_asset_content -}}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
+            <path d="m9 4 1 1m0 0 1 1m-1-1 1-1m-1 1-1 1"/>
+          </svg>
         </span>
-        <span class="deferred-media__poster-icon icon-volume-on hidden">
+        <span class="sound-icon sound-icon-unmuted" style="display: none;">
           <span class="visually-hidden">Mute video</span>
-          {{- 'icon-volume-on.svg' | inline_asset_content -}}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM8 5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0v-5A.5.5 0 0 1 8 5zm2.5 1a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2.5 1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z"/>
+          </svg>
         </span>
       </button>
       {% endif %}

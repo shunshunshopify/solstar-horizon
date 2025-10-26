@@ -170,19 +170,15 @@
             const sectionId = '{{ section.id }}';
             const containerId = `youtube-player-${sectionId}`;
             const isDefaultVideo = '{{ current_video_url }}' === '{{ default_video_url }}';
-            let currentPlayer = null;
-            let isMuted = true;
             
             // Check for reduced motion preference
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const enableSoundControl = {{ section.settings.enable_sound_control | json }};
             
             console.log('Loading video for section {{ section.id }}:', {
               videoId: videoId,
               videoUrl: '{{ current_video_url }}',
               isDefaultVideo: isDefaultVideo,
-              reducedMotion: prefersReducedMotion,
-              soundControl: enableSoundControl
+              reducedMotion: prefersReducedMotion
             });
 
             if (!videoId.trim()) {
@@ -213,17 +209,11 @@
                 onReady: function(event) {
                   console.log(`YouTube player ready for section ${sectionId}`);
                   hideLoadingState();
-                  currentPlayer = event.target;
                   event.target.mute();
                   
                   // Always autoplay unless user prefers reduced motion
                   if (!prefersReducedMotion) {
                     event.target.playVideo();
-                  }
-                  
-                  // Set up sound toggle functionality (only if enabled in settings)
-                  if (enableSoundControl) {
-                    setupSoundToggle();
                   }
                   
                   // Trigger resize after player is ready
@@ -302,46 +292,6 @@
               }
             }
             
-            // Sound control functions
-            function setupSoundToggle() {
-              const soundButton = document.getElementById(`sound-toggle-${sectionId}`);
-              if (soundButton && currentPlayer) {
-                soundButton.addEventListener('click', toggleSound);
-                updateSoundIcon();
-              }
-            }
-            
-            function toggleSound() {
-              if (!currentPlayer) return;
-              
-              if (isMuted) {
-                currentPlayer.unMute();
-                isMuted = false;
-              } else {
-                currentPlayer.mute();
-                isMuted = true;
-              }
-              updateSoundIcon();
-            }
-            
-            function updateSoundIcon() {
-              const soundButton = document.getElementById(`sound-toggle-${sectionId}`);
-              if (soundButton) {
-                const mutedIcon = soundButton.querySelector('.sound-icon-muted');
-                const unmutedIcon = soundButton.querySelector('.sound-icon-unmuted');
-                
-                if (isMuted) {
-                  mutedIcon.style.display = 'block';
-                  unmutedIcon.style.display = 'none';
-                  soundButton.setAttribute('aria-label', 'Unmute video');
-                } else {
-                  mutedIcon.style.display = 'none';
-                  unmutedIcon.style.display = 'block';
-                  soundButton.setAttribute('aria-label', 'Mute video');
-                }
-              }
-            }
-            
             // Screen reader announcement function
             function announceToScreenReader(message) {
               const announcement = document.createElement('div');
@@ -417,50 +367,7 @@
         role="img">
       </div>
 
-      <!-- Sound control button -->
-      {% if section.settings.enable_sound_control %}
-      <button
-        class="hero-video-sound-toggle button button-unstyled"
-        id="sound-toggle-{{ section.id }}"
-        type="button"
-        aria-label="Toggle video sound"
-        style="
-          position: absolute;
-          bottom: 20px;
-          right: 20px;
-          z-index: 10;
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.5);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          color: white;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-        "
-      >
-        <span class="sound-icon sound-icon-muted" style="display: block;">
-          <span class="visually-hidden">Unmute video</span>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
-            <path d="m9 4 1 1m0 0 1 1m-1-1 1-1m-1 1-1 1"/>
-          </svg>
-        </span>
-        <span class="sound-icon sound-icon-unmuted" style="display: none;">
-          <span class="visually-hidden">Mute video</span>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zM8 5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0v-5A.5.5 0 0 1 8 5zm2.5 1a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2.5 1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z"/>
-          </svg>
-        </span>
-      </button>
-      {% endif %}
-      
-    {%- endif -%}
-
-</div>
+    {%- endif -%}</div>
 
   <div class="hero__text-wrap{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}" role="main">
     <div class="hero-text-page-width">
@@ -610,13 +517,6 @@
       "label": "Background video link",
       "default": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
       "info": "Youtube or .MP4 - Default video will play if left empty"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sound_control",
-      "label": "Enable sound control",
-      "info": "Allow customers to unmute the video on the storefront",
-      "default": false
     },
     {
       "type": "range",

@@ -304,33 +304,3 @@
     left: 0 !important;
   }
 }
-
-/* Hero video sound toggle button */
-.hero-video-sound-toggle {
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
-}
-
-.hero-video-sound-toggle:hover {
-  background: rgba(0, 0, 0, 0.7) !important;
-  border-color: rgba(255, 255, 255, 0.5) !important;
-  transform: scale(1.1);
-}
-
-.hero-video-sound-toggle:focus-visible {
-  outline: 2px solid var(--color-button-background);
-  outline-offset: 2px;
-}
-
-.hero-video-sound-toggle svg {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-}
-
-/* Hide sound toggle on mobile to reduce UI clutter */
-@media only screen and (max-width: 589px) {
-  .hero-video-sound-toggle {
-    display: none;
-  }
-}

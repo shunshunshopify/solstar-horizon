@@ -49,12 +49,14 @@
   .hero--650px{ height: 422.5px; }
   .hero--750px{ height: 487.5px; }
   .hero--100vh{ 
+    height: 850px; /* Safe height for most mobile devices */
     height: 100vh; 
     /* Use CSS custom property for accurate mobile viewport */
     height: calc(var(--vh, 1vh) * 100);
     /* Fallback for newer browsers with dynamic viewport */
     height: 100dvh; 
-    min-height: 500px; /* Ensure minimum usable height */
+    min-height: 700px; /* Ensure minimum usable height */
+    max-height: 100vh; /* Don't exceed actual viewport */
   }
   .hero--16-9{ height: 0; padding-bottom: 56.25%; }
   
@@ -62,14 +64,9 @@
   .hero--mobile--300px{ height: 300px; }
   .hero--mobile--400px{ height: 400px; }
   .hero--mobile--500px{ height: 500px; }
-  .hero--mobile--100vh{ 
-    height: 100vh; 
-    /* Use CSS custom property for accurate mobile viewport */
-    height: calc(var(--vh, 1vh) * 100);
-    /* Fallback for newer browsers with dynamic viewport */
-    height: 100dvh; 
-    min-height: 500px; /* Ensure minimum usable height */
-  }
+  .hero--mobile--750px{ height: 750px; } /* Compact Phone */
+  .hero--mobile--850px{ height: 850px; } /* iPhone Height */
+  .hero--mobile--900px{ height: 900px; } /* Large Phone */
   .hero--mobile--auto{ height: 500px; }
 }
 

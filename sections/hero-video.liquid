@@ -369,8 +369,8 @@
 
     {%- endif -%}</div>
 
-  <div class="hero__text-wrap{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}" role="main">
-    <div class="hero-text-page-width">
+  <div class="hero__container spacing-style section section--full-width">
+    <div class="hero__text-wrap hero__content-wrapper page-width{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}" role="main">
       <div class="hero__text-content {{ section.settings.text_align }}">
         {%- unless section.settings.title == blank -%}
           <h1 class="hero__title" id="hero-title-{{ section.id }}">
@@ -401,7 +401,6 @@
             {%- endif -%}
           </div>
         {%- endif -%}
-
       </div>
     </div>
   </div>

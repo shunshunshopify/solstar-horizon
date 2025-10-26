@@ -15,6 +15,15 @@
   position: relative;
 }
 
+/* Hero media wrapper */
+.video-parent-section .hero__media {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-column: 1 / -1;
+  z-index: -1;
+}
+
 .hero__media .video-div{
   position: absolute;
   top: 0;
@@ -68,22 +77,47 @@
   .hero--mobile--auto{ height: 500px; }
 }
 
+/* Hero container layout */
+.video-parent-section .hero__container {
+  position: relative;
+  overflow: hidden;
+  min-height: inherit;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--layer-base, 1);
+  display: grid;
+  grid-template-columns: 1fr min(var(--page-width), 100%) 1fr;
+}
+
+/* Content wrapper with page-width constraint */
+.video-parent-section .hero__content-wrapper.page-width {
+  grid-column: 2 / 3;
+  position: relative;
+  inset: 0;
+  z-index: var(--layer-flat, 2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Default center, will be overridden by alignment classes */
+  align-items: center;
+  min-height: inherit;
+}
+
 /* Text content layout and positioning */
 .hero__text-wrap{
   position: relative;
   height: 100%;
-}
-
-.hero__text-wrap .hero-text-page-width {
-  display: table;
   width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Default center, will be overridden */
+  align-items: center;
 }
 
 .hero__text-content{
   position: relative;
   padding: 20px;
-  display: table-cell;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media only screen and (min-width: 590px){
@@ -92,12 +126,34 @@
   }
 }
 
-/* Text alignment classes */
-.hero__text-content.horizontal-left{ text-align: left; }
-.hero__text-content.horizontal-center{ text-align: center; }
-.hero__text-content.horizontal-right{ text-align: right; }
-.hero__text-content.vertical-center{ vertical-align: middle; }
-.hero__text-content.vertical-bottom{ vertical-align: bottom; }
+/* Text alignment classes - Updated for flexbox layout */
+.hero__text-content.horizontal-left{ 
+  text-align: left; 
+}
+.hero__text-content.horizontal-center{ 
+  text-align: center; 
+}
+.hero__text-content.horizontal-right{ 
+  text-align: right; 
+}
+
+/* Vertical alignment - applied to the text-wrap container */
+.hero__text-wrap:has(.vertical-center) {
+  justify-content: center;
+}
+.hero__text-wrap:has(.vertical-bottom) {
+  justify-content: flex-end;
+}
+
+/* Fallback for browsers that don't support :has() */
+.hero__text-wrap .hero__text-content.vertical-center {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.hero__text-wrap .hero__text-content.vertical-bottom {
+  margin-top: auto;
+  margin-bottom: 0;
+}
 
 .hero__text-content.vertical-center .hero__subtitle{ margin-right: 0; }
 .hero__text-content.vertical-center .hero__link,

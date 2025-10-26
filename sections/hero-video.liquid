@@ -1,6 +1,11 @@
 {{ 'hero-video.css' | asset_url | stylesheet_tag }}
 
 {% style %}
+
+#shopify-section-{{ section.id }} {
+  padding-block-start: {{ section.settings.padding-block-start }}px;
+  padding-block-end: {{ section.settings.padding-block-end }}px;
+}
  
 .hero--{{ section.id }} .hero__media, .hero--{{ section.id }} .hero__media iframe{
     width: 100%;
@@ -54,7 +59,6 @@
   class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
   role="banner"
   aria-label="Hero video section"
-  style="padding-block-start: {{ section.settings.padding-block-start }}px; padding-block-end: {{ section.settings.padding-block-end }}px;"
   >
 
   <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;" aria-hidden="true">

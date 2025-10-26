@@ -593,10 +593,10 @@
         "link": "shopify://collections/all",
         "color_scheme": "scheme-5",
         "style_class": "button-secondary",
-        "text_align": "vertical-bottom horizontal-center",
-        "video_url": "https://youtu.be/TSNET--EMZQ?si=2_Oobn-D7CMCF3l8",
+        "text_align": "vertical-bottom horizontal-left",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/a69d3f51a82441979bf7ca5c73751665.mp4",
         "overlay_opacity": 0,
-        "section_height": "650px",
+        "section_height": "16-9",
         "mobile_height": "400px"
       }
     },

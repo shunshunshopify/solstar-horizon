@@ -95,29 +95,22 @@
   position: relative;
   inset: 0;
   z-index: var(--layer-flat, 2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Default center, will be overridden by alignment classes */
-  align-items: center;
   min-height: inherit;
 }
 
-/* Text content layout and positioning */
+/* Text content layout and positioning - Simplified approach */
 .hero__text-wrap{
   position: relative;
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Default center, will be overridden */
-  align-items: center;
+  display: table;
 }
 
 .hero__text-content{
   position: relative;
   padding: 20px;
   width: 100%;
-  max-width: 100%;
+  display: table-cell;
 }
 
 @media only screen and (min-width: 590px){
@@ -126,7 +119,7 @@
   }
 }
 
-/* Text alignment classes - Updated for flexbox layout */
+/* Text alignment classes - Back to original working approach */
 .hero__text-content.horizontal-left{ 
   text-align: left; 
 }
@@ -137,22 +130,11 @@
   text-align: right; 
 }
 
-/* Vertical alignment - applied to the text-wrap container */
-.hero__text-wrap:has(.vertical-center) {
-  justify-content: center;
+.hero__text-content.vertical-center{ 
+  vertical-align: middle; 
 }
-.hero__text-wrap:has(.vertical-bottom) {
-  justify-content: flex-end;
-}
-
-/* Fallback for browsers that don't support :has() */
-.hero__text-wrap .hero__text-content.vertical-center {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-.hero__text-wrap .hero__text-content.vertical-bottom {
-  margin-top: auto;
-  margin-bottom: 0;
+.hero__text-content.vertical-bottom{ 
+  vertical-align: bottom; 
 }
 
 .hero__text-content.vertical-center .hero__subtitle{ margin-right: 0; }

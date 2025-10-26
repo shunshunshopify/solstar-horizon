@@ -599,7 +599,7 @@
         "section_height": "750px",
         "mobile_height": "300px",
         "enable_autoplay": false,
-        "enable_loop": true,
+        "enable_loop": false,
         "show_controls": true
       }
     }

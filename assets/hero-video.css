@@ -1,6 +1,10 @@
 
   
 /* Base layout and positioning */
+:root {
+  --vh: 1vh; /* Can be updated via JavaScript for mobile viewport fixes */
+}
+
 .hero__text-wrap--absolute{
   position: absolute !important;
   width: 100%;
@@ -25,7 +29,13 @@
 .hero--550px{ height: 550px; }
 .hero--650px{ height: 650px; }
 .hero--750px{ height: 750px; }
-.hero--100vh{ height: 100vh; }
+.hero--100vh{ 
+  height: 100vh; 
+  /* Use CSS custom property for accurate viewport calculations */
+  height: calc(var(--vh, 1vh) * 100);
+  /* Support for dynamic viewport height on newer browsers */
+  height: 100dvh;
+}
 .hero--16-9{ 
   height: 0; 
   padding-bottom: 56.25%; 
@@ -38,13 +48,28 @@
   .hero--550px{ height: 357.5px; }
   .hero--650px{ height: 422.5px; }
   .hero--750px{ height: 487.5px; }
-  .hero--100vh{ height: 90vh; }
+  .hero--100vh{ 
+    height: 100vh; 
+    /* Use CSS custom property for accurate mobile viewport */
+    height: calc(var(--vh, 1vh) * 100);
+    /* Fallback for newer browsers with dynamic viewport */
+    height: 100dvh; 
+    min-height: 500px; /* Ensure minimum usable height */
+  }
   .hero--16-9{ height: 0; padding-bottom: 56.25%; }
   
   .hero--mobile--250px{ height: 250px; }
   .hero--mobile--300px{ height: 300px; }
   .hero--mobile--400px{ height: 400px; }
   .hero--mobile--500px{ height: 500px; }
+  .hero--mobile--100vh{ 
+    height: 100vh; 
+    /* Use CSS custom property for accurate mobile viewport */
+    height: calc(var(--vh, 1vh) * 100);
+    /* Fallback for newer browsers with dynamic viewport */
+    height: 100dvh; 
+    min-height: 500px; /* Ensure minimum usable height */
+  }
   .hero--mobile--auto{ height: 500px; }
 }
 

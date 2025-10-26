@@ -1,6 +1,11 @@
 {{ 'hero-video.css' | asset_url | stylesheet_tag }}
 
 {% style %}
+
+#shopify-section-{{ section.id }} {
+  padding-block-start: {{ section.settings.padding-block-start }}px;
+  padding-block-end: {{ section.settings.padding-block-end }}px;
+}
  
 .hero--{{ section.id }} .hero__media, .hero--{{ section.id }} .hero__media iframe{
     width: 100%;
@@ -586,6 +591,26 @@
           "value": "850px"
         }
       ]
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [

@@ -45,12 +45,11 @@
   }
 {% endif %}
 
-{% if section.settings.video_url == blank %}
+{% comment %} Since we always have a video (either custom or default), text should always be white {% endcomment %}
 .hero__title, .hero__subtitle{
-  color: #000;
+  color: #fff;
   opacity: 1;
 }
-{% endif %}
 
 {% endstyle %}
 
@@ -58,27 +57,57 @@
   data-section-id="{{ section.id }}"
   data-mobile-natural="false"
   class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
+  role="banner"
+  aria-label="Hero video section"
   >
 
-  <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;">
+  <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;" aria-hidden="true">
 
-    {% if section.settings.video_url == blank  %}{% else %}
-    {% assign extension = section.settings.video_url | slice: -4, 4 %}
+    {% comment %} Set default video if no video URL is provided {% endcomment %}
+    {% assign default_video_url = 'https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH' %}
+    {% assign current_video_url = section.settings.video_url | default: default_video_url %}
+    
+    {% if current_video_url == blank %}
+      {% assign current_video_url = default_video_url %}
+    {% endif %}
+    
+    {% assign extension = current_video_url | slice: -4, 4 %}
     {% if extension == '.mp4' %}
       <video
         id="Mp4Video-{{ section.id }}"
         class="video-div"
-        src="{{ section.settings.video_url }}"
+        src="{{ current_video_url }}"
         data-type="mp4"
-        loop muted playsinline autoplay></video>
+        aria-label="Background video"
+        aria-hidden="true"
+        autoplay loop muted playsinline></video>
     {% else %}
 
-         {% if section.settings.video_url contains 'embed' %}
-        {% assign video_parts = section.settings.video_url | split: 'embed/' %}
-        {% assign video_id = video_parts[1] %}
-      {% else %}
-        {% assign video_parts = section.settings.video_url | split: '=' %}
-        {% assign video_id = video_parts[1] %}
+      {% comment %} Extract YouTube video ID from various URL formats {% endcomment %}
+      {% assign video_id = '' %}
+      {% if current_video_url contains 'youtu.be/' %}
+        {% comment %} Format: https://youtu.be/VIDEO_ID {% endcomment %}
+        {% assign video_parts = current_video_url | split: 'youtu.be/' %}
+        {% if video_parts.size > 1 %}
+          {% assign video_id_with_params = video_parts[1] %}
+          {% assign video_id = video_id_with_params | split: '?' | first | split: '&' | first %}
+        {% endif %}
+      {% elsif current_video_url contains 'youtube.com/embed/' %}
+        {% comment %} Format: https://www.youtube.com/embed/VIDEO_ID {% endcomment %}
+        {% assign video_parts = current_video_url | split: 'embed/' %}
+        {% if video_parts.size > 1 %}
+          {% assign video_id_with_params = video_parts[1] %}
+          {% assign video_id = video_id_with_params | split: '?' | first | split: '&' | first %}
+        {% endif %}
+      {% elsif current_video_url contains 'youtube.com/watch' %}
+        {% comment %} Format: https://www.youtube.com/watch?v=VIDEO_ID {% endcomment %}
+        {% if current_video_url contains 'v=' %}
+          {% assign video_parts = current_video_url | split: 'v=' %}
+          {% if video_parts.size > 1 %}
+            {% assign video_id_with_params = video_parts[1] %}
+            {% assign video_id = video_id_with_params | split: '&' | first %}
+          {% endif %}
+        {% endif %}
       {% endif %}
 
 
@@ -107,173 +136,266 @@
         }
       </style>
 
-<script>
-function resizeSection() {
-const divElement = document.querySelector('.hero--{{ section.id }} .hero__media iframe');
-
-function resizeDiv() {
-  const containerWidth = divElement.parentNode.offsetWidth; // Get the width of the container element
-  const height = containerWidth * 9 / 16; // Calculate height based on 16:9 aspect ratio
-
-  if (height < divElement.parentNode.offsetHeight) {
-    const width = divElement.parentNode.offsetHeight * 16 / 9; // Calculate width based on 16:9 aspect ratio
-    divElement.style.width = width + 'px';
-    divElement.style.height = divElement.parentNode.offsetHeight + 'px';
-  } else {
-    divElement.style.width = containerWidth + 'px';
-    divElement.style.height = height + 'px';
-  }
-}
-
-window.addEventListener('resize', resizeDiv);
-
-resizeDiv();
-
-divElement.addEventListener('load', resizeDiv);
-}
-
-function waitForElm(selector) {
-    return new Promise(resolve => {
-        if (document.querySelector(selector)) {
-            return resolve(document.querySelector(selector));
+      <script type="module">
+        // YouTube Video Implementation using Centralized Manager
+        import YouTubeManager from '@theme/youtube-manager';
+        
+        // Mobile viewport height fix for better full-screen support
+        function setMobileViewportHeight() {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+          
+          // Debug logging for mobile height issues
+          if (window.innerWidth <= 589) {
+            console.log('Mobile viewport debug:', {
+              windowHeight: window.innerHeight,
+              vhValue: vh,
+              calculatedHeight: vh * 100,
+              sectionId: '{{ section.id }}',
+              mobileHeight: '{{ section.settings.mobile_height }}'
+            });
+          }
         }
+        
+        // Set viewport height on load and resize
+        setMobileViewportHeight();
+        window.addEventListener('resize', setMobileViewportHeight);
+        window.addEventListener('orientationchange', () => {
+          setTimeout(setMobileViewportHeight, 100);
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+          {% if video_id != blank %}
+            const videoId = '{{ video_id }}';
+            const sectionId = '{{ section.id }}';
+            const containerId = `youtube-player-${sectionId}`;
+            const isDefaultVideo = '{{ current_video_url }}' === '{{ default_video_url }}';
+            
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            console.log('Loading video for section {{ section.id }}:', {
+              videoId: videoId,
+              videoUrl: '{{ current_video_url }}',
+              isDefaultVideo: isDefaultVideo,
+              reducedMotion: prefersReducedMotion
+            });
 
-        const observer = new MutationObserver(mutations => {
-            if (document.querySelector(selector)) {
-                resolve(document.querySelector(selector));
-                observer.disconnect();
+            if (!videoId.trim()) {
+              console.error('Invalid YouTube video ID extracted from URL: {{ current_video_url }}');
+              // Show error message to users when appropriate
+              showVideoError('Invalid video URL provided');
+              return;
             }
+            
+            // Show loading state
+            showLoadingState();
+            
+            // Initialize YouTube player using the centralized manager
+            YouTubeManager.createPlayer(containerId, videoId, {
+              playerVars: {
+                autoplay: prefersReducedMotion ? 0 : 1,  // Always autoplay unless reduced motion
+                mute: 1,
+                loop: 1,
+                playlist: videoId,
+                controls: 0,
+                showinfo: 0,
+                rel: 0,
+                modestbranding: 1,
+                playsinline: 1,
+                fs: 0
+              },
+              events: {
+                onReady: function(event) {
+                  console.log(`YouTube player ready for section ${sectionId}`);
+                  hideLoadingState();
+                  event.target.mute();
+                  
+                  // Always autoplay unless user prefers reduced motion
+                  if (!prefersReducedMotion) {
+                    event.target.playVideo();
+                  }
+                  
+                  // Trigger resize after player is ready
+                  setTimeout(resizeVideo, 100);
+                  
+                  // Announce to screen readers when video is ready
+                  announceToScreenReader('Background video loaded');
+                },
+                onStateChange: function(event) {
+                  // Always loop the video unless reduced motion is preferred
+                  if (event.data === YT.PlayerState.ENDED && !prefersReducedMotion) {
+                    event.target.playVideo();
+                  }
+                },
+                onError: function(event) {
+                  console.error(`YouTube player error for section ${sectionId}:`, event.data);
+                  hideLoadingState();
+                  showVideoError(`Video playback error (Code: ${event.data})`);
+                }
+              }
+            }).catch(error => {
+              console.error(`Failed to initialize YouTube player for section ${sectionId}:`, error);
+              hideLoadingState();
+              showVideoError('Failed to load video player');
+            });
+            
+            // Loading state functions
+            function showLoadingState() {
+              const container = document.getElementById(containerId);
+              if (container) {
+                container.innerHTML = `
+                  <div class="video-loading" style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    background: #000;
+                    color: #fff;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  " aria-live="polite">
+                    <div style="text-align: center;">
+                      <div style="margin-bottom: 8px;">Loading video...</div>
+                      <div style="width: 20px; height: 20px; border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                    </div>
+                  </div>
+                `;
+              }
+            }
+            
+            function hideLoadingState() {
+              const loading = document.querySelector('.video-loading');
+              if (loading) {
+                loading.remove();
+              }
+            }
+            
+            function showVideoError(message) {
+              const container = document.getElementById(containerId);
+              if (container) {
+                container.innerHTML = `
+                  <div class="video-error" style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    background: #000;
+                    color: #fff;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  " role="alert" aria-live="assertive">
+                    <div style="text-align: center;">
+                      <p style="margin: 0 0 8px 0;">Video unavailable</p>
+                      <small style="opacity: 0.7;">${message}</small>
+                    </div>
+                  </div>
+                `;
+              }
+            }
+            
+            // Screen reader announcement function
+            function announceToScreenReader(message) {
+              const announcement = document.createElement('div');
+              announcement.setAttribute('aria-live', 'polite');
+              announcement.setAttribute('aria-atomic', 'true');
+              announcement.className = 'sr-only';
+              announcement.style.cssText = 'position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden;';
+              announcement.textContent = message;
+              document.body.appendChild(announcement);
+              
+              setTimeout(() => {
+                document.body.removeChild(announcement);
+              }, 1000);
+            }
+            
+            // Resize function for responsive behavior
+            function resizeVideo() {
+              const container = document.getElementById(containerId);
+              if (container && container.querySelector('iframe')) {
+                const iframe = container.querySelector('iframe');
+                const parentContainer = container.parentElement;
+                const containerWidth = parentContainer.offsetWidth;
+                const containerHeight = parentContainer.offsetHeight;
+                const aspectRatio = 16 / 9;
+                
+                let newWidth, newHeight;
+                
+                if (containerWidth / containerHeight > aspectRatio) {
+                  newWidth = containerWidth;
+                  newHeight = containerWidth / aspectRatio;
+                } else {
+                  newWidth = containerHeight * aspectRatio;
+                  newHeight = containerHeight;
+                }
+                
+                iframe.style.width = newWidth + 'px';
+                iframe.style.height = newHeight + 'px';
+                iframe.style.position = 'absolute';
+                iframe.style.left = (containerWidth - newWidth) / 2 + 'px';
+                iframe.style.top = (containerHeight - newHeight) / 2 + 'px';
+              }
+            }
+            
+            // Event listeners
+            window.addEventListener('resize', resizeVideo);
+            document.addEventListener('shopify:section:load', function() {
+              // Trigger resize when section loads in theme editor
+              setTimeout(resizeVideo, 100);
+            });
+            
+            // Cleanup on section unload (for theme editor)
+            if (window.Shopify && window.Shopify.designMode) {
+              document.addEventListener('shopify:section:unload', function(event) {
+                if (event.detail.sectionId === sectionId) {
+                  YouTubeManager.destroyPlayer(containerId);
+                  window.removeEventListener('resize', resizeVideo);
+                }
+              });
+            }
+            
+          {% else %}
+            console.error('No valid YouTube video ID found for URL: {{ current_video_url }}');
+            showVideoError('No valid video URL provided');
+          {% endif %}
         });
+      </script>
 
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    });
-}
-  
-waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
-    document.addEventListener("DOMContentLoaded", resizeSection);
-    window.addEventListener("resize", resizeSection);
-    document.addEventListener('shopify:section:load', resizeSection);
-    elm.onload = ()=>{resizeSection()};
-});
+      <div 
+        id="youtube-player-{{ section.id }}" 
+        class="youtube-video-container"
+        aria-label="Background video player"
+        aria-hidden="true"
+        role="img">
+      </div>
 
-</script>
+    {%- endif -%}</div>
 
-<div id="player-hero-vid-{{ section.id }}" class="js-youtube"></div>
-
-<script>
-  var tag = document.createElement('script');
-
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  // console.log(firstScriptTag)
-  // console.log(tag)
-
- 
-  var player;
-  function onYouTubeIframeAPIReady() {
-    // console.log("ready1  ")
-  player = new YT.Player('player-hero-vid-{{ section.id }}', {
-      height: '390',
-      width: '640',
-      playerVars: {
-        playsinline: 1,
-        controls: 0,
-        showinfo: 0,
-        fs: 0,
-        modestbranding: 1,
-        iv_load_policy: 1
-      },
-      videoId: '{{ video_id }}',
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  }
-  // console.log("ready")
-  function onPlayerReady(event) {
-    event.target.mute();
-    event.target.playVideo();
-  }
-
-  function onPlayerStateChange(event) {
-    // console.log(event)
-
-    if (event.data == YT.PlayerState.PLAYING) {
-      
-      setInterval(function() {
-        var duration = player.getDuration();
-        var currentTime = player.getCurrentTime();
-        // console.log(duration, " -- -", currentTime)
-
-        if (duration - currentTime <= 1) {
-          player.seekTo(0);
-        }
-      }, 500);
-    }
-
-    
-    if(event.data === YT.PlayerState.ENDED){
-        event.target.playVideo();
-    }
-  }
-
-  document.addEventListener('shopify:section:load', ()=>{
-
-  var player;
-    player = new YT.Player('player-hero-vid-{{ section.id }}', {
-      height: '390',
-      width: '640',
-      playerVars: {
-        playsinline: 1,
-        controls: 0,
-        showinfo: 0,
-        fs: 0,
-        modestbranding: 1,
-        iv_load_policy: 1
-      },
-      videoId: '{{ video_id }}',
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  
-
-  });
-</script>
-      
-    {%- endif -%}
-{% endif %}
-
-</div>
-
-  <div class="hero__text-wrap{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}">
+  <div class="hero__text-wrap{% if section.settings.section_height == '16-9' %} hero__text-wrap--absolute{% endif %}" role="main">
     <div class="hero-text-page-width">
       <div class="hero__text-content {{ section.settings.text_align }}">
         {%- unless section.settings.title == blank -%}
-          <h2 class="hero__title">
+          <h1 class="hero__title" id="hero-title-{{ section.id }}">
             {{ section.settings.title | newline_to_br }}
-          </h2>
+          </h1>
         {%- endunless -%}
         {%- unless section.settings.subheading == blank -%}
-          <div class="hero__subtitle">
+          <div class="hero__subtitle" 
+               {%- unless section.settings.title == blank -%}aria-describedby="hero-title-{{ section.id }}"{%- endunless -%}>
             {{ section.settings.subheading | escape }}
           </div>
         {%- endunless -%}
         {%- if section.settings.link_text != blank -%}
           <div class="hero__link color-{{ section.settings.color_scheme }}">
             {%- if section.settings.link != blank -%}
-              <a href="{{ section.settings.link }}" class="{{ section.settings.style_class }}">
+              <a href="{{ section.settings.link }}" 
+                 class="{{ section.settings.style_class }}"
+                 aria-label="{{ section.settings.link_text | escape }} - {{ section.settings.title | strip_html | escape }}">
                 {{ section.settings.link_text }}
               </a>
             {%- else -%}
-              <span class="{{ section.settings.style_class }}" style="cursor: default;">
+              <span class="{{ section.settings.style_class }}" 
+                    style="cursor: default;"
+                    role="text"
+                    aria-label="Text only: {{ section.settings.link_text | escape }}">
                 {{ section.settings.link_text }}
               </span>
             {%- endif -%}
@@ -393,8 +515,8 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
       "type": "text",
       "id": "video_url",
       "label": "Background video link",
-      "default": "https://cdn.shopify.com/videos/c/o/v/458f6d3c35574fa0b18f94e5e909167a.mp4",
-      "info": "Youtube or .MP4"
+      "default": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
+      "info": "Youtube or .MP4 - Default video will play if left empty"
     },
     {
       "type": "range",
@@ -466,8 +588,8 @@ waitForElm('iframe#player-hero-vid-{{ section.id }}').then((elm) => {
           "value": "500px"
         },
         {
-          "label": "Full screen",
-          "value": "100vh"
+          "label": "iPhone Height",
+          "value": "850px"
         }
       ]
     }

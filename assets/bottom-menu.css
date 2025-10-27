@@ -43,14 +43,12 @@
 
 /* Menu Items */
 .bottom-menu__item {
-  flex: 1 0 0; /* Equal width for all items */
+  flex: 1 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   border-inline-end: 1px solid var(--bottom-menu-border-color);
-  width: 0; /* Force equal distribution */
-  min-width: 0; /* Allow content to shrink */
 }
 
 .bottom-menu__item:last-child {
@@ -80,10 +78,6 @@
   border: none;
   cursor: pointer;
   font-family: inherit;
-  padding: 0; /* Remove default button padding */
-  margin: 10px; /* Ensure same margin as links */
-  width: 100%; /* Take full width of container */
-  box-sizing: border-box;
 }
 
 .bottom-menu__link:hover,

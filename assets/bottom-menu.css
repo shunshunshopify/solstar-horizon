@@ -149,8 +149,12 @@
 .bottom-menu__cart-icon .cart-bubble {
   position: absolute !important;
   width: var(--cart-bubble-size) !important;
-  top: var(--cart-bubble-top);
-  right: var(--cart-bubble-right);
+  height: var(--cart-bubble-size) !important;
+  top: var(--cart-bubble-top) !important;
+  right: var(--cart-bubble-right) !important;
+  z-index: 10;
+  margin: 0 !important;
+  transform: none !important;
 }
 
 .bottom-menu__cart-icon .cart-bubble__text {

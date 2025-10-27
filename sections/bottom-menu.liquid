@@ -46,7 +46,7 @@
         </div>
       {%- when 'cart_block' -%}
         <div class="bottom-menu__item">
-          <button type="button" class="bottom-menu__link" onclick="openCartDrawer(); return false;" aria-label="Shopping Cart ({{ cart.item_count }} items)">
+          <button type="button" class="bottom-menu__link bottom-menu__cart-icon{% unless cart == empty %} bottom-menu__cart-icon--has-cart{% endunless %}" onclick="openCartDrawer(); return false;" aria-label="Shopping Cart ({{ cart.item_count }} items)">
             <span class="bottom-menu__icon" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
                 {{ 'icon-cart.svg' | inline_asset_content }}
@@ -54,10 +54,7 @@
                 {{ block.settings.icon_url }}
               {% endif %}
             </span>
-            <div class="bottom-menu__badge" data-cart-count aria-label="{{ cart.item_count }} items in cart">
-              <span aria-hidden="true">{{ cart.item_count }}</span>
-              <span class="visually-hidden">{{ cart.item_count }} items in cart</span>
-            </div>
+            {% render 'cart-bubble', limit: 100 %}
             {{ block.settings.caption }}
           </button>
         </div>

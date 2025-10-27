@@ -49,7 +49,7 @@
           <button type="button" class="bottom-menu__link" onclick="openCartDrawer(); return false;" aria-label="Shopping Cart ({{ cart.item_count }} items)">
             <span class="bottom-menu__icon" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-shopping-basket-2-line"></i>
+                {{ 'icon-cart.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -97,7 +97,7 @@
           <a href="/account" class="bottom-menu__link">
             <span class="bottom-menu__icon" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-account-circle-line"></i>
+                {{ 'icon-account.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -111,7 +111,7 @@
           <a href="/search" class="bottom-menu__link">
             <span class="bottom-menu__icon" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-search-line"></i>
+                {{ 'icon-search.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -176,7 +176,9 @@
             {% if block.settings.show_search %}
             <div class="bottom-menu__extended-item">
               <a href="/search" class="bottom-menu__extended-link">
-                <i class="ri-search-line bottom-menu__extended-icon" aria-hidden="true"></i>
+                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                  {{ 'icon-search.svg' | inline_asset_content }}
+                </span>
                 Search
               </a>
             </div>

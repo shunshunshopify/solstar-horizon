@@ -28,53 +28,44 @@
     "bottom_menu_XLwhCf": {
       "type": "bottom-menu",
       "blocks": {
-        "home_block_cy49XA": {
-          "type": "home_block",
+        "wishlist_block_DTb3Xh": {
+          "type": "wishlist_block",
           "settings": {
             "icon_url": "",
-            "caption": "Home",
+            "caption": "Wishlist",
             "url": ""
           }
         },
-        "cart_block_yiCnQ7": {
-          "type": "cart_block",
+        "cat_block_QdHicV": {
+          "type": "cat_block",
           "settings": {
+            "menu": "main-menu",
             "icon_url": "",
-            "caption": "Cart",
-            "url": ""
+            "caption": "Categories"
           }
         },
-        "search_block_YF6HY3": {
-          "type": "Search_block",
+        "extended_menu_block_JwgmPj": {
+          "type": "extended_menu_block",
           "settings": {
-            "icon_url": "",
-            "caption": "Search",
-            "url": ""
-          }
-        },
-        "menu_block_QwaiwL": {
-          "type": "Menu_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Menu",
-            "url": ""
-          }
-        },
-        "account_block_GWpGKh": {
-          "type": "Account_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Account",
-            "url": ""
+            "caption": "More",
+            "show_search": true,
+            "search_url": "",
+            "show_whatsapp": true,
+            "wa_number": "",
+            "wa_message": "Hi There! I need some help",
+            "show_wishlist": true,
+            "wishlist_url": "",
+            "show_track": true,
+            "track_url": "",
+            "show_help": true,
+            "help_url": ""
           }
         }
       },
       "block_order": [
-        "home_block_cy49XA",
-        "cart_block_yiCnQ7",
-        "search_block_YF6HY3",
-        "menu_block_QwaiwL",
-        "account_block_GWpGKh"
+        "wishlist_block_DTb3Xh",
+        "cat_block_QdHicV",
+        "extended_menu_block_JwgmPj"
       ],
       "name": "Bottom Nav Bar",
       "settings": {

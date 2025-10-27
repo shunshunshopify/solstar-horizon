@@ -165,20 +165,30 @@ class BottomMenu {
    * @param {number} itemCount - Number of items in cart
    */
   updateCartBubble(itemCount) {
-    const cartBubble = document.querySelector('[data-cart-bubble]');
-    const cartCount = document.querySelector('[data-cart-count]');
-    const cartCountText = document.querySelector('[data-cart-count-text]');
+    // Find cart bubble in bottom menu specifically
+    const bottomMenuCart = document.querySelector('.bottom-menu__cart-icon');
+    if (!bottomMenuCart) return;
     
-    if (cartBubble && cartCount && cartCountText) {
+    const cartBubble = bottomMenuCart.querySelector('[ref="cartBubble"]');
+    const cartCount = bottomMenuCart.querySelector('[ref="cartBubbleCount"]');
+    const hiddenText = bottomMenuCart.querySelector('.visually-hidden');
+    
+    if (cartBubble && cartCount) {
       // Update counter text
-      cartCount.textContent = itemCount;
-      cartCountText.textContent = itemCount;
+      cartCount.textContent = itemCount > 99 ? '' : itemCount;
       
       // Show/hide bubble based on count
       if (itemCount > 0) {
         cartBubble.classList.remove('visually-hidden');
+        cartCount.classList.remove('hidden');
       } else {
         cartBubble.classList.add('visually-hidden');
+        cartCount.classList.add('hidden');
+      }
+      
+      // Update screen reader text
+      if (hiddenText) {
+        hiddenText.textContent = `Cart count: ${itemCount}`;
       }
     }
   }

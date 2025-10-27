@@ -114,8 +114,9 @@
 
 /* Icon font fallback */
 .bottom-menu__icon i {
-  font-size: var(--bottom-menu-icon-size) !important;
+  font-size: 22px !important;
   color: var(--bottom-menu-icon-color);
+  line-height: 1;
 }
 
 /* Badge/Counter - Legacy support for custom badges */

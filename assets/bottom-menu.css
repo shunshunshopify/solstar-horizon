@@ -93,12 +93,14 @@
 
 /* Icons */
 .bottom-menu__icon {
-  font-size: var(--bottom-menu-icon-size) !important;
   color: var(--bottom-menu-icon-color);
   margin-block-end: 4px;
-  display: block;
-  width: var(--bottom-menu-icon-size);
-  height: var(--bottom-menu-icon-size);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--icon-size-sm, 20px);
+  height: var(--icon-size-sm, 20px);
+  pointer-events: none;
 }
 
 /* SVG Icons */
@@ -231,9 +233,11 @@
 .bottom-menu__extended-icon {
   margin-inline-end: 10px;
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  display: inline-block;
+  width: var(--icon-size-xs, 16px);
+  height: var(--icon-size-xs, 16px);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottom-menu__extended-icon svg {

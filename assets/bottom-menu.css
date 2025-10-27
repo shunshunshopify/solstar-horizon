@@ -139,16 +139,16 @@
 
 /* Cart Icon with Cart Bubble */
 .bottom-menu__cart-icon {
-  --cart-bubble-size: 18px;
-  --cart-bubble-top: 2px;
-  --cart-bubble-right: 2px;
+  --cart-bubble-size: 20px;
+  --cart-bubble-top: 4.5px;
+  --cart-bubble-right: 2.5px;
   
   position: relative;
 }
 
 .bottom-menu__cart-icon .cart-bubble {
-  position: absolute;
-  width: var(--cart-bubble-size);
+  position: absolute !important;
+  width: var(--cart-bubble-size) !important;
   top: var(--cart-bubble-top);
   right: var(--cart-bubble-right);
 }

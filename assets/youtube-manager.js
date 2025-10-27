@@ -4,16 +4,22 @@
  */
 class YouTubeManager {
   constructor() {
+    /** @type {boolean} */
     this.isApiLoaded = false;
+    /** @type {boolean} */
     this.isApiLoading = false;
+    /** @type {Array<function(): void>} */
     this.pendingCallbacks = [];
+    /** @type {Map<string, any>} */
     this.players = new Map();
     this.init();
   }
 
   init() {
     // Set up global callback if not already set
+    // @ts-ignore - onYouTubeIframeAPIReady is added by YouTube API
     if (!window.onYouTubeIframeAPIReady) {
+      // @ts-ignore - onYouTubeIframeAPIReady is added by YouTube API
       window.onYouTubeIframeAPIReady = () => {
         this.isApiLoaded = true;
         this.isApiLoading = false;
@@ -34,19 +40,20 @@ class YouTubeManager {
 
   /**
    * Load YouTube API if not already loaded
-   * @returns {Promise} Promise that resolves when API is ready
+   * @returns {Promise<void>} Promise that resolves when API is ready
    */
   loadAPI() {
     return new Promise((resolve, reject) => {
       // API already loaded
+      // @ts-ignore - YT is added to window by YouTube API
       if (this.isApiLoaded || (window.YT && window.YT.Player)) {
         this.isApiLoaded = true;
         resolve();
         return;
       }
 
-      // Add to pending callbacks
-      this.pendingCallbacks.push(resolve);
+      // Add to pending callbacks - wrap resolve to match expected signature
+      this.pendingCallbacks.push(() => resolve());
 
       // API already loading, wait for it
       if (this.isApiLoading || document.querySelector('script[src*="youtube.com/iframe_api"]')) {
@@ -63,7 +70,11 @@ class YouTubeManager {
       };
       
       const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      if (firstScriptTag && firstScriptTag.parentNode) {
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      } else {
+        document.head.appendChild(tag);
+      }
     });
   }
 
@@ -72,7 +83,7 @@ class YouTubeManager {
    * @param {string} containerId - ID of the container element
    * @param {string} videoId - YouTube video ID
    * @param {Object} options - Player configuration options
-   * @returns {Promise} Promise that resolves with the player instance
+   * @returns {Promise<any>} Promise that resolves with the player instance
    */
   async createPlayer(containerId, videoId, options = {}) {
     try {
@@ -95,12 +106,12 @@ class YouTubeManager {
           fs: 0
         },
         events: {
-          onReady: (event) => {
+          onReady: (/** @type {any} */ event) => {
             console.log(`YouTube player ready: ${containerId}`);
             event.target.mute();
             event.target.playVideo();
           },
-          onError: (event) => {
+          onError: (/** @type {any} */ event) => {
             console.error(`YouTube player error for ${containerId}:`, event.data);
             this.handlePlayerError(event.data, videoId, containerId);
           }
@@ -110,8 +121,9 @@ class YouTubeManager {
       // Merge with custom options
       const playerOptions = this.mergeOptions(defaultOptions, options);
 
-      // Create player
-      const player = new YT.Player(containerId, playerOptions);
+      // Create player - YT is loaded by the YouTube API
+      // @ts-ignore - YT is added to window by YouTube API
+      const player = new window.YT.Player(containerId, playerOptions);
       
       // Store player reference
       this.players.set(containerId, {
@@ -134,6 +146,7 @@ class YouTubeManager {
    * @param {string} containerId - Container ID
    */
   handlePlayerError(errorCode, videoId, containerId) {
+    /** @type {Record<number, string>} */
     const errorMessages = {
       2: 'Invalid video ID',
       5: 'HTML5 player error',
@@ -169,18 +182,21 @@ class YouTubeManager {
 
   /**
    * Deep merge options objects
-   * @param {Object} defaults - Default options
-   * @param {Object} custom - Custom options
-   * @returns {Object} Merged options
+   * @param {any} defaults - Default options
+   * @param {any} custom - Custom options
+   * @returns {any} Merged options
    */
   mergeOptions(defaults, custom) {
     const result = { ...defaults };
     
     Object.keys(custom).forEach(key => {
-      if (typeof custom[key] === 'object' && custom[key] !== null && !Array.isArray(custom[key])) {
-        result[key] = this.mergeOptions(defaults[key] || {}, custom[key]);
+      const customValue = custom[key];
+      const defaultValue = defaults[key];
+      
+      if (typeof customValue === 'object' && customValue !== null && !Array.isArray(customValue)) {
+        result[key] = this.mergeOptions(defaultValue || {}, customValue);
       } else {
-        result[key] = custom[key];
+        result[key] = customValue;
       }
     });
 
@@ -229,7 +245,7 @@ class YouTubeManager {
 
     for (const pattern of patterns) {
       const match = url.match(pattern);
-      if (match) {
+      if (match && match[1]) {
         return match[1];
       }
     }
@@ -238,7 +254,9 @@ class YouTubeManager {
   }
 }
 
-// Create global instance
+// Create global instance with proper type handling
+// @ts-ignore - Adding YouTubeManager to window object
 window.YouTubeManager = window.YouTubeManager || new YouTubeManager();
 
+// @ts-ignore - Accessing YouTubeManager from window object
 export default window.YouTubeManager;

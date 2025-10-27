@@ -1,0 +1,418 @@
+/**
+ * Bottom Menu Component
+ * Mobile-first navigation with popup functionality
+ */
+
+// @ts-nocheck - Disable TypeScript checking for this file due to DOM API usage
+class BottomMenu {
+  constructor() {
+    // Configuration
+    this.config = {
+      selectors: {
+        menu: '.bottom-menu',
+        item: '.bottom-menu__item',
+        link: '.bottom-menu__link',
+        popup: '.bottom-menu__popup',
+        close: '.bottom-menu__close',
+        badge: '.bottom-menu__badge'
+      },
+      classes: {
+        active: 'bottom-menu__popup--active',
+        hidden: 'visually-hidden'
+      },
+      attributes: {
+        expanded: 'aria-expanded',
+        controls: 'aria-controls',
+        labelledby: 'aria-labelledby'
+      }
+    };
+
+    // State management
+    this.state = {
+      activePopup: null,
+      isInitialized: false
+    };
+
+    // Bind methods
+    this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleCloseClick = this.handleCloseClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.handleEscapeKey = this.handleEscapeKey.bind(this);
+    this.updateCartCounter = this.updateCartCounter.bind(this);
+    this.updateWishlistCounter = this.updateWishlistCounter.bind(this);
+  }
+
+  /**
+   * Initialize the bottom menu component
+   */
+  init() {
+    if (this.state.isInitialized) return;
+
+    try {
+      this.setupEventListeners();
+      this.setupAccessibility();
+      this.updateCounters();
+      this.state.isInitialized = true;
+      
+      // Dispatch custom event for initialization
+      // @ts-ignore - Document event dispatch
+      document.dispatchEvent(new CustomEvent('bottom-menu:initialized', {
+        detail: { component: this }
+      }));
+    } catch (error) {
+      console.error('BottomMenu initialization failed:', error);
+    }
+  }
+
+  /**
+   * Setup event listeners for menu interactions
+   */
+  setupEventListeners() {
+    const menu = document.querySelector(this.config.selectors.menu);
+    if (!menu) return;
+
+    // Menu item clicks
+    const items = menu.querySelectorAll(this.config.selectors.item);
+    items.forEach(item => {
+      const link = item.querySelector(this.config.selectors.link);
+      // @ts-ignore - Element type checking
+      if (link && this.hasPopup(item)) {
+        link.addEventListener('click', this.handleItemClick);
+      }
+    });
+
+    // Close button clicks
+    const closeButtons = document.querySelectorAll(this.config.selectors.close);
+    closeButtons.forEach(button => {
+      button.addEventListener('click', this.handleCloseClick);
+    });
+
+    // Outside clicks and escape key
+    document.addEventListener('click', this.handleOutsideClick);
+    document.addEventListener('keydown', this.handleEscapeKey);
+
+    // Cart updates
+    document.addEventListener('cart:updated', this.updateCartCounter);
+    
+    // Wishlist updates (if available)
+    if (window.wishlist) {
+      document.addEventListener('wishlist:updated', this.updateWishlistCounter);
+    }
+  }
+
+  /**
+   * Setup accessibility attributes
+   */
+  setupAccessibility() {
+    const menu = document.querySelector(this.config.selectors.menu);
+    if (!menu) return;
+
+    // Set menu role and label
+    menu.setAttribute('role', 'navigation');
+    menu.setAttribute('aria-label', 'Bottom navigation menu');
+
+    const items = menu.querySelectorAll(this.config.selectors.item);
+    items.forEach((item, index) => {
+      const link = item.querySelector(this.config.selectors.link);
+      const popup = this.getPopupForItem(item);
+      
+      if (link && popup) {
+        const popupId = popup.id || `bottom-menu-popup-${index}`;
+        popup.id = popupId;
+        
+        // Setup ARIA attributes for popup triggers
+        link.setAttribute(this.config.attributes.expanded, 'false');
+        link.setAttribute(this.config.attributes.controls, popupId);
+        
+        // Setup popup attributes
+        popup.setAttribute('role', 'dialog');
+        popup.setAttribute(this.config.attributes.labelledby, link.id || `bottom-menu-trigger-${index}`);
+        link.id = link.id || `bottom-menu-trigger-${index}`;
+      }
+    });
+  }
+
+  /**
+   * Handle menu item clicks
+   * @param {Event} event - Click event
+   */
+  handleItemClick(event) {
+    const link = event.currentTarget;
+    const item = link.closest(this.config.selectors.item);
+    const popup = this.getPopupForItem(item);
+
+    if (!popup) return;
+
+    event.preventDefault();
+    
+    if (this.isPopupActive(popup)) {
+      this.closePopup(popup);
+    } else {
+      this.closeAllPopups();
+      this.openPopup(popup, link);
+    }
+  }
+
+  /**
+   * Handle close button clicks
+   * @param {Event} event - Click event
+   */
+  handleCloseClick(event) {
+    event.preventDefault();
+    const popup = event.currentTarget.closest(this.config.selectors.popup);
+    if (popup) {
+      this.closePopup(popup);
+    }
+  }
+
+  /**
+   * Handle clicks outside of popups
+   * @param {Event} event - Click event
+   */
+  handleOutsideClick(event) {
+    const menu = document.querySelector(this.config.selectors.menu);
+    const activePopup = document.querySelector(`.${this.config.classes.active}`);
+    
+    if (activePopup && !menu.contains(event.target) && !activePopup.contains(event.target)) {
+      this.closePopup(activePopup);
+    }
+  }
+
+  /**
+   * Handle escape key presses
+   * @param {Event} event - Keydown event
+   */
+  handleEscapeKey(event) {
+    if (event.key === 'Escape') {
+      const activePopup = document.querySelector(`.${this.config.classes.active}`);
+      if (activePopup) {
+        this.closePopup(activePopup);
+      }
+    }
+  }
+
+  /**
+   * Open a popup
+   * @param {HTMLElement} popup - Popup element
+   * @param {HTMLElement} trigger - Trigger element
+   */
+  openPopup(popup, trigger) {
+    if (!popup) return;
+
+    popup.classList.add(this.config.classes.active);
+    this.state.activePopup = popup;
+
+    // Update ARIA attributes
+    if (trigger) {
+      trigger.setAttribute(this.config.attributes.expanded, 'true');
+    }
+
+    // Focus management
+    this.focusPopup(popup);
+
+    // Dispatch custom event
+    this.dispatchEvent(new CustomEvent('bottom-menu:popup-opened', {
+      detail: { popup, trigger }
+    }));
+  }
+
+  /**
+   * Close a popup
+   * @param {HTMLElement} popup - Popup element
+   */
+  closePopup(popup) {
+    if (!popup) return;
+
+    popup.classList.remove(this.config.classes.active);
+    
+    // Update ARIA attributes
+    const triggerId = popup.getAttribute(this.config.attributes.labelledby);
+    const trigger = triggerId ? document.getElementById(triggerId) : null;
+    
+    if (trigger) {
+      trigger.setAttribute(this.config.attributes.expanded, 'false');
+      trigger.focus(); // Return focus to trigger
+    }
+
+    this.state.activePopup = null;
+
+    // Dispatch custom event
+    this.dispatchEvent(new CustomEvent('bottom-menu:popup-closed', {
+      detail: { popup, trigger }
+    }));
+  }
+
+  /**
+   * Close all popups
+   */
+  closeAllPopups() {
+    const activePopups = document.querySelectorAll(`.${this.config.classes.active}`);
+    activePopups.forEach(popup => this.closePopup(popup));
+  }
+
+  /**
+   * Focus the popup for accessibility
+   * @param {HTMLElement} popup - Popup element
+   */
+  focusPopup(popup) {
+    // Focus the close button if available, otherwise the popup itself
+    const closeButton = popup.querySelector(this.config.selectors.close);
+    const focusTarget = closeButton || popup;
+    
+    if (focusTarget) {
+      focusTarget.focus();
+    }
+  }
+
+  /**
+   * Update cart counter badge
+   */
+  async updateCartCounter() {
+    try {
+      const response = await fetch('/cart.js');
+      const cart = await response.json();
+      
+      const cartBadge = document.querySelector('[data-cart-count]');
+      if (cartBadge) {
+        const count = cart.item_count || 0;
+        cartBadge.textContent = count;
+        cartBadge.style.display = count > 0 ? 'flex' : 'none';
+        
+        // Update screen reader text
+        const srText = cartBadge.querySelector('.visually-hidden');
+        if (srText) {
+          srText.textContent = `${count} items in cart`;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update cart counter:', error);
+    }
+  }
+
+  /**
+   * Update wishlist counter badge
+   */
+  updateWishlistCounter() {
+    try {
+      const wishlistBadge = document.querySelector('[data-wishlist-count]');
+      if (wishlistBadge && window.wishlist) {
+        const count = window.wishlist.getCount ? window.wishlist.getCount() : 0;
+        wishlistBadge.textContent = count;
+        wishlistBadge.style.display = count > 0 ? 'flex' : 'none';
+        
+        // Update screen reader text
+        const srText = wishlistBadge.querySelector('.visually-hidden');
+        if (srText) {
+          srText.textContent = `${count} items in wishlist`;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update wishlist counter:', error);
+    }
+  }
+
+  /**
+   * Update all counters
+   */
+  updateCounters() {
+    this.updateCartCounter();
+    this.updateWishlistCounter();
+  }
+
+  /**
+   * Check if item has a popup
+   * @param {HTMLElement} item - Menu item element
+   * @returns {boolean}
+   */
+  hasPopup(item) {
+    return this.getPopupForItem(item) !== null;
+  }
+
+  /**
+   * Get popup element for a menu item
+   * @param {HTMLElement} item - Menu item element
+   * @returns {HTMLElement|null}
+   */
+  getPopupForItem(item) {
+    const link = item.querySelector(this.config.selectors.link);
+    if (!link) return null;
+
+    const controlsId = link.getAttribute(this.config.attributes.controls);
+    if (controlsId) {
+      return document.getElementById(controlsId);
+    }
+
+    // Fallback: look for popup with matching data attribute or class
+    const itemType = item.dataset.type || item.className.match(/bottom-menu__item--(\w+)/)?.[1];
+    if (itemType) {
+      return document.querySelector(`[data-popup="${itemType}"], .bottom-menu__popup--${itemType}`);
+    }
+
+    return null;
+  }
+
+  /**
+   * Check if popup is currently active
+   * @param {HTMLElement} popup - Popup element
+   * @returns {boolean}
+   */
+  isPopupActive(popup) {
+    return popup && popup.classList.contains(this.config.classes.active);
+  }
+
+  /**
+   * Destroy the component and clean up event listeners
+   */
+  destroy() {
+    if (!this.state.isInitialized) return;
+
+    // Remove event listeners
+    document.removeEventListener('click', this.handleOutsideClick);
+    document.removeEventListener('keydown', this.handleEscapeKey);
+    document.removeEventListener('cart:updated', this.updateCartCounter);
+    document.removeEventListener('wishlist:updated', this.updateWishlistCounter);
+
+    // Remove menu-specific listeners
+    const menu = document.querySelector(this.config.selectors.menu);
+    if (menu) {
+      const items = menu.querySelectorAll(this.config.selectors.item);
+      items.forEach(item => {
+        const link = item.querySelector(this.config.selectors.link);
+        if (link) {
+          link.removeEventListener('click', this.handleItemClick);
+        }
+      });
+    }
+
+    const closeButtons = document.querySelectorAll(this.config.selectors.close);
+    closeButtons.forEach(button => {
+      button.removeEventListener('click', this.handleCloseClick);
+    });
+
+    // Close all popups
+    this.closeAllPopups();
+
+    // Reset state
+    this.state.isInitialized = false;
+    this.state.activePopup = null;
+
+    // Dispatch custom event
+    this.dispatchEvent(new CustomEvent('bottom-menu:destroyed'));
+  }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  const bottomMenu = new BottomMenu();
+  bottomMenu.init();
+  
+  // Make available globally for debugging
+  window.bottomMenu = bottomMenu;
+});
+
+// Handle page transitions if view transitions are enabled
+document.addEventListener('astro:page-load', () => {
+  if (window.bottomMenu) {
+    window.bottomMenu.init();
+  }
+});

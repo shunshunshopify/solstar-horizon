@@ -36,7 +36,7 @@
           <a href="/" class="bottom-menu__link">
             <span class="bottom-menu__icon" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-home-line"></i>
+                {{ 'icon-home-line.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -82,7 +82,9 @@
           <button type="button" class="bottom-menu__link" data-menu-drawer-trigger aria-label="Open navigation menu">
             <span class="bottom-menu__icon" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-menu-line"></i>
+                <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
+                  {{ 'icon-menu.svg' | inline_asset_content }}
+                </span>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}

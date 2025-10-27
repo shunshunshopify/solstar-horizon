@@ -25,6 +25,68 @@
         "pb": 0.5
       }
     },
+    "bottom_menu_XLwhCf": {
+      "type": "bottom-menu",
+      "blocks": {
+        "home_block_cy49XA": {
+          "type": "home_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Home",
+            "url": ""
+          }
+        },
+        "cart_block_yiCnQ7": {
+          "type": "cart_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Cart",
+            "url": ""
+          }
+        },
+        "search_block_YF6HY3": {
+          "type": "Search_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Search",
+            "url": ""
+          }
+        },
+        "menu_block_QwaiwL": {
+          "type": "Menu_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Menu",
+            "url": ""
+          }
+        },
+        "account_block_GWpGKh": {
+          "type": "Account_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Account",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "home_block_cy49XA",
+        "cart_block_yiCnQ7",
+        "search_block_YF6HY3",
+        "menu_block_QwaiwL",
+        "account_block_GWpGKh"
+      ],
+      "name": "Bottom Nav Bar",
+      "settings": {
+        "bg_color": "#ffffff",
+        "icon_color": "#000",
+        "color": "#000",
+        "font_size": 10,
+        "icon_size": 2.2,
+        "height": 70,
+        "hide-border": false
+      }
+    },
     "footer_m9NzUG": {
       "type": "footer",
       "blocks": {
@@ -220,6 +282,7 @@
   },
   "order": [
     "sticky_add_to_cart_HzRUpz",
+    "bottom_menu_XLwhCf",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

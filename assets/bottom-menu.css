@@ -119,6 +119,17 @@
   line-height: 1;
 }
 
+/* Header drawer icon wrapper for menu */
+.bottom-menu__icon .svg-wrapper {
+  width: 13.59px !important;
+  height: 13.59px !important;
+}
+
+.bottom-menu__icon .svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+}
+
 /* Badge/Counter - Legacy support for custom badges */
 .bottom-menu__badge {
   position: absolute;

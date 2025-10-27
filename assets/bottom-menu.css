@@ -463,3 +463,9 @@
   inset-inline-end: auto;
   inset-inline-start: 20px;
 }
+
+/* Specific styling for wishlist and categories icons */
+.ri-heart-line,
+.ri-layout-grid-line {
+  stroke-width: 0.75 !important;
+}

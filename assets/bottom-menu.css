@@ -63,7 +63,6 @@
 .bottom-menu__link {
   color: var(--bottom-menu-color);
   text-decoration: none;
-  margin: 10px;
   font-size: var(--bottom-menu-font-size);
   display: flex;
   flex-direction: column;

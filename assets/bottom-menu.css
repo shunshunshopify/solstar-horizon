@@ -139,9 +139,9 @@
 
 /* Cart Icon with Cart Bubble */
 .bottom-menu__cart-icon {
-  --cart-bubble-size: 16px;
-  --cart-bubble-top: 3px;
-  --cart-bubble-right: 1px;
+  --cart-bubble-size: 18px;
+  --cart-bubble-top: 2px;
+  --cart-bubble-right: 2px;
   
   position: relative;
 }

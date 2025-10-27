@@ -106,7 +106,7 @@
   width: 100%;
   height: 100%;
   color: var(--bottom-menu-icon-color);
-  fill: var(--bottom-menu-icon-color);
+  fill: none;
   stroke: var(--bottom-menu-icon-color);
 }
 
@@ -240,7 +240,7 @@
   width: 100%;
   height: 100%;
   color: currentColor;
-  fill: currentColor;
+  fill: none;
   stroke: currentColor;
 }
 

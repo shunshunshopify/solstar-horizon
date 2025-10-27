@@ -62,9 +62,9 @@
       {%- when 'wishlist_block' -%}
         <div class="bottom-menu__item">
           <a href="/pages/wishlist" class="bottom-menu__link bottom-menu__wishlist-icon{% if wishlist.item_count > 0 %} bottom-menu__wishlist-icon--has-items{% endif %}">
-            <span class="bottom-menu__icon" aria-hidden="true">
+            <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-heart-line"></i>
+                {{ 'icon-heart-line.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -126,9 +126,9 @@
       {%- when 'cat_block' -%}
         <div class="bottom-menu__item" data-type="collections">
           <button type="button" class="bottom-menu__link" aria-expanded="false" aria-controls="collections-popup" id="collections-trigger">
-            <span class="bottom-menu__icon" aria-hidden="true">
+            <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-layout-grid-line"></i>
+                {{ 'icon-layout-grid-line.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -189,7 +189,9 @@
             {% if block.settings.show_wishlist %}
             <div class="bottom-menu__extended-item">
               <a href="/pages/wishlist" class="bottom-menu__extended-link">
-                <i class="ri-heart-line bottom-menu__extended-icon" aria-hidden="true"></i>
+                <span class="bottom-menu__extended-icon svg-wrapper" aria-hidden="true">
+                  {{ 'icon-heart-line.svg' | inline_asset_content }}
+                </span>
                 Wishlist
               </a>
             </div>

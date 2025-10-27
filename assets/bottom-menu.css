@@ -98,8 +98,8 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: var(--icon-size-sm, 20px);
-  height: var(--icon-size-sm, 20px);
+  width: 22px;
+  height: 22px;
   pointer-events: none;
 }
 
@@ -233,8 +233,8 @@
 .bottom-menu__extended-icon {
   margin-inline-end: 10px;
   flex-shrink: 0;
-  width: var(--icon-size-xs, 16px);
-  height: var(--icon-size-xs, 16px);
+  width: 22px;
+  height: 22px;
   display: inline-flex;
   justify-content: center;
   align-items: center;

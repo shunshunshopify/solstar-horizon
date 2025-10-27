@@ -157,11 +157,24 @@ class BottomMenu {
     try {
       console.log('Bottom Menu - Handling cart update:', event.type, event.detail);
       
-      // Get the item count from the event - theme uses event.detail.data.itemCount
-      const itemCount = event.detail?.data?.itemCount ?? 0;
+      // Check if this is a CartAddEvent (adding items) or CartUpdateEvent (updating existing)
+      const source = event.detail?.data?.source;
       
-      console.log('Bottom Menu - Updating bubble with count:', itemCount);
-      this.updateCartBubble(itemCount);
+      if (source === 'product-form-component') {
+        // This is a CartAddEvent - itemCount is quantity being added, not total
+        // We need to fetch the current cart count instead
+        console.log('Bottom Menu - Cart add event detected, fetching current cart count');
+        this.fetchCartCount();
+      } else if (source === 'cart-items-component') {
+        // This is a CartUpdateEvent - itemCount is the total cart count
+        const itemCount = event.detail?.data?.itemCount ?? 0;
+        console.log('Bottom Menu - Cart update event with total count:', itemCount);
+        this.updateCartBubble(itemCount);
+      } else {
+        // Fallback: Fetch current cart count for unknown sources
+        console.log('Bottom Menu - Unknown cart event source, fetching current cart count');
+        this.fetchCartCount();
+      }
     } catch (error) {
       console.error('Failed to handle cart update event:', error);
       // Fallback: Fetch current cart count

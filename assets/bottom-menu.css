@@ -13,7 +13,6 @@
   --bottom-menu-icon-size: 2.2rem;
   --bottom-menu-z-index: 100;
   --bottom-menu-shadow: 0 0 10px rgba(0, 0, 0, 0.11);
-  --bottom-menu-border-color: #eeeeee;
   --bottom-menu-popup-bg: var(--bottom-menu-bg);
   --bottom-menu-popup-z-index: 102;
   --icon-stroke-width: 1px; /* Fallback for SVG icons */
@@ -48,7 +47,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  border-inline-end: 1px solid var(--bottom-menu-border-color);
 }
 
 .bottom-menu__item:last-child {
@@ -239,7 +237,6 @@
   background-color: var(--bottom-menu-popup-bg);
   z-index: var(--bottom-menu-popup-z-index);
   padding-block-start: 20px;
-  border-block-end: 1px solid var(--bottom-menu-border-color);
   border-start-start-radius: 10px;
   border-start-end-radius: 10px;
   box-shadow: var(--bottom-menu-shadow);
@@ -283,7 +280,6 @@
 }
 
 .bottom-menu__extended-item {
-  border-block-end: 1px solid var(--bottom-menu-border-color);
   margin-block-end: 10px;
 }
 
@@ -434,7 +430,6 @@
     --bottom-menu-bg: #1a1a1a;
     --bottom-menu-color: #ffffff;
     --bottom-menu-icon-color: #ffffff;
-    --bottom-menu-border-color: #333333;
   }
 }
 

@@ -51,6 +51,7 @@ class BottomMenu {
     try {
       this.setupEventListeners();
       this.setupAccessibility();
+      this.setupCartEventListeners();
       this.updateCounters();
       this.state.isInitialized = true;
       
@@ -130,6 +131,51 @@ class BottomMenu {
         link.id = link.id || `bottom-menu-trigger-${index}`;
       }
     });
+  }
+
+  /**
+   * Setup cart event listeners for real-time updates
+   */
+  setupCartEventListeners() {
+    // Listen to theme cart update events
+    this.handleCartUpdate = this.handleCartUpdate.bind(this);
+    document.addEventListener('cart:update', this.handleCartUpdate);
+  }
+
+  /**
+   * Handle cart update events from the theme
+   * @param {CustomEvent} event - Cart update event
+   */
+  handleCartUpdate(event) {
+    try {
+      const itemCount = event.detail?.data?.itemCount ?? 0;
+      this.updateCartBubble(itemCount);
+    } catch (error) {
+      console.error('Failed to handle cart update event:', error);
+    }
+  }
+
+  /**
+   * Update cart bubble with new count
+   * @param {number} itemCount - Number of items in cart
+   */
+  updateCartBubble(itemCount) {
+    const cartBubble = document.querySelector('[data-cart-bubble]');
+    const cartCount = document.querySelector('[data-cart-count]');
+    const cartCountText = document.querySelector('[data-cart-count-text]');
+    
+    if (cartBubble && cartCount && cartCountText) {
+      // Update counter text
+      cartCount.textContent = itemCount;
+      cartCountText.textContent = itemCount;
+      
+      // Show/hide bubble based on count
+      if (itemCount > 0) {
+        cartBubble.classList.remove('visually-hidden');
+      } else {
+        cartBubble.classList.add('visually-hidden');
+      }
+    }
   }
 
   /**
@@ -380,6 +426,7 @@ class BottomMenu {
     document.removeEventListener('keydown', this.handleEscapeKey);
     document.removeEventListener('cart:updated', this.updateCartCounter);
     document.removeEventListener('wishlist:updated', this.updateWishlistCounter);
+    document.removeEventListener('cart:update', this.handleCartUpdate);
 
     // Remove menu-specific listeners
     const menu = document.querySelector(this.config.selectors.menu);

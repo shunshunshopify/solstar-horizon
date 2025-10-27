@@ -140,8 +140,8 @@
 /* Cart Icon with Cart Bubble */
 .bottom-menu__cart-icon {
   --cart-bubble-size: 16px;
-  --cart-bubble-top: 5px;
-  --cart-bubble-right: 5px;
+  --cart-bubble-top: 3px;
+  --cart-bubble-right: 1px;
   
   position: relative;
 }

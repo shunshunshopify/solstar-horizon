@@ -184,6 +184,41 @@
   );
 }
 
+/* Wishlist Icon with Cart Bubble */
+.bottom-menu__wishlist-icon {
+  --cart-bubble-size: 20px;
+  --cart-bubble-top: -2px;
+  --cart-bubble-right: -4px;
+  
+  position: relative;
+}
+
+.bottom-menu__wishlist-icon .cart-bubble {
+  position: absolute !important;
+  width: var(--cart-bubble-size) !important;
+  height: var(--cart-bubble-size) !important;
+  top: var(--cart-bubble-top) !important;
+  right: var(--cart-bubble-right) !important;
+  z-index: 10;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.bottom-menu__wishlist-icon .cart-bubble__text {
+  font-family: var(--font-paragraph--family);
+  font-weight: var(--font-paragraph--weight);
+}
+
+.bottom-menu__wishlist-icon.bottom-menu__wishlist-icon--has-items .bottom-menu__icon i {
+  /* Create donut mask where the wishlist bubble sits */
+  mask: radial-gradient(
+    calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
+    transparent 45.45%,
+    #fff 45.45%,
+    #fff 100%
+  );
+}
+
 .bottom-menu__badge--wishlist {
   inset-inline-end: 2px;
   inset-block-start: 5px;

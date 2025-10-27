@@ -79,8 +79,8 @@
       "name": "Bottom Nav Bar",
       "settings": {
         "bg_color": "#ffffff",
-        "icon_color": "#000",
-        "color": "#000",
+        "icon_color": "#000000",
+        "color": "#000000",
         "font_size": 10,
         "icon_size": 2.2,
         "height": 70,

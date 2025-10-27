@@ -16,6 +16,7 @@
   --bottom-menu-border-color: #eeeeee;
   --bottom-menu-popup-bg: var(--bottom-menu-bg);
   --bottom-menu-popup-z-index: 102;
+  --icon-stroke-width: 1px; /* Fallback for SVG icons */
 }
 
 /* Base Component */
@@ -71,6 +72,14 @@
   transition: opacity 0.2s ease;
 }
 
+/* Button elements should inherit link styles */
+.bottom-menu__link[type="button"] {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 .bottom-menu__link:hover,
 .bottom-menu__link:focus {
   opacity: 0.7;
@@ -88,6 +97,23 @@
   color: var(--bottom-menu-icon-color);
   margin-block-end: 4px;
   display: block;
+  width: var(--bottom-menu-icon-size);
+  height: var(--bottom-menu-icon-size);
+}
+
+/* SVG Icons */
+.bottom-menu__icon svg {
+  width: 100%;
+  height: 100%;
+  color: var(--bottom-menu-icon-color);
+  fill: var(--bottom-menu-icon-color);
+  stroke: var(--bottom-menu-icon-color);
+}
+
+/* Icon font fallback */
+.bottom-menu__icon i {
+  font-size: var(--bottom-menu-icon-size) !important;
+  color: var(--bottom-menu-icon-color);
 }
 
 /* Badge/Counter */
@@ -205,6 +231,21 @@
 .bottom-menu__extended-icon {
   margin-inline-end: 10px;
   flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+.bottom-menu__extended-icon svg {
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.bottom-menu__extended-icon i {
+  font-size: 16px;
 }
 
 /* Collections/Categories Menu */

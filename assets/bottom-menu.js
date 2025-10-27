@@ -137,26 +137,11 @@ class BottomMenu {
    * Setup cart event listeners for real-time updates
    */
   setupCartEventListeners() {
-    // Listen to theme cart update events
+    // Import ThemeEvents properly - the theme uses 'cart:update' as the event name
     this.handleCartUpdate = this.handleCartUpdate.bind(this);
     
-    // Listen to multiple possible cart events
+    // Listen to the correct theme cart update event
     document.addEventListener('cart:update', this.handleCartUpdate);
-    document.addEventListener('cart:updated', this.handleCartUpdate); 
-    document.addEventListener('cart:change', this.handleCartUpdate);
-    document.addEventListener('cart:refresh', this.handleCartUpdate);
-    
-    // Debug: Log all cart-related events
-    const debugCartEvents = (event) => {
-      if (event.type.includes('cart')) {
-        console.log('Bottom Menu - Cart event detected:', event.type, event.detail);
-      }
-    };
-    
-    // Listen to all events for debugging
-    ['cart:update', 'cart:updated', 'cart:change', 'cart:refresh', 'cart:add', 'cart:remove'].forEach(eventType => {
-      document.addEventListener(eventType, debugCartEvents);
-    });
     
     // Setup global openCartDrawer function for cart button onclick
     if (!window.openCartDrawer) {
@@ -172,26 +157,15 @@ class BottomMenu {
     try {
       console.log('Bottom Menu - Handling cart update:', event.type, event.detail);
       
-      // Try different ways to get the item count from the event
-      let itemCount = 0;
-      
-      if (event.detail?.data?.itemCount !== undefined) {
-        itemCount = event.detail.data.itemCount;
-      } else if (event.detail?.itemCount !== undefined) {
-        itemCount = event.detail.itemCount;
-      } else if (event.detail?.item_count !== undefined) {
-        itemCount = event.detail.item_count;
-      } else {
-        // Fallback: Fetch current cart count
-        console.log('Bottom Menu - No item count in event, fetching from cart API');
-        this.fetchCartCount();
-        return;
-      }
+      // Get the item count from the event - theme uses event.detail.data.itemCount
+      const itemCount = event.detail?.data?.itemCount ?? 0;
       
       console.log('Bottom Menu - Updating bubble with count:', itemCount);
       this.updateCartBubble(itemCount);
     } catch (error) {
       console.error('Failed to handle cart update event:', error);
+      // Fallback: Fetch current cart count
+      this.fetchCartCount();
     }
   }
 
@@ -217,15 +191,29 @@ class BottomMenu {
   updateCartBubble(count) {
     try {
       console.log('Bottom Menu - Updating cart bubble with count:', count);
-      const cartBubble = document.querySelector('[ref="bubble"]');
-      console.log('Bottom Menu - Cart bubble element:', cartBubble);
       
-      if (cartBubble) {
-        cartBubble.style.display = count > 0 ? 'block' : 'none';
-        cartBubble.textContent = count.toString();
+      // Find cart bubble using the correct selector - cart-bubble component uses ref="cartBubble"
+      const cartBubble = document.querySelector('.bottom-menu [ref="cartBubble"]');
+      const cartBubbleCount = document.querySelector('.bottom-menu [ref="cartBubbleCount"]');
+      
+      console.log('Bottom Menu - Cart bubble element:', cartBubble);
+      console.log('Bottom Menu - Cart bubble count element:', cartBubbleCount);
+      
+      if (cartBubble && cartBubbleCount) {
+        // Update visibility
+        if (count > 0) {
+          cartBubble.classList.remove('visually-hidden');
+        } else {
+          cartBubble.classList.add('visually-hidden');
+        }
+        
+        // Update count text
+        cartBubbleCount.textContent = count.toString();
+        
         console.log('Bottom Menu - Cart bubble updated successfully');
       } else {
-        console.warn('Bottom Menu - Cart bubble element not found');
+        console.warn('Bottom Menu - Cart bubble elements not found');
+        console.log('Available cart bubble elements:', document.querySelectorAll('[ref*="cart"]'));
       }
     } catch (error) {
       console.error('Failed to update cart bubble:', error);
@@ -381,28 +369,12 @@ class BottomMenu {
   }
 
   /**
-   * Update cart counter badge
+   * Update cart counter badge (legacy method - now handled by updateCartBubble)
    */
   async updateCartCounter() {
-    try {
-      const response = await fetch('/cart.js');
-      const cart = await response.json();
-      
-      const cartBadge = document.querySelector('[data-cart-count]');
-      if (cartBadge) {
-        const count = cart.item_count || 0;
-        cartBadge.textContent = count;
-        cartBadge.style.display = count > 0 ? 'flex' : 'none';
-        
-        // Update screen reader text
-        const srText = cartBadge.querySelector('.visually-hidden');
-        if (srText) {
-          srText.textContent = `${count} items in cart`;
-        }
-      }
-    } catch (error) {
-      console.error('Failed to update cart counter:', error);
-    }
+    // Legacy method - cart updates are now handled by the cart bubble system
+    // This method is kept for backward compatibility with other event listeners
+    this.fetchCartCount();
   }
 
   /**
@@ -440,7 +412,7 @@ class BottomMenu {
    * Update all counters
    */
   updateCounters() {
-    this.updateCartCounter();
+    this.fetchCartCount(); // Get current cart count for bottom menu bubble
     this.updateWishlistCounter();
   }
 

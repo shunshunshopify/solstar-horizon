@@ -160,9 +160,9 @@
       {%- when 'extended_menu_block' -%}
         <div class="bottom-menu__item" data-type="extended">
           <button type="button" class="bottom-menu__link" aria-expanded="false" aria-controls="extended-popup" id="extended-trigger">
-            <span class="bottom-menu__icon" aria-hidden="true">
+            <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-more-2-line"></i>
+                {{ 'icon-more-2-line.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}

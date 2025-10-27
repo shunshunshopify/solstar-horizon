@@ -464,9 +464,10 @@
   inset-inline-start: 20px;
 }
 
-/* Specific styling for wishlist and categories icons - make lines thinner */
+/* Specific styling for wishlist, categories, and more icons - make lines thinner */
 .bottom-menu__item[data-type="wishlist"] .svg-wrapper,
 .bottom-menu__item[data-type="collections"] .svg-wrapper,
+.bottom-menu__item[data-type="extended"] .svg-wrapper,
 .bottom-menu__extended-icon.svg-wrapper {
-  --icon-stroke-width: 0.75px; /* Thinner stroke for wishlist and categories */
+  --icon-stroke-width: 0.75px; /* Thinner stroke for wishlist, categories, and more */
 }

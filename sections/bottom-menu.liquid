@@ -69,13 +69,10 @@
                 {{ block.settings.icon_url }}
               {% endif %}
             </span>
-            <div class="cart-bubble{% if wishlist.item_count == 0 or wishlist.item_count == blank %} visually-hidden{% endif %}" data-wishlist-bubble>
-              <span class="cart-bubble__background"></span>
-              <span class="cart-bubble__text">
-                <span class="visually-hidden">Wishlist count: <span data-wishlist-count-text>0</span></span>
-                <span class="cart-bubble__text-count" data-wishlist-count aria-hidden="true">0</span>
-              </span>
-            </div>
+            <span class="bottom-menu__badge" data-wishlist-count style="display: none;">
+              <span class="visually-hidden">items in wishlist</span>
+              0
+            </span>
             <span class="visually-hidden">{{ block.settings.caption }}</span>
             {{ block.settings.caption }}
           </a>

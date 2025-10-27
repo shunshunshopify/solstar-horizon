@@ -294,25 +294,16 @@ class BottomMenu {
    */
   updateWishlistCounter() {
     try {
-      const wishlistBubble = document.querySelector('[data-wishlist-bubble]');
-      const wishlistCount = document.querySelector('[data-wishlist-count]');
-      const wishlistCountText = document.querySelector('[data-wishlist-count-text]');
-      const wishlistIcon = document.querySelector('.bottom-menu__wishlist-icon');
-      
-      if (wishlistBubble && wishlistCount && wishlistCountText && wishlistIcon) {
-        const count = window.wishlist && window.wishlist.getCount ? window.wishlist.getCount() : 0;
+      const wishlistBadge = document.querySelector('[data-wishlist-count]');
+      if (wishlistBadge && window.wishlist) {
+        const count = window.wishlist.getCount ? window.wishlist.getCount() : 0;
+        wishlistBadge.textContent = count;
+        wishlistBadge.style.display = count > 0 ? 'flex' : 'none';
         
-        // Update counter text
-        wishlistCount.textContent = count;
-        wishlistCountText.textContent = count;
-        
-        // Show/hide bubble based on count
-        if (count > 0) {
-          wishlistBubble.classList.remove('visually-hidden');
-          wishlistIcon.classList.add('bottom-menu__wishlist-icon--has-items');
-        } else {
-          wishlistBubble.classList.add('visually-hidden');
-          wishlistIcon.classList.remove('bottom-menu__wishlist-icon--has-items');
+        // Update screen reader text
+        const srText = wishlistBadge.querySelector('.visually-hidden');
+        if (srText) {
+          srText.textContent = `${count} items in wishlist`;
         }
       }
     } catch (error) {

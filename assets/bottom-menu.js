@@ -140,6 +140,11 @@ class BottomMenu {
     // Listen to theme cart update events
     this.handleCartUpdate = this.handleCartUpdate.bind(this);
     document.addEventListener('cart:update', this.handleCartUpdate);
+    
+    // Setup global openCartDrawer function for cart button onclick
+    if (!window.openCartDrawer) {
+      window.openCartDrawer = this.openCartDrawer.bind(this);
+    }
   }
 
   /**
@@ -175,6 +180,22 @@ class BottomMenu {
       } else {
         cartBubble.classList.add('visually-hidden');
       }
+    }
+  }
+
+  /**
+   * Open the cart drawer (global function for onclick)
+   */
+  openCartDrawer() {
+    try {
+      const cartDrawer = document.querySelector('cart-drawer-component');
+      if (cartDrawer && typeof cartDrawer.open === 'function') {
+        cartDrawer.open();
+      } else {
+        console.warn('Cart drawer component not found or does not have open method');
+      }
+    } catch (error) {
+      console.error('Failed to open cart drawer:', error);
     }
   }
 
@@ -427,6 +448,11 @@ class BottomMenu {
     document.removeEventListener('cart:updated', this.updateCartCounter);
     document.removeEventListener('wishlist:updated', this.updateWishlistCounter);
     document.removeEventListener('cart:update', this.handleCartUpdate);
+    
+    // Remove global openCartDrawer function
+    if (window.openCartDrawer === this.openCartDrawer) {
+      delete window.openCartDrawer;
+    }
 
     // Remove menu-specific listeners
     const menu = document.querySelector(this.config.selectors.menu);

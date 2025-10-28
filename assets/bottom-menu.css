@@ -32,6 +32,7 @@
   display: flex;
   justify-content: space-around;
   box-shadow: var(--bottom-menu-shadow);
+  border-block-start: 1px solid var(--bottom-menu-border-color);
 }
 
 /* Hide on desktop */
@@ -48,6 +49,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  border-inline-end: 1px solid var(--bottom-menu-border-color);
 }
 
 .bottom-menu__item:last-child {

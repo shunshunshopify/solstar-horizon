@@ -137,11 +137,14 @@
           </button>
         </div>
         <div id="collections-popup" class="bottom-menu__popup" role="dialog" aria-labelledby="collections-trigger" data-popup="collections">
-          <button type="button" class="bottom-menu__close" aria-label="Close collections menu">
+          <button
+            type="button"
+            class="button close-button cart-drawer__close-button button-unstyled"
+            aria-label="{{ 'actions.close_dialog' | t }}"
+          >
             <span class="svg-wrapper">
-              {{ 'icon-reset.svg' | inline_asset_content }}
+              {{- 'icon-close.svg' | inline_asset_content -}}
             </span>
-            Close
           </button>
           <div class="bottom-menu__collections">
             <ul class="bottom-menu__collection-grid" role="list">
@@ -173,11 +176,14 @@
           </button>
         </div>
         <div id="extended-popup" class="bottom-menu__popup" role="dialog" aria-labelledby="extended-trigger" data-popup="extended">
-          <button type="button" class="bottom-menu__close" aria-label="Close extended menu">
+          <button
+            type="button"
+            class="button close-button cart-drawer__close-button button-unstyled"
+            aria-label="{{ 'actions.close_dialog' | t }}"
+          >
             <span class="svg-wrapper">
-              {{ 'icon-reset.svg' | inline_asset_content }}
+              {{- 'icon-close.svg' | inline_asset_content -}}
             </span>
-            Close
           </button>
           <div class="bottom-menu__extended">
             {% if block.settings.show_search %}

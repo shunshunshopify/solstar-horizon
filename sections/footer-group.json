@@ -113,19 +113,19 @@
             "url": ""
           }
         },
+        "wishlist_block_JrMJat": {
+          "type": "wishlist_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Wishlist",
+            "url": ""
+          }
+        },
         "menu_block_fk3R7G": {
           "type": "Menu_block",
           "settings": {
             "icon_url": "",
             "caption": "Menu",
-            "url": ""
-          }
-        },
-        "account_block_CRJzAa": {
-          "type": "Account_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Account",
             "url": ""
           }
         }
@@ -134,8 +134,8 @@
         "home_block_k8CHzc",
         "cart_block_idFTRN",
         "search_block_zV3y7X",
-        "menu_block_fk3R7G",
-        "account_block_CRJzAa"
+        "wishlist_block_JrMJat",
+        "menu_block_fk3R7G"
       ],
       "name": "Bottom Nav Bar New",
       "settings": {
@@ -143,9 +143,9 @@
         "icon_color": "#000",
         "color": "#000",
         "font_size": 10,
-        "icon_size": 2.2,
+        "icon_size": 1.5,
         "height": 70,
-        "hide-border": false
+        "hide-border": true
       }
     },
     "footer_m9NzUG": {

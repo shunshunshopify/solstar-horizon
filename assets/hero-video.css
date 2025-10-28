@@ -1,16 +1,21 @@
 
   
+
+  
 /* Base layout and positioning */
 :root {
   --vh: 1vh; /* Can be updated via JavaScript for mobile viewport fixes */
+  /* Hero video text sizing defaults */
+  --hero-title-size-mobile: 40px;
+  --hero-title-size-desktop: 80px;
+  --hero-subtitle-size-mobile: 16px;
+  --hero-subtitle-size-desktop: 40px;
 }
 
 .video-parent-section{
   overflow: hidden;
   position: relative;
-}
-
-/* Hero media wrapper */
+}/* Hero media wrapper */
 .video-parent-section .hero__media {
   position: absolute;
   inset: 0;
@@ -77,25 +82,27 @@
   }
 }
 
-/* Mobile height overrides */
+/* Mobile height overrides - Use !important to override desktop values */
 @media only screen and (max-width: 589px) {
-  .hero--450px{ height: 292.5px; }
-  .hero--550px{ height: 357.5px; }
-  .hero--650px{ height: 422.5px; }
-  .hero--750px{ height: 487.5px; }
+  /* Proportional mobile heights for desktop fixed heights */
+  .hero--450px{ height: 292.5px !important; }
+  .hero--550px{ height: 357.5px !important; }
+  .hero--650px{ height: 422.5px !important; }
+  .hero--750px{ height: 487.5px !important; }
   .hero--100vh{ 
-    height: 850px; /* Safe height for most mobile devices */
-    height: 100vh; 
+    height: 100vh !important; 
     /* Use CSS custom property for accurate mobile viewport */
-    height: calc(var(--vh, 1vh) * 100);
+    height: calc(var(--vh, 1vh) * 100) !important;
     /* Fallback for newer browsers with dynamic viewport */
-    height: 100dvh; 
+    height: 100dvh !important; 
     min-height: 700px; /* Ensure minimum usable height */
     max-height: 100vh; /* Don't exceed actual viewport */
   }
+  
+  /* 16:9 aspect ratio on mobile when set to auto */
   .hero--16-9.hero--mobile--auto{
-    min-height: 0;
-    height: auto;
+    min-height: 0 !important;
+    height: auto !important;
   }
   .hero--16-9.hero--mobile--auto::before{
     content: '';
@@ -124,12 +131,13 @@
     min-height: 0;
   }
   
-  .hero--mobile--250px{ height: 250px; }
-  .hero--mobile--300px{ height: 300px; }
-  .hero--mobile--400px{ height: 400px; }
-  .hero--mobile--500px{ height: 500px; }
-  .hero--mobile--850px{ height: 850px; } /* iPhone Height */
-  .hero--mobile--auto{ height: 500px; }
+  /* Mobile-specific height settings - These override desktop heights */
+  .hero--mobile--250px{ height: 250px !important; }
+  .hero--mobile--300px{ height: 300px !important; }
+  .hero--mobile--400px{ height: 400px !important; }
+  .hero--mobile--500px{ height: 500px !important; }
+  .hero--mobile--850px{ height: 850px !important; } /* iPhone Height */
+  .hero--mobile--auto{ height: auto !important; min-height: 500px; }
 }
 
 /* Hero container layout */
@@ -218,6 +226,26 @@
 .hero__title, .hero__subtitle{
   color: #fff;
   opacity: 1;
+}
+
+/* Dynamic text sizing using CSS custom properties */
+.hero__title {
+  font-size: var(--hero-title-size-mobile, 40px);
+  margin: 30px 0 0 0;
+}
+
+.hero__subtitle {
+  overflow-wrap: anywhere;
+  font-size: var(--hero-subtitle-size-mobile, 16px);
+}
+
+@media only screen and (min-width: 769px) {
+  .hero__title {
+    font-size: var(--hero-title-size-desktop, 80px);
+  }
+  .hero__subtitle {
+    font-size: var(--hero-subtitle-size-desktop, 40px);
+  }
 }
 
 /* YouTube Video Container */

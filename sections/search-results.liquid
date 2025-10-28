@@ -27,16 +27,10 @@
       {% endif %}
 
       {% capture children %}
-        {%- comment %}<locksmith:7f2d>{% endcomment -%}
-          {%- assign locksmith_5d78_forloop__size = 0 %}{% for product in products %}{% capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if var == 'true' %}{% assign locksmith_5d78_forloop__size = locksmith_5d78_forloop__size | plus: 1 %}{% endif %}{% endfor %}{% assign locksmith_5d78_forloop__index = nil -%}
-        {%- comment %}</locksmith:7f2d>{% endcomment -%}
         {% for product in products %}
-          {%- comment %}<locksmith:1b1c>{% endcomment -%}
-            {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% if locksmith_5d78_forloop__index == nil %}{% assign locksmith_5d78_forloop__index = 1 %}{% assign locksmith_5d78_forloop__index0 = 0 %}{% else %}{% assign locksmith_5d78_forloop__index = locksmith_5d78_forloop__index | plus: 1 %}{% assign locksmith_5d78_forloop__index0 = locksmith_5d78_forloop__index0 | plus: 1 %}{% endif %}{% if locksmith_5d78_forloop__index == 1 %}{% assign locksmith_5d78_forloop__first = true %}{% else %}{% assign locksmith_5d78_forloop__first = false %}{% endif %}{% if locksmith_5d78_forloop__index == locksmith_5d78_forloop__size %}{% assign locksmith_5d78_forloop__last = true %}{% else %}{% assign locksmith_5d78_forloop__last = false %}{% endif %}{% assign locksmith_5d78_forloop__rindex = locksmith_5d78_forloop__size | minus: locksmith_5d78_forloop__index | minus: 1 %}{% assign locksmith_5d78_forloop__rindex0 = locksmith_5d78_forloop__size | minus: locksmith_5d78_forloop__index0 | minus: 1 %}{% else %}{% continue %}{% endif -%}
-          {%- comment %}</locksmith:1b1c>{% endcomment -%}
           <li
             id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ locksmith_5d78_forloop__index0 }}"
+            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
             data-page="{{ paginate.current_page }}"
             data-product-id="{{ product.id }}"
             ref="cards[]"

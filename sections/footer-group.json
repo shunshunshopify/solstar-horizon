@@ -11,18 +11,73 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
-    "sticky_add_to_cart_HzRUpz": {
-      "type": "sticky-add-to-cart",
-      "name": "Sticky ATC",
+    "bottom_menu_3hFqLr": {
+      "type": "bottom-menu",
+      "blocks": {
+        "home_block_AhTb6w": {
+          "type": "home_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "トップ",
+            "url": ""
+          }
+        },
+        "cart_block_hVdAmV": {
+          "type": "cart_block",
+          "settings": {
+            "caption": "カート"
+          }
+        },
+        "search_block_LBK7xP": {
+          "type": "Search_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "検索",
+            "url": ""
+          }
+        },
+        "block_Ufx83b": {
+          "type": "block",
+          "settings": {
+            "icon_url": "",
+            "caption": "ギフト",
+            "url": ""
+          }
+        },
+        "extended_menu_block_BzzJ3M": {
+          "type": "extended_menu_block",
+          "settings": {
+            "caption": "More",
+            "show_search": true,
+            "search_url": "shopify://pages/contact",
+            "show_whatsapp": true,
+            "wa_number": "",
+            "wa_message": "Hi There! I need some help",
+            "show_wishlist": true,
+            "wishlist_url": "",
+            "show_track": true,
+            "track_url": "",
+            "show_help": true,
+            "help_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "home_block_AhTb6w",
+        "cart_block_hVdAmV",
+        "search_block_LBK7xP",
+        "block_Ufx83b",
+        "extended_menu_block_BzzJ3M"
+      ],
+      "name": "Bottom Nav Bar",
       "settings": {
-        "enable_section": true,
-        "mobile_only": true,
-        "color_scheme": "scheme-1",
-        "show_qty": false,
-        "show_variant_picker": false,
-        "show_img": false,
-        "pt": 0.5,
-        "pb": 0.5
+        "bg_color": "#ffffff",
+        "icon_color": "#000000",
+        "color": "#000000",
+        "font_size": 10,
+        "icon_size": 2.2,
+        "height": 70,
+        "hide-border": true
       }
     },
     "footer_m9NzUG": {
@@ -219,7 +274,7 @@
     }
   },
   "order": [
-    "sticky_add_to_cart_HzRUpz",
+    "bottom_menu_3hFqLr",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

@@ -1,4 +1,17 @@
 <head>
+  <!-- Import necessary scripts for cart and menu functionality -->
+  <script
+    type="module"
+    src="{{ 'cart-icon.js' | asset_url }}"
+    fetchpriority="low"
+  ></script>
+  
+  <script
+    type="module"
+    src="{{ 'header-drawer.js' | asset_url }}"
+    fetchpriority="low"
+  ></script>
+
   <style>
     .sticky-section {
       position: fixed;
@@ -51,6 +64,42 @@
       border-right: none !important;
     }
     {% endif %}
+    
+    /* Cart bubble styles for cart-icon component integration */
+    .bottom-nav-cart-icon {
+      position: relative;
+      display: contents; /* Allow the component to not interfere with layout */
+    }
+    
+    .bottom-nav-cart-icon .cart-bubble {
+      position: absolute !important;
+      top: -2px !important;
+      right: -4px !important;
+      z-index: 10;
+      margin: 0 !important;
+      transform: none !important;
+    }
+    
+    .bottom-nav-cart-icon--has-cart .btm_link i {
+      /* Create donut mask where the cart bubble sits */
+      mask: radial-gradient(
+        calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
+        transparent 45.45%,
+        #fff 45.45%,
+        #fff 100%
+      );
+    }
+    
+    /* Ensure cart-icon component integrates properly */
+    cart-icon.bottom-nav-cart-icon {
+      display: contents;
+    }
+    
+    cart-icon.bottom-nav-cart-icon .btm_link {
+      position: relative;
+    }
+    
+    /* Legacy cart count styles (keeping for backward compatibility) */
     .cart-count {
       position: absolute; /* Change from relative to absolute */
       background-color: black;
@@ -207,18 +256,31 @@
           </div>
         {%- when 'cart_block' -%}
           <div class="sticky-section-column">
-            <a href="/cart" onclick="openCartDrawer(); return false;" title="Shopping Cart" class="btm_link">
-              <div class="cart-count" id="cart-count-bubble">
-                <span aria-hidden="true">{{ cart.item_count }}</span>
-                <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-              </div>
-              {% if block.settings.icon_url == blank %}
-                <i class="ri-shopping-basket-2-line"></i>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
-              {{ block.settings.caption }}
-            </a>
+            {% if settings.cart_type == 'drawer' %}
+              <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
+                <button type="button" onclick="openCartDrawer(); return false;" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+                  {% render 'cart-bubble', limit: 100 %}
+                  {% if block.settings.icon_url == blank %}
+                    <i class="ri-shopping-basket-2-line"></i>
+                  {% else %}
+                    {{ block.settings.icon_url }}
+                  {% endif %}
+                  {{ block.settings.caption }}
+                </button>
+              </cart-icon>
+            {% else %}
+              <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
+                <a href="{{ routes.cart_url }}" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+                  {% render 'cart-bubble', limit: 100 %}
+                  {% if block.settings.icon_url == blank %}
+                    <i class="ri-shopping-basket-2-line"></i>
+                  {% else %}
+                    {{ block.settings.icon_url }}
+                  {% endif %}
+                  {{ block.settings.caption }}
+                </a>
+              </cart-icon>
+            {% endif %}
           </div>
         {%- when 'wishlist_block' -%}
         <div class="sticky-section-column">
@@ -229,22 +291,23 @@
               {{ block.settings.icon_url }}
             {% endif %}
             {{ block.settings.caption }}
-            <!-- <CHANGE> Updated to use dynamic counter system -->
-            <div class="cart-count is-hidden" data-wishlist-counter>
-              <span class="visually-hidden">Wishlist items</span>
+            <!-- Enhanced wishlist counter with proper styling -->
+            <div class="cart-count wishlist-total-count-bottom-menu" data-wishlist-counter style="display: none;">
+              <span class="visually-hidden">Wishlist items: </span>
+              <span aria-hidden="true">0</span>
             </div>
           </a>
         </div>
         {%- when 'Menu_block' -%}
           <div class="sticky-section-column sticky-section-menu-drawer">
-            <a href="" class="btm_link">
+            <button type="button" class="btm_link" data-menu-drawer-trigger aria-label="Open navigation menu">
               {% if block.settings.icon_url == blank %}
                 <i class="ri-menu-line"></i>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
               {{ block.settings.caption }}
-            </a>
+            </button>
           </div>
         {%- when 'Account_block' -%}
           <div class="sticky-section-column">
@@ -343,59 +406,154 @@
   </div>
 </body>
 <script>
-/******************** Handling click event on the menu drawer icon:  *********************/
-jQuery(function($){
-  $('body').on("click", ".sticky-section-menu-drawer", function(e) {
-      e.preventDefault();
-      $('.menu-drawer-container .header__icon--menu').click();
-  });
-});
+/**
+ * Bottom Nav Bar Enhanced Functionality
+ * Integrates with theme's cart-icon component and provides enhanced functionality
+ */
+(function() {
+  'use strict';
   
-/******************** Updating cart count after adding an item to the cart:  *********************/
-$(document).ready(function() {
-  // Listen for click events on add to cart buttons
-  $('.add-to-cart-button, .cart-items__remove, .quantity-minus, .quantity-plus, #btn-sticky-cart').on('click', function() {
-      // After adding to cart, update cart count
-      setTimeout(updateCartCount, 500); // Delay to ensure cart update has completed
-  });
-});
-// Function to update cart count
-function updateCartCount() {
-    // Make AJAX request to get updated cart data
-    $.getJSON('/cart.js', function(cart) {
-        // Update cart count on page
-        $('#cart-count-bubble').text(cart.item_count);
+  // Setup global openCartDrawer function for cart button onclick
+  if (!window.openCartDrawer) {
+    window.openCartDrawer = function() {
+      try {
+        const cartDrawer = document.querySelector('cart-drawer-component');
+        if (cartDrawer && typeof cartDrawer.open === 'function') {
+          cartDrawer.open();
+        } else {
+          console.warn('Cart drawer component not found or does not have open method');
+        }
+      } catch (error) {
+        console.error('Failed to open cart drawer:', error);
+      }
+    };
+  }
+  
+  // Enhanced menu drawer handling
+  function setupMenuDrawer() {
+    const menuButtons = document.querySelectorAll('[data-menu-drawer-trigger]');
+    menuButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Try to find and trigger the main menu drawer
+        const mainMenuTrigger = document.querySelector('.menu-drawer-container .header__icon--menu, [data-menu-drawer-trigger]:not(.btm_link)');
+        if (mainMenuTrigger) {
+          mainMenuTrigger.click();
+        }
+      });
     });
-}
-
-/******************** Updating cart count after adding an item to the cart (vanilla JavaScript):  *********************/
-// Get all elements with the classes "product-form__submit" and "quantity__button" with name "plus"
-const addToCartButtons = document.querySelectorAll('.product-form__submit, .cart-remove-button, .quantity__button, #btn-sticky-cart');
-
-// Loop through each add to cart button and plus quantity button, and add a click event listener
-addToCartButtons.forEach(button => {
-button.addEventListener('click', () => {
-// After adding to cart or increasing quantity, update cart count with a delay
-setTimeout(updateCartCount, 500);
-});
-});
-
-// Function to update cart count
-function updateCartCount() {
-// Make a fetch request to get updated cart data
-fetch('/cart.js')
-.then(response => response.json())
-.then(cart => {
-// Update cart count on page
-const cartCountBubble = document.querySelector('#cart-count-bubble');
-if (cartCountBubble) {
-  cartCountBubble.textContent = cart.item_count;
-}
-})
-.catch(error => {
-console.error('Error fetching cart data:', error);
-});
-}
+  }
+  
+  // Enhanced popup management
+  function initializePopups() {
+    // Close collection popup
+    const closeCollectionButton = document.getElementById('closeCollectionPopupButton');
+    if (closeCollectionButton) {
+      closeCollectionButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.hash = '';
+      });
+    }
+    
+    // Close extended menu popup
+    const closeExtendedButton = document.getElementById('closeExtendedPopupButton');
+    if (closeExtendedButton) {
+      closeExtendedButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.hash = '';
+      });
+    }
+    
+    // Close popups when clicking outside
+    document.addEventListener('click', function(e) {
+      const target = e.target;
+      if (target.classList.contains('collection-popup') || target.classList.contains('extended-menu')) {
+        window.location.hash = '';
+      }
+    });
+    
+    // Close popups on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        window.location.hash = '';
+      }
+    });
+  }
+  
+  // Legacy cart count update function (for backward compatibility)
+  function updateCartCount() {
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(cart => {
+        // Update legacy cart count bubble if it exists
+        const cartCountBubble = document.querySelector('#cart-count-bubble');
+        if (cartCountBubble) {
+          cartCountBubble.textContent = cart.item_count;
+        }
+        
+        // Note: The cart-icon component will handle its own updates via theme events
+      })
+      .catch(error => {
+        console.error('Error fetching cart data:', error);
+      });
+  }
+  
+  // Update wishlist counter
+  function updateWishlistCounter() {
+    try {
+      const wishlistCounter = document.querySelector('[data-wishlist-counter]');
+      if (wishlistCounter && window.wishlist) {
+        const count = window.wishlist.getCount ? window.wishlist.getCount() : 0;
+        const countSpan = wishlistCounter.querySelector('[aria-hidden="true"]');
+        
+        if (count > 0) {
+          wishlistCounter.style.display = 'flex';
+          if (countSpan) {
+            countSpan.textContent = count;
+          }
+        } else {
+          wishlistCounter.style.display = 'none';
+        }
+      }
+    } catch (error) {
+      console.error('Failed to update wishlist counter:', error);
+    }
+  }
+  
+  // Setup legacy cart button listeners (for backward compatibility)
+  function setupLegacyCartListeners() {
+    // Legacy cart update listeners for non-cart-icon elements
+    const legacyCartButtons = document.querySelectorAll('.add-to-cart-button, .cart-items__remove, .quantity-minus, .quantity-plus, #btn-sticky-cart');
+    legacyCartButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        setTimeout(updateCartCount, 500);
+      });
+    });
+  }
+  
+  // Initialize everything when DOM is ready
+  function initialize() {
+    setupMenuDrawer();
+    initializePopups();
+    updateWishlistCounter();
+    setupLegacyCartListeners();
+    
+    // Listen for wishlist updates
+    if (window.wishlist) {
+      document.addEventListener('wishlist:updated', updateWishlistCounter);
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize);
+  } else {
+    initialize();
+  }
+  
+  // Handle page transitions if view transitions are enabled
+  document.addEventListener('astro:page-load', initialize);
+})();
 
 /******************** Handling click event on the menu drawer icon (vanilla JavaScript):  *********************/
 // Get all elements with the class "sticky-section-column-5"

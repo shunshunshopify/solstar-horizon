@@ -11,6 +11,20 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "sticky_add_to_cart_6wHPQB": {
+      "type": "sticky-add-to-cart",
+      "name": "Sticky ATC",
+      "settings": {
+        "enable_section": true,
+        "mobile_only": false,
+        "color_scheme": "",
+        "show_qty": false,
+        "show_variant_picker": false,
+        "show_img": true,
+        "pt": 0.5,
+        "pb": 0.5
+      }
+    },
     "bottom_menu_3hFqLr": {
       "type": "bottom-menu",
       "blocks": {
@@ -69,6 +83,7 @@
         "block_Ufx83b",
         "extended_menu_block_BzzJ3M"
       ],
+      "disabled": true,
       "name": "Bottom Nav Bar",
       "settings": {
         "bg_color": "#ffffff",
@@ -274,6 +289,7 @@
     }
   },
   "order": [
+    "sticky_add_to_cart_6wHPQB",
     "bottom_menu_3hFqLr",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"

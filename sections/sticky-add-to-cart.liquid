@@ -32,6 +32,21 @@
       pointer-events: none;
       isolation: isolate;
     }
+    
+    /* Adjust positioning when bottom menu is enabled */
+    /* Desktop: check for bottom row */
+    @media (min-width: 990px) {
+      body:has(.header__row--bottom) #md-sticky-atc {
+        bottom: var(--header-height, 0px);
+      }
+    }
+    
+    /* Mobile: check for mobile navigation row */
+    @media (max-width: 989px) {
+      body:has(.header__row--mobile) #md-sticky-atc {
+        bottom: var(--header-height, 0px);
+      }
+    }
     #md-sticky-atc.show{
       visibility: visible;
       opacity: 1;
@@ -453,7 +468,18 @@
       const setShown = (shown) => {
         bar.classList.toggle('show', shown);
         bar.setAttribute('aria-hidden', shown ? 'false' : 'true');
-        document.body.style.paddingBottom = shown ? `${bar.clientHeight}px` : '0';
+        
+        // Calculate bottom offset for body padding
+        // Check if there's a bottom menu (desktop or mobile) that would affect positioning
+        const isMobile = window.matchMedia('(max-width: 989px)').matches;
+        const hasBottomMenu = isMobile 
+          ? document.querySelector('.header__row--mobile')
+          : document.querySelector('.header__row--bottom');
+        
+        // If bottom menu is enabled, the sticky ATC is positioned above it, so no body padding needed
+        const bottomOffset = hasBottomMenu ? 0 : bar.clientHeight;
+        
+        document.body.style.paddingBottom = shown ? `${bottomOffset}px` : '0';
       };
 
       const header = document.querySelector('sticky-header, header[is-sticky], .shopify-section-header-sticky');
@@ -477,7 +503,13 @@
       // Keep padding in sync on resize
       window.addEventListener('resize', () => {
         if (bar.classList.contains('show')) {
-          document.body.style.paddingBottom = `${bar.clientHeight}px`;
+          const isMobile = window.matchMedia('(max-width: 989px)').matches;
+          const hasBottomMenu = isMobile 
+            ? document.querySelector('.header__row--mobile')
+            : document.querySelector('.header__row--bottom');
+          
+          const bottomOffset = hasBottomMenu ? 0 : bar.clientHeight;
+          document.body.style.paddingBottom = `${bottomOffset}px`;
         }
       });
 
@@ -823,6 +855,7 @@
     { "type": "checkbox", "id": "enable_section", "label": "Enable \"Sticky ATC\"", "default": true },
     { "type": "checkbox", "id": "mobile_only", "label": "Show mobile screen only", "default": false },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "paragraph", "content": "Note: When bottom menu is enabled in the header, the sticky add to cart will automatically position itself above the menu bar." },
 
     { "type": "header", "content": "Controls" },
     { "type": "checkbox", "id": "show_qty", "label": "Show quantity picker", "default": true },

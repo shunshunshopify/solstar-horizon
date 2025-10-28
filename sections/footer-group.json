@@ -36,29 +36,12 @@
             "url": ""
           }
         },
-        "menu_block_XpkKVm": {
-          "type": "Menu_block",
+        "block_Ufx83b": {
+          "type": "block",
           "settings": {
             "icon_url": "",
-            "caption": "Menu",
+            "caption": "Caption",
             "url": ""
-          }
-        },
-        "extended_menu_block_k4jqiT": {
-          "type": "extended_menu_block",
-          "settings": {
-            "caption": "More",
-            "show_search": true,
-            "search_url": "",
-            "show_whatsapp": true,
-            "wa_number": "",
-            "wa_message": "Hi There! I need some help",
-            "show_wishlist": true,
-            "wishlist_url": "",
-            "show_track": true,
-            "track_url": "",
-            "show_help": true,
-            "help_url": ""
           }
         }
       },
@@ -66,8 +49,7 @@
         "home_block_AhTb6w",
         "cart_block_hVdAmV",
         "search_block_LBK7xP",
-        "menu_block_XpkKVm",
-        "extended_menu_block_k4jqiT"
+        "block_Ufx83b"
       ],
       "name": "Bottom Nav Bar",
       "settings": {

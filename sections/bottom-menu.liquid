@@ -144,9 +144,6 @@
           <div class="bottom-menu__collections">
             <ul class="bottom-menu__collection-grid" role="list">
               {% for link in linklists[block.settings.menu].links %}
-                {%- comment %}<locksmith:4e70>{% endcomment -%}
-                  {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists[block.settings.menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
-                {%- comment %}</locksmith:4e70>{% endcomment -%}
                 <li class="bottom-menu__collection-item">
                   <div class="bottom-menu__collection-image">
                     {% if link.object.featured_image %}

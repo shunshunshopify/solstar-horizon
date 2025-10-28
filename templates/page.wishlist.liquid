@@ -1,0 +1,48 @@
+<div class="page-width">
+  <div class="wishlist-container">
+    <h1 class="wishlist-title">{{ page.title }}</h1>
+    
+    <div id="wishlist-items" class="wishlist-grid">
+      <!-- Items will be populated by JavaScript -->
+    </div>
+    
+    <div id="wishlist-empty" class="wishlist-empty">
+      <p>Your wishlist is empty</p>
+      <a href="/collections/all" class="button">Continue shopping</a>
+    </div>
+  </div>
+</div>
+
+<script id="wishlist-item-template" type="text/template">
+  <div class="wishlist-item" data-product-id="[[id]]">
+    <div class="wishlist-item-image">
+      <a href="[[url]]">
+        <img src="[[image]]" alt="[[title]]">
+      </a>
+    </div>
+    <div class="wishlist-item-info">
+      <h2 class="wishlist-item-title">
+        <a href="[[url]]">[[title]]</a>
+      </h2>
+      <div class="wishlist-item-price">[[price]]</div>
+      <div class="wishlist-item-actions">
+        <button class="button button--primary wishlist-add-to-cart" data-product-id="[[id]]" data-variant-id="[[variant_id]]">
+          <span class="wishlist-add-to-cart-text">Add to cart</span>
+          <span class="wishlist-add-to-cart-loading">
+            <svg class="spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+            </svg>
+          </span>
+        </button>
+        <button class="wishlist-remove" data-product-id="[[id]]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- Notification element is now created dynamically in JavaScript -->

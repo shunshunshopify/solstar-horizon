@@ -43,13 +43,31 @@
             "caption": "Caption",
             "url": ""
           }
+        },
+        "extended_menu_block_BzzJ3M": {
+          "type": "extended_menu_block",
+          "settings": {
+            "caption": "More",
+            "show_search": true,
+            "search_url": "shopify://pages/contact",
+            "show_whatsapp": true,
+            "wa_number": "",
+            "wa_message": "Hi There! I need some help",
+            "show_wishlist": true,
+            "wishlist_url": "",
+            "show_track": true,
+            "track_url": "",
+            "show_help": true,
+            "help_url": ""
+          }
         }
       },
       "block_order": [
         "home_block_AhTb6w",
         "cart_block_hVdAmV",
         "search_block_LBK7xP",
-        "block_Ufx83b"
+        "block_Ufx83b",
+        "extended_menu_block_BzzJ3M"
       ],
       "name": "Bottom Nav Bar",
       "settings": {

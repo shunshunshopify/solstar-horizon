@@ -20,7 +20,7 @@
     #md-sticky-atc{
       position: fixed;
       inset: auto 0 0 0;
-      z-index: 2;
+      z-index: 17; /* Higher than header overlay (16) to ensure it appears above bottom menu */
       border-top: 0.1rem solid rgba(var(--color-foreground), .08);
 
       padding-top: {{ section.settings.pt }}rem;
@@ -33,19 +33,9 @@
       isolation: isolate;
     }
     
-    /* Adjust positioning when bottom menu is enabled */
-    /* Desktop: check for bottom row */
-    @media (min-width: 990px) {
-      body:has(.header__row--bottom) #md-sticky-atc {
-        bottom: var(--header-height, 0px);
-      }
-    }
-    
-    /* Mobile: check for mobile navigation row */
-    @media (max-width: 989px) {
-      body:has(.header__row--mobile) #md-sticky-atc {
-        bottom: var(--header-height, 0px);
-      }
+    /* Adjust positioning when bottom navigation bar is enabled */
+    body:has(.bottom-menu) #md-sticky-atc {
+      bottom: var(--bottom-menu-height, 0px);
     }
     #md-sticky-atc.show{
       visibility: visible;
@@ -461,6 +451,22 @@
         }
       };
 
+      // Function to update sticky ATC position based on bottom navigation bar
+      const updateStickyPosition = () => {
+        const bottomNavElement = document.querySelector('.bottom-menu');
+        
+        if (bottomNavElement && bottomNavElement.offsetParent !== null) {
+          // Bottom navigation bar is visible, position sticky ATC above it
+          const bottomMenuHeight = getComputedStyle(document.documentElement).getPropertyValue('--bottom-menu-height') || '0px';
+          bar.style.bottom = bottomMenuHeight;
+          console.log('Sticky ATC positioned above bottom nav bar, height:', bottomMenuHeight);
+        } else {
+          // No bottom navigation bar, position at bottom
+          bar.style.bottom = '0px';
+          console.log('Sticky ATC positioned at viewport bottom, no bottom nav detected');
+        }
+      };
+
       // Show sticky only after default ATC disappears (on mobile, after it has been seen once)
       const isMobile = window.matchMedia('(max-width: 989px)').matches;
       let hasSeenDefaultATC = !isMobile;
@@ -469,15 +475,17 @@
         bar.classList.toggle('show', shown);
         bar.setAttribute('aria-hidden', shown ? 'false' : 'true');
         
-        // Calculate bottom offset for body padding
-        // Check if there's a bottom menu (desktop or mobile) that would affect positioning
-        const isMobile = window.matchMedia('(max-width: 989px)').matches;
-        const hasBottomMenu = isMobile 
-          ? document.querySelector('.header__row--mobile')
-          : document.querySelector('.header__row--bottom');
+        // Update position when showing
+        if (shown) {
+          updateStickyPosition();
+        }
         
-        // If bottom menu is enabled, the sticky ATC is positioned above it, so no body padding needed
-        const bottomOffset = hasBottomMenu ? 0 : bar.clientHeight;
+        // Calculate bottom offset for body padding
+        // Check if there's a bottom navigation bar that would affect positioning
+        const hasBottomNav = document.querySelector('.bottom-menu');
+        
+        // If bottom nav is enabled, the sticky ATC is positioned above it, so no body padding needed
+        const bottomOffset = hasBottomNav ? 0 : bar.clientHeight;
         
         document.body.style.paddingBottom = shown ? `${bottomOffset}px` : '0';
       };
@@ -503,14 +511,34 @@
       // Keep padding in sync on resize
       window.addEventListener('resize', () => {
         if (bar.classList.contains('show')) {
-          const isMobile = window.matchMedia('(max-width: 989px)').matches;
-          const hasBottomMenu = isMobile 
-            ? document.querySelector('.header__row--mobile')
-            : document.querySelector('.header__row--bottom');
+          updateStickyPosition();
           
-          const bottomOffset = hasBottomMenu ? 0 : bar.clientHeight;
+          const hasBottomNav = document.querySelector('.bottom-menu');
+          const bottomOffset = hasBottomNav ? 0 : bar.clientHeight;
           document.body.style.paddingBottom = `${bottomOffset}px`;
         }
+      });
+      
+      // Watch for bottom navigation changes (in case it's added/removed dynamically)
+      const bottomNavElement = document.querySelector('.bottom-menu');
+      if (bottomNavElement) {
+        const bottomNavObserver = new MutationObserver(() => {
+          if (bar.classList.contains('show')) {
+            updateStickyPosition();
+          }
+        });
+        bottomNavObserver.observe(bottomNavElement, { childList: true, subtree: true });
+      }
+      
+      // Also listen for CSS custom property changes to --bottom-menu-height
+      const rootObserver = new MutationObserver(() => {
+        if (bar.classList.contains('show')) {
+          updateStickyPosition();
+        }
+      });
+      rootObserver.observe(document.documentElement, { 
+        attributes: true, 
+        attributeFilter: ['style'] 
       });
 
       // ---- Variant/price/button sync ----
@@ -861,6 +889,9 @@
     { "type": "checkbox", "id": "show_qty", "label": "Show quantity picker", "default": true },
     { "type": "checkbox", "id": "show_variant_picker", "label": "Show variant picker", "default": true },
     { "type": "checkbox", "id": "show_img", "label": "Show product image, title and price", "default": true },
+
+    { "type": "header", "content": "Positioning" },
+    { "type": "paragraph", "content": "Note: When a bottom navigation bar is enabled, the sticky add to cart will automatically position itself above the navigation bar. The height can be adjusted in the bottom navigation bar section settings." },
 
     { "type": "header", "content": "Spacing" },
     { "type": "range", "id": "pt", "label": "Padding top (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 },

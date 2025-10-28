@@ -11,91 +11,6 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
-    "sticky_add_to_cart_HzRUpz": {
-      "type": "sticky-add-to-cart",
-      "name": "Sticky ATC",
-      "settings": {
-        "enable_section": true,
-        "mobile_only": true,
-        "color_scheme": "scheme-1",
-        "show_qty": false,
-        "show_variant_picker": false,
-        "show_img": false,
-        "pt": 0.5,
-        "pb": 0.5
-      }
-    },
-    "bottom_menu_XLwhCf": {
-      "type": "bottom-menu",
-      "blocks": {
-        "home_block_qTAeVW": {
-          "type": "home_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Home",
-            "url": ""
-          }
-        },
-        "cat_block_QdHicV": {
-          "type": "cat_block",
-          "settings": {
-            "menu": "main-menu",
-            "icon_url": "",
-            "caption": "Categories"
-          }
-        },
-        "wishlist_block_DTb3Xh": {
-          "type": "wishlist_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Wishlist",
-            "url": ""
-          }
-        },
-        "cart_block_t8egcj": {
-          "type": "cart_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Cart",
-            "url": ""
-          }
-        },
-        "extended_menu_block_JwgmPj": {
-          "type": "extended_menu_block",
-          "settings": {
-            "caption": "More",
-            "show_search": true,
-            "search_url": "",
-            "show_whatsapp": true,
-            "wa_number": "",
-            "wa_message": "Hi There! I need some help",
-            "show_wishlist": true,
-            "wishlist_url": "",
-            "show_track": true,
-            "track_url": "",
-            "show_help": true,
-            "help_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "home_block_qTAeVW",
-        "cat_block_QdHicV",
-        "wishlist_block_DTb3Xh",
-        "cart_block_t8egcj",
-        "extended_menu_block_JwgmPj"
-      ],
-      "name": "Bottom Nav Bar",
-      "settings": {
-        "bg_color": "#ffffff",
-        "icon_color": "#000000",
-        "color": "#000000",
-        "font_size": 10,
-        "icon_size": 2.2,
-        "height": 70,
-        "hide-border": false
-      }
-    },
     "footer_m9NzUG": {
       "type": "footer",
       "blocks": {
@@ -290,8 +205,6 @@
     }
   },
   "order": [
-    "sticky_add_to_cart_HzRUpz",
-    "bottom_menu_XLwhCf",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

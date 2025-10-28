@@ -1,1 +1,287 @@
- 
+/* Bottom Menu Styles */
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--bottom-menu-bg, #fff);
+  color: var(--bottom-menu-color, #000);
+  height: var(--bottom-menu-height, 70px);
+  border-top: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  padding: 0 var(--padding-xs);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-menu__item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.bottom-menu__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--bottom-menu-font-size, 10px);
+  font-weight: 400;
+  line-height: 1.2;
+  padding: var(--padding-2xs, 4px);
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px; /* Minimum touch target */
+  position: relative;
+}
+
+.bottom-menu__link:hover,
+.bottom-menu__link:focus {
+  opacity: 0.7;
+  outline: none;
+}
+
+.bottom-menu__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--margin-3xs, 2px);
+  color: var(--bottom-menu-icon-color, #000);
+  position: relative;
+}
+
+.bottom-menu__icon.svg-wrapper {
+  width: var(--bottom-menu-icon-size, 2.2rem);
+  height: var(--bottom-menu-icon-size, 2.2rem);
+}
+
+/* Cart Icon Specific Styles */
+.bottom-menu__cart-icon {
+  position: relative;
+}
+
+.bottom-menu__cart-icon .cart-bubble {
+  position: absolute !important;
+  top: -2px !important;
+  right: -4px !important;
+  z-index: 10;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.bottom-menu__cart-icon--has-cart .bottom-menu__icon {
+  /* Create donut mask where the cart bubble sits */
+  mask: radial-gradient(
+    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
+    transparent 45.45%,
+    #fff 45.45%,
+    #fff 100%
+  );
+}
+
+/* Wishlist Icon Specific Styles */
+.bottom-menu__wishlist-icon {
+  position: relative;
+}
+
+.bottom-menu__wishlist-icon .cart-bubble {
+  position: absolute !important;
+  top: -2px !important;
+  right: -4px !important;
+  z-index: 10;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.bottom-menu__wishlist-icon--has-items .bottom-menu__icon {
+  /* Create donut mask where the wishlist bubble sits */
+  mask: radial-gradient(
+    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
+    transparent 45.45%,
+    #fff 45.45%,
+    #fff 100%
+  );
+}
+
+/* Popup Styles */
+.bottom-menu__popup {
+  display: none;
+  position: fixed;
+  bottom: var(--bottom-menu-height, 70px);
+  left: 0;
+  right: 0;
+  background: var(--bottom-menu-bg, #fff);
+  border-top: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: var(--padding-lg);
+}
+
+.bottom-menu__popup--active {
+  display: block;
+}
+
+.bottom-menu__close {
+  position: absolute;
+  top: var(--padding-sm);
+  right: var(--padding-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--padding-2xs);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-menu__close:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Extended Menu Styles */
+.bottom-menu__extended {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--gap-md);
+  padding: var(--padding-md) 0;
+}
+
+.bottom-menu__extended-item {
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-menu__extended-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--font-size--xs);
+  padding: var(--padding-sm);
+  border-radius: var(--border-radius-md);
+  transition: all 0.2s ease;
+}
+
+.bottom-menu__extended-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.bottom-menu__extended-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--margin-2xs);
+  color: var(--bottom-menu-icon-color, #000);
+}
+
+.bottom-menu__extended-icon.svg-wrapper {
+  width: 24px;
+  height: 24px;
+  --icon-stroke-width: 1.5px;
+}
+
+/* Collections Popup Styles */
+.bottom-menu__collections {
+  padding: var(--padding-md) 0;
+}
+
+.bottom-menu__collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--gap-md);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bottom-menu__collection-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.bottom-menu__collection-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: var(--margin-2xs);
+  background-color: var(--color-background-2);
+}
+
+.bottom-menu__collection-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bottom-menu__collection-link {
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--font-size--2xs);
+  line-height: 1.3;
+}
+
+.bottom-menu__collection-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 374px) {
+  .bottom-menu__link {
+    font-size: calc(var(--bottom-menu-font-size, 10px) - 1px);
+  }
+  
+  .bottom-menu__icon.svg-wrapper {
+    width: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+    height: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+  }
+}
+
+@media (max-width: 320px) {
+  .bottom-menu {
+    padding: 0 var(--padding-2xs);
+  }
+  
+  .bottom-menu__link {
+    font-size: calc(var(--bottom-menu-font-size, 10px) - 2px);
+    padding: var(--padding-3xs, 2px);
+  }
+}
+
+/* Accessibility */
+.bottom-menu__link:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Hide bottom menu on desktop if needed */
+@media (min-width: 768px) {
+  .bottom-menu--mobile-only {
+    display: none;
+  }
+}
+
+/* Ensure proper cart icon component integration */
+cart-icon.bottom-menu__cart-icon {
+  display: contents;
+}
+
+cart-icon.bottom-menu__cart-icon .bottom-menu__link {
+  position: relative;
+}

@@ -1,6 +1,18 @@
 {{ 'bottom-menu.css' | asset_url | stylesheet_tag }}
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
+<script
+  type="module"
+  src="{{ 'cart-icon.js' | asset_url }}"
+  fetchpriority="low"
+></script>
+
+<script
+  type="module"
+  src="{{ 'header-drawer.js' | asset_url }}"
+  fetchpriority="low"
+></script>
+
 <style>
   :root {
     --bottom-menu-height: {{ section.settings.height }}px;
@@ -34,43 +46,46 @@
       {%- when 'home_block' -%}
         <div class="bottom-menu__item">
           <a href="/" class="bottom-menu__link">
-            <span class="bottom-menu__icon" aria-hidden="true">
+            <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
                 {{ 'icon-home-line.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
             </span>
-            <span class="visually-hidden">{{ block.settings.caption }}</span>
             {{ block.settings.caption }}
           </a>
         </div>
       {%- when 'cart_block' -%}
         <div class="bottom-menu__item">
           {% if settings.cart_type == 'drawer' %}
-            <button type="button" class="bottom-menu__link bottom-menu__cart-icon{% unless cart == empty %} bottom-menu__cart-icon--has-cart{% endunless %}" onclick="openCartDrawer(); return false;" aria-label="Shopping Cart ({{ cart.item_count }} items)">
-              <span class="bottom-menu__icon" aria-hidden="true">
-                {% if block.settings.icon_url == blank %}
-                  {{ 'icon-cart.svg' | inline_asset_content }}
-                {% else %}
-                  {{ block.settings.icon_url }}
-                {% endif %}
-              </span>
-              {% render 'cart-bubble', limit: 100 %}
-              {{ block.settings.caption }}
-            </button>
+            <cart-icon class="bottom-menu__cart-icon{% unless cart == empty %} bottom-menu__cart-icon--has-cart{% endunless %}">
+              <button type="button" class="bottom-menu__link" onclick="openCartDrawer(); return false;" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+                <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
+                  {% if block.settings.icon_url == blank %}
+                    {{ 'icon-cart.svg' | inline_asset_content }}
+                  {% else %}
+                    {{ block.settings.icon_url }}
+                  {% endif %}
+                </span>
+                {% render 'cart-bubble', limit: 100 %}
+                {{ block.settings.caption }}
+              </button>
+            </cart-icon>
           {% else %}
-            <a href="{{ routes.cart_url }}" class="bottom-menu__link bottom-menu__cart-icon{% unless cart == empty %} bottom-menu__cart-icon--has-cart{% endunless %}" aria-label="Shopping Cart ({{ cart.item_count }} items)">
-              <span class="bottom-menu__icon" aria-hidden="true">
-                {% if block.settings.icon_url == blank %}
-                  {{ 'icon-cart.svg' | inline_asset_content }}
-                {% else %}
-                  {{ block.settings.icon_url }}
-                {% endif %}
-              </span>
-              {% render 'cart-bubble', limit: 100 %}
-              {{ block.settings.caption }}
-            </a>
+            <cart-icon class="bottom-menu__cart-icon{% unless cart == empty %} bottom-menu__cart-icon--has-cart{% endunless %}">
+              <a href="{{ routes.cart_url }}" class="bottom-menu__link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+                <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
+                  {% if block.settings.icon_url == blank %}
+                    {{ 'icon-cart.svg' | inline_asset_content }}
+                  {% else %}
+                    {{ block.settings.icon_url }}
+                  {% endif %}
+                </span>
+                {% render 'cart-bubble', limit: 100 %}
+                {{ block.settings.caption }}
+              </a>
+            </cart-icon>
           {% endif %}
         </div>
       {%- when 'wishlist_block' -%}
@@ -90,18 +105,15 @@
                 <span class="cart-bubble__text-count" data-wishlist-count aria-hidden="true">0</span>
               </span>
             </div>
-            <span class="visually-hidden">{{ block.settings.caption }}</span>
             {{ block.settings.caption }}
           </a>
         </div>
       {%- when 'Menu_block' -%}
         <div class="bottom-menu__item">
           <button type="button" class="bottom-menu__link" data-menu-drawer-trigger aria-label="Open navigation menu">
-            <span class="bottom-menu__icon" aria-hidden="true">
+            <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
-                  {{ 'icon-menu.svg' | inline_asset_content }}
-                </span>
+                {{ 'icon-menu.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -112,28 +124,26 @@
       {%- when 'Account_block' -%}
         <div class="bottom-menu__item">
           <a href="/account" class="bottom-menu__link">
-            <span class="bottom-menu__icon" aria-hidden="true">
+            <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
                 {{ 'icon-account.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
             </span>
-            <span class="visually-hidden">{{ block.settings.caption }}</span>
             {{ block.settings.caption }}
           </a>
         </div>
       {%- when 'Search_block' -%}
         <div class="bottom-menu__item">
           <a href="/search" class="bottom-menu__link">
-            <span class="bottom-menu__icon" aria-hidden="true">
+            <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
                 {{ 'icon-search.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
             </span>
-            <span class="visually-hidden">{{ block.settings.caption }}</span>
             {{ block.settings.caption }}
           </a>
         </div>
@@ -205,7 +215,7 @@
             {% if block.settings.show_search %}
             <div class="bottom-menu__extended-item">
               <a href="/search" class="bottom-menu__extended-link">
-                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                <span class="bottom-menu__extended-icon svg-wrapper" aria-hidden="true">
                   {{ 'icon-search.svg' | inline_asset_content }}
                 </span>
                 Search
@@ -225,7 +235,7 @@
             {% if block.settings.show_whatsapp %}
             <div class="bottom-menu__extended-item">
               <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message | url_encode }}" class="bottom-menu__extended-link" target="_blank" rel="noopener">
-                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                <span class="bottom-menu__extended-icon svg-wrapper" aria-hidden="true">
                   {{ 'icon-phone-line.svg' | inline_asset_content }}
                 </span>
                 WhatsApp
@@ -235,7 +245,7 @@
             {% if block.settings.show_track %}
             <div class="bottom-menu__extended-item">
               <a href="/pages/track-order" class="bottom-menu__extended-link">
-                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                <span class="bottom-menu__extended-icon svg-wrapper" aria-hidden="true">
                   {{ 'icon-truck-line.svg' | inline_asset_content }}
                 </span>
                 Track Order
@@ -245,7 +255,7 @@
             {% if block.settings.show_help %}
             <div class="bottom-menu__extended-item">
               <a href="/pages/help" class="bottom-menu__extended-link">
-                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                <span class="bottom-menu__extended-icon svg-wrapper" aria-hidden="true">
                   {{ 'icon-question-line.svg' | inline_asset_content }}
                 </span>
                 Help

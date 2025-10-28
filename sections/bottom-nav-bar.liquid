@@ -1,4 +1,7 @@
 <head>
+  <!-- Import bottom menu CSS file -->
+  {{ 'bottom-menu.css' | asset_url | stylesheet_tag }}
+  
   <!-- Import necessary scripts for cart and menu functionality -->
   <script
     type="module"
@@ -13,218 +16,34 @@
   ></script>
 
   <style>
-    .sticky-section {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: {{ section.settings.bg_color}};
-      padding: 0;
-      text-align: center;
-      z-index: 100;
-      height: {{ section.settings.height }}px;
-      display: flex;
-      justify-content: space-around;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .11);
+    :root {
+      --bottom-menu-height: {{ section.settings.height }}px;
+      --bottom-menu-bg: {{ section.settings.bg_color }};
+      --bottom-menu-color: {{ section.settings.color }};
+      --bottom-menu-icon-color: {{ section.settings.icon_color }};
+      --bottom-menu-font-size: {{ section.settings.font_size }}px;
+      --bottom-menu-icon-size: {{ section.settings.icon_size }}rem;
+      {% if section.settings.hide-border %}
+      --bottom-menu-border-color: transparent;
+      {% endif %}
     }
-    @media only screen and (min-width: 768px) {
-    .sticky-section {
-      display: none;
+    
+    /* Dynamic background color for popups */
+    .extended-menu, .collection-popup {
+      background-color: {{ section.settings.bg_color }};
     }
-    }
-    .sticky-section .btm_link {
+    
+    /* Dynamic text color for menu links */
+    .menu-link {
       color: {{ section.settings.color }};
-      text-decoration: none;
-      margin: 10px;
-      font-size: {{ section.settings.font_size }}px;
-      display: flex;
-      flex-direction: column;
-      align-content: center;
-      align-items: center;
-      position: relative;
     }
-    .sticky-section i {
-      font-size: {{ section.settings.icon_size }}rem!important;
-      color: {{ section.settings.icon_color }};
-    }
-    .sticky-section-column {
-      align-items: center;
-      border-right: 1px solid #eee;
-      display: flex;
-      flex: 1 0 auto;
-      justify-content: center;
-      position: relative;
-      width: 20%;
-    }
-    .sticky-section-column:last-child {
-      border-right: none !important;
-      padding: 0;
-    }
+    
+    /* Apply no-borders class when hide-border is enabled */
     {% if section.settings.hide-border %}
     .sticky-section-column {
       border-right: none !important;
     }
     {% endif %}
-    
-    /* Cart bubble styles for cart-icon component integration */
-    .bottom-nav-cart-icon {
-      position: relative;
-      display: contents; /* Allow the component to not interfere with layout */
-    }
-    
-    .bottom-nav-cart-icon .cart-bubble {
-      position: absolute !important;
-      top: -2px !important;
-      right: -4px !important;
-      z-index: 10;
-      margin: 0 !important;
-      transform: none !important;
-    }
-    
-    .bottom-nav-cart-icon--has-cart .btm_link i {
-      /* Create donut mask where the cart bubble sits */
-      mask: radial-gradient(
-        calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
-        transparent 45.45%,
-        #fff 45.45%,
-        #fff 100%
-      );
-    }
-    
-    /* Ensure cart-icon component integrates properly */
-    cart-icon.bottom-nav-cart-icon {
-      display: contents;
-    }
-    
-    cart-icon.bottom-nav-cart-icon .btm_link {
-      position: relative;
-    }
-    
-    /* Legacy cart count styles (keeping for backward compatibility) */
-    .cart-count {
-      position: absolute; /* Change from relative to absolute */
-      background-color: black;
-      color: white;
-      height: 16px;
-      width: 16px;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 10px;
-      font-weight: bold;
-      bottom: 35px;
-      right: -8px;
-    }
-    .wishlist-total-count-bottom-menu{
-      right: 0px!important;
-    }
-    .sticky-section .btm_link .bottom-menu-wishlist{
-      right: 5px!important;
-      top: 10px!important;
-     }
-    .extended-menu, .collection-popup {
-      display: none;
-      justify-content: center;
-      position: fixed;
-      bottom: 70px;
-      left: 0;
-      width: 100%;
-      background-color: {{ section.settings.bg_color}};
-      z-index: 2;
-      padding: 20px 0 0 0;
-      border-bottom: 1px solid #d3d3d3;
-      border-radius: 10px 10px 0px 0px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .11);
-    }
-    #popup:target,
-    #collectionPopup:target {
-      display: flex;
-      justify-content: center;
-    }
-    .close-popup {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 12px;
-      text-decoration: none;
-      color: #000;
-      cursor: pointer;
-    }
-    .extended-menu .ex-popup-container {
-      width: 100%;
-    }
-    .collection-popup .ex-popup-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      padding: 0px 0px 20px 24px;
-    }
-    .collection-popup .ex-popup-container .item {
-      display: flex;
-      align-items: center;
-      padding-bottom: 10px;
-    }
-    .collection-popup .ex-popup-container .item img {
-      width: 50px;
-      height: 50px;
-      margin-right: 15px;
-    }
-    .collection-popup .ex-popup-container .item:last-child {
-      border-bottom: none;
-    }
-    .custom-menu{
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      padding: 40px 15px;
-    }
-    .custom-menu li{
-      list-style: none;
-      text-align: center;
-      width: auto;
-    }
-    .custom-menu-image{
-      display: flex;
-    }
-    .custom-menu-image img{
-      width: 100%;
-    }
-    .menu-link {
-      text-decoration: none;
-      display: block;
-      color: {{ section.settings.color }}; 
-      word-wrap: break-word;
-      word-break: break-word; /* Prevent text overflow */
-      font-size: 12px;
-      margin: 0px!important;
-    }
-
-
-    /* Extended Menu Styling */
-    .extended-menu .container {
-      width: 80%;
-      padding: 40px 0px;
-    }
-    .extended-menu .container .item {
-      border-bottom: 1px solid #d3d3d3;
-      margin-bottom: 10px;
-    }
-    .extended-menu .container .item:last-child {
-      border-bottom: none;
-    }
-    .extended-menu .container a {
-      text-decoration: none;
-      color: #131313;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      font-size: 16px;
-    }
-    .extended-menu .container a i {
-      margin-right: 10px;
-    }
   </style>
 </head>
 
@@ -236,7 +55,9 @@
           <div class="sticky-section-column">
             <a href="{{ block.settings.url }}" class="btm_link">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-link-line"></i>
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-link-line.svg' | inline_asset_content }}
+                </span>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -247,7 +68,9 @@
           <div class="sticky-section-column">
             <a href="/" class="btm_link">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-home-smile-2-line"></i>
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-home-line.svg' | inline_asset_content }}
+                </span>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -261,7 +84,9 @@
                 <button type="button" onclick="openCartDrawer(); return false;" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
                   {% render 'cart-bubble', limit: 100 %}
                   {% if block.settings.icon_url == blank %}
-                    <i class="ri-shopping-basket-2-line"></i>
+                    <span class="svg-wrapper" aria-hidden="true">
+                      {{ 'icon-cart.svg' | inline_asset_content }}
+                    </span>
                   {% else %}
                     {{ block.settings.icon_url }}
                   {% endif %}
@@ -273,7 +98,9 @@
                 <a href="{{ routes.cart_url }}" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
                   {% render 'cart-bubble', limit: 100 %}
                   {% if block.settings.icon_url == blank %}
-                    <i class="ri-shopping-basket-2-line"></i>
+                    <span class="svg-wrapper" aria-hidden="true">
+                      {{ 'icon-cart.svg' | inline_asset_content }}
+                    </span>
                   {% else %}
                     {{ block.settings.icon_url }}
                   {% endif %}
@@ -286,7 +113,9 @@
         <div class="sticky-section-column">
           <a href="/pages/wishlist" class="bottom-icon-sticky btm_link header__icon--wishlist-link">
             {% if block.settings.icon_url == blank %}
-              <i class="ri-heart-line"></i>
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-heart-line.svg' | inline_asset_content }}
+              </span>
             {% else %}
               {{ block.settings.icon_url }}
             {% endif %}
@@ -302,7 +131,9 @@
           <div class="sticky-section-column sticky-section-menu-drawer">
             <button type="button" class="btm_link" data-menu-drawer-trigger aria-label="Open navigation menu">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-menu-line"></i>
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-menu.svg' | inline_asset_content }}
+                </span>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -313,7 +144,9 @@
           <div class="sticky-section-column">
             <a href="/account" class="btm_link">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-account-circle-line"></i>
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-account.svg' | inline_asset_content }}
+                </span>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -324,7 +157,9 @@
           <div class="sticky-section-column">
             <a href="/search" class="btm_link">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-search-line"></i>
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-search.svg' | inline_asset_content }}
+                </span>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -335,7 +170,9 @@
           <div class="sticky-section-column" id="collectionButton">
             <a href="#collectionPopup" class="btm_link">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-layout-grid-line"></i>
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-layout-grid-line.svg' | inline_asset_content }}
+                </span>
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -364,7 +201,9 @@
         <div class="sticky-section-column sticky-section-extended-menu-drawer" id="exmenuButton">
           <a href="#popup" class="btm_link">
              {% if block.settings.icon_url == blank %}
-                <i class="ri-more-2-line"></i>
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-more-2-line.svg' | inline_asset_content }}
+                </span>
              {% else %}
                 {{ block.settings.icon_url }}
              {% endif %}
@@ -376,27 +215,52 @@
           <div class="container">
             {% if block.settings.show_search %}
             <div class="item item-1">
-              <a href="#"><i class="ri-search-line"></i>Search</a>
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-search.svg' | inline_asset_content }}
+                </span>
+                Search
+              </a>
             </div>
             {% endif %}
             {% if block.settings.show_wishlist %}
             <div class="item item-2">
-              <a href="#"><i class="ri-heart-line"></i>Wishlist</a>
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-heart-line.svg' | inline_asset_content }}
+                </span>
+                Wishlist
+              </a>
             </div>
             {% endif %}
             {% if block.settings.show_whatsapp %}
             <div class="item item-3">
-              <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message }}"><i class="ri-whatsapp-line"></i>Whatsapp</a>
+              <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message }}">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-whatsapp-line.svg' | inline_asset_content }}
+                </span>
+                Whatsapp
+              </a>
             </div>
             {% endif %}
             {% if block.settings.show_track %}
             <div class="item item-4">
-              <a href="#"><i class="ri-truck-line"></i>Track Order</a>
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-truck-line.svg' | inline_asset_content }}
+                </span>
+                Track Order
+              </a>
             </div>
             {% endif %}
             {% if block.settings.show_help %}
             <div class="item item-5">
-              <a href="#"><i class="ri-question-line"></i>Help</a>
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-question-line.svg' | inline_asset_content }}
+                </span>
+                Help
+              </a>
             </div>
             {% endif %}
           </div>

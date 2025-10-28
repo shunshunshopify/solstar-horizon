@@ -1,5 +1,4 @@
 {{ 'bottom-menu.css' | asset_url | stylesheet_tag }}
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
 <script
   type="module"
@@ -48,9 +47,7 @@
           <a href="/" class="bottom-menu__link">
             <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 3L2 10H4V17H7V12H13V17H16V10H18L10 3Z" fill="currentColor"/>
-                </svg>
+                {{ 'icon-home-line.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -65,9 +62,7 @@
               <button type="button" class="bottom-menu__link" onclick="openCartDrawer(); return false;" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
                 <span class="bottom-menu__icon svg-wrapper" aria-hidden="true">
                   {% if block.settings.icon_url == blank %}
-                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4 2V4H16L15 10H5L4 2H1V0H4.5L6 8H14L15 4H4V2ZM5.5 14C4.67 14 4 14.67 4 15.5S4.67 17 5.5 17 7 16.33 7 15.5 6.33 14 5.5 14ZM14.5 14C13.67 14 13 14.67 13 15.5S13.67 17 14.5 17 16 16.33 16 15.5 15.33 14 14.5 14Z" fill="currentColor"/>
-                    </svg>
+                    {{ 'icon-cart.svg' | inline_asset_content }}
                   {% else %}
                     {{ block.settings.icon_url }}
                   {% endif %}

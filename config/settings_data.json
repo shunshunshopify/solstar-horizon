@@ -9,10 +9,6 @@
  */
 {
   "current": {
-    "intro_audio_file": "",
-    "intro_desktop_video": "",
-    "intro_mobile_video": "",
-    "intro_skip": "スキップ",
     "logo_height": 36,
     "logo_height_mobile": 28,
     "type_body_font": "inter_n4",
@@ -58,7 +54,7 @@
     "button_border_radius_primary": 0,
     "secondary_button_border_width": 1,
     "button_border_radius_secondary": 0,
-    "cart_type": "drawer",
+    "cart_type": "page",
     "product_title_case": "default",
     "cart_price_font": "secondary",
     "auto_open_cart_drawer": true,
@@ -84,6 +80,10 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "intro_audio_file": "",
+    "intro_desktop_video": "",
+    "intro_mobile_video": "",
+    "intro_skip": "スキップ",
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {

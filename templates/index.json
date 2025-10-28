@@ -111,9 +111,31 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "hero_video_j3rzrH": {
+      "type": "hero-video",
+      "name": "Hero video",
+      "settings": {
+        "title": "This is heading",
+        "title_size": 80,
+        "subheading": "This is subheading",
+        "subheading_size": 40,
+        "link_text": "Button",
+        "link": "",
+        "color_scheme": "",
+        "style_class": "button",
+        "text_align": "vertical-center horizontal-center",
+        "video_url": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
+        "overlay_opacity": 0,
+        "section_height": "650px",
+        "mobile_height": "auto",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
-    "hero_A9LURP"
+    "hero_A9LURP",
+    "hero_video_j3rzrH"
   ]
 }

@@ -235,6 +235,8 @@ class BottomMenu {
 
   /**
    * Open the cart drawer (global function for onclick)
+   * Note: This function is only used when cart_type is set to 'drawer'.
+   * When cart_type is 'page', the cart icon uses a direct link to /cart instead.
    */
   openCartDrawer() {
     try {

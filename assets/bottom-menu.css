@@ -95,13 +95,43 @@
   height: var(--bottom-menu-icon-size, 2.2rem);
 }
 
-/* SVG icon styling */
+/* SVG icon styling - Support both fill and stroke icons */
 .bottom-menu__icon.svg-wrapper svg,
 .sticky-section .svg-wrapper svg {
   width: var(--bottom-menu-icon-size, 2.2rem);
   height: var(--bottom-menu-icon-size, 2.2rem);
-  fill: var(--bottom-menu-icon-color, #000);
   display: block;
+  
+  /* Default for fill-based icons */
+  fill: var(--bottom-menu-icon-color, #000);
+  
+  /* For stroke-based icons */
+  stroke: var(--bottom-menu-icon-color, #000);
+  stroke-width: var(--icon-stroke-width, 1.5px);
+  
+  /* Allow both fill and stroke to be set */
+  color: var(--bottom-menu-icon-color, #000);
+}
+
+/* Ensure stroke-only icons don't have fill */
+.bottom-menu__icon.svg-wrapper svg[fill="none"],
+.sticky-section .svg-wrapper svg[fill="none"] {
+  fill: none !important;
+}
+
+/* Ensure fill-only icons don't have stroke */
+.bottom-menu__icon.svg-wrapper svg[fill="currentColor"],
+.sticky-section .svg-wrapper svg[fill="currentColor"] {
+  stroke: none !important;
+}
+
+/* Force proper rendering for line-style icons */
+.bottom-menu__icon.svg-wrapper svg path[stroke],
+.bottom-menu__icon.svg-wrapper svg circle[stroke],
+.sticky-section .svg-wrapper svg path[stroke],
+.sticky-section .svg-wrapper svg circle[stroke] {
+  fill: none !important;
+  stroke: var(--bottom-menu-icon-color, #000);
 }
 
 /* Cart Icon Specific Styles - Both naming conventions */
@@ -312,12 +342,39 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   --icon-stroke-width: 1.5px;
 }
 
-/* Extended menu SVG icons */
+/* Extended menu SVG icons - Support both fill and stroke icons */
 .bottom-menu__extended-icon.svg-wrapper svg,
 .extended-menu .container a .svg-wrapper svg {
   width: 1.2rem;
   height: 1.2rem;
+  
+  /* Default for fill-based icons */
   fill: currentColor;
+  
+  /* For stroke-based icons */
+  stroke: currentColor;
+  stroke-width: var(--icon-stroke-width, 1.5px);
+}
+
+/* Ensure stroke-only icons don't have fill */
+.bottom-menu__extended-icon.svg-wrapper svg[fill="none"],
+.extended-menu .container a .svg-wrapper svg[fill="none"] {
+  fill: none !important;
+}
+
+/* Ensure fill-only icons don't have stroke */
+.bottom-menu__extended-icon.svg-wrapper svg[fill="currentColor"],
+.extended-menu .container a .svg-wrapper svg[fill="currentColor"] {
+  stroke: none !important;
+}
+
+/* Force proper rendering for line-style icons in extended menu */
+.bottom-menu__extended-icon.svg-wrapper svg path[stroke],
+.bottom-menu__extended-icon.svg-wrapper svg circle[stroke],
+.extended-menu .container a .svg-wrapper svg path[stroke],
+.extended-menu .container a .svg-wrapper svg circle[stroke] {
+  fill: none !important;
+  stroke: currentColor;
 }
 
 /* Extended menu popup container */

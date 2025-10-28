@@ -22,7 +22,7 @@
           <a href="{{ block.settings.url }}" class="bottom-menu__link">
             <span class="bottom-menu__icon" aria-hidden="true">
               {% if block.settings.icon_url == blank %}
-                <i class="ri-link-line"></i>
+                {{ 'icon-link-line.svg' | inline_asset_content }}
               {% else %}
                 {{ block.settings.icon_url }}
               {% endif %}
@@ -138,7 +138,7 @@
         </div>
         <div id="collections-popup" class="bottom-menu__popup" role="dialog" aria-labelledby="collections-trigger" data-popup="collections">
           <button type="button" class="bottom-menu__close" aria-label="Close collections menu">
-            <i class="ri-close-line" aria-hidden="true"></i>
+            {{ 'icon-close-line.svg' | inline_asset_content }}
             Close
           </button>
           <div class="bottom-menu__collections">
@@ -172,7 +172,7 @@
         </div>
         <div id="extended-popup" class="bottom-menu__popup" role="dialog" aria-labelledby="extended-trigger" data-popup="extended">
           <button type="button" class="bottom-menu__close" aria-label="Close extended menu">
-            <i class="ri-close-line" aria-hidden="true"></i>
+            {{ 'icon-close-line.svg' | inline_asset_content }}
             Close
           </button>
           <div class="bottom-menu__extended">
@@ -199,7 +199,9 @@
             {% if block.settings.show_whatsapp %}
             <div class="bottom-menu__extended-item">
               <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message | url_encode }}" class="bottom-menu__extended-link" target="_blank" rel="noopener">
-                <i class="ri-whatsapp-line bottom-menu__extended-icon" aria-hidden="true"></i>
+                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                  {{ 'icon-whatsapp-line.svg' | inline_asset_content }}
+                </span>
                 WhatsApp
               </a>
             </div>
@@ -207,7 +209,9 @@
             {% if block.settings.show_track %}
             <div class="bottom-menu__extended-item">
               <a href="/pages/track-order" class="bottom-menu__extended-link">
-                <i class="ri-truck-line bottom-menu__extended-icon" aria-hidden="true"></i>
+                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                  {{ 'icon-truck-line.svg' | inline_asset_content }}
+                </span>
                 Track Order
               </a>
             </div>
@@ -215,7 +219,9 @@
             {% if block.settings.show_help %}
             <div class="bottom-menu__extended-item">
               <a href="/pages/help" class="bottom-menu__extended-link">
-                <i class="ri-question-line bottom-menu__extended-icon" aria-hidden="true"></i>
+                <span class="bottom-menu__extended-icon" aria-hidden="true">
+                  {{ 'icon-question-line.svg' | inline_asset_content }}
+                </span>
                 Help
               </a>
             </div>

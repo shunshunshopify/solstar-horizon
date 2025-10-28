@@ -119,9 +119,20 @@
 }
 
 /* For SVGs with fill="currentColor" - render as fill only */
+/* SVG fill handling - Force stroke rendering for filled SVGs */
 .bottom-menu__icon.svg-wrapper svg[fill="currentColor"],
-.sticky-section .svg-wrapper svg[fill="currentColor"] {
-  stroke: none !important;
+.sticky-section__icon.svg-wrapper svg[fill="currentColor"] {
+  fill: none !important;
+  stroke: var(--bottom-menu-icon-color);
+  stroke-width: var(--icon-stroke-width);
+}
+
+/* Force home icon to render as stroke only */
+.bottom-menu__icon.svg-wrapper svg path[fill="currentColor"],
+.sticky-section__icon.svg-wrapper svg path[fill="currentColor"] {
+  fill: none !important;
+  stroke: var(--bottom-menu-icon-color);
+  stroke-width: var(--icon-stroke-width);
 }
 
 /* Ensure stroke elements don't get filled */

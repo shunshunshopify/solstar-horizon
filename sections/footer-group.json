@@ -25,14 +25,14 @@
         "cart_block_hVdAmV": {
           "type": "cart_block",
           "settings": {
-            "caption": "Cart"
+            "caption": "カート"
           }
         },
         "search_block_LBK7xP": {
           "type": "Search_block",
           "settings": {
             "icon_url": "",
-            "caption": "Search",
+            "caption": "検索",
             "url": ""
           }
         },

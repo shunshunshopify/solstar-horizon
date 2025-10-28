@@ -40,7 +40,7 @@
           "type": "block",
           "settings": {
             "icon_url": "",
-            "caption": "Caption",
+            "caption": "ギフト",
             "url": ""
           }
         },
@@ -72,12 +72,12 @@
       "name": "Bottom Nav Bar",
       "settings": {
         "bg_color": "#ffffff",
-        "icon_color": "#000",
-        "color": "#000",
+        "icon_color": "#000000",
+        "color": "#000000",
         "font_size": 10,
         "icon_size": 2.2,
         "height": 70,
-        "hide-border": false
+        "hide-border": true
       }
     },
     "footer_m9NzUG": {

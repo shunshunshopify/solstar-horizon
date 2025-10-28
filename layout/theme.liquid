@@ -74,5 +74,10 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+     <!-- Add this before the closing </body> tag -->
+    {{ 'wishlist.js' | asset_url | script_tag }}
+
+
   </body>
 </html>

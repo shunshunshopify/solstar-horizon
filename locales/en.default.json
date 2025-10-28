@@ -9,7 +9,7 @@
  */
 {
   "accessibility": {
-    "account": "Open account menu",
+    "account": "Account",
     "cart": "Cart",
     "cart_count": "Total items in cart",
     "close_dialog": "Close dialog",
@@ -26,12 +26,10 @@
     },
     "increase_quantity": "Increase quantity",
     "inventory_status": "Inventory status",
-    "localization_region_and_language": "Open region and language selector",
+    "localization_region_and_language": "Region and language selector",
     "menu": "Menu",
     "nested_product": "{{ product_title }} for {{ parent_title }}",
     "new_window": "Opens in a new window.",
-    "open_cart_drawer": "Open cart",
-    "open_search_modal": "Open search",
     "quantity": "Quantity",
     "pause_video": "Pause video",
     "play_model": "Play 3D model",
@@ -198,6 +196,12 @@
     "no_results_found": "No results found",
     "page_placeholder_title": "Page title",
     "page_placeholder_content": "Select a page to display its content.",
+    "pagination": {
+      "nav_label": "Pagination navigation",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ page }}"
+    },
     "pickup_available_at_html": "Pickup available at <b>{{ location }}</b>",
     "pickup_available_in": "Pickup available, {{ pickup_time }}",
     "pickup_not_available": "Pickup currently not available",

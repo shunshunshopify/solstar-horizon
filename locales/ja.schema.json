@@ -172,7 +172,8 @@
     "blog_posts_grid": "ブログ記事：グリッド",
     "blog_posts_carousel": "ブログ記事：カルーセル",
     "blog_posts_editorial": "ブログ記事：編集",
-    "excerpt": "抜粋"
+    "excerpt": "抜粋",
+    "footer_password": "パスワードフッター"
   },
   "settings": {
     "alignment": "配置",
@@ -485,7 +486,6 @@
     "card_hover_effect": "カードのホバー効果",
     "card_size": "カードサイズ",
     "collection_title_case": "コレクションタイトルの大文字・小文字設定",
-    "effects": "効果",
     "inventory_threshold": "低在庫しきい値",
     "mobile_card_size": "モバイルカードサイズ",
     "page": "ページ",
@@ -531,9 +531,13 @@
     },
     "blog": "ブログ",
     "post_count": "投稿数",
+    "animation": "アニメーション",
     "top_level_size": "最上位サイズ",
     "submenu_text_style": "サブメニューのテキストスタイル",
-    "empty_cart_button_link": "空のカートボタンのリンク"
+    "empty_cart_button_link": "空のカートボタンのリンク",
+    "auto_load_products": "スクロール時の商品自動読み込み。",
+    "products_per_page": "ページあたりの商品数",
+    "block_link": "ブロックリンク"
   },
   "options": {
     "adapt_to_image": "画像に合わせる",
@@ -914,10 +918,52 @@
     "block_link": "リンクをブロックする",
     "submenu_feature": "サブメニュー機能",
     "cart_features": "カートの特徴",
-    "email_signup": "メール登録者"
+    "email_signup": "メール登録者",
+    "submissions_are_sent_to_store_email_address": "送信はストストアの [差出人メールアドレス](https://admin.shopify.com/settings/notifications) に送信されます。"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>ブランドに関する情報をお客様と共有します。商品を説明したり、告知をしたり、ストアへのお客様を歓迎したりします。</p>"
+    "share_information_about_your": "<p>ブランドに関する情報をお客様と共有します。商品を説明したり、告知をしたり、ストアへのお客様を歓迎したりします。</p>",
+    "bestseller_h2": "<h2>ベストセラー</h2>",
+    "bestseller_h3": "<h3>ベストセラー</h3>",
+    "bestseller": "<p>ベストセラー</p>",
+    "build_better": "<p>より良いものを作ることができると信じています</p>",
+    "contact_us": "<h2>お問い合わせ</h2>",
+    "discover_bestsellers": "<p>機能性とスタイルの完璧なブレンドでお客様の心を捉えたベストセラーを発見してください。</p>",
+    "everythings_starts_with_why": "<p>私たちの行うすべてのことは「なぜ」から始まる</p>",
+    "explore_latest_products": "<p>最新の製品をご覧ください。</p>",
+    "faq": "<h3>よくある質問</h3>",
+    "first_to_know": "<p>新しいコレクションや特別オファーに関する最新情報をお知らせします。</p>",
+    "free_returns": "<p>30日間の無料返品</p>",
+    "free_shipping_over": "<p>50ドル以上で無料配送</p>",
+    "goal_for_every_customer": "<p>すべてのお客様にご購入いただいた商品にご満足いただけるよう努めております。万が一ご満足いただけない場合は、お知らせください。誠心誠意対応させていただきます。</p>",
+    "home_to_shirts": "<p>ホーム → シャツ</p>",
+    "intentional_design": "<h2>意図的なデザイン</h2>",
+    "introducing_h2": "<h2><em>紹介</em></h2>",
+    "latest_products": "<p>季節に合わせた最新商品をご紹介します。お好きな商品を売り切れる前にお買い求めください！</p>",
+    "made_local_and_global": "<p>私たちの製品は、国内およびグローバルに製造されています。私たちは、商品が高品質で公正な価値であることを保証するために、製造パートナーを慎重に選択します。</p>",
+    "made_with_care_h2": "<h2>丁寧に作られました</h2>",
+    "made_with_care_extended": "<p>丁寧に作られ、お客様に無条件に愛されているこのシグネチャーベストセラーは、すべての期待を超えています。</p>",
+    "made_with_care": "<p>丁寧に作られ、お客様に無条件に愛されています。</p>",
+    "make_things_better_extended": "<p>私たちは、より良く機能し、より長く使えるものを作ります。私たちの製品は、クリーンなデザインと誠実な素材で、現実の問題を解決します。</p>",
+    "make_things_better": "<p>私たちは、より良く機能し、長持ちするものを作ります。</p>",
+    "may_also_like": "<h4>あなたへのおすすめ</h4>",
+    "new_arrivals_h1": "<h1>新商品</h1>",
+    "new_arrivals_h2": "<h2>新商品</h2>",
+    "new_arrivals_h3": "<h3>新商品</h3>",
+    "product_launch": "<p>最新の製品発売の舞台裏をご覧ください。</p>",
+    "product_story": "<p>すべての製品の中心には、品質と革新に対する私たちの情熱に突き動かされたユニークなストーリーがあります。ひとつひとつのアイテムが、毎日の暮らしを盛り上げ、喜びを呼び起こします。</p>",
+    "real_people": "<p>素晴らしい製品を作る実在の人々</p>",
+    "related_product": "<h3>関連製品</h3>",
+    "return_policy": "<h2>返品ポリシーについて教えてください。</h2>",
+    "reviews": "<p>★★★★★ 368件の総評</p>",
+    "shipping_based_on_location": "<p>送料は、お客様の所在地とご注文の商品に基づいて計算されます。購入する前に、必ず送料をお知らせします。</p>",
+    "shop_by_collection": "<h3>コレクションごとに購入</h3>",
+    "signature_products": "<h2>私たちの代表的な商品</h2>",
+    "styled_with": "<h3>スタイル</h3>",
+    "subscribe": "<h2>ストアからのメールを受け取る</h2>",
+    "team_with_goal": "<h2>ゴールを掲げるチーム</h2>",
+    "unable_to_accept_returns": "<p>一部の商品については返品をお受けできません。ご購入前に必ず返品種別を明記いたします。</p>",
+    "work_quickly_to_ship": "<p>ご注文いただいた商品をできるだけ早く発送できるよう、迅速に対応いたします。ご注文の商品が発送され次第、詳細情報が記載されたメールが届きます。配達所要時間はお住まいの地域によって異なります。</p>"
   },
   "text_defaults": {
     "button_label": "今すぐ購入",
@@ -930,7 +976,26 @@
     "sign_up": "サインアップ",
     "welcome_to_our_store": "ストアへようこそ",
     "be_bold": "太字にします。",
-    "shop_our_latest_arrivals": "最新の商品を購入しましょう！"
+    "shop_our_latest_arrivals": "最新の商品を購入しましょう！",
+    "are_purchases_final_sale": "購入した商品は返品不可ですか？",
+    "care_instructions": "お手入れ方法",
+    "cart": "カート",
+    "discover_collection": "コレクションを見る",
+    "fit": "フィット",
+    "how_much_for_shipping": "送料はいくらですか？",
+    "learn_more": "詳しくはこちら",
+    "manufacturing": "製造",
+    "materials": "素材",
+    "return_policy": "返品ポリシー",
+    "shipping": "配送",
+    "shop_now_button_label": "今すぐ購入",
+    "sign_up_button_label": "サインアップ",
+    "submit_button_label": "送信する",
+    "up_the_ante": "上へ\nThe\nAnte",
+    "view_all_button_label": "すべてを表示",
+    "what_is_return_policy": "返品ポリシーについて教えてください。",
+    "when_will_order_arrive": "注文した商品はいつ届きますか？",
+    "where_are_products_made": "商品はどこで製造されていますか？"
   },
   "info": {
     "video_alt_text": "支援技術ユーザー向けのビデオを説明する",
@@ -956,7 +1021,7 @@
     "pills_usage": "適用されたフィルター、割引コード、検索候補に使用されます",
     "hide_logo_on_home_page_help": "スティッキーヘッダーがアクティブな場合、ロゴは表示されたままになります",
     "media_type_info": "Featuresはメニューリンクから入力されます",
-    "logo_height": "ヘッダーロゴのみに影響します"
+    "logo_height": "ヘッダーロゴにのみ影響します"
   },
   "categories": {
     "product_list": "特集コレクション",
@@ -975,6 +1040,7 @@
     "decorative": "装飾体",
     "products": "商品",
     "other_sections": "その他",
-    "storytelling": "ストーリーテリング"
+    "storytelling": "ストーリーテリング",
+    "text": "テキスト"
   }
 }

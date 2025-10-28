@@ -18,7 +18,8 @@
     <a
       href="{{ routes.cart_url }}"
       class="header-actions__action action__cart"
-      aria-label="{{ 'accessibility.cart' | t }} {{ 'accessibility.cart_count' | t }}: {{ cart.item_count }}"
+      aria-label="{{ 'accessibility.cart' | t }}"
+      aria-describedby="cart-bubble-text"
     >
       {% render 'cart-icon-component' %}
     </a>

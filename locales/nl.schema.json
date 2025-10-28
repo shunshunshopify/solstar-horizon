@@ -172,7 +172,8 @@
     "blog_posts_grid": "Blogposts: grid",
     "blog_posts_carousel": "Blogposts: carousel",
     "blog_posts_editorial": "Blogposts: redactioneel",
-    "excerpt": "Uittreksel"
+    "excerpt": "Uittreksel",
+    "footer_password": "Wachtwoord voettekst"
   },
   "settings": {
     "autoplay": "Automatisch afspelen",
@@ -491,7 +492,6 @@
     "animation_repeat": "Animatie herhalen",
     "blurred_reflection": "Onscherpe weerspiegeling",
     "card_hover_effect": "Zweefeffect voor kaart",
-    "effects": "Effecten",
     "inventory_threshold": "Drempelwaarde lage voorraad",
     "reflection_opacity": "Opaciteit reflectie",
     "show_inventory_quantity": "Laag voorraadaantal weergeven",
@@ -531,9 +531,13 @@
     },
     "blog": "Blog",
     "post_count": "Aantal posts",
+    "animation": "Animatie",
     "top_level_size": "Grootte bovenste niveau",
     "submenu_text_style": "Tekststijl submenu",
-    "empty_cart_button_link": "Knoplink lege winkelwagen"
+    "empty_cart_button_link": "Knoplink lege winkelwagen",
+    "auto_load_products": "Producten automatisch laden bij scrollen",
+    "products_per_page": "Producten per pagina",
+    "block_link": "Bloklink"
   },
   "options": {
     "adapt_to_image": "Aanpassen aan afbeelding",
@@ -914,10 +918,52 @@
     "block_link": "Bloklink",
     "submenu_feature": "Functie in submenu",
     "cart_features": "Functies winkelwagen",
-    "email_signup": "Aanmelding(en) voor het ontvangen van e-mail"
+    "email_signup": "Aanmelding(en) voor het ontvangen van e-mail",
+    "submissions_are_sent_to_store_email_address": "Inzendingen worden gestuurd naar het [e-mailadres van afzender](https://admin.shopify.com/settings/notifications) van je winkel"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>Deel informatie over je merk met klanten. Beschrijf een product, doe aankondigingen of verwelkom klanten in je winkel.</p>"
+    "share_information_about_your": "<p>Deel informatie over je merk met klanten. Beschrijf een product, doe aankondigingen of verwelkom klanten in je winkel.</p>",
+    "bestseller_h2": "<h2>Bestsellers</h2>",
+    "bestseller_h3": "<h3>Bestsellers</h3>",
+    "bestseller": "<p>Bestseller</p>",
+    "build_better": "<p>Wij geloven in samen verder bouwen</p>",
+    "contact_us": "<h2>Neem contact met ons op</h2>",
+    "discover_bestsellers": "<p>Ontdek de bestsellers die de harten van onze klanten hebben veroverd dankzij hun perfecte mix van functionaliteit en stijl.</p>",
+    "everythings_starts_with_why": "<p>Alles wat we doen begint met waarom</p>",
+    "explore_latest_products": "<p>Bekijk onze nieuwste producten.</p>",
+    "faq": "<h3>Veelgestelde vragen</h3>",
+    "first_to_know": "<p>Kom het als eerste te weten als er nieuwe collecties en speciale aanbiedingen zijn.</p>",
+    "free_returns": "<p>Gratis retourneren binnen 30 dagen</p>",
+    "free_shipping_over": "<p>Gratis verzending bij meer dan $50</p>",
+    "goal_for_every_customer": "<p>Ons doel is te zorgen dat alle klanten helemaal tevreden zijn met hun aankoop. Mocht dit niet het geval zijn, laat het ons dan weten en we zullen ons best doen om dit samen met jou op te lossen.</p>",
+    "home_to_shirts": "<p>Home → Shirts</p>",
+    "intentional_design": "<h2>Speciaal ontworpen</h2>",
+    "introducing_h2": "<h2><em>Maak kennis met</em></h2>",
+    "latest_products": "<p>Maak kennis met onze nieuwste producten, speciaal gemaakt voor dit seizoen. Shop je favorieten voordat ze uitverkocht zijn!</p>",
+    "made_local_and_global": "<p>Onze producten worden zowel lokaal als internationaal geproduceerd. We selecteren onze productiepartners zorgvuldig om ervoor te zorgen dat onze producten van hoge kwaliteit zijn en een eerlijke prijs hebben.</p>",
+    "made_with_care_h2": "<h2>Met zorg gemaakt</h2>",
+    "made_with_care_extended": "<p>Met zorg gemaakt en onvoorwaardelijk geliefd bij onze klanten, overtreft deze kenmerkende bestseller alle verwachtingen.</p>",
+    "made_with_care": "<p>Met zorg gemaakt en onvoorwaardelijk geliefd bij onze klanten.</p>",
+    "make_things_better_extended": "<p>Wij maken producten die beter werken en langer meegaan. Onze producten lossen echte problemen op met een strak design en eerlijke materialen.</p>",
+    "make_things_better": "<p>Wij maken producten die beter werken en langer meegaan.</p>",
+    "may_also_like": "<h4>Dit vind je misschien ook leuk</h4>",
+    "new_arrivals_h1": "<h1>Nieuw binnen</h1>",
+    "new_arrivals_h2": "<h2>Net binnen</h2>",
+    "new_arrivals_h3": "<h3>Net binnen</h3>",
+    "product_launch": "<p>Neem een kijkje achter de schermen van onze nieuwste productlancering.</p>",
+    "product_story": "<p>Aan de basis van elk product ligt een uniek verhaal, gedreven door onze passie voor kwaliteit en innovatie. Elk artikel verrijkt je dagelijkse leven en brengt vreugde.</p>",
+    "real_people": "<p>Echte mensen die geweldige producten maken</p>",
+    "related_product": "<h3>Gerelateerde producten</h3>",
+    "return_policy": "<h2>Wat is het retourbeleid?</h2>",
+    "reviews": "<p>★★★★★ 368 recensies</p>",
+    "shipping_based_on_location": "<p>De verzendkosten worden berekend op basis van je locatie en de artikelen in je bestelling. Je weet altijd wat de verzendkosten zijn voordat je koopt.</p>",
+    "shop_by_collection": "<h3>Shop per collectie</h3>",
+    "signature_products": "<h2>Ons kenmerkende product</h2>",
+    "styled_with": "<h3>Gestyled met</h3>",
+    "subscribe": "<h2>Abonneer je op onze e-mails</h2>",
+    "team_with_goal": "<h2>Een team met een doel</h2>",
+    "unable_to_accept_returns": "<p>We kunnen bepaalde artikelen niet retourneren. Dit wordt vóór de aankoop duidelijk aangegeven.</p>",
+    "work_quickly_to_ship": "<p>We doen er alles aan om je bestelling zo snel mogelijk te verzenden. Zodra je bestelling is verzonden, ontvang je een e-mail met meer informatie. Levertijden zijn afhankelijk van je locatie.</p>"
   },
   "text_defaults": {
     "collapsible_row": "Inklapbare rij",
@@ -930,7 +976,26 @@
     "sign_up": "Aanmelden",
     "welcome_to_our_store": "Welkom in onze winkel",
     "be_bold": "Laat je zien.",
-    "shop_our_latest_arrivals": "Shop onze nieuwste producten!"
+    "shop_our_latest_arrivals": "Shop onze nieuwste producten!",
+    "are_purchases_final_sale": "Zijn er aankopen die niet geretourneerd kunnen worden?",
+    "care_instructions": "Verzorgingsinstructies",
+    "cart": "Winkelwagen",
+    "discover_collection": "Ontdek de collectie",
+    "fit": "pasvorm",
+    "how_much_for_shipping": "Wat zijn de verzendkosten?",
+    "learn_more": "Meer informatie",
+    "manufacturing": "Productie",
+    "materials": "Materialen",
+    "return_policy": "Retourbeleid",
+    "shipping": "Verzending",
+    "shop_now_button_label": "Shop nu",
+    "sign_up_button_label": "Aanmelden",
+    "submit_button_label": "Indienen",
+    "up_the_ante": "Verhoog\nde\nverwachtingen",
+    "view_all_button_label": "Alles bekijken",
+    "what_is_return_policy": "Wat is het retourbeleid?",
+    "when_will_order_arrive": "Wanneer krijg ik mijn bestelling?",
+    "where_are_products_made": "Waar worden jullie producten gemaakt?"
   },
   "info": {
     "carousel_layout_on_mobile": "Carrousel wordt gebruikt op mobiel",
@@ -956,7 +1021,7 @@
     "hover_effects": "Van toepassing op product- en collectiekaarten",
     "hide_logo_on_home_page_help": "Logo blijft zichtbaar wanneer sticky header actief is",
     "media_type_info": "Functies worden ingevuld vanuit je menulinks",
-    "logo_height": "Beïnvloedt alleen header logo"
+    "logo_height": "Heeft alleen invloed op het logo van de koptekst"
   },
   "categories": {
     "product_list": "Uitgelichte collectie",
@@ -975,6 +1040,7 @@
     "decorative": "Decoratief",
     "products": "Producten",
     "other_sections": "Anders",
-    "storytelling": "Storytelling"
+    "storytelling": "Storytelling",
+    "text": "Tekst"
   }
 }

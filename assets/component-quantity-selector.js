@@ -77,9 +77,12 @@ class QuantitySelectorComponent extends Component {
   #checkQuantityRules = () => {
     const { quantityInput } = this.refs;
     const { min, max, value: newValue } = quantityInput;
+    const minInt = parseInt(min);
+    const maxInt = parseInt(max);
+    const newValueInt = parseInt(newValue);
 
-    if (newValue < min && min) quantityInput.value = min;
-    if (newValue > max && max) quantityInput.value = max;
+    if (newValueInt < minInt && min) quantityInput.value = min;
+    if (newValueInt > maxInt && max) quantityInput.value = max;
   };
 
   /**

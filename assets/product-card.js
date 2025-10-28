@@ -440,10 +440,10 @@ if (!customElements.get('product-card')) {
 
 /**
  * A custom element that displays a variant picker with swatches.
- *
- * @typedef {object} SwatchesRefs
- * @property {HTMLElement} overflowList
- *
+ * @typedef {import('@theme/variant-picker').VariantPickerRefs & {overflowList: HTMLElement}} SwatchesRefs
+ */
+
+/**
  * @extends {VariantPicker<SwatchesRefs>}
  */
 class SwatchesVariantPickerComponent extends VariantPicker {

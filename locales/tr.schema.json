@@ -172,7 +172,8 @@
     "blog_posts_grid": "Blog gönderileri: Izgara",
     "blog_posts_carousel": "Blog gönderileri: Döngü",
     "blog_posts_editorial": "Blog gönderileri: Editoryal",
-    "excerpt": "Alıntı"
+    "excerpt": "Alıntı",
+    "footer_password": "Şifre alt bilgisi"
   },
   "settings": {
     "autoplay": "Otomatik oynatma",
@@ -485,7 +486,6 @@
     "card_hover_effect": "Kart üzerine gelme efekti",
     "card_size": "Kart boyutu",
     "collection_title_case": "Koleksiyon başlığı büyük/küçük harf durumu",
-    "effects": "Efektler",
     "inventory_threshold": "Düşük stok eşiği",
     "mobile_card_size": "Mobil kart boyutu",
     "page": "Sayfa",
@@ -531,9 +531,12 @@
     },
     "blog": "Blog",
     "post_count": "Gönderi sayısı",
+    "animation": "Animasyon",
     "top_level_size": "En üst düzey boyut",
     "submenu_text_style": "Alt menü metin stili",
-    "empty_cart_button_link": "Sepeti boşalt düğme bağlantısı"
+    "empty_cart_button_link": "Sepeti boşalt düğme bağlantısı",
+    "auto_load_products": "Kaydırmada ürünleri otomatik yükle",
+    "products_per_page": "Sayfa başına ürün"
   },
   "options": {
     "adapt_to_image": "Görsele uyarla",
@@ -914,10 +917,52 @@
     "block_link": "Blok Bağlantısı",
     "submenu_feature": "Alt menü özelliği",
     "cart_features": "Sepet özellikleri",
-    "email_signup": "E-posta kaydı"
+    "email_signup": "E-posta kaydı",
+    "submissions_are_sent_to_store_email_address": "Gönderimler mağazanızın [gönderen e-postası adresine](https://admin.shopify.com/settings/notifications) gönderilir"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>Müşterilerinizle markanız hakkında bilgi paylaşın. Ürün açıklaması girin, duyuru paylaşın veya mağazanıza gelen müşterileri karşılayın.</p>"
+    "share_information_about_your": "<p>Müşterilerinizle markanız hakkında bilgi paylaşın. Ürün açıklaması girin, duyuru paylaşın veya mağazanıza gelen müşterileri karşılayın.</p>",
+    "bestseller_h2": "<h2>En çok satılanlar</h2>",
+    "bestseller_h3": "<h3>En çok satılanlar</h3>",
+    "bestseller": "<p>En çok satılan</p>",
+    "build_better": "<p>Daha iyisini oluşturmaya inanıyoruz</p>",
+    "contact_us": "<h2>Bizimle iletişime geçin</h2>",
+    "discover_bestsellers": "<p>İşlevsellik ve stilin mükemmel uyumu sayesinde müşterilerimizin kalbini fetheden en çok satılan ürünleri keşfedin.</p>",
+    "everythings_starts_with_why": "<p>Yaptığımız her şey neden sorusunu sormakla başlar</p>",
+    "explore_latest_products": "<p>En yeni ürünlerimizi keşfedin.</p>",
+    "faq": "<h3>Sıkça sorulan sorular</h3>",
+    "first_to_know": "<p>Yeni koleksiyonlar ve özel tekliflerden ilk siz haberdar olun. </p>",
+    "free_returns": "<p>30 gün içinde ücretsiz iade</p>",
+    "free_shipping_over": "<p>50 USD üzeri alışverişlerde ücretsiz kargo</p>",
+    "goal_for_every_customer": "<p>Her müşterimizin satın aldığı üründen tamamen memnun kalmasını amaçlıyoruz. Aksi bir durumu lütfen bize bildirin; sorunu çözmek için elimizden geleni yapacağız.</p>",
+    "home_to_shirts": "<p>Ana sayfa → Gömlekler</p>",
+    "intentional_design": "<h2>Amaca yönelik tasarım</h2>",
+    "introducing_h2": "<h2><em>Giriş</em></h2>",
+    "latest_products": "<p>Mevsime özel tasarlanmış en yeni ürünlerimizi sunuyoruz. Beğendiklerinizi stoklar tükenmeden alın!</p>",
+    "made_local_and_global": "<p>Ürünlerimiz hem yerel hem de küresel çapta üretilir. Ürünlerimizin yüksek kaliteli ve uygun fiyatlı olmasını sağlamak için üretim iş ortaklarımızı özenle seçeriz.</p>",
+    "made_with_care_h2": "<h2>Özenle üretilmiş</h2>",
+    "made_with_care_extended": "<p>Özenle üretilen ve müşterilerimiz tarafından çok sevilen bu özel ürün, tüm beklentileri aşıyor.</p>",
+    "made_with_care": "<p>Özenle üretildi ve müşterilerimiz tarafından çok sevildi.</p>",
+    "make_things_better_extended": "<p>Daha iyi iş gören ve daha uzun ömürlü ürünler üretiyoruz. Ürünlerimiz, sade tasarımları ve güvenilir malzemeleriyle gerçek sorunsuzluk vadeder.</p>",
+    "make_things_better": "<p>Daha iyi iş gören ve daha uzun ömürlü ürünler üretiyoruz.</p>",
+    "may_also_like": "<h4>Şu ürünler de hoşunuza gidebilir:</h4>",
+    "new_arrivals_h1": "<h1>Yeni gelenler</h1>",
+    "new_arrivals_h2": "<h2>Yeni gelenler</h2>",
+    "new_arrivals_h3": "<h3>Yeni gelenler</h3>",
+    "product_launch": "<p>Piyasaya sürdüğümüz son ürünün perde arkasını keşfedin.</p>",
+    "product_story": "<p>Her ürünün kalbinde kalite ve yenilikçilik tutkumuza ilham veren benzersiz bir öykü yatar. Her bir ürün günlük hayatınızı güzelleştirip size neşe katar.</p>",
+    "real_people": "<p>Harika ürünler üreten gerçek insanlar</p>",
+    "related_product": "<h3>İlgili ürünler</h3>",
+    "return_policy": "<h2>İade politikası nasıldır?</h2>",
+    "reviews": "<p>★★★★★ 368 Değerlendirme</p>",
+    "shipping_based_on_location": "<p>Kargo ücreti, bulunduğunuz konuma ve siparişinizdeki ürünlere göre hesaplanır. Satın almadan önce kargo ücretini her zaman bilirsiniz.</p>",
+    "shop_by_collection": "<h3>Koleksiyona göre alışveriş yapın</h3>",
+    "signature_products": "<h2>Seçkin ürünümüz</h2>",
+    "styled_with": "<h3>Şu ürünlerle birlikte kullanılabilir:</h3>",
+    "subscribe": "<h2>E-posta listemize kaydolun</h2>",
+    "team_with_goal": "<h2>Hedefleri olan bir ekip</h2>",
+    "unable_to_accept_returns": "<p>Belirli ürünlerde iade kabul edemiyoruz. Bu ürünler, siz satın almadan önce özenle işaretlenir.</p>",
+    "work_quickly_to_ship": "<p>Siparişinizi mümkün olan en kısa sürede göndermek için hızlı şekilde çalışacağız. Siparişiniz gönderildiğinde daha fazla bilgi içeren bir e-posta alacaksınız. Teslimat süreleri bulunduğunuz konuma göre değişiklik gösterebilir.</p>"
   },
   "text_defaults": {
     "collapsible_row": "Daraltılabilir satır",
@@ -930,7 +975,26 @@
     "sign_up": "Kaydol",
     "welcome_to_our_store": "Mağazamıza hoş geldiniz",
     "be_bold": "Kalın yazılarla cesaretinizi sergileyin.",
-    "shop_our_latest_arrivals": "Yeni gelen ürünleri incele!"
+    "shop_our_latest_arrivals": "Yeni gelen ürünleri incele!",
+    "are_purchases_final_sale": "Tüm satın alım işlemleri nihai satış mıdır?",
+    "care_instructions": "Bakım talimatları",
+    "cart": "Sepet",
+    "discover_collection": "Koleksiyonu keşfet",
+    "fit": "uyum",
+    "how_much_for_shipping": "Kargo masrafı ne kadar?",
+    "learn_more": "Daha fazla bilgi edinin",
+    "manufacturing": "Üretim",
+    "materials": "Malzemeler",
+    "return_policy": "İade politikası",
+    "shipping": "Kargo",
+    "shop_now_button_label": "Şimdi satın al",
+    "sign_up_button_label": "Kaydol",
+    "submit_button_label": "Gönder",
+    "up_the_ante": "Kaliteyi\nYükselt",
+    "view_all_button_label": "Tümünü görüntüle",
+    "what_is_return_policy": "İade politikası nasıldır?",
+    "when_will_order_arrive": "Siparişim ne zaman elime ulaşır?",
+    "where_are_products_made": "Ürünleriniz nerede üretiliyor?"
   },
   "info": {
     "video_alt_text": "Yardımcı teknoloji kullanan kişiler için videonun içeriğini tarif et",
@@ -956,7 +1020,7 @@
     "pills_usage": "Uygulanan filtreler, indirim kodları ve arama önerileri için kullanılır",
     "hide_logo_on_home_page_help": "Sabit üstbilgi etkin olduğunda logo görünür kalır",
     "media_type_info": "Özellikler, menü bağlantılarınızdan doldurulur",
-    "logo_height": "Yalnızca başlık logosunu etkiler"
+    "logo_height": "Sadece üstbilgi logoyu etkiler"
   },
   "categories": {
     "product_list": "Öne çıkan koleksiyon",
@@ -975,6 +1039,7 @@
     "decorative": "Dekoratif",
     "products": "Ürünler",
     "other_sections": "Diğer",
-    "storytelling": "Hikaye anlatıcılığı"
+    "storytelling": "Hikaye anlatıcılığı",
+    "text": "Metin"
   }
 }

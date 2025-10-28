@@ -172,7 +172,8 @@
     "blog_posts_grid": "Blogipostaukset: Ruudukko",
     "blog_posts_carousel": "Blogipostaukset: Karuselli",
     "blog_posts_editorial": "Blogipostaukset: Editoriaali",
-    "excerpt": "Ote"
+    "excerpt": "Ote",
+    "footer_password": "Salasanan alatunniste"
   },
   "settings": {
     "alignment": "Tasaus",
@@ -493,7 +494,6 @@
     "animation_repeat": "Toistuva animaatio",
     "blurred_reflection": "Sumennettu heijastus",
     "card_hover_effect": "Kortin osoitusefekti",
-    "effects": "Efektit",
     "reflection_opacity": "Heijastuksen peittävyys",
     "transition_to_main_product": "Siirtymä tuotekortista tuotesivuun",
     "media": "Media",
@@ -531,9 +531,13 @@
     },
     "blog": "Blogi",
     "post_count": "Postausten määrä",
+    "animation": "Animaatio",
     "top_level_size": "Ylätason koko",
     "submenu_text_style": "Alivalikon tekstityyli",
-    "empty_cart_button_link": "Tyhjennä ostoskori -painikkeen linkki"
+    "empty_cart_button_link": "Tyhjän ostoskorin painikelinkki",
+    "auto_load_products": "Lataa tuotteet automaattisesti vieritettäessä",
+    "products_per_page": "Tuotteita sivulla",
+    "block_link": "Lohkolinkki"
   },
   "options": {
     "adapt_to_image": "Sovita kuvaan",
@@ -914,10 +918,52 @@
     "block_link": "Lohkolinkki",
     "submenu_feature": "Alivalikko-ominaisuus",
     "cart_features": "Ostoskorin ominaisuudet",
-    "email_signup": "Sähköpostirekisteröityminen"
+    "email_signup": "Sähköpostirekisteröityminen",
+    "submissions_are_sent_to_store_email_address": "Lähetykset lähetetään kauppasi [myyjän sähköpostiosoitteeseen](https://admin.shopify.com/settings/notifications)"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>Kerro brändiäsi koskevia tietoja asiakkaillesi. Kuvaile tuotetta, jaa ilmoituksia tai toivota asiakkaat tervetulleiksi kauppaasi.</p>"
+    "share_information_about_your": "<p>Kerro brändiäsi koskevia tietoja asiakkaillesi. Kuvaile tuotetta, jaa ilmoituksia tai toivota asiakkaat tervetulleiksi kauppaasi.</p>",
+    "bestseller_h2": "<h2>Suosituimmat</h2>",
+    "bestseller_h3": "<h3>Suosituimmat</h3>",
+    "bestseller": "<p>Suosituin</p>",
+    "build_better": "<p>Uskomme paremman rakentamiseen</p>",
+    "contact_us": "<h2>Ota yhteyttä</h2>",
+    "discover_bestsellers": "<p>Tutustu suosituimpiin tuotteisiin, jotka ovat vallanneet asiakkaidemme sydämen yhdistelemällä täydellisesti toiminnallisuutta ja tyyliä.</p>",
+    "everythings_starts_with_why": "<p>Kaikki tekemämme saa alkunsa etsimällä vastauksia tärkeisiin kysymyksiin</p>",
+    "explore_latest_products": "<p>Tutustu uusimpiin tuotteisiimme.</p>",
+    "faq": "<h3>Usein kysyttyä</h3>",
+    "first_to_know": "<p>Saa ensimmäisten joukossa tietoa uusista kokoelmista ja ainutlaatuisista tarjouksista.</p>",
+    "free_returns": "<p>Ilmaiset palautukset 30 päivän ajan</p>",
+    "free_shipping_over": "<p>Ilmainen toimitus yli 50 € ostoksille</p>",
+    "goal_for_every_customer": "<p>Tavoitteenamme on, että jokainen asiakas on täysin tyytyväinen ostokseensa. Jos näin ei ole, kerro asiasta meille, niin teemme parhaamme korjataksemme tilanteen.</p>",
+    "home_to_shirts": "<p>Aloitussivu → Paidat</p>",
+    "intentional_design": "<h2>Designia, jolla on tarkoitus</h2>",
+    "introducing_h2": "<h2><em>Esittelyssä</em></h2>",
+    "latest_products": "<p>Esittelyssä nyt uusimmat tuotteemme, jotka on varta vasten tehty tätä sesonkia varten. Osta suosikkisi ennen kuin ne loppuvat!</p>",
+    "made_local_and_global": "<p>Tuotteemme on valmistettu sekä paikallisesti että maailmanlaajuisesti. Valitsemme valmistuskumppanimme huolella, jotta voimme varmistaa tuotteiden korkean laadun ja reilut arvot.</p>",
+    "made_with_care_h2": "<h2>Huolella valmistettu</h2>",
+    "made_with_care_extended": "<p>Tämä eksklusiivinen suosikkituote ylittää kaikki odotukset, koska se on huolella valmistettu ja siksi asiakkaidemme ehdottomasti suosima.</p>",
+    "made_with_care": "<p>Huolella valmistettu ja siksi asiakkaidemme ehdottomasti suosima.</p>",
+    "make_things_better_extended": "<p>Valmistamme tuotteita, jotka toimivat paremmin ja kestävät pidempään. Tuotteemme ratkaisevat aitoja ongelmia selkeällä designilla ja rehellisillä materiaaleilla.</p>",
+    "make_things_better": "<p>Valmistamme tuotteita, jotka toimivat paremmin ja kestävät pidempään.</p>",
+    "may_also_like": "<h4>Saatat pitää myös näistä</h4>",
+    "new_arrivals_h1": "<h1>Uutuudet</h1>",
+    "new_arrivals_h2": "<h2>Uutuudet</h2>",
+    "new_arrivals_h3": "<h3>Uutuudet</h3>",
+    "product_launch": "<p>Vilkaise uusimman tuotelanseerauksemme kulissien taakse.</p>",
+    "product_story": "<p>Jokaisen tuotteen ytimessä on yksilöllinen tarina, joka saa tenhonsa laadun arvostamisestamme ja innovaatiosta. Jokainen tuote parantaa arkeasi ja tuo iloa.</p>",
+    "real_people": "<p>Aitojen ihmisten tekemiä mainioita tuotteita</p>",
+    "related_product": "<h3>Liittyvät tuotteet</h3>",
+    "return_policy": "<h2>Millainen palautuskäytäntö on?</h2>",
+    "reviews": "<p>★★★★★ 368 arvostelua</p>",
+    "shipping_based_on_location": "<p>Toimituskulut lasketaan sijaintisi ja tilaamiesi tuotteiden perusteella. Näet toimitushinnan aina ennen ostamista.</p>",
+    "shop_by_collection": "<h3>Osta kokoelman perusteella</h3>",
+    "signature_products": "<h2>Tunnetuin tuotteemme</h2>",
+    "styled_with": "<h3>Tyylittelyssä mukana</h3>",
+    "subscribe": "<h2>Tilaa sähköpostiviestejämme</h2>",
+    "team_with_goal": "<h2>Tiimi, jolla on tavoite</h2>",
+    "unable_to_accept_returns": "<p>Emme pysty vastaanottamaan tiettyjen tuotteiden palautuksia. Tällaiset tuotteet merkitään selkeästi ennen ostamista.</p>",
+    "work_quickly_to_ship": "<p>Pyrimme lähettämään tilauksesi mahdollisimman pian. Kun tilauksesi on lähetetty, saat sähköpostin, jossa on lisätietoja. Toimitusajat vaihtelevat sijainnista riippuen.</p>"
   },
   "text_defaults": {
     "button_label": "Osta nyt",
@@ -930,7 +976,26 @@
     "sign_up": "Rekisteröidy",
     "welcome_to_our_store": "Tervetuloa kauppaamme",
     "be_bold": "Tule huomatuksi.",
-    "shop_our_latest_arrivals": "Osta uusimpia tuotteitamme!"
+    "shop_our_latest_arrivals": "Osta uusimpia tuotteitamme!",
+    "are_purchases_final_sale": "Ovatko jotkin ostokset lopullisia?",
+    "care_instructions": "Hoito-ohjeet",
+    "cart": "Ostoskori",
+    "discover_collection": "Tutustu kokoelmaan",
+    "fit": "sovitus",
+    "how_much_for_shipping": "Paljonko lähetys maksaa?",
+    "learn_more": "Lisätietoja",
+    "manufacturing": "Tuotanto",
+    "materials": "Materiaali",
+    "return_policy": "Palautuskäytäntö",
+    "shipping": "Toimitus",
+    "shop_now_button_label": "Osta nyt",
+    "sign_up_button_label": "Rekisteröidy",
+    "submit_button_label": "Lähetä",
+    "up_the_ante": "Nosta\npanoksia",
+    "view_all_button_label": "Näytä kaikki",
+    "what_is_return_policy": "Millainen palautuskäytäntö on?",
+    "when_will_order_arrive": "Milloin tilaukseni saapuu?",
+    "where_are_products_made": "Missä tuotteenne valmistetaan?"
   },
   "info": {
     "carousel_layout_on_mobile": "Karusellia käytetään mobiililaitteessa",
@@ -956,7 +1021,7 @@
     "hover_effects": "Käytetään tuote- ja kokoelmakorteissa",
     "hide_logo_on_home_page_help": "Logo pysyy näkyvissä, kun paikallaan pysyvä ylätunniste on aktiivinen",
     "media_type_info": "Ominaisuudet täytetään valikkolinkeistäsi",
-    "logo_height": "Vaikuttaa vain otsikon logo"
+    "logo_height": "Vaikuttaa vain ylätunnisteen logoon"
   },
   "categories": {
     "basic": "Basic",
@@ -975,6 +1040,7 @@
     "decorative": "Koristeellinen",
     "products": "Tuotteet",
     "other_sections": "Muu",
-    "storytelling": "Tarinankerronta"
+    "storytelling": "Tarinankerronta",
+    "text": "Teksti"
   }
 }

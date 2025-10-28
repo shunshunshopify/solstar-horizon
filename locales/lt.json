@@ -57,8 +57,7 @@
     "inventory_status": "Atsargų būsena",
     "pause_video": "Pristabdyti vaizdo įrašą",
     "find_country": "Rasti šalį",
-    "localization_region_and_language": "Atidaryti regiono ir kalbos parinkiklį",
-    "open_search_modal": "Atidaryti paiešką",
+    "localization_region_and_language": "Regiono ir kalbos parinkiklis",
     "decrease_quantity": "Sumažinti kiekį",
     "increase_quantity": "Padidinti kiekį",
     "rating": "Šio produkto vertinimas: {{ rating }} iš 5",
@@ -239,7 +238,13 @@
     "recipient_form_fields_hidden": "Dabar gavėjo formos laukai yra paslėpti",
     "recipient_form_error": "Įvyko su formos pateikimu susijusi klaida",
     "product_custom_property_character_count": "Panaudota {{ used_chars }}/{{ max_chars }} simbolių",
-    "terms_and_policies": "Sąlygos ir politika"
+    "terms_and_policies": "Sąlygos ir politika",
+    "pagination": {
+      "nav_label": "Skirstymo puslapiais navigacija",
+      "previous": "Ankstesnis",
+      "next": "Kitas",
+      "page": "{{ page }} puslapis"
+    }
   },
   "gift_cards": {
     "issued": {

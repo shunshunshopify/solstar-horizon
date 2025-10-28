@@ -1,13 +1,16 @@
 <div class="account-actions">
   <div class="account-actions__main-menu">
     <header class="account-actions__header">
-      <span class="account-actions__title h5">
+      <h2
+        id="account-drawer-heading"
+        class="account-actions__title h5"
+      >
         {% if customer and customer.first_name != blank %}
           {{ 'content.account_title_personalized' | t: first_name: customer.first_name }}
         {% else %}
           {{ 'content.account_title' | t }}
         {% endif %}
-      </span>
+      </h2>
       {% if customer %}
         <span class="account-actions__email">
           {% if customer.email %}
@@ -36,9 +39,6 @@
         <a
           href="{% if request.design_mode %}{{ routes.account_url }}{% else %}{{ routes.storefront_login_url }}{% endif %}"
           class="account-actions__link button"
-          {% if autofocus_enabled %}
-            autofocus
-          {% endif %}
         >
           <span class="account-actions__sign-in-text">
             {{ 'actions.sign_in_options' | t }}
@@ -56,9 +56,6 @@
           <a
             href="{{ routes.account_url }}"
             class="account-actions__link button-secondary"
-            {% if autofocus_enabled and customer %}
-              autofocus
-            {% endif %}
           >
             <span
               class="account-actions__icon"

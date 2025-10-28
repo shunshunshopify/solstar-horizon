@@ -42,7 +42,7 @@
       "other": "{{ count }} filtros aplicados",
       "many": "{{ count }} filtros aplicados"
     },
-    "account": "Abrir menú de cuenta",
+    "account": "Cuenta",
     "cart": "Carrito",
     "cart_count": "Total de artículos en el carrito",
     "menu": "Menú",
@@ -57,8 +57,7 @@
     "pause_video": "Pausar el video",
     "inventory_status": "Estado del inventario",
     "find_country": "Buscar país",
-    "localization_region_and_language": "Abrir selector de región e idioma",
-    "open_search_modal": "Abrir búsqueda",
+    "localization_region_and_language": "Selector de región e idioma",
     "decrease_quantity": "Disminuir cantidad",
     "increase_quantity": "Aumentar cantidad",
     "quantity": "Cantidad",

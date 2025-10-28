@@ -57,8 +57,7 @@
     "inventory_status": "Status zaloge",
     "pause_video": "Zaustavi videoposnetek",
     "find_country": "Poišči državo",
-    "localization_region_and_language": "Odpri izbirnik za regijo in jezik",
-    "open_search_modal": "Odpri iskanje",
+    "localization_region_and_language": "Izbirnik za regijo in jezik",
     "decrease_quantity": "Zmanjšaj količino",
     "increase_quantity": "Povečaj količino",
     "quantity": "Količina",
@@ -239,7 +238,13 @@
     "recipient_form_fields_hidden": "Polja obrazca prejemnika so zdaj skrita",
     "recipient_form_error": "Pri pošiljanju obrazca je prišlo do napake",
     "product_custom_property_character_count": "Uporabljeno št. znakov: {{ used_chars }}/{{ max_chars }}",
-    "terms_and_policies": "Pogoji in pravilniki"
+    "terms_and_policies": "Pogoji in pravilniki",
+    "pagination": {
+      "nav_label": "Krmarjenje po straneh",
+      "previous": "Nazaj",
+      "next": "Naprej",
+      "page": "Stran {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

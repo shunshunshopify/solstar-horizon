@@ -6,6 +6,7 @@
   @param {object} products - Array of product objects
   @param {string} [title] - Header of the collection or search results
   @param {string} children - List or grid of product cards
+  @param {boolean} [enable_infinite_scroll] - Whether to enable infinite scroll (default: true)
 {%- enddoc -%}
 
 {% capture product_card_size %}
@@ -20,6 +21,8 @@
         .product-grid--{{ section.id }}:is(.product-grid--grid) {
           --product-grid-columns-desktop: repeat(auto-fill, minmax({{ product_card_size }}, 1fr));
         }
+
+
       {% when 'organic' %}
         {% assign large_span = 2 %}
         {% assign row_cycle = 3 %}
@@ -108,7 +111,9 @@
         </p>
       </div>
     {% else %}
-      <span ref="viewMorePrevious"></span>
+      {% if enable_infinite_scroll %}
+        <span ref="viewMorePrevious"></span>
+      {% endif %}
 
       {% if title %}
         <h4 class="main-collection-grid__title">{{ title }}</h4>
@@ -120,10 +125,15 @@
         role="list"
         data-last-page="{{ paginate.pages }}"
         data-product-card-size="{{ section.settings.product_card_size }}"
+        style="--mobile-columns: {% if section.settings.mobile_product_card_size == 'large' %}1{% else %}2{% endif %};"
       >
         {{ children }}
       </ul>
-      <span ref="viewMoreNext"></span>
+      {% if enable_infinite_scroll != false %}
+        <span ref="viewMoreNext"></span>
+      {% else %}
+        {% render 'pagination-controls', paginate: paginate %}
+      {% endif %}
     {% endif %}
   </div>
 </div>
@@ -157,6 +167,7 @@
 {% stylesheet %}
   .product-grid {
     --product-grid-gap: var(--product-grid-gap-mobile);
+    --mobile-columns: 2; /* Default value */
 
     isolation: isolate;
 

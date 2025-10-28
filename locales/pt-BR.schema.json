@@ -172,7 +172,8 @@
     "blog_posts_grid": "Posts do blog: grade",
     "blog_posts_carousel": "Posts do blog: carrossel",
     "blog_posts_editorial": "Posts do blog: editorial",
-    "excerpt": "Resumo"
+    "excerpt": "Resumo",
+    "footer_password": "Rodapé de senha"
   },
   "settings": {
     "alignment": "Alinhamento",
@@ -491,7 +492,6 @@
     "animation_repeat": "Repetir animação",
     "blurred_reflection": "Reflexão desfocada",
     "card_hover_effect": "Efeito ao passar o cartão",
-    "effects": "Efeitos",
     "inventory_threshold": "Limite de estoque baixo",
     "reflection_opacity": "Opacidade da reflexão",
     "show_inventory_quantity": "Mostrar quantidade de estoque baixo",
@@ -531,9 +531,12 @@
     },
     "blog": "Blog",
     "post_count": "Contagem de publicações",
+    "animation": "Animação",
     "top_level_size": "Tamanho de nível superior",
     "submenu_text_style": "Estilo de texto de submenu",
-    "empty_cart_button_link": "Link do botão esvaziar carrinho"
+    "empty_cart_button_link": "Link do botão \"Esvaziar o carrinho\"",
+    "auto_load_products": "Carregar produtos automaticamente na rolagem",
+    "products_per_page": "Produtos por página"
   },
   "options": {
     "adapt_to_image": "Adaptar à imagem",
@@ -914,10 +917,52 @@
     "block_link": "Link do bloco",
     "submenu_feature": "Recurso de submenu",
     "cart_features": "Recursos do carrinho",
-    "email_signup": "Assinante de e-mail"
+    "email_signup": "Assinante de e-mail",
+    "submissions_are_sent_to_store_email_address": "Os envios são encaminhados para o [endereço de e-mail do remetente](https://admin.shopify.com/settings/notifications) da sua loja"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>Compartilhe informações sobre a marca com clientes. Descreva um produto, faça comunicados ou dê as boas-vindas aos clientes na loja.</p>"
+    "share_information_about_your": "<p>Compartilhe informações sobre a marca com clientes. Descreva um produto, faça comunicados ou dê as boas-vindas aos clientes na loja.</p>",
+    "bestseller_h2": "<h2>Mais vendidos</h2>",
+    "bestseller_h3": "<h3>Mais vendidos</h3>",
+    "bestseller": "<p>Mais vendido</p>",
+    "build_better": "<p>Acreditamos em fazer sempre o nosso melhor</p>",
+    "contact_us": "<h2>Entre em contato conosco</h2>",
+    "discover_bestsellers": "<p>Descubra quais são os produtos mais vendidos, que conquistaram o coração dos clientes com a mistura perfeita de funcionalidade e estilo.</p>",
+    "everythings_starts_with_why": "<p>Tudo que fazemos, começa a partir de um motivo especial</p>",
+    "explore_latest_products": "<p>Conheça os nossos produtos mais recentes.</p>",
+    "faq": "<h3>Perguntas frequentes</h3>",
+    "first_to_know": "<p>Seja o primeiro a saber sobre as nossas novas coleções e ofertas especiais. </p>",
+    "free_returns": "<p>Devolução grátis em até 30 dias</p>",
+    "free_shipping_over": "<p>Frete grátis acima de US$ 50</p>",
+    "goal_for_every_customer": "<p>Nosso objetivo é que todos os clientes fiquem totalmente satisfeitos com a compra. Se esse não for o caso, basta entrar em contato e vamos fazer o melhor possível para encontrar uma solução.</p>",
+    "home_to_shirts": "<p>Início → Camisas</p>",
+    "intentional_design": "<h2>Design intencional</h2>",
+    "introducing_h2": "<h2><em>Apresentamos</em></h2>",
+    "latest_products": "<p>Apresentamos nossos produtos mais recentes, feitos especialmente para a temporada atual. Compre seus favoritos antes que esgotem!</p>",
+    "made_local_and_global": "<p>Nossos produtos são de fabricação local e global. Selecionamos cuidadosamente os nossos fabricantes parceiros, no intuito de garantir que os artigos sejam de alta qualidade e tenham um valor justo.</p>",
+    "made_with_care_h2": "<h2>Feito com carinho</h2>",
+    "made_with_care_extended": "<p>Feito com o maior carinho e amado incondicionalmente pelos clientes, esse campeão de vendas exclusivo supera todas as expectativas.</p>",
+    "made_with_care": "<p>Feito com carinho e amado incondicionalmente pelos clientes.</p>",
+    "make_things_better_extended": "<p>Nos dedicamos ao máximo para que as coisas funcionem da melhor forma possível e durem mais. Nossos produtos solucionam problemas reais, com um design limpo e fabricados a partir de materiais autênticos.</p>",
+    "make_things_better": "<p>Nos dedicamos ao máximo para que as coisas funcionem da melhor forma possível e durem mais.</p>",
+    "may_also_like": "<h4>Talvez você também goste de</h4>",
+    "new_arrivals_h1": "<h1>Novidades</h1>",
+    "new_arrivals_h2": "<h2>Novidades</h2>",
+    "new_arrivals_h3": "<h3>Novidades</h3>",
+    "product_launch": "<p>Confira os bastidores do lançamento mais recente de produtos.</p>",
+    "product_story": "<p>Em cada um dos nossos produtos, há uma história única, impulsionada pela nossa paixão por qualidade e inovação. Cada um desses itens torna o seu cotidiano ainda melhor e mais feliz.</p>",
+    "real_people": "<p>Pessoas reais que fabricam excelentes produtos</p>",
+    "related_product": "<h3>Produtos relacionados</h3>",
+    "return_policy": "<h2>Qual é a política de devolução?</h2>",
+    "reviews": "<p>★★★★★ 368 avaliações</p>",
+    "shipping_based_on_location": "<p>O frete é calculado de acordo com a sua localização e os itens incluídos no pedido. Você sempre sabe qual será o valor do frete antes de fazer a compra.</p>",
+    "shop_by_collection": "<h3>Comprar por coleção</h3>",
+    "signature_products": "<h2>Nosso produto exclusivo</h2>",
+    "styled_with": "<h3>Combina com</h3>",
+    "subscribe": "<h2>Inscreva-se para receber os nossos e-mails</h2>",
+    "team_with_goal": "<h2>Uma equipe com um objetivo</h2>",
+    "unable_to_accept_returns": "<p>Não é possível aceitar devoluções de determinados itens. Eles serão marcados com atenção, antes que você faça sua compra.</p>",
+    "work_quickly_to_ship": "<p>Faremos o nosso melhor para enviar seu pedido o mais rápido possível. Assim que ele for enviado, você receberá um e-mail contendo mais informações. Os prazos de entrega variam conforme a sua localização.</p>"
   },
   "text_defaults": {
     "button_label": "Comprar agora",
@@ -930,7 +975,26 @@
     "sign_up": "Criar conta",
     "welcome_to_our_store": "Boas-vindas à nossa loja",
     "be_bold": "Ouse.",
-    "shop_our_latest_arrivals": "Conheça as novidades da loja!"
+    "shop_our_latest_arrivals": "Conheça as novidades da loja!",
+    "are_purchases_final_sale": "As compras correspondem às vendas finais?",
+    "care_instructions": "Instruções de cuidado",
+    "cart": "Carrinho",
+    "discover_collection": "Conheça a coleção",
+    "fit": "ajuste",
+    "how_much_for_shipping": "Quanto custa o frete?",
+    "learn_more": "Saiba mais",
+    "manufacturing": "Fabricação",
+    "materials": "Materiais",
+    "return_policy": "Política de devolução",
+    "shipping": "Frete",
+    "shop_now_button_label": "Comprar agora",
+    "sign_up_button_label": "Criar conta",
+    "submit_button_label": "Enviar",
+    "up_the_ante": "Aumente\na\naposta",
+    "view_all_button_label": "Ver tudo",
+    "what_is_return_policy": "Qual é a política de devolução?",
+    "when_will_order_arrive": "Quando vou receber meu pedido?",
+    "where_are_products_made": "Onde os seus produtos são fabricados?"
   },
   "info": {
     "video_alt_text": "Descreva o vídeo para usuários de tecnologia assistiva",
@@ -975,6 +1039,7 @@
     "decorative": "Decorativo",
     "products": "Produtos",
     "other_sections": "Outro",
-    "storytelling": "Storytelling"
+    "storytelling": "Storytelling",
+    "text": "Texto"
   }
 }

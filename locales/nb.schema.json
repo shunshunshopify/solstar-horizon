@@ -172,7 +172,8 @@
     "blog_posts_grid": "Blogginnlegg: Rutenett",
     "blog_posts_carousel": "Blogginnlegg: Karusell",
     "blog_posts_editorial": "Blogginnlegg: Redaksjonelt",
-    "excerpt": "Utdrag"
+    "excerpt": "Utdrag",
+    "footer_password": "Passord bunntekst"
   },
   "settings": {
     "alignment": "Justering",
@@ -491,7 +492,6 @@
     "animation_repeat": "Gjenta animasjon",
     "blurred_reflection": "Uskarp refleksjon",
     "card_hover_effect": "Musepekereffekt på kort",
-    "effects": "Effekter",
     "inventory_threshold": "Terskel for lav lagerbeholdning",
     "reflection_opacity": "Refleksjonsopasitet",
     "show_inventory_quantity": "Vis lav lagerbeholdning",
@@ -531,9 +531,12 @@
     },
     "blog": "Blogg",
     "post_count": "Antall innlegg",
+    "animation": "Animasjon",
     "top_level_size": "Størrelse på øverste nivå",
     "submenu_text_style": "Tekststil for undermenyer",
-    "empty_cart_button_link": "Lenke for tøm handlekurv-knapp"
+    "empty_cart_button_link": "Knappekobling til Tøm handlekurv",
+    "auto_load_products": "Last inn produkter automatisk ved rulling",
+    "products_per_page": "Produkter per side"
   },
   "options": {
     "adapt_to_image": "Tilpass til bilde",
@@ -913,11 +916,53 @@
     "resource_reference_product_custom_property": "Legg til tilpassbare inndatafelt for å samle inn tilpasset informasjon som legges til denne ordreposten, og som senere vises i ordredetaljene.",
     "block_link": "Blokklenke",
     "submenu_feature": "Funksjon i undermeny",
-    "cart_features": "Handlekurvfunksjoner",
-    "email_signup": "E-postregistrering"
+    "cart_features": "Funksjoner for handlekurv",
+    "email_signup": "E-postregistrering",
+    "submissions_are_sent_to_store_email_address": "Innsendinger sendes til butikkens [avsenderens e-postadresse](https://admin.shopify.com/settings/notifications)"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>Del informasjon om merkevaren din med kundene. Beskriv et produkt, gjør kunngjøringer eller ønsk kundene velkommen til butikken.</p>"
+    "share_information_about_your": "<p>Del informasjon om merkevaren din med kundene. Beskriv et produkt, gjør kunngjøringer eller ønsk kundene velkommen til butikken.</p>",
+    "bestseller_h2": "<h2>Bestselgere</h2>",
+    "bestseller_h3": "<h3>Bestselgere</h3>",
+    "bestseller": "<p>Bestselger</p>",
+    "build_better": "<p>Vi tror på å bygge bedre</p>",
+    "contact_us": "<h2>Kontakt oss</h2>",
+    "discover_bestsellers": "<p>Oppdag bestselgerne som har vunnet kundenes hjerte med en perfekt blanding av funksjonalitet og stil.</p>",
+    "everythings_starts_with_why": "<p>Før vi gjør noe, spør vi hvorfor</p>",
+    "explore_latest_products": "<p>Utforsk de nyeste produktene.</p>",
+    "faq": "<h3>Ofte stilte spørsmål</h3>",
+    "first_to_know": "<p>Vær blant de første som får høre om nye samlinger og spesialtilbud.</p>",
+    "free_returns": "<p>Gratis retur i 30 dager</p>",
+    "free_shipping_over": "<p>Gratis frakt over 50 USD</p>",
+    "goal_for_every_customer": "<p>Vi ønsker at kundene våre skal være helt fornøyd med kjøpet. Gi beskjed hvis det ikke stemmer, så gjør vi vårt beste for å rette opp i det i samarbeid med deg.</p>",
+    "home_to_shirts": "<p>Startside → Skjorter</p>",
+    "intentional_design": "<h2>Internasjonalt design</h2>",
+    "introducing_h2": "<h2><em>Vi presenterer</em></h2>",
+    "latest_products": "<p>Her er de nyeste produktene, laget for sesongen. Kjøp favorittene dine før de blir utsolgt.</p>",
+    "made_local_and_global": "<p>Produktene produseres både lokalt og globalt. Vi velger produksjonspartnerne våre nøye for å sikre at produktene holder høy kvalitet og har en rimelig verdi.</p>",
+    "made_with_care_h2": "<h2>Laget med omtanke</h2>",
+    "made_with_care_extended": "<p>Laget med omtanke og elsket av kundene. Denne bestselgeren overgår alle forventninger.</p>",
+    "made_with_care": "<p>Laget med omtanke og elsket av kundene.</p>",
+    "make_things_better_extended": "<p>Vi lager ting som fungerer bedre og varer lenger. Produktene løser ekte problemer – med rent design og ærlige materialer.</p>",
+    "make_things_better": "<p>Vi lager ting som fungerer bedre og varer lenger.</p>",
+    "may_also_like": "<h4>Kanskje du også liker</h4>",
+    "new_arrivals_h1": "<h1>Nyheter</h1>",
+    "new_arrivals_h2": "<h2>Nyheter</h2>",
+    "new_arrivals_h3": "<h3>Nyheter</h3>",
+    "product_launch": "<p>Ta en titt bak kulissene til den nyeste produktlanseringen.</p>",
+    "product_story": "<p>I hjertet av hvert produkt ligger en unik historie, drevet av vår lidenskap for kvalitet og innovasjon. Hvert element forbedrer hverdagen og sprer glede.</p>",
+    "real_people": "<p>Ekte mennesker som lager flotte produkter</p>",
+    "related_product": "<h3>Lignende produkter</h3>",
+    "return_policy": "<h2>Hva er returbetingelsene?</h2>",
+    "reviews": "<p>★★★★★ 368 anmeldelser</p>",
+    "shipping_based_on_location": "<p>Frakt beregnes basert på hvor du befinner deg samt varene i bestillingen din. Du får alltid vite fraktprisen før du kjøper.</p>",
+    "shop_by_collection": "<h3>Kjøp etter samling</h3>",
+    "signature_products": "<h2>Vårt signaturprodukt</h2>",
+    "styled_with": "<h3>Utformet med</h3>",
+    "subscribe": "<h2>Abonner på e-postene våre</h2>",
+    "team_with_goal": "<h2>Et team med et mål</h2>",
+    "unable_to_accept_returns": "<p>Vi godtar ikke returer på enkelte varer. Disse er nøye merket før kjøp.</p>",
+    "work_quickly_to_ship": "<p>Vi jobber raskt for å sende bestillingen så fort som mulig. Når bestillingen er sendt, får du en e-post med ytterligere informasjon. Leveringstidene varierer avhengig av hvor du befinner deg.</p>"
   },
   "text_defaults": {
     "button_label": "Shop nå",
@@ -930,7 +975,26 @@
     "popup_link": "Popup-kobling",
     "sign_up": "Registrer deg",
     "welcome_to_our_store": "Velkommen til butikken vår",
-    "shop_our_latest_arrivals": "Kjøp nyhetene våre!"
+    "shop_our_latest_arrivals": "Kjøp nyhetene våre!",
+    "are_purchases_final_sale": "Er noen kjøp endelig salg?",
+    "care_instructions": "Vedlikehold",
+    "cart": "Handlekurv",
+    "discover_collection": "Oppdag samlingen",
+    "fit": "passform",
+    "how_much_for_shipping": "Hvor mye koster frakten?",
+    "learn_more": "Finn ut mer",
+    "manufacturing": "Produksjon",
+    "materials": "Materialer",
+    "return_policy": "Returbetingelser",
+    "shipping": "Frakt",
+    "shop_now_button_label": "Kjøp nå",
+    "sign_up_button_label": "Registrer deg",
+    "submit_button_label": "Send inn",
+    "up_the_ante": "Øk\ninnsatsen",
+    "view_all_button_label": "Vis alle",
+    "what_is_return_policy": "Hva er returbetingelsene?",
+    "when_will_order_arrive": "Når får jeg bestillingen min?",
+    "where_are_products_made": "Hvor er produktene produsert?"
   },
   "info": {
     "carousel_layout_on_mobile": "Karusell er brukt på mobil",
@@ -956,7 +1020,7 @@
     "hover_effects": "Gjelder produkt- og samlingskort",
     "hide_logo_on_home_page_help": "Logoen forblir synlig når festet overskrift er aktiv",
     "media_type_info": "Funksjoner fylles ut fra menykoblingene",
-    "logo_height": "Påvirker kun header logo"
+    "logo_height": "Påvirker bare overskriftslogoen"
   },
   "categories": {
     "product_list": "Utvalgt samling",
@@ -975,6 +1039,7 @@
     "decorative": "Dekorativ",
     "products": "Produkter",
     "other_sections": "Annet",
-    "storytelling": "Historiefortelling"
+    "storytelling": "Historiefortelling",
+    "text": "Tekst"
   }
 }

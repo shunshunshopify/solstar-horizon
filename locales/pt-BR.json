@@ -42,7 +42,7 @@
       "other": "{{ count }} filtros aplicados",
       "many": "{{ count }} filtros aplicados"
     },
-    "account": "Abrir menu da conta",
+    "account": "Conta",
     "cart": "Carrinho",
     "cart_count": "Total de itens no carrinho",
     "menu": "Menu",
@@ -57,8 +57,7 @@
     "inventory_status": "Status do estoque",
     "pause_video": "Pausar o vídeo",
     "find_country": "Localizar o país",
-    "localization_region_and_language": "Abrir seletor de região e idioma",
-    "open_search_modal": "Abrir pesquisa",
+    "localization_region_and_language": "Seletor de região e idioma",
     "decrease_quantity": "Diminuir a quantidade",
     "increase_quantity": "Aumentar a quantidade",
     "rating": "A classificação deste produto é {{ rating }} de 5",
@@ -234,7 +233,13 @@
     "recipient_form_fields_hidden": "Os campos do formulário do destinatário agora estão ocultos",
     "recipient_form_error": "Houve um erro com o envio do formulário",
     "product_custom_property_character_count": "{{ used_chars }}/{{ max_chars }} caracteres usados",
-    "terms_and_policies": "Termos e políticas"
+    "terms_and_policies": "Termos e políticas",
+    "pagination": {
+      "nav_label": "Navegação por paginação",
+      "previous": "Anterior",
+      "next": "Próxima",
+      "page": "Página {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

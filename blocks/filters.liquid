@@ -329,6 +329,7 @@
       class="facets facets--drawer dialog-modal drawer dialog-drawer dialog-drawer--right spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}"
       scroll-lock
+      aria-labelledby="filters-drawer-heading"
     >
       {% assign form_component = 'FacetFiltersFormComponent--' | append: section.id | append: '-overflow' %}
 
@@ -347,7 +348,10 @@
             class="facets__title-wrapper"
             style="--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));"
           >
-            <h2 class="facets-drawer__title h3">
+            <h2
+              id="filters-drawer-heading"
+              class="facets-drawer__title h3"
+            >
               {{ 'blocks.filter' | t }}
 
               {% if total_active_values > 0 %}

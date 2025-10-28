@@ -37,7 +37,7 @@
     "slideshow_next": "Slide berikutnya",
     "slideshow_previous": "Slide sebelumnya",
     "filters": "Filter",
-    "account": "Buka menu akun",
+    "account": "Akun",
     "cart": "Keranjang",
     "cart_count": "Total item di keranjang",
     "filter_count": {
@@ -55,8 +55,7 @@
     "inventory_status": "Status Inventaris",
     "pause_video": "Jeda video",
     "find_country": "Temukan negara",
-    "localization_region_and_language": "Buka selektor wilayah dan bahasa",
-    "open_search_modal": "Buka pencarian",
+    "localization_region_and_language": "Pemilih wilayah dan bahasa",
     "decrease_quantity": "Kurangi jumlah",
     "increase_quantity": "Tambah jumlah",
     "quantity": "Jumlah",
@@ -229,7 +228,13 @@
     "recipient_form_fields_hidden": "Kolom formulir penerima sekarang disembunyikan",
     "recipient_form_error": "Terjadi kesalahan saat pengiriman formulir",
     "product_custom_property_character_count": "{{ used_chars }}/{{ max_chars }} karakter digunakan",
-    "terms_and_policies": "Ketentuan dan Kebijakan"
+    "terms_and_policies": "Ketentuan dan Kebijakan",
+    "pagination": {
+      "nav_label": "Navigasi paginasi",
+      "previous": "Sebelumnya",
+      "next": "Berikutnya",
+      "page": "Halaman {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

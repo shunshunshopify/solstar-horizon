@@ -1,16 +1,21 @@
 
   
+
+  
 /* Base layout and positioning */
 :root {
   --vh: 1vh; /* Can be updated via JavaScript for mobile viewport fixes */
+  /* Hero video text sizing defaults */
+  --hero-title-size-mobile: 40px;
+  --hero-title-size-desktop: 80px;
+  --hero-subtitle-size-mobile: 16px;
+  --hero-subtitle-size-desktop: 40px;
 }
 
 .video-parent-section{
   overflow: hidden;
   position: relative;
-}
-
-/* Hero media wrapper */
+}/* Hero media wrapper */
 .video-parent-section .hero__media {
   position: absolute;
   inset: 0;
@@ -218,6 +223,26 @@
 .hero__title, .hero__subtitle{
   color: #fff;
   opacity: 1;
+}
+
+/* Dynamic text sizing using CSS custom properties */
+.hero__title {
+  font-size: var(--hero-title-size-mobile, 40px);
+  margin: 30px 0 0 0;
+}
+
+.hero__subtitle {
+  overflow-wrap: anywhere;
+  font-size: var(--hero-subtitle-size-mobile, 16px);
+}
+
+@media only screen and (min-width: 769px) {
+  .hero__title {
+    font-size: var(--hero-title-size-desktop, 80px);
+  }
+  .hero__subtitle {
+    font-size: var(--hero-subtitle-size-desktop, 40px);
+  }
 }
 
 /* YouTube Video Container */

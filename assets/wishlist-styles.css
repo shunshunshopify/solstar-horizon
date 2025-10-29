@@ -272,18 +272,22 @@
     line-height: calc(1 + .1 / var(--font-body-scale));
 }
 
+/* Force hidden state to override any inherited display properties */
 .wishlist-count-bubble.is-hidden {
   display: none !important;
+  visibility: hidden !important;
 }
 
-/* Visible class should always win over hidden class */
+/* Force visible state to override hidden state */
 .wishlist-count-bubble.is-visible {
   display: flex !important;
+  visibility: visible !important;
 }
 
-/* Ensure visible wins even if both classes are present */
+/* Ensure visible wins even if both classes are present - this should never happen but failsafe */
 .wishlist-count-bubble.is-hidden.is-visible {
   display: flex !important;
+  visibility: visible !important;
 }
 
 .header__icon--wishlist {

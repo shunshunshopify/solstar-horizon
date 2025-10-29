@@ -28,13 +28,20 @@
 
     init() {
       console.log('🎯 UNIFIED WISHLIST CONTROLLER INITIALIZED');
+      console.log('🎯 Items in storage:', this.items.length);
+      console.log('🎯 Storage contents:', this.items);
+      
       this.registerAllCounters();
       this.setupEventListeners();
       
-      // Force immediate update on page load to handle initial HTML state
+      // Immediate update without delay to handle page reload
+      this.updateAllCounters();
+      
+      // Additional delayed update to handle any late DOM changes
       setTimeout(() => {
+        console.log('🎯 DELAYED UPDATE - Items:', this.items.length);
         this.updateAllCounters();
-      }, 50);
+      }, 100);
       
       this.renderWishlistPage();
     }
@@ -139,11 +146,16 @@
      * @param {number} count - Wishlist count
      */
     updateHeaderCounter(count) {
+      console.log(`🔍 updateHeaderCounter called with count: ${count}`);
+      
       // Always try to find the header counter fresh (handles page transitions)
       const headerElement = document.querySelector('[data-wishlist-counter]');
       
       if (headerElement) {
         const element = /** @type {HTMLElement} */ (headerElement);
+        
+        console.log('🔍 Header element found:', element);
+        console.log('🔍 Initial classes:', element.className);
         
         // Update the registry with the current element
         const currentCounter = this.counters.get('header');
@@ -151,21 +163,32 @@
           currentCounter.element = headerElement;
         }
         
-        // ALWAYS remove both classes first to avoid conflicts
+        // Remove all classes to clean slate
         element.classList.remove('is-hidden', 'is-visible');
+        console.log('🔍 After removing classes:', element.className);
         
         if (count > 0) {
-          // Show the counter
+          // Show the counter using both style and class for maximum compatibility
           element.textContent = String(count);
+          element.style.display = 'flex';
           element.classList.add('is-visible');
-          console.log('📍 Header counter shown:', count);
+          console.log('📍 Header counter shown with count:', count);
+          console.log('🔍 Final classes (visible):', element.className);
+          console.log('🔍 Final style.display:', element.style.display);
         } else {
-          // Hide the counter
+          // Hide the counter using both style and class
+          element.style.display = 'none';
           element.classList.add('is-hidden');
           console.log('📍 Header counter hidden');
+          console.log('🔍 Final classes (hidden):', element.className);
+          console.log('🔍 Final style.display:', element.style.display);
         }
+        
+        // Force a reflow to ensure styles are applied
+        element.offsetHeight;
+        
       } else {
-        console.log('⚠️ Header counter not found during update');
+        console.error('⚠️ Header counter not found during update');
       }
     }
 
@@ -174,18 +197,28 @@
      * @param {number} count - Wishlist count
      */
     updateBottomCounter(count) {
+      console.log(`🔍 updateBottomCounter called with count: ${count}`);
+      
       const counter = this.counters.get('bottom');
       if (counter) {
         const element = /** @type {HTMLElement} */ (counter.element);
+        console.log('🔍 Bottom element found:', element);
+        
         const countSpan = element.querySelector('[aria-hidden="true"]');
+        console.log('🔍 Bottom countSpan found:', countSpan);
+        
         if (count > 0) {
           element.style.display = 'flex';
           if (countSpan) {
             countSpan.textContent = String(count);
           }
+          console.log('📍 Bottom counter shown with count:', count);
         } else {
           element.style.display = 'none';
+          console.log('📍 Bottom counter hidden');
         }
+      } else {
+        console.error('⚠️ Bottom counter not found in registry');
       }
     }
 
@@ -218,7 +251,10 @@
     loadFromStorage() {
       try {
         const stored = localStorage.getItem(this.storageKey);
-        return stored ? JSON.parse(stored) : [];
+        const items = stored ? JSON.parse(stored) : [];
+        console.log('🔍 loadFromStorage:', items.length, 'items loaded');
+        console.log('🔍 Storage data:', items);
+        return items;
       } catch (error) {
         console.error('Failed to load wishlist from storage:', error);
         return [];

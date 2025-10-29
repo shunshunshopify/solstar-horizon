@@ -56,19 +56,21 @@
         }
       ];
 
+      let registeredCount = 0;
       counterConfigs.forEach(config => {
         const element = document.querySelector(config.selector);
         if (element) {
+          // Update existing registration or create new one
           this.counters.set(config.name, {
             element,
             selector: config.selector,
             updateMethod: config.updateMethod
           });
-          console.log(`✅ Registered ${config.name} counter`);
+          registeredCount++;
         }
       });
 
-      console.log(`🎯 Total registered counters: ${this.counters.size}`);
+      console.log(`🎯 Registered/Updated ${registeredCount} counters`);
     }
 
     /**
@@ -87,6 +89,9 @@
       // Use requestAnimationFrame for perfect synchronization
       requestAnimationFrame(() => {
         try {
+          // Always re-register counters to handle page transitions
+          this.registerAllCounters();
+          
           let successCount = 0;
           
           // Update all registered counters simultaneously
@@ -96,9 +101,6 @@
                 counter.updateMethod(count);
                 successCount++;
                 console.log(`✅ ${name} synced: ${count}`);
-              } else {
-                // Try to re-register if element was recreated
-                this.reregisterCounter(name, counter.selector, counter.updateMethod);
               }
             } catch (error) {
               console.error(`❌ Failed to update ${name}:`, error);
@@ -132,17 +134,30 @@
      * @param {number} count - Wishlist count
      */
     updateHeaderCounter(count) {
-      const counter = this.counters.get('header');
-      if (counter) {
-        const element = /** @type {HTMLElement} */ (counter.element);
+      // Always try to find the header counter fresh (handles page transitions)
+      const headerElement = document.querySelector('[data-wishlist-counter]');
+      
+      if (headerElement) {
+        const element = /** @type {HTMLElement} */ (headerElement);
+        
+        // Update the registry with the current element
+        const currentCounter = this.counters.get('header');
+        if (currentCounter) {
+          currentCounter.element = headerElement;
+        }
+        
         if (count > 0) {
           element.classList.remove('is-hidden');
           element.textContent = String(count);
           element.style.display = 'flex';
+          console.log('📍 Header counter updated:', count);
         } else {
           element.classList.add('is-hidden');
           element.style.display = 'none';
+          console.log('📍 Header counter hidden');
         }
+      } else {
+        console.log('⚠️ Header counter not found during update');
       }
     }
 
@@ -333,24 +348,41 @@
       // Update button states on page load
       this.updateWishlistButtons();
       
-      // Simple page load update
+      // Page load update - single registration
       window.addEventListener('load', () => {
         this.updateWishlistButtons();
         setTimeout(() => {
-          this.registerAllCounters(); // Re-register in case elements were recreated
-          this.updateAllCounters();
-        }, 100);
+          this.updateAllCounters(); // This now includes re-registration
+        }, 200);
       });
       
-      // Handle page visibility changes
+      // Handle page visibility changes - only on returning to page
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
           setTimeout(() => {
-            this.registerAllCounters(); // Re-register counters
-            this.updateAllCounters();
-          }, 100);
+            this.updateAllCounters(); // This now includes re-registration
+          }, 200);
         }
       });
+
+      // Handle Shopify theme navigation events (if they exist)
+      document.addEventListener('shopify:section:load', () => {
+        console.log('🔄 Shopify section loaded - updating counters');
+        setTimeout(() => {
+          this.updateAllCounters();
+        }, 100);
+      });
+
+      // Handle theme view transitions
+      if ('navigation' in window) {
+        // @ts-ignore
+        window.navigation.addEventListener('navigatesuccess', () => {
+          console.log('🔄 Navigation success - updating counters');
+          setTimeout(() => {
+            this.updateAllCounters();
+          }, 100);
+        });
+      }
     }
 
     /**

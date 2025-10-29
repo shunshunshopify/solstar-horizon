@@ -1,6 +1,6 @@
 /**
  * Wishlist Functionality for Shopify Theme
- * Manages wishlist items in localStorage and provides counter updates
+ * Simplified and synchronized counter management
  */
 
 (function() {
@@ -11,6 +11,7 @@
       this.storageKey = 'shopify-wishlist';
       this.items = this.loadFromStorage();
       this.eventTarget = document.createElement('div');
+      this.updatePending = false; // Prevent multiple simultaneous updates
       
       // Make wishlist available globally
       // @ts-ignore
@@ -29,54 +30,6 @@
       this.setupEventListeners();
       this.updateAllCounters();
       this.renderWishlistPage();
-      
-      // Force header counter update after a short delay to ensure DOM is ready
-      setTimeout(() => {
-        console.log('⏰ Delayed header counter update');
-        this.forceHeaderCounterUpdate();
-      }, 500);
-    }
-
-    /**
-     * Force update header counter - more aggressive approach
-     */
-    forceHeaderCounterUpdate() {
-      const count = this.getCount();
-      console.log('💪 Force updating header counter with count:', count);
-      
-      // Try multiple selectors to find the header counter
-      const selectors = [
-        '[data-wishlist-counter]',
-        '.wishlist-count-bubble',
-        '.header__icon--wishlist .wishlist-count-bubble',
-        'header-actions [data-wishlist-counter]'
-      ];
-      
-      let headerCounter = null;
-      for (const selector of selectors) {
-        headerCounter = document.querySelector(selector);
-        if (headerCounter) {
-          console.log(`✅ Found header counter with selector: ${selector}`);
-          break;
-        }
-      }
-      
-      if (headerCounter) {
-        const htmlHeaderCounter = /** @type {HTMLElement} */ (headerCounter);
-        if (count > 0) {
-          htmlHeaderCounter.classList.remove('is-hidden');
-          htmlHeaderCounter.textContent = String(count);
-          htmlHeaderCounter.style.display = 'flex';
-          htmlHeaderCounter.style.visibility = 'visible';
-          console.log('💪 Header counter force updated to:', count);
-        } else {
-          htmlHeaderCounter.classList.add('is-hidden');
-          htmlHeaderCounter.style.display = 'none';
-          console.log('💪 Header counter force hidden');
-        }
-      } else {
-        console.error('❌ Header counter not found with any selector!');
-      }
     }
 
     /**
@@ -146,7 +99,6 @@
         
         this.saveToStorage();
         this.updateAllCounters();
-        this.forceHeaderCounterUpdate(); // Extra force update
         this.dispatchUpdateEvent();
         this.showNotification(`${product.title} added to wishlist`);
         
@@ -167,7 +119,6 @@
       if (this.items.length !== initialLength) {
         this.saveToStorage();
         this.updateAllCounters();
-        this.forceHeaderCounterUpdate(); // Extra force update
         this.dispatchUpdateEvent();
         this.showNotification('Item removed from wishlist');
         return true;
@@ -246,54 +197,21 @@
       // Update button states on page load
       this.updateWishlistButtons();
       
-      // Also update when page is fully loaded (for dynamic content)
+      // Simple page load counter update
       window.addEventListener('load', () => {
         this.updateWishlistButtons();
-        // Ensure counters are updated after all scripts have loaded
         setTimeout(() => {
           this.updateAllCounters();
-          this.forceHeaderCounterUpdate();
         }, 100);
       });
       
-      // Update counters when page visibility changes (helps with navigation)
+      // Simple visibility change update  
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
-          this.updateAllCounters();
           setTimeout(() => {
-            this.forceHeaderCounterUpdate();
+            this.updateAllCounters();
           }, 100);
         }
-      });
-      
-      // Listen for theme events that might affect the header
-      document.addEventListener('theme:header:loaded', () => {
-        console.log('🎭 Theme header loaded event detected');
-        this.forceHeaderCounterUpdate();
-      });
-      
-      // Listen for any DOM changes that might recreate the header
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            // Check if any added nodes contain a header counter
-            mutation.addedNodes.forEach((node) => {
-              if (node.nodeType === Node.ELEMENT_NODE) {
-                const element = /** @type {Element} */ (node);
-                if (element.querySelector && element.querySelector('[data-wishlist-counter]')) {
-                  console.log('🔄 Header counter element added to DOM');
-                  setTimeout(() => this.forceHeaderCounterUpdate(), 50);
-                }
-              }
-            });
-          }
-        });
-      });
-      
-      // Observe changes to the document body
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
       });
     }
 

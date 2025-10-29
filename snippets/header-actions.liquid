@@ -282,4 +282,11 @@
   .cart-bubble--animating .cart-bubble__text {
     animation: cartBubbleSlideIn var(--animation-speed) var(--animation-easing);
   }
+
+  /* Hide wishlist icon on mobile to prevent overlap with store name */
+  @media screen and (max-width: 749px) {
+    .header__icon--wishlist {
+      display: none;
+    }
+  }
 {% endstylesheet %}

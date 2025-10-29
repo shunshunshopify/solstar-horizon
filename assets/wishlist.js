@@ -30,7 +30,12 @@
       console.log('🎯 UNIFIED WISHLIST CONTROLLER INITIALIZED');
       this.registerAllCounters();
       this.setupEventListeners();
-      this.updateAllCounters();
+      
+      // Force immediate update on page load to handle initial HTML state
+      setTimeout(() => {
+        this.updateAllCounters();
+      }, 50);
+      
       this.renderWishlistPage();
     }
 
@@ -146,15 +151,16 @@
           currentCounter.element = headerElement;
         }
         
+        // ALWAYS remove both classes first to avoid conflicts
+        element.classList.remove('is-hidden', 'is-visible');
+        
         if (count > 0) {
-          // Use dedicated visible class with !important
+          // Show the counter
           element.textContent = String(count);
-          element.classList.remove('is-hidden');
           element.classList.add('is-visible');
           console.log('📍 Header counter shown:', count);
         } else {
-          // Use dedicated hidden class with !important
-          element.classList.remove('is-visible');
+          // Hide the counter
           element.classList.add('is-hidden');
           console.log('📍 Header counter hidden');
         }

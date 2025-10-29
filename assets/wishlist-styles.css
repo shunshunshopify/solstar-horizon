@@ -276,7 +276,13 @@
   display: none !important;
 }
 
+/* Visible class should always win over hidden class */
 .wishlist-count-bubble.is-visible {
+  display: flex !important;
+}
+
+/* Ensure visible wins even if both classes are present */
+.wishlist-count-bubble.is-hidden.is-visible {
   display: flex !important;
 }
 

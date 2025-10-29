@@ -172,7 +172,6 @@
         if (wishlistButton) {
           e.preventDefault();
           e.stopPropagation();
-          console.log('🎯 Found wishlist button, handling click');
           this.handleWishlistButtonClick(/** @type {HTMLElement} */ (wishlistButton));
         }
 
@@ -199,7 +198,6 @@
       
       // Also update when page is fully loaded (for dynamic content)
       window.addEventListener('load', () => {
-        console.log('🔄 Page loaded, updating wishlist buttons');
         this.updateWishlistButtons();
       });
     }
@@ -209,8 +207,7 @@
      * @param {HTMLElement} button - Wishlist button element
      */
     handleWishlistButtonClick(button) {
-      console.log('🔥 Wishlist button clicked', button);
-      console.log('📋 Button dataset:', button.dataset);
+      console.log('🔥 Wishlist button clicked');
       
       const product = {
         id: button.dataset.productId,
@@ -221,8 +218,6 @@
         variant_id: button.dataset.variantId
       };
 
-      console.log('📦 Product data:', product);
-      
       const wasAdded = this.toggle(product);
       console.log('✅ Wishlist toggle result:', wasAdded ? 'Added' : 'Removed');
       this.updateWishlistButton(button, wasAdded);
@@ -279,11 +274,9 @@
      */
     updateAllCounters() {
       const count = this.getCount();
-      console.log('🔄 Updating all counters, count:', count);
       
       // Update header counter
       const headerCounter = document.querySelector('[data-wishlist-counter]');
-      console.log('📍 Header counter element:', headerCounter);
       if (headerCounter) {
         if (count > 0) {
           headerCounter.classList.remove('is-hidden');
@@ -295,7 +288,6 @@
 
       // Update bottom navigation counter
       const bottomCounter = document.querySelector('[data-wishlist-counter-bottom]');
-      console.log('📍 Bottom counter element:', bottomCounter);
       if (bottomCounter) {
         const htmlBottomCounter = /** @type {HTMLElement} */ (bottomCounter);
         const countSpan = bottomCounter.querySelector('[aria-hidden="true"]');
@@ -353,10 +345,8 @@
       buttons.forEach(button => {
         const htmlButton = /** @type {HTMLElement} */ (button);
         const productId = htmlButton.dataset.productId;
-        console.log('📝 Button for product:', productId);
         if (productId) {
           const isAdded = this.contains(productId);
-          console.log('✅ Product', productId, 'is in wishlist:', isAdded);
           this.updateWishlistButton(htmlButton, isAdded);
         }
       });
@@ -380,6 +370,8 @@
      * @param {string} type - Notification type ('success' or 'error')
      */
     showNotification(message, type = 'success') {
+      console.log('📢 Showing notification:', message, type);
+      
       // Remove existing notification
       const existing = document.querySelector('.wishlist-notification');
       if (existing) {
@@ -390,7 +382,7 @@
       const notification = document.createElement('div');
       notification.className = `wishlist-notification wishlist-notification--${type}`;
       notification.innerHTML = `
-        <div class="wishlist-notification__content">
+        <div class="wishlist-notification-content">
           <p>${message}</p>
           <button class="wishlist-notification__close" aria-label="Close notification">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -402,27 +394,31 @@
       `;
 
       document.body.appendChild(notification);
+      console.log('📢 Notification element added to DOM:', notification);
 
       // Show notification
       setTimeout(() => {
-        notification.classList.add('wishlist-notification--visible');
-      }, 10);
+        notification.classList.add('is-active');
+        console.log('📢 Notification activated');
+      }, 50);
 
-      // Auto hide after 3 seconds
+      // Auto hide after 4 seconds (increased from 3)
       setTimeout(() => {
-        notification.classList.remove('wishlist-notification--visible');
+        console.log('📢 Auto-hiding notification');
+        notification.classList.remove('is-active');
         setTimeout(() => {
           if (notification.parentNode) {
             notification.remove();
+            console.log('📢 Notification removed from DOM');
           }
         }, 300);
-      }, 3000);
+      }, 4000);
 
       // Handle close button
       const closeButton = notification.querySelector('.wishlist-notification__close');
       if (closeButton) {
         closeButton.addEventListener('click', () => {
-          notification.classList.remove('wishlist-notification--visible');
+          notification.classList.remove('is-active');
           setTimeout(() => {
             if (notification.parentNode) {
               notification.remove();

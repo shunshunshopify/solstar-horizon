@@ -1,259 +1,56 @@
 /**
- * Unified Wishlist Controller for Shopify Theme
- * Single source of truth for all wishlist counters
+ * Simplified Wishlist Controller - Based on working original
+ * Eliminates over-engineering that caused counter glitching
  */
 
 (function() {
   'use strict';
 
-  class UnifiedWishlistController {
+  class SimpleWishlistController {
     constructor() {
       this.storageKey = 'shopify-wishlist';
       this.items = this.loadFromStorage();
-      this.eventTarget = document.createElement('div');
-      this.updatePending = false;
-      this.counters = new Map(); // Registry of all counter elements
+      
+      // Simple selectors - no complex registry
+      this.selectors = {
+        wishlistButton: '[data-wishlist-button]',
+        wishlistCounterHeader: '[data-wishlist-counter]',
+        wishlistCounterBottom: '[data-wishlist-counter-bottom]',
+        wishlistBubble: '[data-wishlist-bubble]'
+      };
+      
+      this.classes = {
+        hidden: 'is-hidden',
+        visible: 'is-visible',
+        added: 'is-added'
+      };
       
       // Make wishlist available globally
       // @ts-ignore
       window.wishlist = this;
       
-      // Initialize after DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => this.init());
-      } else {
-        this.init();
-      }
+      // Single initialization point
+      this.init();
     }
 
     init() {
-      console.log('🎯 UNIFIED WISHLIST CONTROLLER INITIALIZED');
+      console.log('🎯 Simple Wishlist Controller Initialized');
       console.log('🎯 Items in storage:', this.items.length);
-      console.log('🎯 Storage contents:', this.items);
       
-      this.registerAllCounters();
       this.setupEventListeners();
-      
-      // Immediate update without delay to handle page reload
-      this.updateAllCounters();
-      
-      // Additional delayed update to handle any late DOM changes
-      setTimeout(() => {
-        console.log('🎯 DELAYED UPDATE - Items:', this.items.length);
-        this.updateAllCounters();
-      }, 100);
-      
+      this.updateWishlistButtons();
+      this.updateWishlistCounters(); // Single counter update method
       this.renderWishlistPage();
-    }
-
-    /**
-     * Register all wishlist counter elements in the unified system
-     */
-    registerAllCounters() {
-      const counterConfigs = [
-        {
-          name: 'header',
-          selector: '[data-wishlist-counter]',
-          updateMethod: this.updateHeaderCounter.bind(this)
-        },
-        {
-          name: 'bottom',
-          selector: '[data-wishlist-counter-bottom]',
-          updateMethod: this.updateBottomCounter.bind(this)
-        },
-        {
-          name: 'legacy',
-          selector: '[data-wishlist-bubble]',
-          updateMethod: this.updateLegacyCounter.bind(this)
-        }
-      ];
-
-      let registeredCount = 0;
-      counterConfigs.forEach(config => {
-        const element = document.querySelector(config.selector);
-        if (element) {
-          // Update existing registration or create new one
-          this.counters.set(config.name, {
-            element,
-            selector: config.selector,
-            updateMethod: config.updateMethod
-          });
-          registeredCount++;
-        }
-      });
-
-      console.log(`🎯 Registered/Updated ${registeredCount} counters`);
-    }
-
-    /**
-     * UNIFIED COUNTER UPDATE - Single source of truth
-     */
-    updateAllCounters() {
-      if (this.updatePending) {
-        console.log('⏳ Update already pending, skipping...');
-        return;
-      }
-
-      this.updatePending = true;
-      const count = this.getCount();
-      console.log(`🎯 UNIFIED UPDATE: Syncing ALL counters to ${count}`);
-
-      // Use requestAnimationFrame for perfect synchronization
-      requestAnimationFrame(() => {
-        try {
-          // Always re-register counters to handle page transitions
-          this.registerAllCounters();
-          
-          let successCount = 0;
-          
-          // Update all registered counters simultaneously
-          for (const [name, counter] of this.counters) {
-            try {
-              if (document.contains(counter.element)) {
-                counter.updateMethod(count);
-                successCount++;
-                console.log(`✅ ${name} synced: ${count}`);
-              }
-            } catch (error) {
-              console.error(`❌ Failed to update ${name}:`, error);
-            }
-          }
-          
-          console.log(`🎯 SYNC COMPLETE: ${successCount}/${this.counters.size} counters updated`);
-        } finally {
-          this.updatePending = false;
-        }
-      });
-    }
-
-    /**
-     * Re-register a counter if its element was recreated
-     * @param {string} name - Counter name
-     * @param {string} selector - CSS selector
-     * @param {function} updateMethod - Update method function
-     */
-    reregisterCounter(name, selector, updateMethod) {
-      const element = document.querySelector(selector);
-      if (element) {
-        this.counters.set(name, { element, selector, updateMethod });
-        updateMethod(this.getCount());
-        console.log(`🔄 Re-registered ${name} counter`);
-      }
-    }
-
-    /**
-     * Update header counter
-     * @param {number} count - Wishlist count
-     */
-    updateHeaderCounter(count) {
-      console.log(`🔍 updateHeaderCounter called with count: ${count}`);
       
-      // Always try to find the header counter fresh (handles page transitions)
-      const headerElement = document.querySelector('[data-wishlist-counter]');
-      
-      if (headerElement) {
-        const element = /** @type {HTMLElement} */ (headerElement);
-        
-        console.log('🔍 Header element found:', element);
-        console.log('🔍 Initial classes:', element.className);
-        
-        // Update the registry with the current element
-        const currentCounter = this.counters.get('header');
-        if (currentCounter) {
-          currentCounter.element = headerElement;
-        }
-        
-        // Remove all classes to clean slate
-        element.classList.remove('is-hidden', 'is-visible');
-        console.log('🔍 After removing classes:', element.className);
-        
-        if (count > 0) {
-          // Show the counter using both style and class for maximum compatibility
-          element.textContent = String(count);
-          element.style.display = 'flex';
-          element.classList.add('is-visible');
-          console.log('📍 Header counter shown with count:', count);
-          console.log('🔍 Final classes (visible):', element.className);
-          console.log('🔍 Final style.display:', element.style.display);
-        } else {
-          // Hide the counter using both style and class
-          element.style.display = 'none';
-          element.classList.add('is-hidden');
-          console.log('📍 Header counter hidden');
-          console.log('🔍 Final classes (hidden):', element.className);
-          console.log('🔍 Final style.display:', element.style.display);
-        }
-        
-        // Force a reflow to ensure styles are applied
-        element.offsetHeight;
-        
-      } else {
-        console.error('⚠️ Header counter not found during update');
-      }
+      // Watch for counter tampering and fix it
+      this.observeCounterChanges();
     }
-
-    /**
-     * Update bottom navigation counter
-     * @param {number} count - Wishlist count
-     */
-    updateBottomCounter(count) {
-      console.log(`🔍 updateBottomCounter called with count: ${count}`);
-      
-      const counter = this.counters.get('bottom');
-      if (counter) {
-        const element = /** @type {HTMLElement} */ (counter.element);
-        console.log('🔍 Bottom element found:', element);
-        
-        const countSpan = element.querySelector('[aria-hidden="true"]');
-        console.log('🔍 Bottom countSpan found:', countSpan);
-        
-        if (count > 0) {
-          element.style.display = 'flex';
-          if (countSpan) {
-            countSpan.textContent = String(count);
-          }
-          console.log('📍 Bottom counter shown with count:', count);
-        } else {
-          element.style.display = 'none';
-          console.log('📍 Bottom counter hidden');
-        }
-      } else {
-        console.error('⚠️ Bottom counter not found in registry');
-      }
-    }
-
-    /**
-     * Update legacy counter elements
-     * @param {number} count - Wishlist count
-     */
-    updateLegacyCounter(count) {
-      const counter = this.counters.get('legacy');
-      const legacyCount = document.querySelector('[data-wishlist-count]');
-      const legacyCountText = document.querySelector('[data-wishlist-count-text]');
-      const legacyIcon = document.querySelector('.bottom-menu__wishlist-icon');
-      
-      if (counter && legacyCount && legacyCountText && legacyIcon) {
-        legacyCount.textContent = String(count);
-        legacyCountText.textContent = String(count);
-        
-        if (count > 0) {
-          counter.element.classList.remove('visually-hidden');
-          legacyIcon.classList.add('bottom-menu__wishlist-icon--has-items');
-        } else {
-          counter.element.classList.add('visually-hidden');
-          legacyIcon.classList.remove('bottom-menu__wishlist-icon--has-items');
-        }
-      }
-    }
-
-    // ===== CORE WISHLIST METHODS =====
 
     loadFromStorage() {
       try {
         const stored = localStorage.getItem(this.storageKey);
         const items = stored ? JSON.parse(stored) : [];
-        console.log('🔍 loadFromStorage:', items.length, 'items loaded');
-        console.log('🔍 Storage data:', items);
+        console.log('🔍 Loaded', items.length, 'items from storage');
         return items;
       } catch (error) {
         console.error('Failed to load wishlist from storage:', error);
@@ -264,6 +61,12 @@
     saveToStorage() {
       try {
         localStorage.setItem(this.storageKey, JSON.stringify(this.items));
+        console.log('💾 Saved', this.items.length, 'items to storage');
+        
+        // Update everything after save - single point of truth
+        this.updateWishlistCounters();
+        this.updateWishlistButtons();
+        this.dispatchUpdateEvent();
       } catch (error) {
         console.error('Failed to save wishlist to storage:', error);
       }
@@ -272,6 +75,97 @@
     getCount() {
       return this.items.length;
     }
+
+    /**
+     * SINGLE COUNTER UPDATE METHOD - No complex registry
+     * Updates all counters directly and simply
+     */
+    updateWishlistCounters() {
+      const count = this.getCount();
+      console.log(`🔄 Updating all counters to: ${count}`);
+      
+      // Update header counter
+      const headerCounters = document.querySelectorAll(this.selectors.wishlistCounterHeader);
+      headerCounters.forEach(counter => {
+        const element = /** @type {HTMLElement} */ (counter);
+        element.textContent = String(count);
+        if (count > 0) {
+          element.style.display = 'flex';
+          element.classList.remove(this.classes.hidden);
+          element.classList.add(this.classes.visible);
+        } else {
+          element.style.display = 'none';
+          element.classList.add(this.classes.hidden);
+          element.classList.remove(this.classes.visible);
+        }
+      });
+      
+      // Update bottom counter
+      const bottomCounters = document.querySelectorAll(this.selectors.wishlistCounterBottom);
+      bottomCounters.forEach(counter => {
+        const element = /** @type {HTMLElement} */ (counter);
+        const countSpan = element.querySelector('[aria-hidden="true"]');
+        if (count > 0) {
+          element.style.display = 'flex';
+          if (countSpan) {
+            countSpan.textContent = String(count);
+          }
+        } else {
+          element.style.display = 'none';
+        }
+      });
+      
+      // Update legacy bubble counters
+      const bubbleCounters = document.querySelectorAll(this.selectors.wishlistBubble);
+      bubbleCounters.forEach(counter => {
+        if (count > 0) {
+          counter.classList.remove('visually-hidden');
+          counter.textContent = String(count);
+        } else {
+          counter.classList.add('visually-hidden');
+        }
+      });
+      
+      console.log(`✅ Updated ${headerCounters.length + bottomCounters.length + bubbleCounters.length} counters`);
+    }
+
+    /**
+     * Watch for counter changes and fix them - from original working code
+     */
+    observeCounterChanges() {
+      const allCounters = [
+        ...document.querySelectorAll(this.selectors.wishlistCounterHeader),
+        ...document.querySelectorAll(this.selectors.wishlistCounterBottom)
+      ];
+      
+      allCounters.forEach(counter => {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+              const count = this.getCount();
+              // If counter has items but is hidden, fix it
+              if (count > 0 && counter.classList.contains(this.classes.hidden)) {
+                console.log('🔧 Counter was hidden incorrectly, fixing...');
+                const element = /** @type {HTMLElement} */ (counter);
+                element.classList.remove(this.classes.hidden);
+                element.classList.add(this.classes.visible);
+                element.style.display = 'flex';
+                element.textContent = String(count);
+              }
+            }
+          });
+        });
+        
+        observer.observe(counter, {
+          attributes: true,
+          attributeFilter: ['class']
+        });
+      });
+      
+      console.log('👁️ Counter observers set up for', allCounters.length, 'elements');
+    }
+
+    // ===== CORE WISHLIST METHODS =====
 
     /**
      * Check if product is in wishlist
@@ -306,8 +200,6 @@
         });
         
         this.saveToStorage();
-        this.updateAllCounters(); // UNIFIED UPDATE
-        this.dispatchUpdateEvent();
         this.showNotification(`${product.title} added to wishlist`);
         return true;
       }
@@ -326,8 +218,6 @@
       
       if (this.items.length !== initialLength) {
         this.saveToStorage();
-        this.updateAllCounters(); // UNIFIED UPDATE
-        this.dispatchUpdateEvent();
         this.showNotification('Item removed from wishlist');
         return true;
       }
@@ -356,15 +246,13 @@
     clear() {
       this.items = [];
       this.saveToStorage();
-      this.updateAllCounters();
-      this.dispatchUpdateEvent();
       this.renderWishlistPage();
     }
 
     // ===== EVENT HANDLING =====
 
     setupEventListeners() {
-      console.log('🎧 Setting up unified event listeners');
+      console.log('🎧 Setting up simplified event listeners');
       
       // Handle wishlist button clicks
       document.addEventListener('click', (e) => {
@@ -392,41 +280,15 @@
       // Update button states on page load
       this.updateWishlistButtons();
       
-      // Page load update - single registration
-      window.addEventListener('load', () => {
-        this.updateWishlistButtons();
-        setTimeout(() => {
-          this.updateAllCounters(); // This now includes re-registration
-        }, 200);
-      });
-      
-      // Handle page visibility changes - only on returning to page
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-          setTimeout(() => {
-            this.updateAllCounters(); // This now includes re-registration
-          }, 200);
+      // Listen for storage events to sync across tabs (from original)
+      window.addEventListener('storage', (event) => {
+        if (event.key === this.storageKey) {
+          this.items = JSON.parse(event.newValue || '[]');
+          this.updateWishlistButtons();
+          this.updateWishlistCounters();
+          this.renderWishlistPage();
         }
       });
-
-      // Handle Shopify theme navigation events (if they exist)
-      document.addEventListener('shopify:section:load', () => {
-        console.log('🔄 Shopify section loaded - updating counters');
-        setTimeout(() => {
-          this.updateAllCounters();
-        }, 100);
-      });
-
-      // Handle theme view transitions
-      if ('navigation' in window) {
-        // @ts-ignore
-        window.navigation.addEventListener('navigatesuccess', () => {
-          console.log('🔄 Navigation success - updating counters');
-          setTimeout(() => {
-            this.updateAllCounters();
-          }, 100);
-        });
-      }
     }
 
     /**
@@ -457,16 +319,24 @@
      */
     updateWishlistButton(button, isAdded) {
       if (isAdded) {
-        button.classList.add('is-added');
+        button.classList.add(this.classes.added);
         button.setAttribute('aria-label', 'Remove from wishlist');
+        const heartIcon = button.querySelector('.icon-heart');
+        if (heartIcon) {
+          heartIcon.setAttribute('fill', 'currentColor');
+        }
       } else {
-        button.classList.remove('is-added');
+        button.classList.remove(this.classes.added);
         button.setAttribute('aria-label', 'Add to wishlist');
+        const heartIcon = button.querySelector('.icon-heart');
+        if (heartIcon) {
+          heartIcon.setAttribute('fill', 'none');
+        }
       }
     }
 
     updateWishlistButtons() {
-      const buttons = document.querySelectorAll('[data-wishlist-button]');
+      const buttons = document.querySelectorAll(this.selectors.wishlistButton);
       if (buttons.length > 0) {
         console.log('🔄 Found', buttons.length, 'wishlist buttons on page');
       }
@@ -490,7 +360,7 @@
     }
 
     /**
-     * Show notification message
+     * Show notification message - simplified from original
      * @param {string} message - Notification message
      * @param {string} type - Notification type ('success' or 'error')
      */
@@ -509,12 +379,7 @@
       notification.innerHTML = `
         <div class="wishlist-notification-content">
           <p>${message}</p>
-          <button class="wishlist-notification__close" aria-label="Close notification">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
+          <button class="wishlist-notification__close" aria-label="Close notification">×</button>
         </div>
       `;
 
@@ -525,7 +390,7 @@
         notification.classList.add('is-active');
       }, 50);
 
-      // Auto hide after 4 seconds
+      // Auto hide after 3 seconds (like original)
       setTimeout(() => {
         notification.classList.remove('is-active');
         setTimeout(() => {
@@ -533,7 +398,7 @@
             notification.remove();
           }
         }, 300);
-      }, 4000);
+      }, 3000);
 
       // Handle close button
       const closeButton = notification.querySelector('.wishlist-notification__close');
@@ -561,11 +426,11 @@
       
       if (items.length === 0) {
         wishlistContainer.innerHTML = '';
-        emptyContainer.classList.remove('is-hidden');
+        emptyContainer.classList.remove(this.classes.hidden);
         return;
       }
 
-      emptyContainer.classList.add('is-hidden');
+      emptyContainer.classList.add(this.classes.hidden);
       
       const template = document.getElementById('wishlist-item-template');
       if (!template) {
@@ -589,7 +454,7 @@
     }
   }
 
-  // Initialize unified wishlist controller
-  new UnifiedWishlistController();
+  // Initialize simplified wishlist controller
+  new SimpleWishlistController();
 
 })();

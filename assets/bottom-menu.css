@@ -133,6 +133,18 @@
   fill: none !important;
 }
 
+/* Specific sizing for menu icon only - match header menu size */
+.sticky-section-menu-drawer .svg-wrapper {
+  width: var(--icon-size-xs, 0.85rem) !important;
+  height: var(--icon-size-xs, 0.85rem) !important;
+  font-size: var(--icon-size-xs, 0.85rem) !important;
+}
+
+.sticky-section-menu-drawer .svg-wrapper svg {
+  width: var(--icon-size-xs, 0.85rem) !important;
+  height: var(--icon-size-xs, 0.85rem) !important;
+}
+
 
 
 /* Cart Icon Specific Styles - Both naming conventions */

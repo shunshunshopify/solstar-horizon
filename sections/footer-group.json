@@ -25,67 +25,6 @@
         "pb": 5
       }
     },
-    "bottom_menu_3hFqLr": {
-      "type": "bottom-menu",
-      "blocks": {
-        "home_block_AhTb6w": {
-          "type": "home_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "トップ",
-            "url": ""
-          }
-        },
-        "cart_block_hVdAmV": {
-          "type": "cart_block",
-          "settings": {
-            "caption": "カート"
-          }
-        },
-        "search_block_LBK7xP": {
-          "type": "Search_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "検索",
-            "url": ""
-          }
-        },
-        "wishlist_block_f8w69G": {
-          "type": "wishlist_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Wishlist",
-            "url": ""
-          }
-        },
-        "block_Ufx83b": {
-          "type": "block",
-          "settings": {
-            "icon_url": "",
-            "caption": "ギフト",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "home_block_AhTb6w",
-        "cart_block_hVdAmV",
-        "search_block_LBK7xP",
-        "wishlist_block_f8w69G",
-        "block_Ufx83b"
-      ],
-      "disabled": true,
-      "name": "Bottom Nav Bar",
-      "settings": {
-        "bg_color": "#ffffff",
-        "icon_color": "#000000",
-        "color": "#000000",
-        "font_size": 10,
-        "icon_size": 2.2,
-        "height": 70,
-        "hide-border": true
-      }
-    },
     "bottom_nav_bar_hJdKKr": {
       "type": "bottom-nav-bar",
       "blocks": {
@@ -343,7 +282,6 @@
   },
   "order": [
     "sticky_add_to_cart_6wHPQB",
-    "bottom_menu_3hFqLr",
     "bottom_nav_bar_hJdKKr",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"

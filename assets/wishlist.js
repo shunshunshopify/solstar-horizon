@@ -199,6 +199,17 @@
       // Also update when page is fully loaded (for dynamic content)
       window.addEventListener('load', () => {
         this.updateWishlistButtons();
+        // Ensure counters are updated after all scripts have loaded
+        setTimeout(() => {
+          this.updateAllCounters();
+        }, 100);
+      });
+      
+      // Update counters when page visibility changes (helps with navigation)
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          this.updateAllCounters();
+        }
       });
     }
 
@@ -281,9 +292,13 @@
         if (count > 0) {
           headerCounter.classList.remove('is-hidden');
           headerCounter.textContent = String(count);
+          console.log('📍 Header counter updated to:', count);
         } else {
           headerCounter.classList.add('is-hidden');
+          console.log('📍 Header counter hidden');
         }
+      } else {
+        console.warn('📍 Header counter element not found');
       }
 
       // Update bottom navigation counter
@@ -341,7 +356,9 @@
      */
     updateWishlistButtons() {
       const buttons = document.querySelectorAll('[data-wishlist-button]');
-      console.log('🔄 Found', buttons.length, 'wishlist buttons on page');
+      if (buttons.length > 0) {
+        console.log('🔄 Found', buttons.length, 'wishlist buttons on page');
+      }
       buttons.forEach(button => {
         const htmlButton = /** @type {HTMLElement} */ (button);
         const productId = htmlButton.dataset.productId;

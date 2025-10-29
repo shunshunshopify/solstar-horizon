@@ -366,39 +366,25 @@
   // Update wishlist counter
   function updateWishlistCounter() {
     try {
-      // Update header wishlist counter
-      const headerWishlistCounter = document.querySelector('[data-wishlist-counter]');
-      // Update bottom menu wishlist counter  
+      // Only update bottom menu counter - let main wishlist.js handle header counter
       const bottomWishlistCounter = document.querySelector('[data-wishlist-counter-bottom]');
       
-      if (window.wishlist) {
+      if (window.wishlist && bottomWishlistCounter) {
         const count = window.wishlist.getCount ? window.wishlist.getCount() : 0;
         
-        // Update header counter
-        if (headerWishlistCounter) {
-          if (count > 0) {
-            headerWishlistCounter.classList.remove('is-hidden');
-            headerWishlistCounter.textContent = count;
-          } else {
-            headerWishlistCounter.classList.add('is-hidden');
+        // Update bottom menu counter only
+        const countSpan = bottomWishlistCounter.querySelector('[aria-hidden="true"]');
+        if (count > 0) {
+          bottomWishlistCounter.style.display = 'flex';
+          if (countSpan) {
+            countSpan.textContent = count;
           }
-        }
-        
-        // Update bottom menu counter
-        if (bottomWishlistCounter) {
-          const countSpan = bottomWishlistCounter.querySelector('[aria-hidden="true"]');
-          if (count > 0) {
-            bottomWishlistCounter.style.display = 'flex';
-            if (countSpan) {
-              countSpan.textContent = count;
-            }
-          } else {
-            bottomWishlistCounter.style.display = 'none';
-          }
+        } else {
+          bottomWishlistCounter.style.display = 'none';
         }
       }
     } catch (error) {
-      console.error('Failed to update wishlist counter:', error);
+      console.error('Failed to update bottom wishlist counter:', error);
     }
   }
   

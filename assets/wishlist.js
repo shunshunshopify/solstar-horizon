@@ -25,9 +25,11 @@
     }
 
     init() {
+      console.log('🎯 Wishlist initialized');
       this.setupEventListeners();
       this.updateAllCounters();
       this.renderWishlistPage();
+      console.log('📊 Initial wishlist count:', this.getCount());
     }
 
     /**
@@ -160,6 +162,7 @@
      * Setup event listeners for wishlist buttons
      */
     setupEventListeners() {
+      console.log('🎧 Setting up wishlist event listeners');
       // Handle wishlist button clicks
       document.addEventListener('click', (e) => {
         if (!e.target) return;
@@ -167,6 +170,8 @@
         const wishlistButton = target.closest('[data-wishlist-button]');
         if (wishlistButton) {
           e.preventDefault();
+          e.stopPropagation();
+          console.log('🎯 Found wishlist button, handling click');
           this.handleWishlistButtonClick(/** @type {HTMLElement} */ (wishlistButton));
         }
 
@@ -190,6 +195,12 @@
 
       // Update button states on page load
       this.updateWishlistButtons();
+      
+      // Also update when page is fully loaded (for dynamic content)
+      window.addEventListener('load', () => {
+        console.log('🔄 Page loaded, updating wishlist buttons');
+        this.updateWishlistButtons();
+      });
     }
 
     /**
@@ -197,6 +208,9 @@
      * @param {HTMLElement} button - Wishlist button element
      */
     handleWishlistButtonClick(button) {
+      console.log('🔥 Wishlist button clicked', button);
+      console.log('📋 Button dataset:', button.dataset);
+      
       const product = {
         id: button.dataset.productId,
         title: button.dataset.productTitle,
@@ -206,7 +220,10 @@
         variant_id: button.dataset.variantId
       };
 
+      console.log('📦 Product data:', product);
+      
       const wasAdded = this.toggle(product);
+      console.log('✅ Wishlist toggle result:', wasAdded ? 'Added' : 'Removed');
       this.updateWishlistButton(button, wasAdded);
     }
 
@@ -261,9 +278,11 @@
      */
     updateAllCounters() {
       const count = this.getCount();
+      console.log('🔄 Updating all counters, count:', count);
       
       // Update header counter
       const headerCounter = document.querySelector('[data-wishlist-counter]');
+      console.log('📍 Header counter element:', headerCounter);
       if (headerCounter) {
         if (count > 0) {
           headerCounter.classList.remove('is-hidden');
@@ -275,6 +294,7 @@
 
       // Update bottom navigation counter
       const bottomCounter = document.querySelector('[data-wishlist-counter-bottom]');
+      console.log('📍 Bottom counter element:', bottomCounter);
       if (bottomCounter) {
         const htmlBottomCounter = /** @type {HTMLElement} */ (bottomCounter);
         const countSpan = bottomCounter.querySelector('[aria-hidden="true"]');
@@ -328,11 +348,14 @@
      */
     updateWishlistButtons() {
       const buttons = document.querySelectorAll('[data-wishlist-button]');
+      console.log('🔄 Found', buttons.length, 'wishlist buttons on page');
       buttons.forEach(button => {
         const htmlButton = /** @type {HTMLElement} */ (button);
         const productId = htmlButton.dataset.productId;
+        console.log('📝 Button for product:', productId);
         if (productId) {
           const isAdded = this.contains(productId);
+          console.log('✅ Product', productId, 'is in wishlist:', isAdded);
           this.updateWishlistButton(htmlButton, isAdded);
         }
       });

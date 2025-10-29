@@ -22,7 +22,6 @@
   data-product-price="{{ current_variant.price | money }}"
   data-variant-id="{{ current_variant.id }}"
   aria-label="{% if location == 'product' %}Add to wishlist{% else %}Add {{ product.title | escape }} to wishlist{% endif %}"
-  onclick="event.preventDefault(); event.stopPropagation();"
 >
   <span class="wishlist-button__icon">
     <svg class="icon icon-heart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">

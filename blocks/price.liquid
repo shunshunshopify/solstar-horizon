@@ -48,7 +48,8 @@
   {% render 'price',
     show_unit_price: true,
     product_resource: product_resource,
-    show_sale_price_first: block_settings.show_sale_price_first
+    show_sale_price_first: block_settings.show_sale_price_first,
+    show_wishlist_icon: block_settings.show_wishlist_icon
   %}
 
   {% if block_settings.show_tax_info %}
@@ -80,12 +81,6 @@
       {%- endform -%}
     </div>
   {%- endif -%}
-
-  {%- if block_settings.show_wishlist_icon -%}
-    <div class="price-block__wishlist">
-      {% render 'wishlist-button', product: product_resource, location: 'product' %}
-    </div>
-  {%- endif -%}
 </product-price>
 
 {% # theme-check-disable %}
@@ -102,25 +97,41 @@
     display: none;
   }
 
-  .price-block__wishlist {
-    padding-top: var(--padding-sm);
+  .price-container--with-wishlist {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
   }
 
-  .price-block__wishlist .wishlist-button {
-    padding: var(--padding-xs);
+  .price-wishlist-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .price-wishlist-icon .wishlist-button {
+    padding: var(--padding-2xs);
     border: 1px solid rgba(var(--color-foreground), 0.2);
     border-radius: var(--border-radius-button);
     transition: all 0.2s ease;
+    background: transparent;
+    min-width: auto;
+    height: auto;
   }
 
-  .price-block__wishlist .wishlist-button:hover {
+  .price-wishlist-icon .wishlist-button:hover {
     border-color: rgba(var(--color-foreground), 0.4);
     background-color: rgba(var(--color-foreground), 0.05);
   }
 
-  .price-block__wishlist .wishlist-button.is-added {
+  .price-wishlist-icon .wishlist-button.is-added {
     background-color: rgba(var(--color-foreground), 0.1);
     border-color: var(--color-foreground);
+  }
+
+  .price-wishlist-icon .wishlist-button .icon-heart {
+    width: 20px;
+    height: 20px;
   }
 {% endstylesheet %}
 

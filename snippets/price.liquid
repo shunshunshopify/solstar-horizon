@@ -10,6 +10,7 @@
 {%- liquid
   assign show_unit_price = show_unit_price | default: false
   assign show_sale_price_first = show_sale_price_first | default: false
+  assign show_wishlist_icon = show_wishlist_icon | default: false
   assign selected_variant = product_resource.selected_or_first_available_variant
   assign price = selected_variant.price
   assign compare_at_price = selected_variant.compare_at_price
@@ -41,7 +42,7 @@
   endif
 -%}
 
-<div ref="priceContainer">
+<div ref="priceContainer" class="price-container{% if show_wishlist_icon %} price-container--with-wishlist{% endif %}">
   {% if show_sale_price_first == false and show_compare_price %}
     <span role="group">
       <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
@@ -64,6 +65,13 @@
       <span class="compare-at-price">{{- compare_at_price -}}</span>
     </span>
   {% endif %}
+
+  {%- if show_wishlist_icon and product_resource != blank -%}
+    <span class="price-wishlist-icon">
+      {% render 'wishlist-button', product: product_resource, location: 'product' %}
+    </span>
+  {%- endif -%}
+
   {%- if selected_variant.unit_price and show_unit_price %}
     {%- liquid
       if product.handle == closest.product.handle and settings.currency_code_enabled_product_pages

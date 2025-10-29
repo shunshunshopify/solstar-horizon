@@ -273,7 +273,11 @@
 }
 
 .wishlist-count-bubble.is-hidden {
-  display: none;
+  display: none !important;
+}
+
+.wishlist-count-bubble.is-visible {
+  display: flex !important;
 }
 
 .header__icon--wishlist {

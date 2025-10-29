@@ -147,13 +147,15 @@
         }
         
         if (count > 0) {
-          element.classList.remove('is-hidden');
+          // Use dedicated visible class with !important
           element.textContent = String(count);
-          element.style.display = 'flex';
-          console.log('📍 Header counter updated:', count);
+          element.classList.remove('is-hidden');
+          element.classList.add('is-visible');
+          console.log('📍 Header counter shown:', count);
         } else {
+          // Use dedicated hidden class with !important
+          element.classList.remove('is-visible');
           element.classList.add('is-hidden');
-          element.style.display = 'none';
           console.log('📍 Header counter hidden');
         }
       } else {

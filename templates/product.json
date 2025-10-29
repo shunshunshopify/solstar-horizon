@@ -139,6 +139,7 @@
                     "show_sale_price_first": true,
                     "show_installments": false,
                     "show_tax_info": true,
+                    "show_wishlist_icon": true,
                     "type_preset": "paragraph",
                     "width": "100%",
                     "alignment": "left",
@@ -158,6 +159,7 @@
                 "custom_liquid_mdctT7": {
                   "type": "custom-liquid",
                   "name": "t:names.custom_liquid",
+                  "disabled": true,
                   "settings": {
                     "custom_liquid": "{% render 'wishlist-button', product: product, location: 'product' %}"
                   },
@@ -371,6 +373,7 @@
                 "show_sale_price_first": true,
                 "show_installments": false,
                 "show_tax_info": false,
+                "show_wishlist_icon": false,
                 "type_preset": "h6",
                 "width": "100%",
                 "alignment": "left",

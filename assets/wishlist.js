@@ -29,7 +29,6 @@
       this.setupEventListeners();
       this.updateAllCounters();
       this.renderWishlistPage();
-      console.log('📊 Initial wishlist count:', this.getCount());
     }
 
     /**
@@ -71,7 +70,8 @@
      * @returns {boolean} True if product is in wishlist
      */
     contains(productId) {
-      return this.items.some(item => item.id == productId);
+      if (!productId) return false;
+      return this.items.some(item => String(item.id) === String(productId));
     }
 
     /**
@@ -111,8 +111,9 @@
      * @param {string|number} productId - Product ID
      */
     remove(productId) {
+      if (!productId) return false;
       const initialLength = this.items.length;
-      this.items = this.items.filter(item => item.id != productId);
+      this.items = this.items.filter(item => String(item.id) !== String(productId));
       
       if (this.items.length !== initialLength) {
         this.saveToStorage();

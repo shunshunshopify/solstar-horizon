@@ -80,6 +80,12 @@
       {%- endform -%}
     </div>
   {%- endif -%}
+
+  {%- if block_settings.show_wishlist_icon -%}
+    <div class="price-block__wishlist">
+      {% render 'wishlist-button', product: product_resource, location: 'product' %}
+    </div>
+  {%- endif -%}
 </product-price>
 
 {% # theme-check-disable %}
@@ -94,6 +100,27 @@
 
   .installments:not(:has(shopify-payment-terms)) {
     display: none;
+  }
+
+  .price-block__wishlist {
+    padding-top: var(--padding-sm);
+  }
+
+  .price-block__wishlist .wishlist-button {
+    padding: var(--padding-xs);
+    border: 1px solid rgba(var(--color-foreground), 0.2);
+    border-radius: var(--border-radius-button);
+    transition: all 0.2s ease;
+  }
+
+  .price-block__wishlist .wishlist-button:hover {
+    border-color: rgba(var(--color-foreground), 0.4);
+    background-color: rgba(var(--color-foreground), 0.05);
+  }
+
+  .price-block__wishlist .wishlist-button.is-added {
+    background-color: rgba(var(--color-foreground), 0.1);
+    border-color: var(--color-foreground);
   }
 {% endstylesheet %}
 
@@ -126,6 +153,13 @@
       "type": "checkbox",
       "id": "show_tax_info",
       "label": "t:settings.show_tax_info",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist_icon",
+      "label": "Show wishlist icon",
+      "info": "Display wishlist heart icon below the price",
       "default": false
     },
     {

@@ -122,7 +122,7 @@
             {% endif %}
             {{ block.settings.caption }}
             <!-- Enhanced wishlist counter with proper styling -->
-            <div class="cart-count wishlist-total-count-bottom-menu" data-wishlist-counter style="display: none;">
+            <div class="cart-count wishlist-total-count-bottom-menu" data-wishlist-counter-bottom style="display: none;">
               <span class="visually-hidden">Wishlist items: </span>
               <span aria-hidden="true">0</span>
             </div>
@@ -366,18 +366,35 @@
   // Update wishlist counter
   function updateWishlistCounter() {
     try {
-      const wishlistCounter = document.querySelector('[data-wishlist-counter]');
-      if (wishlistCounter && window.wishlist) {
+      // Update header wishlist counter
+      const headerWishlistCounter = document.querySelector('[data-wishlist-counter]');
+      // Update bottom menu wishlist counter  
+      const bottomWishlistCounter = document.querySelector('[data-wishlist-counter-bottom]');
+      
+      if (window.wishlist) {
         const count = window.wishlist.getCount ? window.wishlist.getCount() : 0;
-        const countSpan = wishlistCounter.querySelector('[aria-hidden="true"]');
         
-        if (count > 0) {
-          wishlistCounter.style.display = 'flex';
-          if (countSpan) {
-            countSpan.textContent = count;
+        // Update header counter
+        if (headerWishlistCounter) {
+          if (count > 0) {
+            headerWishlistCounter.classList.remove('is-hidden');
+            headerWishlistCounter.textContent = count;
+          } else {
+            headerWishlistCounter.classList.add('is-hidden');
           }
-        } else {
-          wishlistCounter.style.display = 'none';
+        }
+        
+        // Update bottom menu counter
+        if (bottomWishlistCounter) {
+          const countSpan = bottomWishlistCounter.querySelector('[aria-hidden="true"]');
+          if (count > 0) {
+            bottomWishlistCounter.style.display = 'flex';
+            if (countSpan) {
+              countSpan.textContent = count;
+            }
+          } else {
+            bottomWishlistCounter.style.display = 'none';
+          }
         }
       }
     } catch (error) {

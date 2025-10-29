@@ -363,30 +363,6 @@
       });
   }
   
-  // Update wishlist counter
-  function updateWishlistCounter() {
-    try {
-      // Only update bottom menu counter - let main wishlist.js handle header counter
-      const bottomWishlistCounter = document.querySelector('[data-wishlist-counter-bottom]');
-      
-      if (window.wishlist && bottomWishlistCounter) {
-        const count = window.wishlist.getCount ? window.wishlist.getCount() : 0;
-        
-        // Update bottom menu counter only
-        const countSpan = bottomWishlistCounter.querySelector('[aria-hidden="true"]');
-        if (count > 0) {
-          bottomWishlistCounter.style.display = 'flex';
-          if (countSpan) {
-            countSpan.textContent = count;
-          }
-        } else {
-          bottomWishlistCounter.style.display = 'none';
-        }
-      }
-    } catch (error) {
-      console.error('Failed to update bottom wishlist counter:', error);
-    }
-  }
   
   // Setup legacy cart button listeners (for backward compatibility)
   function setupLegacyCartListeners() {
@@ -398,18 +374,15 @@
       });
     });
   }
-  
+
   // Initialize everything when DOM is ready
   function initialize() {
     setupMenuDrawer();
     initializePopups();
-    updateWishlistCounter();
     setupLegacyCartListeners();
     
-    // Listen for wishlist updates
-    if (window.wishlist) {
-      document.addEventListener('wishlist:updated', updateWishlistCounter);
-    }
+    // Note: Wishlist counter management is handled by assets/wishlist.js
+    // No duplicate logic needed here - wishlist.js manages all counters centrally
   }
   
   // Initialize when DOM is ready

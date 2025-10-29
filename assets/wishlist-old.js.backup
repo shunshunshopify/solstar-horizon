@@ -1,18 +1,18 @@
 /**
- * Unified Wishlist Controller for Shopify Theme
- * Single source of truth for all wishlist counters
+ * Wishlist Functionality for Shopify Theme
+ * Simplified and synchronized counter management
  */
 
 (function() {
   'use strict';
 
-  class UnifiedWishlistController {
+  class Wishlist {
     constructor() {
       this.storageKey = 'shopify-wishlist';
       this.items = this.loadFromStorage();
       this.eventTarget = document.createElement('div');
-      this.updatePending = false;
-      this.counters = new Map(); // Registry of all counter elements
+      this.updatePending = false; // Prevent multiple simultaneous updates
+      this.counters = new Map(); // Track all counter elements
       
       // Make wishlist available globally
       // @ts-ignore
@@ -27,7 +27,7 @@
     }
 
     init() {
-      console.log('🎯 UNIFIED WISHLIST CONTROLLER INITIALIZED');
+      console.log('🎯 Unified Wishlist Controller initialized');
       this.registerAllCounters();
       this.setupEventListeners();
       this.updateAllCounters();
@@ -35,163 +35,48 @@
     }
 
     /**
-     * Register all wishlist counter elements in the unified system
+     * Register all wishlist counter elements as a unified system
      */
     registerAllCounters() {
-      const counterConfigs = [
-        {
-          name: 'header',
-          selector: '[data-wishlist-counter]',
-          updateMethod: this.updateHeaderCounter.bind(this)
-        },
-        {
-          name: 'bottom',
-          selector: '[data-wishlist-counter-bottom]',
-          updateMethod: this.updateBottomCounter.bind(this)
-        },
-        {
-          name: 'legacy',
-          selector: '[data-wishlist-bubble]',
-          updateMethod: this.updateLegacyCounter.bind(this)
-        }
-      ];
-
-      counterConfigs.forEach(config => {
-        const element = document.querySelector(config.selector);
-        if (element) {
-          this.counters.set(config.name, {
-            element,
-            selector: config.selector,
-            updateMethod: config.updateMethod
-          });
-          console.log(`✅ Registered ${config.name} counter`);
-        }
-      });
-
+      // Find and register all counter elements
+      const headerCounter = document.querySelector('[data-wishlist-counter]');
+      const bottomCounter = document.querySelector('[data-wishlist-counter-bottom]');
+      const legacyBubble = document.querySelector('[data-wishlist-bubble]');
+      
+      if (headerCounter) {
+        this.counters.set('header', {
+          element: headerCounter,
+          type: 'header',
+          updateMethod: this.updateHeaderCounterElement.bind(this)
+        });
+        console.log('✅ Registered header counter');
+      }
+      
+      if (bottomCounter) {
+        this.counters.set('bottom', {
+          element: bottomCounter,
+          type: 'bottom',
+          updateMethod: this.updateBottomCounterElement.bind(this)
+        });
+        console.log('✅ Registered bottom counter');
+      }
+      
+      if (legacyBubble) {
+        this.counters.set('legacy', {
+          element: legacyBubble,
+          type: 'legacy',
+          updateMethod: this.updateLegacyCounterElement.bind(this)
+        });
+        console.log('✅ Registered legacy counter');
+      }
+      
       console.log(`🎯 Total registered counters: ${this.counters.size}`);
     }
 
     /**
-     * UNIFIED COUNTER UPDATE - Single source of truth
+     * Load wishlist items from localStorage
+     * @returns {Array<any>} Array of wishlist items
      */
-    updateAllCounters() {
-      if (this.updatePending) {
-        console.log('⏳ Update already pending, skipping...');
-        return;
-      }
-
-      this.updatePending = true;
-      const count = this.getCount();
-      console.log(`🎯 UNIFIED UPDATE: Syncing ALL counters to ${count}`);
-
-      // Use requestAnimationFrame for perfect synchronization
-      requestAnimationFrame(() => {
-        try {
-          let successCount = 0;
-          
-          // Update all registered counters simultaneously
-          for (const [name, counter] of this.counters) {
-            try {
-              if (document.contains(counter.element)) {
-                counter.updateMethod(count);
-                successCount++;
-                console.log(`✅ ${name} synced: ${count}`);
-              } else {
-                // Try to re-register if element was recreated
-                this.reregisterCounter(name, counter.selector, counter.updateMethod);
-              }
-            } catch (error) {
-              console.error(`❌ Failed to update ${name}:`, error);
-            }
-          }
-          
-          console.log(`🎯 SYNC COMPLETE: ${successCount}/${this.counters.size} counters updated`);
-        } finally {
-          this.updatePending = false;
-        }
-      });
-    }
-
-    /**
-     * Re-register a counter if its element was recreated
-     * @param {string} name - Counter name
-     * @param {string} selector - CSS selector
-     * @param {function} updateMethod - Update method function
-     */
-    reregisterCounter(name, selector, updateMethod) {
-      const element = document.querySelector(selector);
-      if (element) {
-        this.counters.set(name, { element, selector, updateMethod });
-        updateMethod(this.getCount());
-        console.log(`🔄 Re-registered ${name} counter`);
-      }
-    }
-
-    /**
-     * Update header counter
-     * @param {number} count - Wishlist count
-     */
-    updateHeaderCounter(count) {
-      const counter = this.counters.get('header');
-      if (counter) {
-        const element = /** @type {HTMLElement} */ (counter.element);
-        if (count > 0) {
-          element.classList.remove('is-hidden');
-          element.textContent = String(count);
-          element.style.display = 'flex';
-        } else {
-          element.classList.add('is-hidden');
-          element.style.display = 'none';
-        }
-      }
-    }
-
-    /**
-     * Update bottom navigation counter
-     * @param {number} count - Wishlist count
-     */
-    updateBottomCounter(count) {
-      const counter = this.counters.get('bottom');
-      if (counter) {
-        const element = /** @type {HTMLElement} */ (counter.element);
-        const countSpan = element.querySelector('[aria-hidden="true"]');
-        if (count > 0) {
-          element.style.display = 'flex';
-          if (countSpan) {
-            countSpan.textContent = String(count);
-          }
-        } else {
-          element.style.display = 'none';
-        }
-      }
-    }
-
-    /**
-     * Update legacy counter elements
-     * @param {number} count - Wishlist count
-     */
-    updateLegacyCounter(count) {
-      const counter = this.counters.get('legacy');
-      const legacyCount = document.querySelector('[data-wishlist-count]');
-      const legacyCountText = document.querySelector('[data-wishlist-count-text]');
-      const legacyIcon = document.querySelector('.bottom-menu__wishlist-icon');
-      
-      if (counter && legacyCount && legacyCountText && legacyIcon) {
-        legacyCount.textContent = String(count);
-        legacyCountText.textContent = String(count);
-        
-        if (count > 0) {
-          counter.element.classList.remove('visually-hidden');
-          legacyIcon.classList.add('bottom-menu__wishlist-icon--has-items');
-        } else {
-          counter.element.classList.add('visually-hidden');
-          legacyIcon.classList.remove('bottom-menu__wishlist-icon--has-items');
-        }
-      }
-    }
-
-    // ===== CORE WISHLIST METHODS =====
-
     loadFromStorage() {
       try {
         const stored = localStorage.getItem(this.storageKey);
@@ -202,6 +87,9 @@
       }
     }
 
+    /**
+     * Save wishlist items to localStorage
+     */
     saveToStorage() {
       try {
         localStorage.setItem(this.storageKey, JSON.stringify(this.items));
@@ -210,6 +98,10 @@
       }
     }
 
+    /**
+     * Get current wishlist count
+     * @returns {number} Number of items in wishlist
+     */
     getCount() {
       return this.items.length;
     }
@@ -221,7 +113,7 @@
      */
     contains(productId) {
       if (!productId) return false;
-      return this.items.some(/** @param {any} item */ item => String(item.id) === String(productId));
+      return this.items.some(item => String(item.id) === String(productId));
     }
 
     /**
@@ -247,9 +139,10 @@
         });
         
         this.saveToStorage();
-        this.updateAllCounters(); // UNIFIED UPDATE
+        this.updateAllCounters();
         this.dispatchUpdateEvent();
         this.showNotification(`${product.title} added to wishlist`);
+        
         return true;
       }
       return false;
@@ -258,16 +151,15 @@
     /**
      * Remove product from wishlist
      * @param {string|number} productId - Product ID
-     * @returns {boolean} True if item was removed
      */
     remove(productId) {
       if (!productId) return false;
       const initialLength = this.items.length;
-      this.items = this.items.filter(/** @param {any} item */ item => String(item.id) !== String(productId));
+      this.items = this.items.filter(item => String(item.id) !== String(productId));
       
       if (this.items.length !== initialLength) {
         this.saveToStorage();
-        this.updateAllCounters(); // UNIFIED UPDATE
+        this.updateAllCounters();
         this.dispatchUpdateEvent();
         this.showNotification('Item removed from wishlist');
         return true;
@@ -290,10 +182,17 @@
       }
     }
 
+    /**
+     * Get all wishlist items
+     * @returns {Array<any>} Array of wishlist items
+     */
     getItems() {
       return [...this.items];
     }
 
+    /**
+     * Clear all items from wishlist
+     */
     clear() {
       this.items = [];
       this.saveToStorage();
@@ -302,11 +201,11 @@
       this.renderWishlistPage();
     }
 
-    // ===== EVENT HANDLING =====
-
+    /**
+     * Setup event listeners for wishlist buttons
+     */
     setupEventListeners() {
-      console.log('🎧 Setting up unified event listeners');
-      
+      console.log('🎧 Setting up wishlist event listeners');
       // Handle wishlist button clicks
       document.addEventListener('click', (e) => {
         if (!e.target) return;
@@ -316,6 +215,12 @@
           e.preventDefault();
           e.stopPropagation();
           this.handleWishlistButtonClick(/** @type {HTMLElement} */ (wishlistButton));
+        }
+
+        // Handle add to cart from wishlist
+        const addToCartButton = target.closest('.wishlist-add-to-cart');
+        if (addToCartButton) {
+          this.handleAddToCart(/** @type {HTMLElement} */ (addToCartButton));
         }
 
         // Handle remove from wishlist
@@ -333,20 +238,18 @@
       // Update button states on page load
       this.updateWishlistButtons();
       
-      // Simple page load update
+      // Simple page load counter update
       window.addEventListener('load', () => {
         this.updateWishlistButtons();
         setTimeout(() => {
-          this.registerAllCounters(); // Re-register in case elements were recreated
           this.updateAllCounters();
         }, 100);
       });
       
-      // Handle page visibility changes
+      // Simple visibility change update  
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
           setTimeout(() => {
-            this.registerAllCounters(); // Re-register counters
             this.updateAllCounters();
           }, 100);
         }
@@ -375,6 +278,123 @@
     }
 
     /**
+     * Handle add to cart from wishlist
+     * @param {HTMLElement} button - Add to cart button
+     */
+    async handleAddToCart(button) {
+      const productId = button.dataset.productId;
+      const variantId = button.dataset.variantId;
+
+      if (!variantId) {
+        console.error('Variant ID not found');
+        return;
+      }
+
+      try {
+        button.classList.add('is-loading');
+        
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: 1
+          })
+        });
+
+        if (response.ok) {
+          // Trigger cart update events
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+          this.showNotification('Item added to cart');
+          
+          // Optionally remove from wishlist after adding to cart
+          // this.remove(productId);
+          // this.renderWishlistPage();
+        } else {
+          throw new Error('Failed to add to cart');
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        this.showNotification('Failed to add to cart', 'error');
+      } finally {
+        button.classList.remove('is-loading');
+      }
+    }
+
+    /**
+     * Update all wishlist counters
+     */
+    updateAllCounters() {
+      const count = this.getCount();
+      console.log('🔢 Updating all counters with count:', count);
+      
+      // Update header counter with more robust element finding
+      const headerCounter = document.querySelector('[data-wishlist-counter]');
+      console.log('🎯 Header counter element found:', !!headerCounter);
+      console.log('🎯 Header counter details:', {
+        element: headerCounter,
+        isHidden: headerCounter ? headerCounter.classList.contains('is-hidden') : 'N/A',
+        currentText: headerCounter ? headerCounter.textContent : 'N/A',
+        style: headerCounter ? (/** @type {HTMLElement} */ (headerCounter)).style.display : 'N/A'
+      });
+      
+      if (headerCounter) {
+        const htmlHeaderCounter = /** @type {HTMLElement} */ (headerCounter);
+        if (count > 0) {
+          htmlHeaderCounter.classList.remove('is-hidden');
+          htmlHeaderCounter.textContent = String(count);
+          htmlHeaderCounter.style.display = 'flex'; // Force display
+          console.log('✅ Header counter updated to:', count, 'Classes:', headerCounter.className);
+        } else {
+          htmlHeaderCounter.classList.add('is-hidden');
+          htmlHeaderCounter.style.display = 'none'; // Force hide
+          console.log('� Header counter hidden');
+        }
+      } else {
+        console.error('❌ Header counter element [data-wishlist-counter] not found!');
+        // Try alternative selectors
+        const altCounter = document.querySelector('.wishlist-count-bubble');
+        console.log('🔍 Alternative selector .wishlist-count-bubble found:', !!altCounter);
+      }
+
+      // Update bottom navigation counter
+      const bottomCounter = document.querySelector('[data-wishlist-counter-bottom]');
+      if (bottomCounter) {
+        const htmlBottomCounter = /** @type {HTMLElement} */ (bottomCounter);
+        const countSpan = bottomCounter.querySelector('[aria-hidden="true"]');
+        if (count > 0) {
+          htmlBottomCounter.style.display = 'flex';
+          if (countSpan) {
+            countSpan.textContent = String(count);
+          }
+        } else {
+          htmlBottomCounter.style.display = 'none';
+        }
+      }
+
+      // Update legacy bottom menu counter (if exists)
+      const legacyCounter = document.querySelector('[data-wishlist-bubble]');
+      const legacyCount = document.querySelector('[data-wishlist-count]');
+      const legacyCountText = document.querySelector('[data-wishlist-count-text]');
+      const legacyIcon = document.querySelector('.bottom-menu__wishlist-icon');
+      
+      if (legacyCounter && legacyCount && legacyCountText && legacyIcon) {
+        legacyCount.textContent = String(count);
+        legacyCountText.textContent = String(count);
+        
+        if (count > 0) {
+          legacyCounter.classList.remove('visually-hidden');
+          legacyIcon.classList.add('bottom-menu__wishlist-icon--has-items');
+        } else {
+          legacyCounter.classList.add('visually-hidden');
+          legacyIcon.classList.remove('bottom-menu__wishlist-icon--has-items');
+        }
+      }
+    }
+
+    /**
      * Update wishlist button state
      * @param {HTMLElement} button - Wishlist button
      * @param {boolean} isAdded - Whether item is in wishlist
@@ -389,6 +409,9 @@
       }
     }
 
+    /**
+     * Update all wishlist buttons on page
+     */
     updateWishlistButtons() {
       const buttons = document.querySelectorAll('[data-wishlist-button]');
       if (buttons.length > 0) {
@@ -404,6 +427,9 @@
       });
     }
 
+    /**
+     * Dispatch wishlist update event
+     */
     dispatchUpdateEvent() {
       document.dispatchEvent(new CustomEvent('wishlist:updated', {
         detail: {
@@ -414,7 +440,7 @@
     }
 
     /**
-     * Show notification message
+     * Show notification
      * @param {string} message - Notification message
      * @param {string} type - Notification type ('success' or 'error')
      */
@@ -443,18 +469,22 @@
       `;
 
       document.body.appendChild(notification);
+      console.log('📢 Notification element added to DOM:', notification);
 
       // Show notification
       setTimeout(() => {
         notification.classList.add('is-active');
+        console.log('📢 Notification activated');
       }, 50);
 
-      // Auto hide after 4 seconds
+      // Auto hide after 4 seconds (increased from 3)
       setTimeout(() => {
+        console.log('📢 Auto-hiding notification');
         notification.classList.remove('is-active');
         setTimeout(() => {
           if (notification.parentNode) {
             notification.remove();
+            console.log('📢 Notification removed from DOM');
           }
         }, 300);
       }, 4000);
@@ -473,6 +503,9 @@
       }
     }
 
+    /**
+     * Render wishlist page (if on wishlist page)
+     */
     renderWishlistPage() {
       const wishlistContainer = document.getElementById('wishlist-items');
       const emptyContainer = document.getElementById('wishlist-empty');
@@ -513,7 +546,7 @@
     }
   }
 
-  // Initialize unified wishlist controller
-  new UnifiedWishlistController();
+  // Initialize wishlist when DOM is ready
+  new Wishlist();
 
 })();

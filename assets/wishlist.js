@@ -351,11 +351,16 @@
           body: formData
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const result = await response.json();
+        console.log('🔍 Cart add response:', result);
+
+        // Check if there was an error in the response
+        if (!response.ok || result.status || result.message) {
+          // Handle cart add errors (like out of stock, etc.)
+          const errorMessage = result.message || result.description || 'Could not add to cart';
+          throw new Error(errorMessage);
         }
 
-        const result = await response.json();
         console.log('✅ Successfully added to cart:', result);
 
         // Find the product in wishlist to show notification
@@ -363,9 +368,11 @@
         if (product) {
           this.showNotification(`${product.title} added to cart`);
           
-          // Optionally remove from wishlist after adding to cart
-          this.remove(productId);
-          this.renderWishlistPage();
+          // Optional: Remove from wishlist after adding to cart
+          // Users might want to keep items in wishlist even after adding to cart
+          // Uncomment the next two lines if you want auto-removal:
+          // this.remove(productId);
+          // this.renderWishlistPage();
         }
 
         // Trigger cart update events (same as PDP)

@@ -275,6 +275,14 @@
             this.renderWishlistPage();
           }
         }
+
+        // Handle add to cart from wishlist page
+        const addToCartButton = target.closest('.wishlist-add-to-cart');
+        if (addToCartButton) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.handleAddToCart(/** @type {HTMLElement} */ (addToCartButton));
+        }
       });
 
       // Update button states on page load
@@ -310,6 +318,77 @@
       const wasAdded = this.toggle(product);
       console.log('✅ Wishlist toggle result:', wasAdded ? 'Added' : 'Removed');
       this.updateWishlistButton(button, wasAdded);
+    }
+
+    /**
+     * Handle add to cart from wishlist page - reuses PDP logic
+     * @param {HTMLElement} button - Add to cart button element
+     */
+    async handleAddToCart(button) {
+      const variantId = button.dataset.variantId;
+      const productId = button.dataset.productId;
+      
+      if (!variantId || !productId) {
+        console.error('No variant ID or product ID found for add to cart');
+        return;
+      }
+
+      // Show loading state
+      const buttonElement = /** @type {HTMLButtonElement} */ (button);
+      buttonElement.classList.add('is-loading');
+      buttonElement.disabled = true;
+
+      try {
+        console.log('🛒 Adding to cart:', { variantId, productId });
+
+        // Use the same cart add logic as PDP
+        const formData = new FormData();
+        formData.append('id', variantId);
+        formData.append('quantity', '1');
+
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('✅ Successfully added to cart:', result);
+
+        // Find the product in wishlist to show notification
+        const product = this.items.find(/** @param {any} item */ item => String(item.id) === String(productId));
+        if (product) {
+          this.showNotification(`${product.title} added to cart`);
+          
+          // Optionally remove from wishlist after adding to cart
+          this.remove(productId);
+          this.renderWishlistPage();
+        }
+
+        // Trigger cart update events (same as PDP)
+        document.dispatchEvent(new CustomEvent('cart:updated'));
+        
+        // Update cart drawer if it exists
+        const cartDrawer = document.querySelector('cart-drawer-component');
+        if (cartDrawer) {
+          // @ts-ignore
+          if (typeof cartDrawer.fetchCartContent === 'function') {
+            // @ts-ignore
+            cartDrawer.fetchCartContent();
+          }
+        }
+
+      } catch (error) {
+        console.error('❌ Error adding to cart:', error);
+        this.showNotification('Could not add to cart. Please try again.', 'error');
+      } finally {
+        // Remove loading state
+        buttonElement.classList.remove('is-loading');
+        buttonElement.disabled = false;
+      }
     }
 
     /**

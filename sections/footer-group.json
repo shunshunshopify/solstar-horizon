@@ -11,6 +11,77 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "bottom_nav_bar_9FENJe": {
+      "type": "bottom-nav-bar",
+      "blocks": {
+        "cart_block_PXFept": {
+          "type": "cart_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Cart",
+            "url": ""
+          }
+        },
+        "search_block_YY3CcF": {
+          "type": "Search_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Search",
+            "url": ""
+          }
+        },
+        "menu_block_WMnDh7": {
+          "type": "Menu_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Menu",
+            "url": ""
+          }
+        },
+        "extended_menu_block_EYdg8i": {
+          "type": "extended_menu_block",
+          "settings": {
+            "caption": "More",
+            "show_search": true,
+            "search_url": "",
+            "show_whatsapp": true,
+            "wa_number": "",
+            "wa_message": "Hi There! I need some help",
+            "show_wishlist": true,
+            "wishlist_url": "",
+            "show_track": true,
+            "track_url": "",
+            "show_help": true,
+            "help_url": ""
+          }
+        },
+        "wishlist_block_LbM46V": {
+          "type": "wishlist_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Wishlist",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "cart_block_PXFept",
+        "search_block_YY3CcF",
+        "menu_block_WMnDh7",
+        "extended_menu_block_EYdg8i",
+        "wishlist_block_LbM46V"
+      ],
+      "name": "Sticky bottom menu",
+      "settings": {
+        "bg_color": "#ffffff",
+        "icon_color": "#000",
+        "color": "#000",
+        "font_size": 10,
+        "icon_size": 1.5,
+        "height": 70,
+        "hide-border": false
+      }
+    },
     "sticky_add_to_cart_6wHPQB": {
       "type": "sticky-add-to-cart",
       "name": "Sticky ATC",
@@ -219,6 +290,7 @@
     }
   },
   "order": [
+    "bottom_nav_bar_9FENJe",
     "sticky_add_to_cart_6wHPQB",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"

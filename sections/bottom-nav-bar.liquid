@@ -104,19 +104,22 @@
       transform: none !important;
     }
     
-    /* Bottom nav cart icon specific positioning */
+    /* Bottom nav cart icon specific positioning - Using header approach */
     .bottom-nav-cart-icon {
+      --cart-bubble-size: 16px;
+      --cart-bubble-top: 0px;
+      --cart-bubble-right: 0px;
+      
       position: relative;
       display: inline-block;
     }
     
     .bottom-nav-cart-icon .cart-bubble {
       position: absolute !important;
-      top: -8px !important;
-      right: -8px !important;
+      width: var(--cart-bubble-size) !important;
+      top: var(--cart-bubble-top) !important;
+      right: var(--cart-bubble-right) !important;
       z-index: 100 !important;
-      width: 16px !important;
-      height: 16px !important;
       margin: 0 !important;
       transform: none !important;
     }
@@ -129,6 +132,13 @@
       color: white !important;
       font-size: 10px !important;
       font-weight: bold !important;
+    }
+    
+    /* Handle empty cart state like header does */
+    .bottom-nav-cart-icon:has(.cart-bubble__text-count:empty) {
+      --cart-bubble-size: 10px;
+      --cart-bubble-top: 4px;
+      --cart-bubble-right: 4px;
     }
     
     /* Ensure the SVG icon doesn't interfere with bubble positioning */

@@ -311,30 +311,43 @@
         max-width: 60%;
         min-width: 0;
         display: flex;
-        align-items: stretch;
-        gap: .75rem;
+        flex-direction: column;
+        gap: 0;
       }
       
-      /* Controls container on desktop */
-      #md-sticky-atc .product-form__controls{
+      /* On desktop, make the form a flex container that includes both controls and button */
+      #md-sticky-atc .product-form__controls,
+      #md-sticky-atc .product-form__submit-wrapper {
         display: flex;
         align-items: stretch;
+      }
+      
+      #md-sticky-atc .product-form__controls{
         gap: .75rem;
         flex-wrap: nowrap;
         min-width: 0;
         justify-content: flex-end;
-        flex: 1 1 auto;
         margin-bottom: 0; /* Reset mobile margin */
+        flex: 1 1 auto;
       }
+      
+      #md-sticky-atc .product-form__submit-wrapper{
+        flex: 0 0 auto;
+        width: auto; /* Reset mobile width */
+        margin-left: .75rem; /* Space from controls */
+      }
+      
+      /* Make the entire form area a single flex row */
+      #md-sticky-atc product-form-component {
+        flex-direction: row !important;
+        align-items: stretch;
+        gap: 0;
+      }
+      
       #md-sticky-atc.no-variant .product-form__controls{
         justify-content: flex-end;
       }
       
-      /* Button wrapper on desktop */
-      #md-sticky-atc .product-form__submit-wrapper{
-        flex: 0 0 auto;
-        width: auto; /* Reset mobile width */
-      }
       #md-sticky-atc .product-form__submit.button{
         width: auto; /* Natural width on desktop */
         min-width: 140px; /* Ensure minimum usable width */

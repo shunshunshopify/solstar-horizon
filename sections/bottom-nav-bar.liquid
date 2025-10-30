@@ -16,38 +16,87 @@
   ></script>
 
   <style>
-    :root {
-      --bottom-menu-height: {{ section.settings.height }}px;
-      --bottom-menu-bg: {{ section.settings.bg_color }};
-      --bottom-menu-color: {{ section.settings.color }};
-      --bottom-menu-icon-color: {{ section.settings.icon_color }};
-      --bottom-menu-font-size: {{ section.settings.font_size }}px;
-      --bottom-menu-icon-size: {{ section.settings.icon_size }}rem;
-      --icon-stroke-width: 1.5px; /* Default stroke width for line icons */
-      {% if section.settings.hide-border %}
-      --bottom-menu-border-color: transparent;
-      {% endif %}
+    /* Enhanced styling combining original design with optimized structure */
+    .sticky-section {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: {{ section.settings.bg_color}};
+      padding: 0;
+      text-align: center;
+      z-index: 100;
+      height: {{ section.settings.height }}px;
+      display: flex;
+      justify-content: space-around;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .11);
     }
     
-    /* Dynamic background color for popups */
-    .extended-menu, .collection-popup {
-      background-color: {{ section.settings.bg_color }};
+    @media only screen and (min-width: 768px) {
+      .sticky-section {
+        display: none;
+      }
     }
     
-    /* Dynamic text color for menu links */
-    .menu-link {
+    .sticky-section .btm_link {
       color: {{ section.settings.color }};
-    }
-    
-    /* Fix cart bubble overflow issue */
-    .sticky-section-column {
-      overflow: visible !important;
+      text-decoration: none;
+      margin: 10px;
+      font-size: {{ section.settings.font_size }}px;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      align-items: center;
       position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
     }
     
-    /* Ensure cart bubble is properly positioned and visible */
-    .bottom-nav-cart-icon .cart-bubble {
+    .sticky-section svg {
+      width: {{ section.settings.icon_size }}rem;
+      height: {{ section.settings.icon_size }}rem;
+      stroke: {{ section.settings.icon_color }};
+      fill: none;
+      stroke-width: 1.5px;
+    }
+    
+    .sticky-section-column {
+      align-items: center;
+      border-right: 1px solid #eee;
+      display: flex;
+      flex: 1 0 auto;
+      justify-content: center;
+      position: relative;
+      width: 20%;
+      overflow: visible !important;
+    }
+    
+    .sticky-section-column:last-child {
+      border-right: none !important;
+      padding: 0;
+    }
+    
+    {% if section.settings.hide-border %}
+    .sticky-section-column {
+      border-right: none !important;
+    }
+    {% endif %}
+    
+    /* Enhanced cart count styling */
+    .cart-count, .bottom-nav-cart-icon .cart-bubble {
       position: absolute !important;
+      background-color: black;
+      color: white;
+      height: 16px;
+      width: 16px;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      font-weight: bold;
       top: -8px !important;
       right: -8px !important;
       z-index: 100 !important;
@@ -55,12 +104,156 @@
       transform: none !important;
     }
     
-    /* Apply no-borders class when hide-border is enabled */
-    {% if section.settings.hide-border %}
-    .sticky-section-column {
-      border-right: none !important;
+    .wishlist-total-count-bottom-menu {
+      right: 0px !important;
     }
-    {% endif %}
+    
+    .sticky-section .btm_link .bottom-menu-wishlist {
+      right: 5px !important;
+      top: 10px !important;
+    }
+    
+    /* Enhanced popup styling */
+    .extended-menu, .collection-popup {
+      display: none;
+      justify-content: center;
+      position: fixed;
+      bottom: 70px;
+      left: 0;
+      width: 100%;
+      background-color: {{ section.settings.bg_color}};
+      z-index: 102;
+      padding: 20px 0 0 0;
+      border-bottom: 1px solid #d3d3d3;
+      border-radius: 10px 10px 0px 0px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .11);
+    }
+    
+    #popup:target,
+    #collectionPopup:target {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 12px;
+      text-decoration: none;
+      color: #000;
+      cursor: pointer;
+    }
+    
+    .extended-menu .ex-popup-container {
+      width: 100%;
+    }
+    
+    .collection-popup .ex-popup-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 0px 0px 20px 24px;
+    }
+    
+    .collection-popup .ex-popup-container .item {
+      display: flex;
+      align-items: center;
+      padding-bottom: 10px;
+    }
+    
+    .collection-popup .ex-popup-container .item img {
+      width: 50px;
+      height: 50px;
+      margin-right: 15px;
+    }
+    
+    .collection-popup .ex-popup-container .item:last-child {
+      border-bottom: none;
+    }
+    
+    .custom-menu {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 40px 15px;
+    }
+    
+    .custom-menu li {
+      list-style: none;
+      text-align: center;
+      width: auto;
+    }
+    
+    .custom-menu-image {
+      display: flex;
+    }
+    
+    .custom-menu-image img {
+      width: 100%;
+    }
+    
+    .menu-link {
+      text-decoration: none;
+      display: block;
+      color: {{ section.settings.color }}; 
+      word-wrap: break-word;
+      word-break: break-word;
+      font-size: 12px;
+      margin: 0px !important;
+    }
+
+    /* Extended Menu Styling */
+    .extended-menu .container {
+      width: 80%;
+      padding: 40px 0px;
+    }
+    
+    .extended-menu .container .item {
+      border-bottom: 1px solid #d3d3d3;
+      margin-bottom: 10px;
+    }
+    
+    .extended-menu .container .item:last-child {
+      border-bottom: none;
+    }
+    
+    .extended-menu .container a {
+      text-decoration: none;
+      color: #131313;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      font-size: 16px;
+    }
+    
+    .extended-menu .container a .svg-wrapper {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .extended-menu .container a svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+    
+    /* CSS Variables for consistency */
+    :root {
+      --bottom-menu-height: {{ section.settings.height }}px;
+      --bottom-menu-bg: {{ section.settings.bg_color }};
+      --bottom-menu-color: {{ section.settings.color }};
+      --bottom-menu-icon-color: {{ section.settings.icon_color }};
+      --bottom-menu-font-size: {{ section.settings.font_size }}px;
+      --bottom-menu-icon-size: {{ section.settings.icon_size }}rem;
+      --icon-stroke-width: 1.5px;
+      {% if section.settings.hide-border %}
+      --bottom-menu-border-color: transparent;
+      {% endif %}
+    }
   </style>
 </head>
 
@@ -313,73 +506,143 @@
 </body>
 <script>
 /**
- * Bottom Nav Bar Enhanced Functionality
- * Integrates with theme's cart-icon component and provides enhanced functionality
+ * Enhanced Bottom Nav Bar Functionality
+ * Combines original styling with optimized cart integration
  */
 (function() {
   'use strict';
   
   // Enhanced menu drawer handling
   function setupMenuDrawer() {
-    const menuButtons = document.querySelectorAll('[data-menu-drawer-trigger]');
+    // Handle menu drawer trigger buttons
+    const menuButtons = document.querySelectorAll('[data-menu-drawer-trigger], .sticky-section-menu-drawer');
     menuButtons.forEach(button => {
       button.addEventListener('click', function(e) {
         e.preventDefault();
-        // Try to find and trigger the main menu drawer
-        const mainMenuTrigger = document.querySelector('.menu-drawer-container .header__icon--menu, [data-menu-drawer-trigger]:not(.btm_link)');
+        // Find and trigger the main menu drawer
+        const mainMenuTrigger = document.querySelector('.menu-drawer-container .header__icon--menu, [aria-label*="menu"]:not(.btm_link)');
         if (mainMenuTrigger) {
           mainMenuTrigger.click();
+        } else {
+          // Fallback: try to trigger menu drawer component directly
+          const menuDrawer = document.querySelector('menu-drawer, [data-menu-drawer]');
+          if (menuDrawer && menuDrawer.showDialog) {
+            menuDrawer.showDialog();
+          }
         }
       });
     });
   }
   
-  // Enhanced popup management
+  // Enhanced popup management with better UX
   function initializePopups() {
-    // Close collection popup
+    // Collection popup management
+    const collectionButton = document.getElementById('collectionButton');
     const closeCollectionButton = document.getElementById('closeCollectionPopupButton');
-    if (closeCollectionButton) {
-      closeCollectionButton.addEventListener('click', function(e) {
+    const collectionPopup = document.getElementById('collectionPopup');
+
+    if (collectionButton && collectionPopup) {
+      collectionButton.addEventListener('click', function (e) {
         e.preventDefault();
-        window.location.hash = '';
+        if (collectionPopup.style.display === 'flex') {
+          collectionPopup.style.display = 'none';
+        } else {
+          collectionPopup.style.display = 'flex';
+        }
+      });
+    }
+
+    if (closeCollectionButton && collectionPopup) {
+      closeCollectionButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        collectionPopup.style.display = 'none';
+      });
+    }
+
+    // Extended menu popup management
+    const menuButton = document.getElementById('exmenuButton');
+    const closePopupButton = document.getElementById('closePopupButton');
+    const popup = document.getElementById('popup');
+
+    if (menuButton && popup) {
+      menuButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (popup.style.display === 'flex') {
+          popup.style.display = 'none';
+        } else {
+          popup.style.display = 'flex';
+        }
       });
     }
     
-    // Close extended menu popup
-    const closeExtendedButton = document.getElementById('closeExtendedPopupButton');
-    if (closeExtendedButton) {
-      closeExtendedButton.addEventListener('click', function(e) {
+    if (closePopupButton && popup) {
+      closePopupButton.addEventListener('click', function(e) {
         e.preventDefault();
-        window.location.hash = '';
+        popup.style.display = 'none';
       });
     }
     
-    // Close popups when clicking outside
-    document.addEventListener('click', function(e) {
-      const target = e.target;
-      if (target.classList.contains('collection-popup') || target.classList.contains('extended-menu')) {
-        window.location.hash = '';
+    // Enhanced outside click handling
+    document.addEventListener('click', function (e) {
+      // Close collection popup if clicking outside
+      if (collectionPopup && collectionPopup.style.display === 'flex' && 
+          !collectionPopup.contains(e.target) && 
+          !collectionButton.contains(e.target)) {
+        collectionPopup.style.display = 'none';
+      }
+      
+      // Close extended menu popup if clicking outside
+      if (popup && popup.style.display === 'flex' && 
+          !popup.contains(e.target) && 
+          !menuButton.contains(e.target)) {
+        popup.style.display = 'none';
       }
     });
     
-    // Close popups on escape key
+    // Enhanced escape key handling
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
-        window.location.hash = '';
+        if (collectionPopup && collectionPopup.style.display === 'flex') {
+          collectionPopup.style.display = 'none';
+        }
+        if (popup && popup.style.display === 'flex') {
+          popup.style.display = 'none';
+        }
       }
     });
   }
   
-  // Legacy cart count update function (for backward compatibility)
-  // Note: Removed duplicate cart logic - now handled by cart-icon-component
+  // Enhanced cart functionality (for legacy support)
+  function enhanceCartFunctionality() {
+    // Listen for theme cart updates to sync with any remaining legacy elements
+    document.addEventListener('theme:cart:change', function(e) {
+      const legacyCartCount = document.querySelector('#cart-count-bubble');
+      if (legacyCartCount && e.detail && e.detail.cart) {
+        legacyCartCount.textContent = e.detail.cart.item_count;
+      }
+    });
+    
+    // Enhanced cart drawer opening for any legacy cart links
+    const legacyCartLinks = document.querySelectorAll('a[href="/cart"][onclick*="openCartDrawer"]');
+    legacyCartLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const cartDrawer = document.querySelector('cart-drawer-component, [data-cart-drawer]');
+        if (cartDrawer && cartDrawer.showDialog) {
+          cartDrawer.showDialog();
+        }
+      });
+    });
+  }
   
   // Initialize everything when DOM is ready
   function initialize() {
     setupMenuDrawer();
     initializePopups();
+    enhanceCartFunctionality();
     
+    // Note: Modern cart functionality is handled by cart-icon-component
     // Note: Wishlist counter management is handled by assets/wishlist.js
-    // Note: Cart functionality is handled by cart-icon-component
   }
   
   // Initialize when DOM is ready
@@ -393,81 +656,13 @@
   document.addEventListener('astro:page-load', initialize);
 })();
 
-/******************** Handling click event on the menu drawer icon (vanilla JavaScript):  *********************/
-// Get all elements with the class "sticky-section-column-5"
-const categorySections = document.querySelectorAll('.sticky-section-menu-drawer');
-
-// Loop through each category section and add a click event listener
-categorySections.forEach(section => {
-section.addEventListener('click', (e) => {
-e.preventDefault(); // Prevent the default click behavior
-/******************** Category to Menu  *********************/
-// Get the menu drawer container and find the menu icon
-const menuDrawerContainer = document.querySelector('.cart-drawer');
-const menuIcon = menuDrawerContainer.querySelector('.header-actions__cart-icon--has-cart');
-
-// Simulate a click on the menu icon
-if (menuIcon) {
-menuIcon.click();
+// Legacy openCartDrawer function for backward compatibility
+function openCartDrawer() {
+  const cartDrawer = document.querySelector('cart-drawer-component, [data-cart-drawer]');
+  if (cartDrawer && cartDrawer.showDialog) {
+    cartDrawer.showDialog();
+  }
 }
-});
-});
-
-/******************** Handle collection menu for "Collections"  *********************/
-document.addEventListener('DOMContentLoaded', function () {
-    const collectionButton = document.getElementById('collectionButton');
-    const closeCollectionPopupButton = document.getElementById('closeCollectionPopupButton');
-    const collectionPopup = document.getElementById('collectionPopup');
-
-    if (collectionButton) {
-        collectionButton.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (collectionPopup.style.display === 'flex') {
-                collectionPopup.style.display = 'none';
-            } else {
-                collectionPopup.style.display = 'flex';
-            }
-        });
-    }
-
-    if (closeCollectionPopupButton) {
-        closeCollectionPopupButton.addEventListener('click', function (e) {
-            e.preventDefault();
-            collectionPopup.style.display = 'none';
-        });
-    }
-
-    document.addEventListener('click', function (e) {
-        if (collectionPopup.style.display === 'flex' && !collectionPopup.contains(e.target) && !collectionButton.contains(e.target)) {
-            collectionPopup.style.display = 'none';
-        }
-    });
-});
-
-/******************** For Extended Menu  *********************/
-const menuButton = document.getElementById('exmenuButton');
-const closePopupButton = document.getElementById('closePopupButton');
-const popup = document.getElementById('popup');
-
-menuButton.addEventListener('click', function(e) {
-    e.preventDefault();
-    // Check if the popup is already open
-    if (popup.style.display === 'flex') {
-        popup.style.display = 'none';
-    } else {
-        popup.style.display = 'flex';
-    }
-  closePopupButton.addEventListener('click', function(e) {
-    e.preventDefault();
-    popup.style.display = 'none';
-});
-});
-document.addEventListener('click', function(e) {
-    if (popup.style.display === 'flex' && !popup.contains(e.target) && !menuButton.contains(e.target)) {
-        popup.style.display = 'none';
-    }
-});
-
 </script>
 
 {% schema %}

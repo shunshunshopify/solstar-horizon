@@ -11,6 +11,9 @@
       this.storageKey = 'shopify-wishlist';
       this.items = this.loadFromStorage();
       
+      // Animation constants (same as PDP)
+      this.ADD_TO_CART_TEXT_ANIMATION_DURATION = 2000;
+      
       // Simple selectors - no complex registry
       this.selectors = {
         wishlistButton: '[data-wishlist-button]',
@@ -321,6 +324,71 @@
     }
 
     /**
+     * Animate add to cart button (same logic as PDP)
+     * @param {HTMLElement} button - Add to cart button element
+     */
+    animateAddToCart(button) {
+      // Use dataset to store timeout IDs to avoid TypeScript errors
+      const timeoutId = button.dataset.animationTimeout;
+      const cleanupId = button.dataset.cleanupTimeout;
+      
+      // Clear any existing timeouts
+      if (timeoutId) {
+        clearTimeout(parseInt(timeoutId, 10));
+        delete button.dataset.animationTimeout;
+      }
+      if (cleanupId) {
+        clearTimeout(parseInt(cleanupId, 10));
+        delete button.dataset.cleanupTimeout;
+      }
+
+      // Add the 'atc-added' class that triggers CSS animations
+      if (!button.classList.contains('atc-added')) {
+        button.classList.add('atc-added');
+      }
+
+      // Remove the class after animation duration (same as PDP)
+      const animationTimeout = setTimeout(() => {
+        const cleanupTimeout = setTimeout(() => {
+          button.classList.remove('atc-added');
+          delete button.dataset.cleanupTimeout;
+        }, 10);
+        button.dataset.cleanupTimeout = cleanupTimeout.toString();
+        delete button.dataset.animationTimeout;
+      }, this.ADD_TO_CART_TEXT_ANIMATION_DURATION);
+      
+      button.dataset.animationTimeout = animationTimeout.toString();
+    }
+
+    /**
+     * Announce text to screen readers (same as PDP)
+     * @param {string} text - Text to announce
+     */
+    announceToScreenReader(text) {
+      // Create or find existing live region
+      let liveRegion = document.querySelector('#wishlist-live-region');
+      if (!liveRegion) {
+        liveRegion = document.createElement('div');
+        liveRegion.id = 'wishlist-live-region';
+        liveRegion.setAttribute('aria-live', 'assertive');
+        liveRegion.setAttribute('role', 'status');
+        liveRegion.setAttribute('aria-atomic', 'true');
+        liveRegion.className = 'visually-hidden';
+        document.body.appendChild(liveRegion);
+      }
+
+      // Set the text for screen reader announcement
+      liveRegion.textContent = text;
+
+      // Clear the announcement after a delay
+      setTimeout(() => {
+        if (liveRegion) {
+          liveRegion.textContent = '';
+        }
+      }, 5000);
+    }
+
+    /**
      * Handle add to cart from wishlist page - reuses PDP logic
      * @param {HTMLElement} button - Add to cart button element
      */
@@ -333,9 +401,12 @@
         return;
       }
 
+      // Trigger animation immediately (same as PDP)
+      this.animateAddToCart(button);
+
       // Show loading state
       const buttonElement = /** @type {HTMLButtonElement} */ (button);
-      buttonElement.classList.add('is-loading');
+      buttonElement.classList.add('loading');
       buttonElement.disabled = true;
 
       try {
@@ -381,6 +452,9 @@
         if (product) {
           this.showNotification(`${product.title} added to cart`);
           
+          // Add accessibility announcement (same as PDP)
+          this.announceToScreenReader(`${product.title} 追加済み`);
+          
           // Optional: Remove from wishlist after adding to cart
           // Users might want to keep items in wishlist even after adding to cart
           // Uncomment the next two lines if you want auto-removal:
@@ -424,7 +498,7 @@
         this.showNotification('Could not add to cart. Please try again.', 'error');
       } finally {
         // Remove loading state
-        buttonElement.classList.remove('is-loading');
+        buttonElement.classList.remove('loading');
         buttonElement.disabled = false;
       }
     }

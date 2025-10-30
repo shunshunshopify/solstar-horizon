@@ -27,7 +27,22 @@
       <div class="wishlist-item-price">[[price]]</div>
       <div class="wishlist-item-actions">
         <button class="button button--primary wishlist-add-to-cart" data-product-id="[[id]]" data-variant-id="[[variant_id]]">
-          <span class="wishlist-add-to-cart-text">Add to cart</span>
+          <span class="add-to-cart-text">
+            <span class="svg-wrapper add-to-cart-icon">
+              {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+            </span>
+            <span class="add-to-cart-text__content">
+              {{ 'actions.add_to_cart' | t }}
+            </span>
+          </span>
+          <span aria-hidden="true" class="add-to-cart-text--added">
+            <span class="svg-wrapper add-to-cart-icon--added">
+              {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            </span>
+            <span>
+              {{ 'actions.added' | t }}
+            </span>
+          </span>
           <span class="wishlist-add-to-cart-loading">
             <svg class="spinner" viewBox="0 0 50 50">
               <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
@@ -44,5 +59,89 @@
     </div>
   </div>
 </script>
+
+<!-- Add to cart animation styles (same as PDP) -->
+<style>
+  .wishlist-add-to-cart {
+    position: relative; /* Required for absolute positioning of animated elements */
+  }
+
+  .wishlist-add-to-cart .add-to-cart-text {
+    display: flex;
+    gap: var(--gap-2xs);
+    align-items: center;
+    justify-content: center;
+    animation-duration: var(--animation-speed);
+    animation-timing-function: var(--animation-easing);
+    animation-fill-mode: forwards;
+    transition: opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-add-to-cart.atc-added .add-to-cart-text {
+    animation-name: atc-slide-out;
+  }
+
+  .wishlist-add-to-cart .add-to-cart-text--added {
+    position: absolute;
+    inset: 0;
+    animation-duration: var(--animation-speed);
+    animation-timing-function: var(--animation-easing);
+    animation-fill-mode: forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-2xs);
+    opacity: 0;
+    transition: width var(--animation-speed) var(--animation-easing),
+      opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-add-to-cart.atc-added .add-to-cart-text--added {
+    animation-name: atc-slide-in;
+  }
+
+  .wishlist-add-to-cart .wishlist-add-to-cart-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-add-to-cart.loading .wishlist-add-to-cart-loading {
+    opacity: 1;
+  }
+
+  .wishlist-add-to-cart.loading .add-to-cart-text,
+  .wishlist-add-to-cart.loading .add-to-cart-text--added {
+    opacity: 0;
+  }
+
+  @keyframes atc-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5em);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes atc-slide-out {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    to {
+      transform: translateY(-1em);
+      opacity: 0;
+    }
+  }
+</style>
 
 <!-- Notification element is now created dynamically in JavaScript -->

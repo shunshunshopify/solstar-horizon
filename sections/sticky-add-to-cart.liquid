@@ -194,11 +194,17 @@
     }
 
     @media (max-width: 989px){
-      #md-sticky-atc .product-form__controls{
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: stretch;
-        gap: .5rem;
+      /* Keep other controls in a two-column layout */
+      #md-sticky-atc .product-form__controls {
+        grid-template-columns: repeat(2, 1fr);
       }
+
+      /* Make only the Add to Cart button span the full width */
+      #md-sticky-atc .product-form__submit.button {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
       #md-sticky-atc .product-form__controls[data-variant-count="0"]{
         grid-template-columns: 1fr;
         gap: 0;
@@ -208,11 +214,6 @@
         gap: 0;
       }
       
-      /* Button spans full width on mobile */
-      #md-sticky-atc .product-form__submit.button{
-        grid-column: 1 / -1;
-        margin-top: .5rem;
-      }
       #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button{
         margin-top: 1rem;
       }

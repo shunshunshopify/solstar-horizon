@@ -81,10 +81,12 @@
         {%- when 'cart_block' -%}
           <div class="sticky-section-column">
             {% if settings.cart_type == 'drawer' %}
-              <cart-drawer-opener
+              <button
+                type="button"
                 class="btm_link"
                 aria-label="Shopping Cart ({{ cart.item_count }} items)"
                 aria-describedby="cart-bubble-text"
+                on:click="cart-drawer-component/showDialog"
               >
                 <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
                   {% if block.settings.icon_url == blank %}
@@ -97,7 +99,7 @@
                   {% render 'cart-bubble', limit: 100, live_region: true %}
                 </cart-icon>
                 {{ block.settings.caption }}
-              </cart-drawer-opener>
+              </button>
             {% else %}
               <a href="{{ routes.cart_url }}" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
                 <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">

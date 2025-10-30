@@ -1,116 +1,71 @@
 /* Bottom Menu Styles - Supporting bottom-nav-bar.liquid */
 
-/**
- * Bottom Menu Styles
- * Mobile-first navigation component with popup functionality
- */
-
-/* CSS Custom Properties for theme integration */
-:root {
-  --bottom-menu-height: 70px;
-  --bottom-menu-bg: #ffffff;
-  --bottom-menu-color: #000000;
-  --bottom-menu-icon-color: #000000;
-  --bottom-menu-font-size: 10px;
-  --bottom-menu-icon-size: 2.2rem;
-  --bottom-menu-z-index: 100;
-  --bottom-menu-shadow: 0 0 10px rgba(0, 0, 0, 0.11);
-  --bottom-menu-border-color: #eeeeee;
-  --bottom-menu-popup-bg: var(--bottom-menu-bg);
-  --bottom-menu-popup-z-index: 102;
-  --icon-stroke-width: 1px;
-}
-
-/* Base Component */
+/* Main container styles */
 .bottom-menu,
-.bottom-menu--mobile-only,
 .sticky-section {
   position: fixed;
-  inset-block-end: 0;
-  inset-inline-start: 0;
-  inline-size: 100%;
-  block-size: var(--bottom-menu-height, 70px);
-  background-color: var(--bottom-menu-bg, #ffffff);
-  color: var(--bottom-menu-color, #000000);
-  padding: 0;
-  z-index: var(--bottom-menu-z-index, 100);
-  display: flex;
-  justify-content: space-around;
-  align-items: stretch;
-  box-shadow: var(--bottom-menu-shadow, 0 0 10px rgba(0, 0, 0, 0.11));
-  border-block-start: 1px solid var(--bottom-menu-border-color, #eeeeee);
-  text-align: center;
+  bottom: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--bottom-menu-bg, #fff);
+  color: var(--bottom-menu-color, #000);
+  height: var(--bottom-menu-height, 70px);
+  border-top: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  padding: 0 var(--padding-xs);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
 }
 
 /* Hide on desktop */
-@media screen and (min-width: 768px) {
-  .bottom-menu,
+@media only screen and (min-width: 768px) {
   .bottom-menu--mobile-only,
   .sticky-section {
     display: none;
   }
 }
 
-/* Menu Items */
+/* Item containers */
 .bottom-menu__item,
 .sticky-section-column {
-  flex: 1 0 auto;
+  flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   position: relative;
-  border-inline-end: 1px solid var(--bottom-menu-border-color, #eeeeee);
-}
-
-.sticky-section-column {
-  overflow: visible !important;
+  border-right: 1px solid #eee;
+  width: 20%;
 }
 
 .bottom-menu__item:last-child,
 .sticky-section-column:last-child {
-  border-inline-end: none;
+  border-right: none !important;
 }
 
-.bottom-menu__item--no-border,
-.sticky-section-column.no-borders {
-  border-inline-end: none !important;
-}
-
-/* Links */
+/* Link styles */
 .bottom-menu__link,
 .btm_link {
-  color: var(--bottom-menu-color, #000000);
-  text-decoration: none;
-  font-size: var(--bottom-menu-font-size, 10px);
-  font-weight: 400;
-  line-height: 1.2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--bottom-menu-font-size, 10px);
+  font-weight: 400;
+  line-height: 1.2;
+  padding: var(--padding-2xs, 4px);
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px; /* Minimum touch target */
   position: relative;
-  transition: opacity 0.2s ease;
-  min-block-size: 44px;
-  padding: 5px;
-  margin: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  gap: 4px;
-}
-
-.bottom-menu__link[type="button"],
-.btm_link[type="button"],
-.btm_link.button-unstyled {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font: inherit;
-  padding: 5px;
+  margin: 10px;
 }
 
 .bottom-menu__link:hover,
@@ -118,153 +73,110 @@
 .btm_link:hover,
 .btm_link:focus {
   opacity: 0.7;
+  outline: none;
 }
 
-.bottom-menu__link:focus-visible,
-.btm_link:focus-visible {
-  outline: 2px solid var(--color-button-background, #000);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Icons */
+/* Icon styles */
 .bottom-menu__icon,
-.bottom-menu__link .svg-wrapper,
-.btm_link .svg-wrapper,
 .sticky-section i,
 .sticky-section .svg-wrapper {
-  color: var(--bottom-menu-icon-color, #000000);
-  margin-block-end: 4px;
-  display: inline-flex;
-  justify-content: center;
+  display: flex;
   align-items: center;
-  inline-size: var(--bottom-menu-icon-size, 2.2rem);
-  block-size: var(--bottom-menu-icon-size, 2.2rem);
-  pointer-events: none;
+  justify-content: center;
+  margin-bottom: var(--margin-3xs, 2px);
+  color: var(--bottom-menu-icon-color, #000);
+  position: relative;
+  font-size: var(--bottom-menu-icon-size, 2.2rem) !important;
 }
 
-.bottom-menu__icon svg,
-.bottom-menu__link .svg-wrapper svg,
-.btm_link .svg-wrapper svg,
+.bottom-menu__icon.svg-wrapper,
+.sticky-section .svg-wrapper {
+  width: var(--bottom-menu-icon-size, 2.2rem);
+  height: var(--bottom-menu-icon-size, 2.2rem);
+}
+
+/* SVG icon styling - Support both fill and stroke icons */
+.bottom-menu__icon.svg-wrapper svg,
 .sticky-section .svg-wrapper svg {
-  width: 100%;
-  height: 100%;
-  color: currentColor;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: var(--icon-stroke-width, 1px);
+  width: var(--bottom-menu-icon-size, 2.2rem);
+  height: var(--bottom-menu-icon-size, 2.2rem);
+  display: block;
+  color: var(--bottom-menu-icon-color, #000);
 }
 
-.bottom-menu__link .svg-wrapper svg[fill="currentColor"],
-.btm_link .svg-wrapper svg[fill="currentColor"],
+/* Default handling - respect the original SVG design */
+.bottom-menu__icon.svg-wrapper svg,
+.sticky-section .svg-wrapper svg {
+  color: var(--bottom-menu-icon-color, #000);
+}
+
+/* For SVGs with fill="none" - render as stroke only */
+.bottom-menu__icon.svg-wrapper svg[fill="none"],
+.sticky-section .svg-wrapper svg[fill="none"] {
+  fill: none !important;
+  stroke: currentColor;
+  stroke-width: var(--icon-stroke-width, 1.5px);
+}
+
+/* For SVGs with fill="currentColor" - render as fill only */
+.bottom-menu__icon.svg-wrapper svg[fill="currentColor"],
 .sticky-section .svg-wrapper svg[fill="currentColor"] {
   fill: currentColor;
   stroke: none;
 }
 
-.bottom-menu__link .svg-wrapper svg path[stroke],
-.bottom-menu__link .svg-wrapper svg circle[stroke],
-.btm_link .svg-wrapper svg path[stroke],
-.btm_link .svg-wrapper svg circle[stroke],
+/* Ensure stroke elements don't get filled */
+.bottom-menu__icon.svg-wrapper svg path[stroke],
+.bottom-menu__icon.svg-wrapper svg circle[stroke],
 .sticky-section .svg-wrapper svg path[stroke],
 .sticky-section .svg-wrapper svg circle[stroke] {
   fill: none !important;
 }
 
-/* Header drawer icon wrapper for menu */
-.bottom-menu__item[data-type="extended"] .svg-wrapper,
-.bottom-menu__item[data-type="menu"] .svg-wrapper,
+/* Specific sizing for menu icon only - match header menu size */
 .sticky-section-menu-drawer .svg-wrapper {
-  inline-size: 13.59px !important;
-  block-size: 13.59px !important;
+  width: var(--icon-size-xs, 0.85rem) !important;
+  height: var(--icon-size-xs, 0.85rem) !important;
+  font-size: var(--icon-size-xs, 0.85rem) !important;
 }
 
-/* Specific styling for wishlist, categories, and more icons - make lines thinner */
-.bottom-menu__item[data-type="wishlist"] .svg-wrapper,
-.bottom-menu__item[data-type="collections"] .svg-wrapper,
-.bottom-menu__item[data-type="extended"] .svg-wrapper,
-.bottom-menu__extended-icon.svg-wrapper {
-  --icon-stroke-width: 0.75px;
+.sticky-section-menu-drawer .svg-wrapper svg {
+  width: var(--icon-size-xs, 0.85rem) !important;
+  height: var(--icon-size-xs, 0.85rem) !important;
 }
 
-/* Badge/Counter - Legacy support for custom badges */
-.bottom-menu__badge,
-.cart-count {
-  position: absolute;
-  background-color: rgb(var(--color-button, 0 0 0));
-  color: rgb(var(--color-button-text, 255 255 255));
-  block-size: 16px;
-  inline-size: 16px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  font-weight: bold;
-  inset-block-end: 35px;
-  inset-inline-end: -8px;
-  min-inline-size: 16px;
-  padding: 2px;
-  margin: 0;
-  pointer-events: none;
-}
 
-.bottom-menu__badge--wishlist {
-  inset-inline-end: 2px;
-  inset-block-start: 5px;
-}
 
-.bottom-menu__badge--wishlist-alt {
-  inset-inline-end: 5px;
-  inset-block-start: 10px;
-}
-
-.wishlist-total-count-bottom-menu {
-  inset-inline-end: 0 !important;
-}
-
-.sticky-section .btm_link .bottom-menu-wishlist {
-  inset-inline-end: 5px !important;
-  inset-block-start: 10px !important;
-}
-
-/* Cart Icon with Cart Bubble */
+/* Cart Icon Specific Styles - Both naming conventions */
 .bottom-menu__cart-icon,
 .bottom-nav-cart-icon {
   position: relative;
-  display: contents;
-  --cart-bubble-size: 20px;
-  --cart-bubble-top: -2px;
-  --cart-bubble-right: -4px;
+  display: contents; /* Allow the component to not interfere with layout */
 }
 
 .bottom-menu__cart-icon .cart-bubble,
 .bottom-nav-cart-icon .cart-bubble {
   position: absolute !important;
-  width: var(--cart-bubble-size) !important;
-  height: var(--cart-bubble-size) !important;
-  top: var(--cart-bubble-top) !important;
-  right: var(--cart-bubble-right) !important;
+  top: -2px !important;
+  right: -4px !important;
   z-index: 10;
   margin: 0 !important;
   transform: none !important;
 }
 
-.bottom-menu__cart-icon .cart-bubble__text,
-.bottom-nav-cart-icon .cart-bubble__text {
-  font-family: var(--font-paragraph--family);
-  font-weight: var(--font-paragraph--weight);
-}
-
-.bottom-menu__cart-icon.bottom-menu__cart-icon--has-cart .bottom-menu__icon svg {
+.bottom-menu__cart-icon--has-cart .bottom-menu__icon,
+.bottom-nav-cart-icon--has-cart .btm_link i,
+.bottom-nav-cart-icon--has-cart .btm_link .svg-wrapper {
+  /* Create donut mask where the cart bubble sits */
   mask: radial-gradient(
-    calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
+    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
     transparent 45.45%,
     #fff 45.45%,
     #fff 100%
   );
 }
 
+/* Ensure cart-icon component integrates properly */
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
   display: contents;
@@ -275,66 +187,80 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   position: relative;
 }
 
-/* Wishlist Icon with Cart Bubble */
+/* Wishlist Icon Specific Styles */
 .bottom-menu__wishlist-icon {
   position: relative;
-  display: contents;
-  --cart-bubble-size: 20px;
-  --cart-bubble-top: -2px;
-  --cart-bubble-right: -4px;
 }
 
 .bottom-menu__wishlist-icon .cart-bubble {
   position: absolute !important;
-  width: var(--cart-bubble-size) !important;
-  height: var(--cart-bubble-size) !important;
-  top: var(--cart-bubble-top) !important;
-  right: var(--cart-bubble-right) !important;
+  top: -2px !important;
+  right: -4px !important;
   z-index: 10;
   margin: 0 !important;
   transform: none !important;
 }
 
-.bottom-menu__wishlist-icon .cart-bubble__text {
-  font-family: var(--font-paragraph--family);
-  font-weight: var(--font-paragraph--weight);
-}
-
-.bottom-menu__wishlist-icon.bottom-menu__wishlist-icon--has-items .bottom-menu__icon i {
+.bottom-menu__wishlist-icon--has-items .bottom-menu__icon {
+  /* Create donut mask where the wishlist bubble sits */
   mask: radial-gradient(
-    calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
+    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
     transparent 45.45%,
     #fff 45.45%,
     #fff 100%
   );
 }
 
-/* Popup Base */
+/* Legacy cart count styles (keeping for backward compatibility) */
+.cart-count {
+  position: absolute;
+  background-color: black;
+  color: white;
+  height: 16px;
+  width: 16px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  bottom: 35px;
+  right: -8px;
+}
+
+.wishlist-total-count-bottom-menu {
+  right: 0px !important;
+}
+
+.sticky-section .btm_link .bottom-menu-wishlist {
+  right: 5px !important;
+  top: 10px !important;
+}
+
+/* Popup Styles - Both naming conventions */
 .bottom-menu__popup,
 .extended-menu,
 .collection-popup {
   display: none;
   position: fixed;
-  inset-block-end: calc(var(--bottom-menu-height, 70px) + 0px);
-  inset-inline-start: 0;
-  inline-size: 100%;
-  background-color: var(--bottom-menu-popup-bg, var(--bottom-menu-bg, #ffffff));
-  z-index: var(--bottom-menu-popup-z-index, 102);
-  padding-block-start: 20px;
-  border-block-end: 1px solid var(--bottom-menu-border-color, #eeeeee);
-  border-start-start-radius: 10px;
-  border-start-end-radius: 10px;
-  box-shadow: var(--bottom-menu-shadow, 0 0 10px rgba(0, 0, 0, 0.11));
-  max-block-size: 60vh;
-  overflow-y: auto;
-  justify-content: center;
+  bottom: var(--bottom-menu-height, 70px);
   left: 0;
   right: 0;
+  width: 100%;
+  background: var(--bottom-menu-bg, #fff);
+  border-top: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: var(--padding-lg);
+  border-radius: 10px 10px 0px 0px;
+  justify-content: center;
 }
 
+/* Active popup states */
 .bottom-menu__popup--active {
-  display: flex;
-  justify-content: center;
+  display: block;
 }
 
 #popup:target,
@@ -343,125 +269,147 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   justify-content: center;
 }
 
-/* Popup Close Button */
 .bottom-menu__close,
 .close-popup {
   position: absolute;
-  inset-block-start: 10px;
-  inset-inline-end: 20px;
-  font-size: 12px;
-  text-decoration: none;
-  color: var(--bottom-menu-color, #000000);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  top: var(--padding-sm, 10px);
+  right: var(--padding-sm, 20px);
   background: none;
   border: none;
+  cursor: pointer;
+  padding: var(--padding-2xs);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  text-decoration: none;
+  color: #000;
 }
 
 .bottom-menu__close:hover,
-.bottom-menu__close:focus,
-.close-popup:hover,
-.close-popup:focus {
+.close-popup:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.bottom-menu__close:focus-visible,
-.close-popup:focus-visible {
-  outline: 2px solid var(--color-button-background, #000);
-  outline-offset: 2px;
-}
-
-/* Extended Menu */
+/* Extended Menu Styles - Both naming conventions */
 .bottom-menu__extended,
 .extended-menu .container {
-  inline-size: 80%;
-  padding-block: 40px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--gap-md);
+  padding: var(--padding-md, 40px) 0;
+  width: 80%;
 }
 
 .bottom-menu__extended-item,
 .extended-menu .container .item {
-  border-block-end: 1px solid var(--bottom-menu-border-color, #eeeeee);
-  margin-block-end: 10px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #d3d3d3;
+  margin-bottom: 10px;
 }
 
-.bottom-menu__extended-item:last-child,
-.extended-menu .container .item:last-child {
-  border-block-end: none;
+.extended-menu .container .item:last-child,
+.bottom-menu__extended-item:last-child {
+  border-bottom: none;
 }
 
 .bottom-menu__extended-link,
 .extended-menu .container a {
-  text-decoration: none;
-  color: var(--bottom-menu-color, #000000);
-  margin-block-end: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  font-size: 16px;
-  padding: 8px 0;
-  transition: opacity 0.2s ease;
-  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--font-size--xs, 16px);
+  padding: var(--padding-sm);
+  border-radius: var(--border-radius-md);
+  transition: all 0.2s ease;
+  margin-bottom: 10px;
+  flex-direction: row;
 }
 
 .bottom-menu__extended-link:hover,
-.bottom-menu__extended-link:focus,
-.extended-menu .container a:hover,
-.extended-menu .container a:focus {
-  opacity: 0.7;
-}
-
-.bottom-menu__extended-link:focus-visible,
-.extended-menu .container a:focus-visible {
-  outline: 2px solid var(--color-button-background, #000);
-  outline-offset: 2px;
-  border-radius: 4px;
+.extended-menu .container a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .bottom-menu__extended-icon,
+.extended-menu .container a i,
 .extended-menu .container a .svg-wrapper {
-  margin-inline-end: 10px;
-  flex-shrink: 0;
-  inline-size: 22px;
-  block-size: 22px;
-  display: inline-flex;
-  justify-content: center;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  margin-bottom: var(--margin-2xs);
+  margin-right: 10px;
+  color: var(--bottom-menu-icon-color, #000);
+}
+
+.bottom-menu__extended-icon.svg-wrapper,
+.extended-menu .container a .svg-wrapper {
+  width: 24px;
+  height: 24px;
+  --icon-stroke-width: 1.5px;
+}
+
+/* Extended menu SVG icons - Support both fill and stroke icons */
+.bottom-menu__extended-icon.svg-wrapper svg,
+.extended-menu .container a .svg-wrapper svg {
+  width: 1.2rem;
+  height: 1.2rem;
   color: currentColor;
 }
 
-.bottom-menu__extended-icon svg,
-.extended-menu .container a .svg-wrapper svg {
-  width: 100%;
-  height: 100%;
-  color: currentColor;
-  fill: none;
+/* For SVGs with fill="none" - render as stroke only */
+.bottom-menu__extended-icon.svg-wrapper svg[fill="none"],
+.extended-menu .container a .svg-wrapper svg[fill="none"] {
+  fill: none !important;
+}
+
+/* For SVGs with fill="currentColor" - render as fill only */
+.bottom-menu__extended-icon.svg-wrapper svg[fill="currentColor"],
+.extended-menu .container a .svg-wrapper svg[fill="currentColor"] {
+  stroke: none !important;
+}
+
+/* Ensure stroke elements don't get filled */
+.bottom-menu__extended-icon.svg-wrapper svg path[stroke],
+.bottom-menu__extended-icon.svg-wrapper svg circle[stroke],
+.extended-menu .container a .svg-wrapper svg path[stroke],
+.extended-menu .container a .svg-wrapper svg circle[stroke] {
+  fill: none !important;
   stroke: currentColor;
 }
 
-.bottom-menu__extended-icon i {
-  font-size: 16px;
+/* Extended menu popup container */
+.extended-menu .ex-popup-container {
+  width: 100%;
 }
 
-/* Collections/Categories Menu */
+/* Collections Popup Styles - Both naming conventions */
 .bottom-menu__collections,
 .collection-popup .ex-popup-container {
+  padding: var(--padding-md, 20px) 0;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 0 24px 20px;
-  inline-size: 100%;
+  padding: 0px 0px 20px 24px;
 }
 
 .bottom-menu__collection-grid,
 .custom-menu {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  padding: 40px 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--gap-md, 15px);
   list-style: none;
   margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 40px 15px;
 }
 
 .bottom-menu__collection-item,
@@ -470,18 +418,10 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  list-style: none;
   text-align: center;
-  inline-size: auto;
-  min-inline-size: 80px;
-}
-
-.collection-popup .ex-popup-container .item {
-  flex-direction: row;
-  align-items: center;
-  gap: 15px;
-  padding-block-end: 10px;
+  list-style: none;
+  width: auto;
+  padding-bottom: 10px;
 }
 
 .collection-popup .ex-popup-container .item:last-child {
@@ -491,56 +431,44 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 .bottom-menu__collection-image,
 .custom-menu-image,
 .collection-popup .ex-popup-container .item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: var(--margin-2xs);
+  margin-right: 15px;
+  background-color: var(--color-background-2);
   display: flex;
-  justify-content: center;
-  margin-block-end: 8px;
 }
 
 .bottom-menu__collection-image img,
 .custom-menu-image img {
-  inline-size: 50px;
-  block-size: 50px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
 }
 
 .bottom-menu__collection-link,
 .menu-link {
   text-decoration: none;
+  color: inherit;
+  font-size: var(--font-size--2xs, 12px);
+  line-height: 1.3;
   display: block;
-  color: var(--bottom-menu-color, #000000);
   word-wrap: break-word;
   word-break: break-word;
-  font-size: 12px;
-  margin: 0;
-  transition: opacity 0.2s ease;
+  margin: 0px !important;
 }
 
 .bottom-menu__collection-link:hover,
-.bottom-menu__collection-link:focus,
-.menu-link:hover,
-.menu-link:focus {
-  opacity: 0.7;
+.menu-link:hover {
+  text-decoration: underline;
 }
 
-.bottom-menu__collection-link:focus-visible,
-.menu-link:focus-visible {
-  outline: 2px solid var(--color-button-background, #000);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Accessibility improvements */
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+/* Border control for bottom-nav-bar.liquid hide-border setting */
+.sticky-section-column.no-borders,
+.bottom-menu__item.no-borders {
+  border-right: none !important;
 }
 
 /* Responsive adjustments */
@@ -549,22 +477,20 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   .btm_link {
     font-size: calc(var(--bottom-menu-font-size, 10px) - 1px);
   }
-
-  .bottom-menu__link .svg-wrapper,
-  .btm_link .svg-wrapper,
+  
+  .bottom-menu__icon.svg-wrapper,
   .sticky-section .svg-wrapper {
-    inline-size: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
-    block-size: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+    width: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+    height: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
   }
 }
 
 @media (max-width: 320px) {
   .bottom-menu,
-  .bottom-menu--mobile-only,
   .sticky-section {
-    padding-inline: var(--padding-2xs, 4px);
+    padding: 0 var(--padding-2xs);
   }
-
+  
   .bottom-menu__link,
   .btm_link {
     font-size: calc(var(--bottom-menu-font-size, 10px) - 2px);
@@ -572,68 +498,20 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   }
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .bottom-menu,
-  .bottom-menu--mobile-only,
-  .sticky-section {
-    border-block-start-width: 2px;
-  }
-
-  .bottom-menu__item,
-  .sticky-section-column {
-    border-inline-end-width: 2px;
-  }
+/* Accessibility */
+.bottom-menu__link:focus-visible,
+.btm_link:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .bottom-menu__link,
-  .btm_link,
-  .bottom-menu__close,
-  .close-popup,
-  .bottom-menu__extended-link,
-  .extended-menu .container a,
-  .bottom-menu__collection-link,
-  .menu-link {
-    transition: none;
-  }
+/* Ensure proper cart icon component integration - Both naming conventions */
+cart-icon.bottom-menu__cart-icon,
+cart-icon.bottom-nav-cart-icon {
+  display: contents;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bottom-menu-bg: #1a1a1a;
-    --bottom-menu-color: #ffffff;
-    --bottom-menu-icon-color: #ffffff;
-    --bottom-menu-border-color: #333333;
-  }
-}
-
-/* RTL support */
-[dir="rtl"] .bottom-menu__badge {
-  inset-inline-end: auto;
-  inset-inline-start: -8px;
-}
-
-[dir="rtl"] .bottom-menu__badge--wishlist {
-  inset-inline-end: auto;
-  inset-inline-start: 0;
-}
-
-[dir="rtl"] .bottom-menu__badge--wishlist-alt {
-  inset-inline-end: auto;
-  inset-inline-start: 5px;
-}
-
-[dir="rtl"] .bottom-menu__extended-icon,
-[dir="rtl"] .extended-menu .container a .svg-wrapper {
-  margin-inline-end: 0;
-  margin-inline-start: 10px;
-}
-
-[dir="rtl"] .bottom-menu__close,
-[dir="rtl"] .close-popup {
-  inset-inline-end: auto;
-  inset-inline-start: 20px;
+cart-icon.bottom-menu__cart-icon .bottom-menu__link,
+cart-icon.bottom-nav-cart-icon .btm_link {
+  position: relative;
 }

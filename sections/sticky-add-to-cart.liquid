@@ -256,7 +256,7 @@
 
     /* Add to cart – uses Horizon primary .button styles */
     #md-sticky-atc .product-form__submit.button{ 
-      width: 100%; 
+      width: 100%; /* Full width on mobile */
       border-radius: var(--style-border-radius-buttons-primary); 
     }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
@@ -265,14 +265,6 @@
     #md-sticky-atc .add-to-cart-button {
       position: relative;
       overflow: hidden;
-    }
-    
-    /* Allow button to use natural width and sizing on desktop */
-    @media (min-width: 990px){
-      #md-sticky-atc .product-form__submit.button{
-        width: auto; /* Allow natural button width */
-        min-width: 140px; /* Ensure minimum usable width */
-      }
     }
 
     /* Desktop */
@@ -341,8 +333,8 @@
       }
       #md-sticky-atc .product-form__submit.button{
         flex: 0 0 auto;
-        /* Remove fixed width constraints to allow natural button sizing */
-        min-width: 140px;
+        width: auto; /* Natural width on desktop */
+        min-width: 140px; /* Ensure minimum usable width */
         /* Remove height constraint to allow natural button height */
       }
     }

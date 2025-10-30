@@ -194,30 +194,45 @@
     }
 
     @media (max-width: 989px){
+      /* Main controls container uses flexbox to stack items vertically */
       #md-sticky-atc .product-form__controls{
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: stretch;
+        display: flex;
+        flex-direction: column;
         gap: .5rem;
       }
-      #md-sticky-atc .product-form__controls[data-variant-count="0"]{
+      
+      /* Only variant controls use grid when they need to be side-by-side */
+      #md-sticky-atc .variant-controls{
+        display: grid;
+        gap: .5rem;
         grid-template-columns: 1fr;
-        gap: 0;
       }
-      #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"]{
-        grid-template-columns: 1fr;
-        gap: 0;
+      #md-sticky-atc .variant-controls[data-option-count="2"]{
+        grid-template-columns: repeat(2, 1fr);
       }
+      #md-sticky-atc .variant-controls[data-option-count="3"]{
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      /* Quantity selector as flex item */
+      #md-sticky-atc .quantity-selector{
+        width: 100%;
+      }
+      
+      /* Button as flex item - full width by default */
       #md-sticky-atc .product-form__submit.button{
-        grid-column: 1 / -1;
-        width: 100% !important; /* Force full width on mobile */
+        width: 100%;
         margin-top: .5rem;
       }
+      
+      /* Button margin adjustments for different configurations */
       #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button{
         margin-top: 1rem;
       }
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
         margin-top: 0;
       }
+      
       /* Remove margin and gap when all optional elements are disabled on mobile */
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
         gap: 0;
@@ -225,33 +240,10 @@
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
         margin-top: 0;
       }
+      
       /* Add gap when only one variant option is available (no product info, no qty) */
       #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"] .product-form__submit.button{
         margin-top: .5rem;
-      }
-      #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
-      #md-sticky-atc .product-form__controls[data-variant-count="3"] .variant-controls,
-      #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .variant-controls{
-        grid-column: 1 / -1;
-      }
-      #md-sticky-atc .quantity-selector{
-        grid-column: span 1;
-      }
-      #md-sticky-atc .product-form__controls[data-variant-count="0"] .quantity-selector,
-      #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .quantity-selector{
-        grid-column: 1 / -1;
-      }
-      #md-sticky-atc:not(.no-qty) .product-form__controls[data-variant-count="1"] .variant-controls{
-        grid-column: span 1;
-      }
-      #md-sticky-atc:not(.no-qty) .product-form__controls[data-variant-count="1"] .variant-controls > *{
-        width: 100%;
-      }
-      #md-sticky-atc:not(.no-qty) .product-form__controls[data-variant-count="1"] .quantity-selector{
-        grid-column: span 1;
-      }
-      #md-sticky-atc.no-qty .product-form__submit.button{
-        grid-column: 1 / -1;
       }
     }
 

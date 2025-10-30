@@ -865,13 +865,15 @@
                   assign sticky_button_id = 'StickyATC-ProductSubmitButton-' | append: section.id
                 %}
                 
-                {% render 'add-to-cart-button',
-                  id: sticky_button_id,
-                  class: 'add-to-cart-button product-form__submit button',
-                  can_add_to_cart: can_add_to_cart,
-                  product: product,
-                  add_to_cart_text: add_to_cart_text
-                %}
+                <span style="--add-to-cart-font-case: {{ settings.button_text_case }};">
+                  {% render 'add-to-cart-button',
+                    id: sticky_button_id,
+                    class: 'add-to-cart-button product-form__submit button',
+                    can_add_to_cart: can_add_to_cart,
+                    product: product,
+                    add_to_cart_text: add_to_cart_text
+                  %}
+                </span>
               </div>
             {%- endform -%}
           </product-form-component>

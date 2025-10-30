@@ -164,9 +164,7 @@
   transform: none !important;
 }
 
-.bottom-menu__cart-icon--has-cart .bottom-menu__icon,
-.bottom-nav-cart-icon--has-cart .btm_link i,
-.bottom-nav-cart-icon--has-cart .btm_link .svg-wrapper {
+.bottom-menu__cart-icon--has-cart .bottom-menu__icon {
   /* Create donut mask where the cart bubble sits */
   mask: radial-gradient(
     calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,

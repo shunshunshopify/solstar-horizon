@@ -84,27 +84,7 @@
     }
     {% endif %}
     
-    /* Enhanced cart count styling - Fixed positioning */
-    .cart-count {
-      position: absolute !important;
-      background-color: black;
-      color: white;
-      height: 16px;
-      width: 16px;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 10px;
-      font-weight: bold;
-      top: -8px !important;
-      right: -8px !important;
-      z-index: 100 !important;
-      margin: 0 !important;
-      transform: none !important;
-    }
-    
-    /* Bottom nav cart icon specific positioning - Matching header exactly */
+    /* Bottom nav cart icon specific positioning - Override CSS file for consistency */
     .bottom-nav-cart-icon {
       --cart-bubble-size: 20px;
       --cart-bubble-top: -2px;
@@ -146,164 +126,14 @@
       --cart-bubble-right: 4px;
     }
     
-    /* Remove the problematic mask effect that cuts off the icon */
-    /* .bottom-nav-cart-icon.bottom-nav-cart-icon--has-cart svg {
-      mask: radial-gradient(
-        calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
-        transparent 45.45%,
-        #fff 45.45%,
-        #fff 100%
-      );
-    } */
-    
-    /* Ensure the SVG icon doesn't interfere with bubble positioning */
-    .bottom-nav-cart-icon .svg-wrapper {
-      display: block;
-      position: relative;
-    }
-    
-    /* Make sure the cart trigger button works properly */
-    .bottom-nav-cart-trigger {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-    
-    .wishlist-total-count-bottom-menu {
-      right: 0px !important;
-    }
-    
-    .sticky-section .btm_link .bottom-menu-wishlist {
-      right: 5px !important;
-      top: 10px !important;
-    }
-    
-    /* Enhanced popup styling */
+    /* Dynamic background color for popups - Override CSS file */
     .extended-menu, .collection-popup {
-      display: none;
-      justify-content: center;
-      position: fixed;
-      bottom: 70px;
-      left: 0;
-      width: 100%;
-      background-color: {{ section.settings.bg_color}};
-      z-index: 102;
-      padding: 20px 0 0 0;
-      border-bottom: 1px solid #d3d3d3;
-      border-radius: 10px 10px 0px 0px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .11);
+      background-color: {{ section.settings.bg_color }};
     }
     
-    #popup:target,
-    #collectionPopup:target {
-      display: flex;
-      justify-content: center;
-    }
-    
-    .close-popup {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 12px;
-      text-decoration: none;
-      color: #000;
-      cursor: pointer;
-    }
-    
-    .extended-menu .ex-popup-container {
-      width: 100%;
-    }
-    
-    .collection-popup .ex-popup-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      padding: 0px 0px 20px 24px;
-    }
-    
-    .collection-popup .ex-popup-container .item {
-      display: flex;
-      align-items: center;
-      padding-bottom: 10px;
-    }
-    
-    .collection-popup .ex-popup-container .item img {
-      width: 50px;
-      height: 50px;
-      margin-right: 15px;
-    }
-    
-    .collection-popup .ex-popup-container .item:last-child {
-      border-bottom: none;
-    }
-    
-    .custom-menu {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      padding: 40px 15px;
-    }
-    
-    .custom-menu li {
-      list-style: none;
-      text-align: center;
-      width: auto;
-    }
-    
-    .custom-menu-image {
-      display: flex;
-    }
-    
-    .custom-menu-image img {
-      width: 100%;
-    }
-    
+    /* Dynamic text color for menu links - Override CSS file */
     .menu-link {
-      text-decoration: none;
-      display: block;
-      color: {{ section.settings.color }}; 
-      word-wrap: break-word;
-      word-break: break-word;
-      font-size: 12px;
-      margin: 0px !important;
-    }
-
-    /* Extended Menu Styling */
-    .extended-menu .container {
-      width: 80%;
-      padding: 40px 0px;
-    }
-    
-    .extended-menu .container .item {
-      border-bottom: 1px solid #d3d3d3;
-      margin-bottom: 10px;
-    }
-    
-    .extended-menu .container .item:last-child {
-      border-bottom: none;
-    }
-    
-    .extended-menu .container a {
-      text-decoration: none;
-      color: #131313;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      font-size: 16px;
-    }
-    
-    .extended-menu .container a .svg-wrapper {
-      margin-right: 10px;
-      width: 20px;
-      height: 20px;
-    }
-    
-    .extended-menu .container a svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
+      color: {{ section.settings.color }};
     }
     
     /* CSS Variables for consistency */

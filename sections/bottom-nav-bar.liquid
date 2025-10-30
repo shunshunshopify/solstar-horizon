@@ -84,48 +84,6 @@
     }
     {% endif %}
     
-    /* Bottom nav cart icon specific positioning - Override CSS file for consistency */
-    .bottom-nav-cart-icon {
-      --cart-bubble-size: 20px;
-      --cart-bubble-top: -2px;
-      --cart-bubble-right: -2px;
-      
-      position: relative;
-      display: inline-block;
-    }
-    
-    .bottom-nav-cart-icon .cart-bubble {
-      position: absolute !important;
-      width: var(--cart-bubble-size, 20px) !important;
-      top: var(--cart-bubble-top) !important;
-      right: var(--cart-bubble-right) !important;
-      z-index: 100 !important;
-      margin: 0 !important;
-      transform: none !important;
-    }
-    
-    .bottom-nav-cart-icon .cart-bubble__background {
-      background-color: black !important;
-    }
-    
-    .bottom-nav-cart-icon .cart-bubble__text {
-      color: white !important;
-      font-size: var(--font-size--2xs) !important;
-      font-weight: var(--font-paragraph--weight) !important;
-    }
-    
-    /* Handle empty cart state exactly like header does */
-    .bottom-nav-cart-icon:has(.cart-bubble__text-count:empty) {
-      --cart-bubble-size: 10px;
-      --cart-bubble-top: 6px;
-      --cart-bubble-right: 6px;
-    }
-    
-    .bottom-nav-cart-icon:has(.cart-bubble__text-count:empty) .svg-wrapper {
-      --cart-bubble-top: 4px;
-      --cart-bubble-right: 4px;
-    }
-    
     /* Dynamic background color for popups - Override CSS file */
     .extended-menu, .collection-popup {
       background-color: {{ section.settings.bg_color }};

@@ -150,30 +150,34 @@
 /* Cart Icon Specific Styles - Both naming conventions */
 .bottom-menu__cart-icon,
 .bottom-nav-cart-icon {
+  --cart-bubble-size: 20px;
+  --cart-bubble-top: 0px;
+  --cart-bubble-right: 12px;
+  
   position: relative;
   display: contents; /* Allow the component to not interfere with layout */
 }
 
 .bottom-menu__cart-icon .cart-bubble,
 .bottom-nav-cart-icon .cart-bubble {
-  position: absolute !important;
-  top: -2px !important;
-  right: -2px !important;
-  z-index: 100 !important;
-  margin: 0 !important;
-  transform: none !important;
-  width: var(--cart-bubble-size, 20px) !important;
+  position: absolute;
+  top: var(--cart-bubble-top);
+  right: var(--cart-bubble-right);
+  z-index: 100;
+  margin: 0;
+  transform: none;
+  width: var(--cart-bubble-size);
 }
 
 /* Ensure cart bubble background and text colors are consistent */
 .bottom-nav-cart-icon .cart-bubble__background {
-  background-color: black !important;
+  background-color: black;
 }
 
 .bottom-nav-cart-icon .cart-bubble__text {
-  color: white !important;
-  font-size: var(--font-size--2xs) !important;
-  font-weight: var(--font-paragraph--weight) !important;
+  color: white;
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
 }
 
 .bottom-menu__cart-icon--has-cart .bottom-menu__icon {

@@ -310,18 +310,34 @@
         flex: 1 1 auto;
         max-width: 60%;
         min-width: 0;
+        display: flex;
+        align-items: stretch;
+        gap: .75rem;
       }
+      
+      /* Controls container on desktop */
       #md-sticky-atc .product-form__controls{
         display: flex;
         align-items: stretch;
         gap: .75rem;
         flex-wrap: nowrap;
-        width: 100%;
         min-width: 0;
         justify-content: flex-end;
+        flex: 1 1 auto;
+        margin-bottom: 0; /* Reset mobile margin */
       }
       #md-sticky-atc.no-variant .product-form__controls{
         justify-content: flex-end;
+      }
+      
+      /* Button wrapper on desktop */
+      #md-sticky-atc .product-form__submit-wrapper{
+        flex: 0 0 auto;
+        width: auto; /* Reset mobile width */
+      }
+      #md-sticky-atc .product-form__submit.button{
+        width: auto; /* Natural width on desktop */
+        min-width: 140px; /* Ensure minimum usable width */
       }
       #md-sticky-atc .variant-controls{
         display: flex;
@@ -347,12 +363,6 @@
         flex: 0 0 auto;
         width: clamp(80px, var(--quantity-selector-width, 120px), 120px);
         align-self: stretch;
-      }
-      #md-sticky-atc .product-form__submit.button{
-        flex: 0 0 auto;
-        width: auto; /* Natural width on desktop */
-        min-width: 140px; /* Ensure minimum usable width */
-        /* Remove height constraint to allow natural button height */
       }
     }
   </style>

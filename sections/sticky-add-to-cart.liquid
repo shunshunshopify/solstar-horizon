@@ -255,8 +255,25 @@
     }
 
     /* Add to cart – uses Horizon primary .button styles */
-    #md-sticky-atc .product-form__submit.button{ width: 100%; border-radius: var(--style-border-radius-buttons-primary); }
+    #md-sticky-atc .product-form__submit.button{ 
+      width: 100%; 
+      border-radius: var(--style-border-radius-buttons-primary); 
+    }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
+    
+    /* Ensure proper add-to-cart button styling inheritance */
+    #md-sticky-atc .add-to-cart-button {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Allow button to use natural width and sizing on desktop */
+    @media (min-width: 990px){
+      #md-sticky-atc .product-form__submit.button{
+        width: auto; /* Allow natural button width */
+        min-width: 140px; /* Ensure minimum usable width */
+      }
+    }
 
     /* Desktop */
     @media (min-width: 990px){
@@ -324,10 +341,9 @@
       }
       #md-sticky-atc .product-form__submit.button{
         flex: 0 0 auto;
-        width: clamp(140px, 185px, 185px);
+        /* Remove fixed width constraints to allow natural button sizing */
         min-width: 140px;
-        max-width: 185px;
-        height: var(--height-buy-buttons);
+        /* Remove height constraint to allow natural button height */
       }
     }
   </style>
@@ -862,7 +878,7 @@
                     assign can_add_to_cart = false
                     assign add_to_cart_text = 'products.product.sold_out' | t
                   endif
-                  assign sticky_button_id = 'StickyATC-ProductSubmitButton-' | append: section.id
+                  assign sticky_button_id = 'BuyButtons-ProductSubmitButton-' | append: section.id
                 %}
                 
                 <span style="--add-to-cart-font-case: {{ settings.button_text_case }};">

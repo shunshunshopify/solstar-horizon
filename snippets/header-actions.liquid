@@ -23,8 +23,14 @@
     {% render 'account-drawer' %}
   {% endif %}
 
-  {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
-    {% render 'cart-drawer' %}
+    {% if settings.cart_type == 'drawer' %}
+    <cart-drawer-opener
+      class="header-actions__action action__cart"
+      aria-label="{{ 'accessibility.cart' | t }}"
+      aria-describedby="cart-bubble-text"
+    >
+      {% render 'cart-icon-component' %}
+    </cart-drawer-opener>
   {% else %}
     <a
       href="{{ routes.cart_url }}"

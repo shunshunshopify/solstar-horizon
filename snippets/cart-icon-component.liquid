@@ -1,22 +1,73 @@
 {%- doc -%}
   Renders the cart icon, which displays the number of items in the cart via a bubble.
+  
+  @param {string} [class] - Additional CSS classes to apply to the cart-icon element
+  @param {string} [wrapper_class] - Additional CSS classes to apply to the wrapper element inside
+  @param {boolean} [show_caption] - Whether to show caption text
+  @param {string} [caption] - Caption text to display
+  @param {string} [link_class] - CSS classes for the link/button wrapper
+  @param {boolean} [use_drawer] - Whether to use cart drawer (true) or cart page (false)
 {%- enddoc -%}
-<cart-icon
-  class="
-    header-actions__cart-icon
-    {% unless cart == empty %} header-actions__cart-icon--has-cart{% endunless %}
-  "
-  data-testid="cart-icon"
->
-  <span
-    class="svg-wrapper"
-    aria-hidden="true"
-  >
-    {{ 'icon-cart.svg' | inline_asset_content }}
-  </span>
 
-  {% render 'cart-bubble', limit: 100, live_region: true, test_id: test_id %}
-</cart-icon>
+{% liquid
+  assign cart_classes = 'header-actions__cart-icon'
+  unless cart == empty
+    assign cart_classes = cart_classes | append: ' header-actions__cart-icon--has-cart'
+  endunless
+  
+  if class
+    assign cart_classes = cart_classes | append: ' ' | append: class
+  endif
+  
+  unless cart == empty
+    if class contains 'bottom-nav-cart-icon'
+      assign cart_classes = cart_classes | append: ' bottom-nav-cart-icon--has-cart'
+    endif
+  endunless
+%}
+
+{% if use_drawer %}
+  <cart-icon
+    class="{{ cart_classes }}"
+    data-testid="cart-icon"
+  >
+    <button type="button" onclick="openCartDrawer(); return false;" title="Shopping Cart" class="{% if link_class %}{{ link_class }}{% endif %}" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+      {% render 'cart-bubble', limit: 100, live_region: true, test_id: test_id %}
+      <span class="svg-wrapper{% if wrapper_class %} {{ wrapper_class }}{% endif %}" aria-hidden="true">
+        {{ 'icon-cart.svg' | inline_asset_content }}
+      </span>
+      {% if show_caption and caption %}{{ caption }}{% endif %}
+    </button>
+  </cart-icon>
+{% elsif use_drawer == false %}
+  <cart-icon
+    class="{{ cart_classes }}"
+    data-testid="cart-icon"
+  >
+    <a href="{{ routes.cart_url }}" title="Shopping Cart" class="{% if link_class %}{{ link_class }}{% endif %}" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+      {% render 'cart-bubble', limit: 100, live_region: true, test_id: test_id %}
+      <span class="svg-wrapper{% if wrapper_class %} {{ wrapper_class }}{% endif %}" aria-hidden="true">
+        {{ 'icon-cart.svg' | inline_asset_content }}
+      </span>
+      {% if show_caption and caption %}{{ caption }}{% endif %}
+    </a>
+  </cart-icon>
+{% else %}
+  <!-- Default behavior for header (wrapped in other elements) -->
+  <cart-icon
+    class="{{ cart_classes }}"
+    data-testid="cart-icon"
+  >
+    <span
+      class="svg-wrapper{% if wrapper_class %} {{ wrapper_class }}{% endif %}"
+      aria-hidden="true"
+    >
+      {{ 'icon-cart.svg' | inline_asset_content }}
+    </span>
+
+    {% render 'cart-bubble', limit: 100, live_region: true, test_id: test_id %}
+  </cart-icon>
+{% endif %}
 
 {% stylesheet %}
   cart-icon:has(.cart-bubble__text-count:empty) {

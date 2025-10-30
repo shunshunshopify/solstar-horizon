@@ -80,34 +80,33 @@
           </div>
         {%- when 'cart_block' -%}
           <div class="sticky-section-column">
-            {% if settings.cart_type == 'drawer' %}
-              <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
-                <button type="button" onclick="openCartDrawer(); return false;" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
-                  {% render 'cart-bubble', limit: 100 %}
-                  {% if block.settings.icon_url == blank %}
-                    <span class="svg-wrapper" aria-hidden="true">
-                      {{ 'icon-cart.svg' | inline_asset_content }}
-                    </span>
-                  {% else %}
-                    {{ block.settings.icon_url }}
-                  {% endif %}
-                  {{ block.settings.caption }}
-                </button>
-              </cart-icon>
+            {% if block.settings.icon_url == blank %}
+              {% render 'cart-icon-component',
+                class: 'bottom-nav-cart-icon',
+                link_class: 'btm_link',
+                use_drawer: settings.cart_type == 'drawer',
+                show_caption: true,
+                caption: block.settings.caption
+              %}
             {% else %}
-              <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
-                <a href="{{ routes.cart_url }}" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
-                  {% render 'cart-bubble', limit: 100 %}
-                  {% if block.settings.icon_url == blank %}
-                    <span class="svg-wrapper" aria-hidden="true">
-                      {{ 'icon-cart.svg' | inline_asset_content }}
-                    </span>
-                  {% else %}
+              <!-- Custom icon implementation -->
+              {% if settings.cart_type == 'drawer' %}
+                <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
+                  <button type="button" onclick="openCartDrawer(); return false;" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+                    {% render 'cart-bubble', limit: 100 %}
                     {{ block.settings.icon_url }}
-                  {% endif %}
-                  {{ block.settings.caption }}
-                </a>
-              </cart-icon>
+                    {{ block.settings.caption }}
+                  </button>
+                </cart-icon>
+              {% else %}
+                <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
+                  <a href="{{ routes.cart_url }}" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+                    {% render 'cart-bubble', limit: 100 %}
+                    {{ block.settings.icon_url }}
+                    {{ block.settings.caption }}
+                  </a>
+                </cart-icon>
+              {% endif %}
             {% endif %}
           </div>
         {%- when 'wishlist_block' -%}
@@ -346,43 +345,15 @@
   }
   
   // Legacy cart count update function (for backward compatibility)
-  function updateCartCount() {
-    fetch('/cart.js')
-      .then(response => response.json())
-      .then(cart => {
-        // Update legacy cart count bubble if it exists
-        const cartCountBubble = document.querySelector('#cart-count-bubble');
-        if (cartCountBubble) {
-          cartCountBubble.textContent = cart.item_count;
-        }
-        
-        // Note: The cart-icon component will handle its own updates via theme events
-      })
-      .catch(error => {
-        console.error('Error fetching cart data:', error);
-      });
-  }
+  // Note: Removed duplicate cart logic - now handled by cart-icon-component
   
-  
-  // Setup legacy cart button listeners (for backward compatibility)
-  function setupLegacyCartListeners() {
-    // Legacy cart update listeners for non-cart-icon elements
-    const legacyCartButtons = document.querySelectorAll('.add-to-cart-button, .cart-items__remove, .quantity-minus, .quantity-plus, #btn-sticky-cart');
-    legacyCartButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        setTimeout(updateCartCount, 500);
-      });
-    });
-  }
-
   // Initialize everything when DOM is ready
   function initialize() {
     setupMenuDrawer();
     initializePopups();
-    setupLegacyCartListeners();
     
     // Note: Wishlist counter management is handled by assets/wishlist.js
-    // No duplicate logic needed here - wishlist.js manages all counters centrally
+    // Note: Cart functionality is handled by cart-icon-component
   }
   
   // Initialize when DOM is ready

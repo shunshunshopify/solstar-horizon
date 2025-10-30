@@ -39,6 +39,22 @@
       color: {{ section.settings.color }};
     }
     
+    /* Fix cart bubble overflow issue */
+    .sticky-section-column {
+      overflow: visible !important;
+      position: relative;
+    }
+    
+    /* Ensure cart bubble is properly positioned and visible */
+    .bottom-nav-cart-icon .cart-bubble {
+      position: absolute !important;
+      top: -8px !important;
+      right: -8px !important;
+      z-index: 100 !important;
+      margin: 0 !important;
+      transform: none !important;
+    }
+    
     /* Apply no-borders class when hide-border is enabled */
     {% if section.settings.hide-border %}
     .sticky-section-column {
@@ -81,37 +97,35 @@
         {%- when 'cart_block' -%}
           <div class="sticky-section-column">
             {% if settings.cart_type == 'drawer' %}
-              <cart-drawer-component class="cart-drawer">
-                <button
-                  class="btm_link button-unstyled"
-                  on:click="/open"
-                  aria-haspopup="dialog"
-                  aria-label="{{ 'accessibility.cart' | t }}"
-                  aria-describedby="cart-bubble-text"
-                  data-testid="cart-drawer-trigger"
+              <button
+                class="btm_link button-unstyled"
+                on:click="cart-drawer-component/showDialog"
+                aria-haspopup="dialog"
+                aria-label="{{ 'accessibility.cart' | t }}"
+                aria-describedby="cart-bubble-text"
+                data-testid="cart-drawer-trigger"
+              >
+                <cart-icon
+                  class="
+                    bottom-nav-cart-icon
+                    {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
+                  "
+                  data-testid="cart-icon"
                 >
-                  <cart-icon
-                    class="
-                      bottom-nav-cart-icon
-                      {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
-                    "
-                    data-testid="cart-icon"
-                  >
-                    {% if block.settings.icon_url == blank %}
-                      <span
-                        class="svg-wrapper"
-                        aria-hidden="true"
-                      >
-                        {{ 'icon-cart.svg' | inline_asset_content }}
-                      </span>
-                    {% else %}
-                      {{ block.settings.icon_url }}
-                    {% endif %}
-                    {% render 'cart-bubble', limit: 100, live_region: true %}
-                  </cart-icon>
-                  {{ block.settings.caption }}
-                </button>
-              </cart-drawer-component>
+                  {% if block.settings.icon_url == blank %}
+                    <span
+                      class="svg-wrapper"
+                      aria-hidden="true"
+                    >
+                      {{ 'icon-cart.svg' | inline_asset_content }}
+                    </span>
+                  {% else %}
+                    {{ block.settings.icon_url }}
+                  {% endif %}
+                  {% render 'cart-bubble', limit: 100, live_region: true %}
+                </cart-icon>
+                {{ block.settings.caption }}
+              </button>
             {% else %}
               <a href="{{ routes.cart_url }}" class="btm_link" aria-label="{{ 'accessibility.cart' | t }}" aria-describedby="cart-bubble-text">
                 <cart-icon

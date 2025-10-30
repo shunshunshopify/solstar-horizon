@@ -358,42 +358,7 @@
       const plusBtn  = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="plus"]') : null;
       const stickyAddBtn = bar.querySelector('button[name="add"]');
       
-      // Animation constants (same as wishlist)
-      const ADD_TO_CART_TEXT_ANIMATION_DURATION = 2000;
-      
-      // Animation function for sticky button (same logic as wishlist)
-      const animateStickyAddToCart = (button) => {
-        // Use dataset to store timeout IDs to avoid TypeScript errors
-        const timeoutId = button.dataset.animationTimeout;
-        const cleanupId = button.dataset.cleanupTimeout;
-        
-        // Clear any existing timeouts
-        if (timeoutId) {
-          clearTimeout(parseInt(timeoutId, 10));
-          delete button.dataset.animationTimeout;
-        }
-        if (cleanupId) {
-          clearTimeout(parseInt(cleanupId, 10));
-          delete button.dataset.cleanupTimeout;
-        }
-
-        // Add the 'atc-added' class that triggers CSS animations
-        if (!button.classList.contains('atc-added')) {
-          button.classList.add('atc-added');
-        }
-
-        // Remove the class after animation duration (same as PDP)
-        const animationTimeout = setTimeout(() => {
-          const cleanupTimeout = setTimeout(() => {
-            button.classList.remove('atc-added');
-            delete button.dataset.cleanupTimeout;
-          }, 10);
-          button.dataset.cleanupTimeout = cleanupTimeout.toString();
-          delete button.dataset.animationTimeout;
-        }, ADD_TO_CART_TEXT_ANIMATION_DURATION);
-        
-        button.dataset.animationTimeout = animationTimeout.toString();
-      };
+      // The add-to-cart-component automatically handles click and animation
       const stickyFallbackMedia = stickyAddBtn ? stickyAddBtn.dataset.productVariantMedia : '';
       const cartIcon = document.querySelector('.header-actions__cart-icon');
 
@@ -707,16 +672,8 @@
         });
       }
 
-      // Sticky ATC animation trigger (same as wishlist)
-      if (stickyAddBtn) {
-        stickyAddBtn.addEventListener('click', (e) => {
-          // Trigger animation immediately (same as PDP and wishlist)
-          animateStickyAddToCart(stickyAddBtn);
-          
-          // Let the product-form-component handle the rest (form submission, cart events)
-          // No need to prevent default - let the component work
-        });
-      }
+      // The add-to-cart-component automatically handles click and animation
+      // No need for custom click handler - let the component work
 
       // ---- Layout optimization (no empty space when controls are hidden) ----
       function updateLayoutFlags(){

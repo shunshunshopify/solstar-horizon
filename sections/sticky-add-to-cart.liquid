@@ -211,12 +211,10 @@
         margin-bottom: 0; /* No extra space when single variant, no qty */
       }
       
-      /* Button wrapper - completely outside grid */
-      #md-sticky-atc .product-form__submit-wrapper{
-        width: 100%;
-      }
+      /* Button takes full width on mobile */
       #md-sticky-atc .product-form__submit.button{
-        width: 100%; /* Full width always - no grid constraints */
+        grid-column: 1 / -1; /* Span full width */
+        width: 100%;
       }
       
       /* Adjust margins for different configurations */
@@ -249,31 +247,20 @@
         grid-column: span 1;
       }
     }
-      /* Button margin adjustments for different configurations */
-      #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button{
-        margin-top: 1rem;
-      }
-      #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
-        margin-top: 0;
-      }
       
       /* Remove margin and gap when all optional elements are disabled on mobile */
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
         gap: 0;
       }
-      #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
-        margin-top: 0;
-      }
       
       /* Add gap when only one variant option is available (no product info, no qty) */
-      #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"] .product-form__submit.button{
-        margin-top: .5rem;
+      #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"]{
+        margin-bottom: .5rem;
       }
     }
 
     /* Add to cart – uses Horizon primary .button styles */
     #md-sticky-atc .product-form__submit.button{ 
-      width: 100%; /* Full width on mobile */
       border-radius: var(--style-border-radius-buttons-primary); 
     }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
@@ -310,44 +297,37 @@
         flex: 1 1 auto;
         max-width: 60%;
         min-width: 0;
-        display: flex;
-        flex-direction: row; /* Horizontal layout on desktop */
-        align-items: stretch;
-        gap: .75rem;
       }
       
-      /* Controls container takes available space */
+      /* Simple grid layout on desktop */
       #md-sticky-atc .product-form__controls{
-        display: flex;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: 1fr auto auto; /* variants | quantity | button */
+        align-items: center;
         gap: .75rem;
-        flex-wrap: nowrap;
-        min-width: 0;
-        justify-content: flex-end;
-        margin-bottom: 0; /* Reset mobile margin */
-        flex: 1 1 auto; /* Take available space */
-      }
-      
-      /* Button wrapper becomes flex item alongside controls */
-      #md-sticky-atc .product-form__submit-wrapper{
-        flex: 0 0 auto;
-        width: auto; /* Reset mobile width */
-        display: flex;
-        align-items: stretch;
+        margin-bottom: 0;
       }
       
       #md-sticky-atc.no-variant .product-form__controls{
+        grid-template-columns: auto auto; /* quantity | button */
+      }
+      
+      #md-sticky-atc.no-qty .product-form__controls{
+        grid-template-columns: 1fr auto; /* variants | button */
+      }
+      
+      #md-sticky-atc.no-variant.no-qty .product-form__controls{
+        grid-template-columns: auto; /* button only */
         justify-content: flex-end;
       }
       
       #md-sticky-atc .product-form__submit.button{
-        width: auto; /* Natural width on desktop */
-        min-width: 140px; /* Ensure minimum usable width */
-        align-self: stretch; /* Match height of other controls */
+        width: auto;
+        min-width: 140px;
       }
+      
       #md-sticky-atc .variant-controls{
         display: flex;
-        flex: 1 1 auto;
         gap: .5rem;
         min-width: 0;
       }
@@ -356,7 +336,6 @@
         min-width: 0;
       }
       #md-sticky-atc .variant-controls[data-option-count="1"]{
-        flex: 0 0 auto;
         width: clamp(140px, 185px, 185px);
         min-width: 140px;
         max-width: 185px;
@@ -366,9 +345,7 @@
         width: 100%;
       }
       #md-sticky-atc .quantity-selector{
-        flex: 0 0 auto;
         width: clamp(80px, var(--quantity-selector-width, 120px), 120px);
-        align-self: stretch;
       }
     }
   </style>
@@ -891,21 +868,18 @@
                 <script type="application/json" data-sticky-variants>
                   {{ product.variants | json }}
                 </script>
-              </div>
-
-              <!-- Add to cart button - outside grid -->
-              {% liquid
-                if current_variant and current_variant.available
-                  assign can_add_to_cart = true
-                  assign add_to_cart_text = 'products.product.add_to_cart' | t
-                else
-                  assign can_add_to_cart = false
-                  assign add_to_cart_text = 'products.product.sold_out' | t
-                endif
-                assign sticky_button_id = 'BuyButtons-ProductSubmitButton-' | append: section.id
-              %}
-              
-              <div class="product-form__submit-wrapper">
+                <!-- Add to cart button - back in grid -->
+                {% liquid
+                  if current_variant and current_variant.available
+                    assign can_add_to_cart = true
+                    assign add_to_cart_text = 'products.product.add_to_cart' | t
+                  else
+                    assign can_add_to_cart = false
+                    assign add_to_cart_text = 'products.product.sold_out' | t
+                  endif
+                  assign sticky_button_id = 'BuyButtons-ProductSubmitButton-' | append: section.id
+                %}
+                
                 <span style="--add-to-cart-font-case: {{ settings.button_text_case }};">
                   {% render 'add-to-cart-button',
                     id: sticky_button_id,

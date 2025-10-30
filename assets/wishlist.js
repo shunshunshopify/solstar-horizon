@@ -346,6 +346,19 @@
         formData.append('id', variantId);
         formData.append('quantity', '1');
 
+        // Add sections parameter like PDP does for cart drawer updates
+        const cartItemsComponents = document.querySelectorAll('cart-items-component');
+        /** @type {string[]} */
+        let cartItemComponentsSectionIds = [];
+        cartItemsComponents.forEach((item) => {
+          if (item instanceof HTMLElement && item.dataset.sectionId) {
+            cartItemComponentsSectionIds.push(item.dataset.sectionId);
+          }
+        });
+        if (cartItemComponentsSectionIds.length > 0) {
+          formData.append('sections', cartItemComponentsSectionIds.join(','));
+        }
+
         const response = await fetch('/cart/add.js', {
           method: 'POST',
           body: formData
@@ -375,8 +388,26 @@
           // this.renderWishlistPage();
         }
 
-        // Trigger cart update events (same as PDP)
-        document.dispatchEvent(new CustomEvent('cart:updated'));
+        // Dispatch CartAddEvent (same as PDP) - this is what updates the cart bubble!
+        // This creates the exact same event structure as ProductFormComponent uses
+        // Using 'product-form-component' source so cart-icon treats it as addition, not replacement
+        const cartAddEvent = new CustomEvent('cart:update', {
+          bubbles: true,
+          detail: {
+            resource: {},
+            sourceId: 'wishlist-component',
+            data: {
+              source: 'product-form-component', // Same source as PDP for consistent behavior
+              itemCount: 1, // Number of items being added (always 1 for wishlist)
+              productId: productId,
+              variantId: variantId,
+              sections: result.sections || {}
+            }
+          }
+        });
+        
+        document.dispatchEvent(cartAddEvent);
+        console.log('🔄 Dispatched CartAddEvent for cart bubble update');
         
         // Update cart drawer if it exists
         const cartDrawer = document.querySelector('cart-drawer-component');

@@ -25,68 +25,6 @@
         "pb": 5
       }
     },
-    "bottom_nav_bar_hJdKKr": {
-      "type": "bottom-nav-bar",
-      "blocks": {
-        "home_block_k8CHzc": {
-          "type": "home_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Home",
-            "url": ""
-          }
-        },
-        "cart_block_idFTRN": {
-          "type": "cart_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Cart",
-            "url": ""
-          }
-        },
-        "search_block_zV3y7X": {
-          "type": "Search_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Search",
-            "url": ""
-          }
-        },
-        "wishlist_block_JrMJat": {
-          "type": "wishlist_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Wishlist",
-            "url": ""
-          }
-        },
-        "menu_block_fk3R7G": {
-          "type": "Menu_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Menu",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "home_block_k8CHzc",
-        "cart_block_idFTRN",
-        "search_block_zV3y7X",
-        "wishlist_block_JrMJat",
-        "menu_block_fk3R7G"
-      ],
-      "name": "Bottom Nav Bar New",
-      "settings": {
-        "bg_color": "#ffffff",
-        "icon_color": "#000",
-        "color": "#000",
-        "font_size": 10,
-        "icon_size": 1.5,
-        "height": 70,
-        "hide-border": true
-      }
-    },
     "footer_m9NzUG": {
       "type": "footer",
       "blocks": {
@@ -282,7 +220,6 @@
   },
   "order": [
     "sticky_add_to_cart_6wHPQB",
-    "bottom_nav_bar_hJdKKr",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

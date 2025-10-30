@@ -81,41 +81,60 @@
         {%- when 'cart_block' -%}
           <div class="sticky-section-column">
             {% if settings.cart_type == 'drawer' %}
-              <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
-                <button 
-                  type="button" 
-                  title="Shopping Cart" 
-                  class="btm_link button-unstyled" 
-                  aria-label="Shopping Cart ({{ cart.item_count }} items)" 
-                  aria-describedby="cart-bubble-text"
-                  on:click="cart-drawer-component/open"
+              <cart-drawer-component class="cart-drawer">
+                <button
+                  class="btm_link button-unstyled"
+                  on:click="/open"
                   aria-haspopup="dialog"
+                  aria-label="{{ 'accessibility.cart' | t }}"
+                  aria-describedby="cart-bubble-text"
+                  data-testid="cart-drawer-trigger"
                 >
-                  {% render 'cart-bubble', limit: 100 %}
-                  {% if block.settings.icon_url == blank %}
-                    <span class="svg-wrapper" aria-hidden="true">
-                      {{ 'icon-cart.svg' | inline_asset_content }}
-                    </span>
-                  {% else %}
-                    {{ block.settings.icon_url }}
-                  {% endif %}
+                  <cart-icon
+                    class="
+                      bottom-nav-cart-icon
+                      {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
+                    "
+                    data-testid="cart-icon"
+                  >
+                    {% if block.settings.icon_url == blank %}
+                      <span
+                        class="svg-wrapper"
+                        aria-hidden="true"
+                      >
+                        {{ 'icon-cart.svg' | inline_asset_content }}
+                      </span>
+                    {% else %}
+                      {{ block.settings.icon_url }}
+                    {% endif %}
+                    {% render 'cart-bubble', limit: 100, live_region: true %}
+                  </cart-icon>
                   {{ block.settings.caption }}
                 </button>
-              </cart-icon>
+              </cart-drawer-component>
             {% else %}
-              <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
-                <a href="{{ routes.cart_url }}" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
-                  {% render 'cart-bubble', limit: 100 %}
+              <a href="{{ routes.cart_url }}" class="btm_link" aria-label="{{ 'accessibility.cart' | t }}" aria-describedby="cart-bubble-text">
+                <cart-icon
+                  class="
+                    bottom-nav-cart-icon
+                    {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
+                  "
+                  data-testid="cart-icon"
+                >
                   {% if block.settings.icon_url == blank %}
-                    <span class="svg-wrapper" aria-hidden="true">
+                    <span
+                      class="svg-wrapper"
+                      aria-hidden="true"
+                    >
                       {{ 'icon-cart.svg' | inline_asset_content }}
                     </span>
                   {% else %}
                     {{ block.settings.icon_url }}
                   {% endif %}
-                  {{ block.settings.caption }}
-                </a>
-              </cart-icon>
+                  {% render 'cart-bubble', limit: 100, live_region: true %}
+                </cart-icon>
+                {{ block.settings.caption }}
+              </a>
             {% endif %}
           </div>
         {%- when 'wishlist_block' -%}

@@ -279,7 +279,8 @@
       #md-sticky-atc .sticky-product-info{
         flex: 1;
       }
-      #md-sticky-atc .product-form{
+      #md-sticky-atc .product-form,
+      #md-sticky-atc product-form-component {
         flex: 1 1 auto;
         max-width: 60%;
         min-width: 0;
@@ -344,7 +345,8 @@
       const stickyOptionSelects = variantControls
         ? Array.from(variantControls.querySelectorAll('.variant-option__select'))
         : [];
-      const stickySelect = bar.querySelector('input[ref="variantId"]');
+      const stickySelect = bar.querySelector('.select--variant-id select[data-sticky]');
+      const stickyHiddenInput = bar.querySelector('input[ref="variantId"]');
       const variantsDataEl = bar.querySelector('[data-sticky-variants]');
       const variants = variantsDataEl ? JSON.parse(variantsDataEl.textContent) : [];
       if (variantsDataEl) variantsDataEl.remove();
@@ -425,32 +427,31 @@
       };
 
       const setStickyVariant = (variantId, { source = 'external', variantData = null } = {}) => {
-        if (!variantId || !stickySelect) return;
+        if (!variantId || !stickySelect || !stickyHiddenInput) return;
         
-        // Update the hidden input value
+        // Find the option element with variant data
+        const target = stickySelect.querySelector(`option[value="${variantId}"]`);
+        if (!target) return;
+        
+        // Update both the select dropdown and hidden input
         if (stickySelect.value !== String(variantId)) {
           stickySelect.value = String(variantId);
         }
+        if (stickyHiddenInput.value !== String(variantId)) {
+          stickyHiddenInput.value = String(variantId);
+        }
         currentVariantId = String(variantId);
         
-        // Get variant data and update UI elements
+        // Update UI elements using option data attributes
+        updateStickyFromOption(target);
+        
+        // Get variant data and update option selectors
         const variant = variantData || findVariantById(variantId);
         if (variant) {
           if (source !== 'options') {
             updateOptionSelectorsFromVariant(variant);
           }
           setMediaFromVariant(variant);
-          
-          // Update sticky UI elements
-          if (imgEl && variant.image) {
-            imgEl.setAttribute('src', variant.image.src + '&width=60&height=60&crop=center');
-          }
-          if (priceEl && variant.price) {
-            priceEl.innerHTML = new Intl.NumberFormat('ja-JP', {
-              style: 'currency',
-              currency: 'JPY'
-            }).format(variant.price / 100);
-          }
         }
         
         // Sync with main product form
@@ -602,6 +603,16 @@
           const mo = new MutationObserver(onMainVariantChange);
           mo.observe(mainVariantControl, { attributes: true, attributeFilter: ['value'] });
         }
+      }
+
+      // Add event listener for variant dropdown changes
+      if (stickySelect) {
+        stickySelect.addEventListener('change', () => {
+          const selectedId = stickySelect.value;
+          if (selectedId) {
+            setStickyVariant(selectedId, { source: 'select', variantData: findVariantById(selectedId) });
+          }
+        });
       }
 
       // Initialize with current variant value
@@ -821,6 +832,25 @@
                     {% endfor %}
                   </div>
                 {% endif %}
+
+                <!-- Variant id select kept for data + switching functionality -->
+                <div class="select select--variant-id" style="display:none;">
+                  <select name="id" aria-label="Select variant" data-sticky>
+                    {% for variant in product.variants %}
+                      {% assign variant_image = variant.image | default: product.featured_image %}
+                      <option
+                        value="{{ variant.id }}"
+                        data-img="{% if variant_image %}{{ variant_image | image_url: width: 60, height: 60, crop: 'center' }}{% endif %}"
+                        data-price-html="{{ variant.price | money }}"
+                        data-animation-img="{% if variant_image %}{{ variant_image | image_url: width: 120 }}{% endif %}"
+                        data-available="{{ variant.available }}"
+                        {% if current_variant.id == variant.id %}selected{% endif %}
+                      >
+                        {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
 
                 <script type="application/json" data-sticky-variants>
                   {{ product.variants | json }}

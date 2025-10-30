@@ -194,14 +194,34 @@
     }
 
     @media (max-width: 989px){
-      /* Main controls container uses flexbox to stack items vertically */
+      /* Main controls container */
       #md-sticky-atc .product-form__controls{
         display: flex;
         flex-direction: column;
         gap: .5rem;
       }
       
-      /* Only variant controls use grid when they need to be side-by-side */
+      /* Grid wrapper for variant and quantity controls */
+      #md-sticky-atc .product-form__controls-grid{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        gap: .5rem;
+      }
+      
+      /* Single column when no variants */
+      #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__controls-grid{
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      
+      /* Single column when no quantity and 1 variant */
+      #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__controls-grid{
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      
+      /* Variant controls within grid */
       #md-sticky-atc .variant-controls{
         display: grid;
         gap: .5rem;
@@ -209,20 +229,28 @@
       }
       #md-sticky-atc .variant-controls[data-option-count="2"]{
         grid-template-columns: repeat(2, 1fr);
+        grid-column: 1 / -1; /* Span full width when 2+ options */
       }
       #md-sticky-atc .variant-controls[data-option-count="3"]{
         grid-template-columns: repeat(3, 1fr);
+        grid-column: 1 / -1; /* Span full width when 2+ options */
       }
       
-      /* Quantity selector as flex item */
+      /* Quantity selector within grid */
       #md-sticky-atc .quantity-selector{
-        width: 100%;
+        /* Will be positioned by grid */
       }
       
-      /* Button as flex item - full width by default */
+      /* When no qty, single variant spans full width */
+      #md-sticky-atc.no-qty .variant-controls{
+        grid-column: 1 / -1;
+      }
+      
+      /* Button completely outside grid as flex item */
       #md-sticky-atc .product-form__submit.button{
-        width: 100%;
+        width: 100% !important;
         margin-top: .5rem;
+        flex-shrink: 0;
       }
       
       /* Button margin adjustments for different configurations */
@@ -757,38 +785,80 @@
                 {% assign controls_variant_count = variant_option_count %}
               {% endif %}
               <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
-                {% if variant_option_count > 0 and section.settings.show_variant_picker %}
-                  <div class="variant-controls" data-option-count="{{ variant_option_count }}">
-                    {% for option in product.options_with_values %}
-                      {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
-                      <div class="variant-option variant-option--dropdowns">
-                        <label class="visually-hidden" for="{{ sticky_option_id }}">{{ option.name | escape }}</label>
-                        <div class="variant-option__select-wrapper">
-                          <select
-                            id="{{ sticky_option_id }}"
-                            name="options[{{ option.name | escape }}]"
-                            class="variant-option__select"
-                            aria-label="{{ option.name | escape }}"
-                            data-option-position="{{ option.position }}"
-                          >
-                            <option value="" disabled {% if option.selected_value == blank %}selected{% endif %}>
-                              {{ '-- ' | append: option.name | append: ' --' | escape }}
-                            </option>
-                          {% for option_value in option.values %}
-                            <option
-                              value="{{ option_value | escape }}"
-                              {% if option_value.selected %}selected{% endif %}
-                            >
-                              {{ option_value | escape }}
-                            </option>
-                          {% endfor %}
-                          </select>
-                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                            {% render 'icon', icon: 'caret' %}
-                          </svg>
-                        </div>
+                <!-- Grid wrapper for variant and quantity controls -->
+                {% if variant_option_count > 0 and section.settings.show_variant_picker or section.settings.show_qty %}
+                  <div class="product-form__controls-grid">
+                    {% if variant_option_count > 0 and section.settings.show_variant_picker %}
+                      <div class="variant-controls" data-option-count="{{ variant_option_count }}">
+                        {% for option in product.options_with_values %}
+                          {% assign sticky_option_id = 'StickyOption-' | append: section.id | append: '-' | append: forloop.index0 %}
+                          <div class="variant-option variant-option--dropdowns">
+                            <label class="visually-hidden" for="{{ sticky_option_id }}">{{ option.name | escape }}</label>
+                            <div class="variant-option__select-wrapper">
+                              <select
+                                id="{{ sticky_option_id }}"
+                                name="options[{{ option.name | escape }}]"
+                                class="variant-option__select"
+                                aria-label="{{ option.name | escape }}"
+                                data-option-position="{{ option.position }}"
+                              >
+                                <option value="" disabled {% if option.selected_value == blank %}selected{% endif %}>
+                                  {{ '-- ' | append: option.name | append: ' --' | escape }}
+                                </option>
+                              {% for option_value in option.values %}
+                                <option
+                                  value="{{ option_value | escape }}"
+                                  {% if option_value.selected %}selected{% endif %}
+                                >
+                                  {{ option_value | escape }}
+                                </option>
+                              {% endfor %}
+                              </select>
+                              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
+                                {% render 'icon', icon: 'caret' %}
+                              </svg>
+                            </div>
+                          </div>
+                        {% endfor %}
                       </div>
-                    {% endfor %}
+                    {% endif %}
+
+                    <!-- Quantity (toggle via setting) -->
+                    {% if section.settings.show_qty %}
+                      <div class="quantity-selector">
+                        <button
+                          class="button button-unstyled quantity-minus quantity__button"
+                          name="minus"
+                          type="button"
+                        >
+                          <span class="visually-hidden">{{ 'accessibility.decrease_quantity' | t }}</span>
+                          <span class="svg-wrapper icon-minus">
+                            {{- 'icon-minus.svg' | inline_asset_content -}}
+                          </span>
+                        </button>
+                        <input
+                          class="quantity__input"
+                          type="number"
+                          name="quantity"
+                          id="Quantity-{{ section.id }}"
+                          min="1"
+                          value="1"
+                          form="{{ product_form_id }}"
+                          inputmode="numeric"
+                          aria-label="{{ 'accessibility.quantity' | t }}"
+                        >
+                        <button
+                          class="button button-unstyled quantity-plus quantity__button"
+                          name="plus"
+                          type="button"
+                        >
+                          <span class="visually-hidden">{{ 'accessibility.increase_quantity' | t }}</span>
+                          <span class="svg-wrapper icon-plus">
+                            {{- 'icon-plus.svg' | inline_asset_content -}}
+                          </span>
+                        </button>
+                      </div>
+                    {% endif %}
                   </div>
                 {% endif %}
 
@@ -814,43 +884,6 @@
                 <script type="application/json" data-sticky-variants>
                   {{ product.variants | json }}
                 </script>
-
-                <!-- Quantity (toggle via setting) -->
-                {% if section.settings.show_qty %}
-                  <div class="quantity-selector">
-                    <button
-                      class="button button-unstyled quantity-minus quantity__button"
-                      name="minus"
-                      type="button"
-                    >
-                      <span class="visually-hidden">{{ 'accessibility.decrease_quantity' | t }}</span>
-                      <span class="svg-wrapper icon-minus">
-                        {{- 'icon-minus.svg' | inline_asset_content -}}
-                      </span>
-                    </button>
-                    <input
-                      class="quantity__input"
-                      type="number"
-                      name="quantity"
-                      id="Quantity-{{ section.id }}"
-                      min="1"
-                      value="1"
-                      form="{{ product_form_id }}"
-                      inputmode="numeric"
-                      aria-label="{{ 'accessibility.quantity' | t }}"
-                    >
-                    <button
-                      class="button button-unstyled quantity-plus quantity__button"
-                      name="plus"
-                      type="button"
-                    >
-                      <span class="visually-hidden">{{ 'accessibility.increase_quantity' | t }}</span>
-                      <span class="svg-wrapper icon-plus">
-                        {{- 'icon-plus.svg' | inline_asset_content -}}
-                      </span>
-                    </button>
-                  </div>
-                {% endif %}
 
                 <!-- Add to cart -->
                 {% liquid

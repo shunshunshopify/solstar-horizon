@@ -198,36 +198,34 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         align-items: stretch;
         gap: .5rem;
+        margin-bottom: .5rem; /* Space above button */
       }
       #md-sticky-atc .product-form__controls[data-variant-count="0"]{
         grid-template-columns: 1fr;
         gap: 0;
+        margin-bottom: 1rem; /* More space when no variants */
       }
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"]{
         grid-template-columns: 1fr;
         gap: 0;
+        margin-bottom: 0; /* No extra space when single variant, no qty */
+      }
+      
+      /* Button wrapper - completely outside grid */
+      #md-sticky-atc .product-form__submit-wrapper{
+        width: 100%;
       }
       #md-sticky-atc .product-form__submit.button{
-        grid-column: 1 / -1;
-        width: 100%; /* Ensure full width regardless of grid layout */
-        margin-top: .5rem;
+        width: 100%; /* Full width always - no grid constraints */
       }
-      #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button{
-        margin-top: 1rem;
-      }
-      #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
-        margin-top: 0;
-      }
-      /* Remove margin and gap when all optional elements are disabled on mobile */
+      
+      /* Adjust margins for different configurations */
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
         gap: 0;
+        margin-bottom: 0;
       }
-      #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
-        margin-top: 0;
-      }
-      /* Add gap when only one variant option is available (no product info, no qty) */
-      #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"] .product-form__submit.button{
-        margin-top: .5rem;
+      #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"]{
+        margin-bottom: .5rem;
       }
       #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
       #md-sticky-atc .product-form__controls[data-variant-count="3"] .variant-controls,
@@ -250,10 +248,7 @@
       #md-sticky-atc:not(.no-qty) .product-form__controls[data-variant-count="1"] .quantity-selector{
         grid-column: span 1;
       }
-      #md-sticky-atc.no-qty .product-form__submit.button{
-        grid-column: 1 / -1;
-      }
-      
+    }
       /* Button margin adjustments for different configurations */
       #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button{
         margin-top: 1rem;
@@ -785,7 +780,7 @@
               {% if variant_option_count > 0 and section.settings.show_variant_picker %}
                 {% assign controls_variant_count = variant_option_count %}
               {% endif %}
-              <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
+                            <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
                 {% if variant_option_count > 0 and section.settings.show_variant_picker %}
                   <div class="variant-controls" data-option-count="{{ variant_option_count }}">
                     {% for option in product.options_with_values %}
@@ -880,19 +875,21 @@
                 <script type="application/json" data-sticky-variants>
                   {{ product.variants | json }}
                 </script>
+              </div>
 
-                <!-- Add to cart -->
-                {% liquid
-                  if current_variant and current_variant.available
-                    assign can_add_to_cart = true
-                    assign add_to_cart_text = 'products.product.add_to_cart' | t
-                  else
-                    assign can_add_to_cart = false
-                    assign add_to_cart_text = 'products.product.sold_out' | t
-                  endif
-                  assign sticky_button_id = 'BuyButtons-ProductSubmitButton-' | append: section.id
-                %}
-                
+              <!-- Add to cart button - outside grid -->
+              {% liquid
+                if current_variant and current_variant.available
+                  assign can_add_to_cart = true
+                  assign add_to_cart_text = 'products.product.add_to_cart' | t
+                else
+                  assign can_add_to_cart = false
+                  assign add_to_cart_text = 'products.product.sold_out' | t
+                endif
+                assign sticky_button_id = 'BuyButtons-ProductSubmitButton-' | append: section.id
+              %}
+              
+              <div class="product-form__submit-wrapper">
                 <span style="--add-to-cart-font-case: {{ settings.button_text_case }};">
                   {% render 'add-to-cart-button',
                     id: sticky_button_id,

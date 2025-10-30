@@ -74,8 +74,8 @@
       "name": "Sticky bottom menu",
       "settings": {
         "bg_color": "#ffffff",
-        "icon_color": "#000",
-        "color": "#000",
+        "icon_color": "#000000",
+        "color": "#000000",
         "font_size": 10,
         "icon_size": 1.5,
         "height": 70,
@@ -89,8 +89,8 @@
         "enable_section": true,
         "mobile_only": false,
         "color_scheme": "scheme-1",
-        "show_qty": false,
-        "show_variant_picker": false,
+        "show_qty": true,
+        "show_variant_picker": true,
         "show_img": true,
         "pt": 0.5,
         "pb": 5

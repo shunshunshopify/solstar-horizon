@@ -275,6 +275,11 @@
     }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
     
+    /* Fix span wrapper around add-to-cart button to allow grid-column to work */
+    #md-sticky-atc span[style*="--add-to-cart-font-case"] {
+      display: contents; /* Remove span from layout flow */
+    }
+    
     /* Ensure proper add-to-cart button styling inheritance */
     #md-sticky-atc .add-to-cart-button {
       position: relative;

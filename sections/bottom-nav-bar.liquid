@@ -84,8 +84,8 @@
     }
     {% endif %}
     
-    /* Enhanced cart count styling */
-    .cart-count, .bottom-nav-cart-icon .cart-bubble {
+    /* Enhanced cart count styling - Fixed positioning */
+    .cart-count {
       position: absolute !important;
       background-color: black;
       color: white;
@@ -102,6 +102,46 @@
       z-index: 100 !important;
       margin: 0 !important;
       transform: none !important;
+    }
+    
+    /* Bottom nav cart icon specific positioning */
+    .bottom-nav-cart-icon {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .bottom-nav-cart-icon .cart-bubble {
+      position: absolute !important;
+      top: -8px !important;
+      right: -8px !important;
+      z-index: 100 !important;
+      width: 16px !important;
+      height: 16px !important;
+      margin: 0 !important;
+      transform: none !important;
+    }
+    
+    .bottom-nav-cart-icon .cart-bubble__background {
+      background-color: black !important;
+    }
+    
+    .bottom-nav-cart-icon .cart-bubble__text {
+      color: white !important;
+      font-size: 10px !important;
+      font-weight: bold !important;
+    }
+    
+    /* Ensure the SVG icon doesn't interfere with bubble positioning */
+    .bottom-nav-cart-icon .svg-wrapper {
+      display: block;
+      position: relative;
+    }
+    
+    /* Make sure the cart trigger button works properly */
+    .bottom-nav-cart-trigger {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
     
     .wishlist-total-count-bottom-menu {
@@ -289,60 +329,34 @@
           </div>
         {%- when 'cart_block' -%}
           <div class="sticky-section-column">
-            {% if settings.cart_type == 'drawer' %}
-              <button
-                class="btm_link button-unstyled"
-                on:click="cart-drawer-component/showDialog"
-                aria-haspopup="dialog"
-                aria-label="{{ 'accessibility.cart' | t }}"
-                aria-describedby="cart-bubble-text"
-                data-testid="cart-drawer-trigger"
+            <button
+              class="btm_link button-unstyled bottom-nav-cart-trigger"
+              type="button"
+              aria-label="{{ 'accessibility.cart' | t }}"
+              aria-describedby="cart-bubble-text"
+              data-testid="bottom-cart-trigger"
+            >
+              <cart-icon
+                class="
+                  bottom-nav-cart-icon
+                  {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
+                "
+                data-testid="cart-icon"
               >
-                <cart-icon
-                  class="
-                    bottom-nav-cart-icon
-                    {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
-                  "
-                  data-testid="cart-icon"
-                >
-                  {% if block.settings.icon_url == blank %}
-                    <span
-                      class="svg-wrapper"
-                      aria-hidden="true"
-                    >
-                      {{ 'icon-cart.svg' | inline_asset_content }}
-                    </span>
-                  {% else %}
-                    {{ block.settings.icon_url }}
-                  {% endif %}
-                  {% render 'cart-bubble', limit: 100, live_region: true %}
-                </cart-icon>
-                {{ block.settings.caption }}
-              </button>
-            {% else %}
-              <a href="{{ routes.cart_url }}" class="btm_link" aria-label="{{ 'accessibility.cart' | t }}" aria-describedby="cart-bubble-text">
-                <cart-icon
-                  class="
-                    bottom-nav-cart-icon
-                    {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
-                  "
-                  data-testid="cart-icon"
-                >
-                  {% if block.settings.icon_url == blank %}
-                    <span
-                      class="svg-wrapper"
-                      aria-hidden="true"
-                    >
-                      {{ 'icon-cart.svg' | inline_asset_content }}
-                    </span>
-                  {% else %}
-                    {{ block.settings.icon_url }}
-                  {% endif %}
-                  {% render 'cart-bubble', limit: 100, live_region: true %}
-                </cart-icon>
-                {{ block.settings.caption }}
-              </a>
-            {% endif %}
+                {% if block.settings.icon_url == blank %}
+                  <span
+                    class="svg-wrapper"
+                    aria-hidden="true"
+                  >
+                    {{ 'icon-cart.svg' | inline_asset_content }}
+                  </span>
+                {% else %}
+                  {{ block.settings.icon_url }}
+                {% endif %}
+                {% render 'cart-bubble', limit: 100, live_region: true %}
+              </cart-icon>
+              {{ block.settings.caption }}
+            </button>
           </div>
         {%- when 'wishlist_block' -%}
         <div class="sticky-section-column">
@@ -612,26 +626,40 @@
     });
   }
   
-  // Enhanced cart functionality (for legacy support)
+  // Enhanced cart functionality
   function enhanceCartFunctionality() {
+    // Handle bottom nav cart button clicks
+    const bottomCartTrigger = document.querySelector('.bottom-nav-cart-trigger');
+    if (bottomCartTrigger) {
+      bottomCartTrigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // For drawer cart type, find and trigger the header cart drawer
+        if ('{{ settings.cart_type }}' === 'drawer') {
+          // Try to find the header cart drawer trigger button
+          const headerCartTrigger = document.querySelector('cart-drawer-component button[on\\:click="/open"], .cart-drawer button[on\\:click="/open"]');
+          if (headerCartTrigger) {
+            headerCartTrigger.click();
+          } else {
+            // Alternative: try to find cart-drawer-component and call its open method
+            const cartDrawer = document.querySelector('cart-drawer-component');
+            if (cartDrawer && cartDrawer.showDialog) {
+              cartDrawer.showDialog();
+            }
+          }
+        } else {
+          // For page cart type, navigate to cart page
+          window.location.href = '{{ routes.cart_url }}';
+        }
+      });
+    }
+    
     // Listen for theme cart updates to sync with any remaining legacy elements
     document.addEventListener('theme:cart:change', function(e) {
       const legacyCartCount = document.querySelector('#cart-count-bubble');
       if (legacyCartCount && e.detail && e.detail.cart) {
         legacyCartCount.textContent = e.detail.cart.item_count;
       }
-    });
-    
-    // Enhanced cart drawer opening for any legacy cart links
-    const legacyCartLinks = document.querySelectorAll('a[href="/cart"][onclick*="openCartDrawer"]');
-    legacyCartLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const cartDrawer = document.querySelector('cart-drawer-component, [data-cart-drawer]');
-        if (cartDrawer && cartDrawer.showDialog) {
-          cartDrawer.showDialog();
-        }
-      });
     });
   }
   

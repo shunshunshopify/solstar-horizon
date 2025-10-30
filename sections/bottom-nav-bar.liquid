@@ -107,8 +107,8 @@
     /* Bottom nav cart icon specific positioning - Matching header exactly */
     .bottom-nav-cart-icon {
       --cart-bubble-size: 20px;
-      --cart-bubble-top: 4.5px;
-      --cart-bubble-right: 2.5px;
+      --cart-bubble-top: -2px;
+      --cart-bubble-right: -2px;
       
       position: relative;
       display: inline-block;
@@ -137,8 +137,8 @@
     /* Handle empty cart state exactly like header does */
     .bottom-nav-cart-icon:has(.cart-bubble__text-count:empty) {
       --cart-bubble-size: 10px;
-      --cart-bubble-top: 9px;
-      --cart-bubble-right: 9px;
+      --cart-bubble-top: 6px;
+      --cart-bubble-right: 6px;
     }
     
     .bottom-nav-cart-icon:has(.cart-bubble__text-count:empty) .svg-wrapper {
@@ -146,15 +146,15 @@
       --cart-bubble-right: 4px;
     }
     
-    /* Create the same donut mask effect as header when cart has items */
-    .bottom-nav-cart-icon.bottom-nav-cart-icon--has-cart svg {
+    /* Remove the problematic mask effect that cuts off the icon */
+    /* .bottom-nav-cart-icon.bottom-nav-cart-icon--has-cart svg {
       mask: radial-gradient(
         calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
         transparent 45.45%,
         #fff 45.45%,
         #fff 100%
       );
-    }
+    } */
     
     /* Ensure the SVG icon doesn't interfere with bubble positioning */
     .bottom-nav-cart-icon .svg-wrapper {

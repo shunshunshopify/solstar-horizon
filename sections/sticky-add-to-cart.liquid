@@ -357,6 +357,43 @@
       const minusBtn = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="minus"]') : null;
       const plusBtn  = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="plus"]') : null;
       const stickyAddBtn = bar.querySelector('button[name="add"]');
+      
+      // Animation constants (same as wishlist)
+      const ADD_TO_CART_TEXT_ANIMATION_DURATION = 2000;
+      
+      // Animation function for sticky button (same logic as wishlist)
+      const animateStickyAddToCart = (button) => {
+        // Use dataset to store timeout IDs to avoid TypeScript errors
+        const timeoutId = button.dataset.animationTimeout;
+        const cleanupId = button.dataset.cleanupTimeout;
+        
+        // Clear any existing timeouts
+        if (timeoutId) {
+          clearTimeout(parseInt(timeoutId, 10));
+          delete button.dataset.animationTimeout;
+        }
+        if (cleanupId) {
+          clearTimeout(parseInt(cleanupId, 10));
+          delete button.dataset.cleanupTimeout;
+        }
+
+        // Add the 'atc-added' class that triggers CSS animations
+        if (!button.classList.contains('atc-added')) {
+          button.classList.add('atc-added');
+        }
+
+        // Remove the class after animation duration (same as PDP)
+        const animationTimeout = setTimeout(() => {
+          const cleanupTimeout = setTimeout(() => {
+            button.classList.remove('atc-added');
+            delete button.dataset.cleanupTimeout;
+          }, 10);
+          button.dataset.cleanupTimeout = cleanupTimeout.toString();
+          delete button.dataset.animationTimeout;
+        }, ADD_TO_CART_TEXT_ANIMATION_DURATION);
+        
+        button.dataset.animationTimeout = animationTimeout.toString();
+      };
       const stickyFallbackMedia = stickyAddBtn ? stickyAddBtn.dataset.productVariantMedia : '';
       const cartIcon = document.querySelector('.header-actions__cart-icon');
 
@@ -670,48 +707,14 @@
         });
       }
 
-      // Sticky ATC should behave EXACTLY like main PDP ATC
+      // Sticky ATC animation trigger (same as wishlist)
       if (stickyAddBtn) {
         stickyAddBtn.addEventListener('click', (e) => {
-          if (mainAddBtn) {
-            e.preventDefault();
-
-            // Sync variant to main select if needed
-            if (stickySelect && mainVariantControl && mainVariantControl.tagName === 'SELECT') {
-              if (mainVariantControl.value !== stickySelect.value) {
-                mainVariantControl.value = stickySelect.value;
-                mainVariantControl.dispatchEvent(new Event('change', { bubbles: true }));
-              }
-            }
-
-            // Sync quantity to main form if present
-            const mainQtyInput = mainForm && mainForm.querySelector('input[name="quantity"]');
-            if (mainQtyInput && qtyInput && mainQtyInput.value !== qtyInput.value) {
-              mainQtyInput.value = qtyInput.value || '1';
-              mainQtyInput.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-
-            const originalAnimationSetting =
-              mainAddComponent ? mainAddComponent.getAttribute('data-add-to-cart-animation') : null;
-            if (mainAddComponent && originalAnimationSetting === 'true') {
-              mainAddComponent.setAttribute('data-add-to-cart-animation', 'false');
-            }
-
-            animateFlyToCart();
-
-            // Delegate to theme logic (AJAX add, drawer, stay on PDP, etc.)
-            try {
-              mainAddBtn.click();
-            } finally {
-              if (mainAddComponent) {
-                if (originalAnimationSetting === null) {
-                  mainAddComponent.removeAttribute('data-add-to-cart-animation');
-                } else {
-                  mainAddComponent.setAttribute('data-add-to-cart-animation', originalAnimationSetting);
-                }
-              }
-            }
-          }
+          // Trigger animation immediately (same as PDP and wishlist)
+          animateStickyAddToCart(stickyAddBtn);
+          
+          // Let the product-form-component handle the rest (form submission, cart events)
+          // No need to prevent default - let the component work
         });
       }
 

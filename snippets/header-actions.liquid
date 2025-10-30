@@ -24,13 +24,15 @@
   {% endif %}
 
     {% if settings.cart_type == 'drawer' %}
-    <cart-drawer-opener
-      class="header-actions__action action__cart"
+    <button
+      class="header-actions__action action__cart button-unstyled"
+      on:click="cart-drawer-component/open"
+      aria-haspopup="dialog"
       aria-label="{{ 'accessibility.cart' | t }}"
       aria-describedby="cart-bubble-text"
     >
       {% render 'cart-icon-component' %}
-    </cart-drawer-opener>
+    </button>
   {% else %}
     <a
       href="{{ routes.cart_url }}"

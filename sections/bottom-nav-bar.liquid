@@ -82,7 +82,15 @@
           <div class="sticky-section-column">
             {% if settings.cart_type == 'drawer' %}
               <cart-icon class="bottom-nav-cart-icon{% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}">
-                <button type="button" onclick="openCartDrawer(); return false;" title="Shopping Cart" class="btm_link" aria-label="Shopping Cart ({{ cart.item_count }} items)" aria-describedby="cart-bubble-text">
+                <button 
+                  type="button" 
+                  title="Shopping Cart" 
+                  class="btm_link button-unstyled" 
+                  aria-label="Shopping Cart ({{ cart.item_count }} items)" 
+                  aria-describedby="cart-bubble-text"
+                  on:click="cart-drawer-component/open"
+                  aria-haspopup="dialog"
+                >
                   {% render 'cart-bubble', limit: 100 %}
                   {% if block.settings.icon_url == blank %}
                     <span class="svg-wrapper" aria-hidden="true">
@@ -277,23 +285,6 @@
  */
 (function() {
   'use strict';
-  
-  
-  // Setup global openCartDrawer function for cart button onclick
-  if (!window.openCartDrawer) {
-    window.openCartDrawer = function() {
-      try {
-        const cartDrawer = document.querySelector('cart-drawer-component');
-        if (cartDrawer && typeof cartDrawer.open === 'function') {
-          cartDrawer.open();
-        } else {
-          console.warn('Cart drawer component not found or does not have open method');
-        }
-      } catch (error) {
-        console.error('Failed to open cart drawer:', error);
-      }
-    };
-  }
   
   // Enhanced menu drawer handling
   function setupMenuDrawer() {

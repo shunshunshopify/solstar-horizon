@@ -588,9 +588,7 @@
 
         if (stickyAddBtn){
           stickyAddBtn.disabled = !available;
-          const addText = stickyAddBtn.getAttribute('data-add-text') || 'Add to cart';
-          const soldOutText = stickyAddBtn.getAttribute('data-sold-out-text') || 'Sold out';
-          stickyAddBtn.textContent = available ? addText : soldOutText;
+          // Don't manually update button text - let the add-to-cart-component handle it
           if (animationImg) {
             stickyAddBtn.dataset.productVariantMedia = animationImg;
           } else if (stickyFallbackMedia) {

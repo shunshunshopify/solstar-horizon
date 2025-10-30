@@ -104,42 +104,14 @@
       transform: none !important;
     }
     
-    /* Bottom nav cart icon - Match header exactly */
+    /* Bottom nav cart icon specific positioning - Matching header exactly */
     .bottom-nav-cart-icon {
       --cart-bubble-size: 20px;
-      --cart-bubble-top: 4.5px;
-      --cart-bubble-right: 2.5px;
+      --cart-bubble-top: -2px;
+      --cart-bubble-right: -2px;
       
       position: relative;
       display: inline-block;
-    }
-    
-    /* Make cart button same size as header */
-    .bottom-nav-cart-trigger {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      /* Match header button styles */
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    /* Match header SVG wrapper size */
-    .bottom-nav-cart-icon .svg-wrapper {
-      height: var(--button-size, 44px);
-      width: var(--button-size, 44px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    
-    /* Match header SVG icon size */
-    .bottom-nav-cart-icon svg {
-      width: var(--icon-size-md, 24px);
-      height: var(--icon-size-md, 24px);
     }
     
     .bottom-nav-cart-icon .cart-bubble {
@@ -162,16 +134,39 @@
       font-weight: var(--font-paragraph--weight) !important;
     }
     
-    /* Handle empty cart state exactly like header */
+    /* Handle empty cart state exactly like header does */
     .bottom-nav-cart-icon:has(.cart-bubble__text-count:empty) {
       --cart-bubble-size: 10px;
-      --cart-bubble-top: 9px;
-      --cart-bubble-right: 9px;
+      --cart-bubble-top: 6px;
+      --cart-bubble-right: 6px;
     }
     
     .bottom-nav-cart-icon:has(.cart-bubble__text-count:empty) .svg-wrapper {
       --cart-bubble-top: 4px;
       --cart-bubble-right: 4px;
+    }
+    
+    /* Remove the problematic mask effect that cuts off the icon */
+    /* .bottom-nav-cart-icon.bottom-nav-cart-icon--has-cart svg {
+      mask: radial-gradient(
+        calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
+        transparent 45.45%,
+        #fff 45.45%,
+        #fff 100%
+      );
+    } */
+    
+    /* Ensure the SVG icon doesn't interfere with bubble positioning */
+    .bottom-nav-cart-icon .svg-wrapper {
+      display: block;
+      position: relative;
+    }
+    
+    /* Make sure the cart trigger button works properly */
+    .bottom-nav-cart-trigger {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
     
     .wishlist-total-count-bottom-menu {

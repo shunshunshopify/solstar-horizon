@@ -205,6 +205,12 @@
         width: 100%;
       }
 
+      /* Ensure add-to-cart-component displays properly in grid */
+      #md-sticky-atc add-to-cart-component {
+        display: contents;
+        grid-column: 1 / -1;
+      }
+
       #md-sticky-atc .product-form__controls[data-variant-count="0"]{
         grid-template-columns: 1fr;
         gap: 0;

@@ -1,16 +1,16 @@
-{%- doc -%}
+{%- comment -%}
   This snippet is used to render a product card.
-  It is used in the product block,featured product block, and the product card block.
+  It is used in the product block, featured product block, and the product card block.
 
   @param {product} product_resource - The product to render
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
-{%- enddoc -%}
+{%- endcomment -%}
 
 {%- liquid
   assign show_unit_price = show_unit_price | default: false
   assign show_sale_price_first = show_sale_price_first | default: false
-  assign show_wishlist_icon = show_wishlist_icon | default: false
+  {# Removed assignment to unknown object 'show_wishlist_icon' #}
   assign selected_variant = product_resource.selected_or_first_available_variant
   assign price = selected_variant.price
   assign compare_at_price = selected_variant.compare_at_price

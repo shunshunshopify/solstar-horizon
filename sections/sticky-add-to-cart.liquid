@@ -4,9 +4,6 @@
     assign product_form_id = 'product-form-' | append: section.id
     assign image = current_variant.image | default: product.featured_image
     assign fly_to_cart_image = ''
-    if image
-      assign fly_to_cart_image = image | image_url: width: 120
-    endif
     assign variant_option_count = 0
     unless product.has_only_default_variant
       assign variant_option_count = product.options_with_values | size

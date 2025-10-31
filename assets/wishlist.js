@@ -79,6 +79,19 @@
       return this.items.length;
     }
 
+    escapeHtml(value) {
+      if (value === undefined || value === null) {
+        return '';
+      }
+
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     /**
      * SINGLE COUNTER UPDATE METHOD - No complex registry
      * Updates all counters directly and simply
@@ -632,12 +645,19 @@
       let html = '';
       items.forEach(item => {
         let itemHtml = template.innerHTML;
-        itemHtml = itemHtml.replace(/\[\[id\]\]/g, item.id);
-        itemHtml = itemHtml.replace(/\[\[title\]\]/g, item.title);
-        itemHtml = itemHtml.replace(/\[\[image\]\]/g, item.image);
-        itemHtml = itemHtml.replace(/\[\[url\]\]/g, item.url);
-        itemHtml = itemHtml.replace(/\[\[price\]\]/g, item.price);
-        itemHtml = itemHtml.replace(/\[\[variant_id\]\]/g, item.variant_id);
+        const safeId = this.escapeHtml(item.id);
+        const safeTitle = this.escapeHtml(item.title);
+        const safeImage = this.escapeHtml(item.image);
+        const safeUrl = this.escapeHtml(item.url);
+        const safePrice = this.escapeHtml(item.price);
+        const safeVariantId = this.escapeHtml(item.variant_id);
+
+        itemHtml = itemHtml.replace(/\[\[id\]\]/g, safeId);
+        itemHtml = itemHtml.replace(/\[\[title\]\]/g, safeTitle);
+        itemHtml = itemHtml.replace(/\[\[image\]\]/g, safeImage);
+        itemHtml = itemHtml.replace(/\[\[url\]\]/g, safeUrl);
+        itemHtml = itemHtml.replace(/\[\[price\]\]/g, safePrice);
+        itemHtml = itemHtml.replace(/\[\[variant_id\]\]/g, safeVariantId);
         html += itemHtml;
       });
 

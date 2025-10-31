@@ -455,7 +455,7 @@
     }
 
     /**
-     * @param {string} baseUrl
+     * @param {string | undefined} baseUrl
      * @param {string | number | undefined} variantId
      * @returns {string}
      */
@@ -786,6 +786,56 @@
 
     /**
      * @param {ProductVariant} variant
+     * @returns {string[]}
+     */
+    getVariantOptionValues(variant) {
+      if (Array.isArray(variant.options) && variant.options.length > 0) {
+        return variant.options.map(String);
+      }
+
+      const values = [];
+      if (typeof variant.option1 === 'string') {
+        values.push(variant.option1);
+      }
+      if (typeof variant.option2 === 'string') {
+        values.push(variant.option2);
+      }
+      if (typeof variant.option3 === 'string') {
+        values.push(variant.option3);
+      }
+      return values;
+    }
+
+    /**
+     * @param {HTMLElement} itemElement
+     * @param {ProductData} productData
+     * @param {ProductVariant} variant
+     */
+    setSelectValues(itemElement, productData, variant) {
+      const variantValues = this.getVariantOptionValues(variant);
+      (productData.options || []).forEach((_, index) => {
+        const select = itemElement.querySelector(`select[data-option-index="${index}"]`);
+        if (!(select instanceof HTMLSelectElement)) {
+          return;
+        }
+
+        select.disabled = false;
+        const desiredValue = variantValues[index] || '';
+        if (desiredValue) {
+          const matchingOption = Array.from(select.options).find((optionEl) => optionEl.value === desiredValue && !optionEl.disabled);
+          if (matchingOption) {
+            select.value = desiredValue;
+            return;
+          }
+        }
+
+        const fallbackOption = Array.from(select.options).find((optionEl) => optionEl.value && !optionEl.disabled);
+        select.value = fallbackOption ? fallbackOption.value : '';
+      });
+    }
+
+    /**
+     * @param {ProductVariant} variant
      * @param {string | undefined} fallback
      * @returns {string}
      */
@@ -834,10 +884,8 @@
         return '<p class="wishlist-variant-picker__unavailable">Variant options unavailable.</p>';
       }
 
-      /** @type {string[]} */
-      const selectedOptions = Array.isArray(selectedVariant.options) && selectedVariant.options.length > 0
-        ? selectedVariant.options
-        : [selectedVariant.option1, selectedVariant.option2, selectedVariant.option3].filter((value) => typeof value === 'string');
+      const selectedOptionValues = this.getVariantOptionValues(selectedVariant);
+
       /** @type {string[]} */
       const htmlParts = [];
 
@@ -851,45 +899,37 @@
           new Set(
             variants
               .map((variant) => {
-                const optionArray = Array.isArray(variant.options) && variant.options.length > 0
-                  ? variant.options
-                  : [variant.option1, variant.option2, variant.option3].filter((value) => typeof value === 'string');
-                return optionArray[index];
+                const variantOptionValues = this.getVariantOptionValues(variant);
+                return variantOptionValues[index];
               })
               .filter((value) => typeof value === 'string')
           )
         );
 
-        const fieldsetBaseId = `wishlist-option-${String(item.id)}-${index}`;
-        const escapedFieldsetId = this.escapeHtml(fieldsetBaseId);
-        let fieldsetHtml = `<fieldset class="variant-option variant-option--buttons" data-wishlist-option-index="${index}"><legend>${this.escapeHtml(optionName)}</legend>`;
+        const selectId = `wishlist-select-${String(item.id)}-${index}`;
+        const escapedSelectId = this.escapeHtml(selectId);
+        const escapedLabel = this.escapeHtml(optionName);
+        const placeholderLabel = this.escapeHtml(`-- ${optionName} --`);
 
-        optionValues.forEach((value, valueIndex) => {
+        let selectHtml = `<div class="variant-option variant-option--dropdowns" data-wishlist-option-index="${index}">`;
+        selectHtml += `<label class="variant-option__label" for="${escapedSelectId}">${escapedLabel}</label>`;
+        selectHtml += '<div class="variant-option__select-wrapper">';
+        selectHtml += `<select id="${escapedSelectId}" class="variant-option__select" data-option-index="${index}" aria-label="${escapedLabel}">`;
+        selectHtml += `<option value="" disabled>${placeholderLabel}</option>`;
+
+        optionValues.forEach((value) => {
           const escapedValue = this.escapeHtml(value);
-          const inputId = `${fieldsetBaseId}-${valueIndex}`;
-          const escapedInputId = this.escapeHtml(inputId);
-          const isChecked = selectedOptions[index] === value;
-          fieldsetHtml += `
-            <label class="variant-option__button-label">
-              <input
-                type="radio"
-                name="${escapedFieldsetId}"
-                id="${escapedInputId}"
-                value="${escapedValue}"
-                data-option-index="${index}"
-                data-option-value="${escapedValue}"
-                ${isChecked ? 'checked' : ''}
-              >
-              <span class="variant-option__button-label__text">${escapedValue}</span>
-            </label>
-          `;
+          const isSelected = selectedOptionValues[index] === value;
+          selectHtml += `<option value="${escapedValue}"${isSelected ? ' selected' : ''}>${escapedValue}</option>`;
         });
 
-        fieldsetHtml += '</fieldset>';
-        htmlParts.push(fieldsetHtml);
+        selectHtml += '</select>';
+        selectHtml += '<svg class="variant-option__select-icon" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M0 0h10L5 6z" fill="currentColor"></path></svg>';
+        selectHtml += '</div></div>';
+        htmlParts.push(selectHtml);
       });
 
-      return htmlParts.join('');
+      return `<div class="wishlist-variant-dropdowns" data-option-count="${options.length}">${htmlParts.join('')}</div>`;
     }
 
     /**
@@ -1000,13 +1040,22 @@
         return;
       }
 
-      const changeHandler = () => {
+      this.setSelectValues(itemElement, productData, selectedVariant);
+      const normalizedValues = this.updateVariantOptionAvailability(itemElement, productData);
+      const resolvedVariant = this.findVariantByOptions(productData.variants, normalizedValues) || selectedVariant;
+      if (resolvedVariant && resolvedVariant.id !== selectedVariant.id) {
+        this.applyVariantSelection(itemElement, itemRecord, productData, resolvedVariant);
+      }
+
+      /** @param {Event} event */
+      const changeHandler = (event) => {
+        if (!(event.target instanceof HTMLSelectElement)) {
+          return;
+        }
         this.handleWishlistVariantSelection(itemElement, itemRecord, productData);
       };
 
       optionsContainer.addEventListener('change', changeHandler);
-      // Ensure initial availability state matches current selection
-      this.updateVariantOptionAvailability(itemElement, productData);
     }
 
     /**
@@ -1016,44 +1065,64 @@
      */
     collectSelectedOptionValues(itemElement, productData) {
       return (productData.options || []).map((_, index) => {
-        const input = /** @type {HTMLInputElement | null} */ (
-          itemElement.querySelector(`input[data-option-index="${index}"]:checked`)
-        );
-        return input ? input.value : undefined;
+        const select = itemElement.querySelector(`select[data-option-index="${index}"]`);
+        if (select instanceof HTMLSelectElement) {
+          return select.value || undefined;
+        }
+        return undefined;
       });
     }
 
     /**
      * @param {HTMLElement} itemElement
      * @param {ProductData} productData
-     * @returns {void}
+     * @returns {(string | undefined)[]}
      */
     updateVariantOptionAvailability(itemElement, productData) {
-      const selectedValues = this.collectSelectedOptionValues(itemElement, productData);
+      const normalizedValues = this.collectSelectedOptionValues(itemElement, productData);
+
       (productData.options || []).forEach((_, optionIndex) => {
-        const inputs = itemElement.querySelectorAll(`input[data-option-index="${optionIndex}"]`);
-        inputs.forEach((input) => {
-          if (!(input instanceof HTMLInputElement)) return;
-          const value = input.value;
-          const testValues = [...selectedValues];
-          testValues[optionIndex] = value;
+        const select = itemElement.querySelector(`select[data-option-index="${optionIndex}"]`);
+        if (!(select instanceof HTMLSelectElement)) {
+          return;
+        }
+
+        const options = Array.from(select.options);
+        options.forEach((optionEl) => {
+          if (!optionEl.value) {
+            return;
+          }
+          const testValues = [...normalizedValues];
+          testValues[optionIndex] = optionEl.value;
           const variant = this.findVariantByOptions(productData.variants, testValues);
 
-          if (!variant) {
-            input.disabled = true;
-            input.parentElement?.classList.add('is-unavailable');
+          optionEl.disabled = !variant;
+          if (variant) {
+            optionEl.dataset.available = variant.available ? 'true' : 'false';
+            optionEl.dataset.variantId = String(variant.id);
           } else {
-            input.disabled = false;
-            input.parentElement?.classList.remove('is-unavailable');
-            input.parentElement?.classList.remove('is-sold-out');
-            if (!variant.available) {
-              input.parentElement?.classList.add('is-sold-out');
-            } else {
-              input.parentElement?.classList.remove('is-sold-out');
-            }
+            optionEl.dataset.available = 'false';
+            optionEl.removeAttribute('data-variant-id');
           }
         });
+
+        const hasSelection = select.value && select.selectedIndex >= 0;
+        const selectedOption = hasSelection ? select.options[select.selectedIndex] : undefined;
+        if (!hasSelection || !selectedOption || selectedOption.disabled) {
+          const fallbackOption = options.find((optionEl) => optionEl.value && !optionEl.disabled);
+          if (fallbackOption) {
+            select.value = fallbackOption.value;
+            normalizedValues[optionIndex] = fallbackOption.value;
+          } else {
+            select.value = '';
+            normalizedValues[optionIndex] = undefined;
+          }
+        } else {
+          normalizedValues[optionIndex] = select.value || undefined;
+        }
       });
+
+      return normalizedValues;
     }
 
     /**
@@ -1062,17 +1131,21 @@
      * @param {ProductData} productData
      */
     handleWishlistVariantSelection(itemElement, itemRecord, productData) {
-      const selectedValues = this.collectSelectedOptionValues(itemElement, productData);
-      const variant = this.findVariantByOptions(productData.variants, selectedValues);
+      const normalizedValues = this.updateVariantOptionAvailability(itemElement, productData);
+      let variant = this.findVariantByOptions(productData.variants, normalizedValues);
 
       if (!variant) {
-        this.applyVariantUnavailableState(itemElement, itemRecord);
+        variant = productData.variants.find((candidate) => candidate.available) || productData.variants[0];
+        if (!variant) {
+          this.applyVariantUnavailableState(itemElement, itemRecord);
+          return;
+        }
+
+        this.setSelectValues(itemElement, productData, variant);
         this.updateVariantOptionAvailability(itemElement, productData);
-        return;
       }
 
       this.applyVariantSelection(itemElement, itemRecord, productData, variant);
-      this.updateVariantOptionAvailability(itemElement, productData);
     }
 
     /**
@@ -1097,7 +1170,14 @@
         variantInput.value = '';
         variantInput.disabled = true;
       }
+      const selects = itemElement.querySelectorAll('.variant-option__select');
+      selects.forEach((select) => {
+        if (select instanceof HTMLSelectElement) {
+          select.disabled = true;
+        }
+      });
       itemRecord.available = false;
+      itemRecord.variant_id = '';
       this.saveToStorage();
     }
 
@@ -1115,6 +1195,9 @@
       const variantUrl = this.buildVariantUrl(baseUrl, variant.id);
       const price = this.formatMoney(variant.price);
       const imageUrl = this.getVariantImageUrl(variant, itemRecord.image);
+
+      this.setSelectValues(itemElement, productData, variant);
+      this.updateVariantOptionAvailability(itemElement, productData);
 
       const variantInput = itemElement.querySelector('input[ref="variantId"]');
       if (variantInput instanceof HTMLInputElement) {
@@ -1158,6 +1241,13 @@
       if (imageElement instanceof HTMLImageElement && imageUrl) {
         imageElement.src = imageUrl;
       }
+
+      const selects = itemElement.querySelectorAll('.variant-option__select');
+      selects.forEach((select) => {
+        if (select instanceof HTMLSelectElement) {
+          select.disabled = false;
+        }
+      });
 
       const linkElements = itemElement.querySelectorAll('.wishlist-item-title a, .wishlist-item-image a');
       linkElements.forEach((link) => {

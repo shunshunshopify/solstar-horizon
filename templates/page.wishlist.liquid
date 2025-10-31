@@ -135,53 +135,64 @@
     margin-block: var(--gap-sm, 0.75rem);
   }
 
-  .wishlist-item-options .variant-option {
-    display: flex;
-    flex-wrap: wrap;
+  .wishlist-variant-dropdowns {
+    display: grid;
     gap: var(--gap-xs, 0.5rem);
   }
 
-  .wishlist-item-options .variant-option legend {
-    width: 100%;
+  .wishlist-item-options .variant-option {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2xs, 0.5rem);
+  }
+
+  .wishlist-item-options .variant-option__label {
     font-size: var(--font-size-xs, 0.875rem);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .wishlist-item-options .variant-option__button-label {
+  .wishlist-item-options .variant-option__select-wrapper {
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.2);
+  }
+
+  .wishlist-item-options .variant-option__select {
+    width: 100%;
+    padding: 0.55rem 2.25rem 0.55rem 0.75rem;
+    border: 1px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.25);
     border-radius: var(--variant-picker-button-radius, 6px);
-    cursor: pointer;
+    background-color: rgb(var(--color-background-rgb, 255 255 255));
+    color: inherit;
+    appearance: none;
+    font-size: inherit;
+    line-height: 1.2;
     transition: border-color 0.2s ease, background-color 0.2s ease;
   }
 
-  .wishlist-item-options .variant-option__button-label input {
+  .wishlist-item-options .variant-option__select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .wishlist-item-options .variant-option__select:focus {
+    outline: 2px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.4);
+    outline-offset: 1px;
+  }
+
+  .wishlist-item-options .variant-option__select option[disabled] {
+    color: rgb(var(--color-foreground-rgb, 17 17 17) / 0.4);
+  }
+
+  .variant-option__select-icon {
     position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  .wishlist-item-options .variant-option__button-label input:checked + .variant-option__button-label__text {
-    font-weight: 600;
-  }
-
-  .wishlist-item-options .variant-option__button-label.is-unavailable {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-
-  .wishlist-item-options .variant-option__button-label.is-unavailable input {
-    cursor: not-allowed;
-  }
-
-  .wishlist-item-options .variant-option__button-label.is-sold-out {
-    opacity: 0.6;
+    inset-inline-end: 0.75rem;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    width: 0.75rem;
+    height: 0.45rem;
+    pointer-events: none;
+    color: currentColor;
   }
 
   .wishlist-add-to-cart.atc-added .add-to-cart-text {

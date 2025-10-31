@@ -90,7 +90,9 @@
         "type": "main-wishlist",
         "settings": {
           "heading_size": "h4",
-          "show_description": true
+          "show_description": true,
+          "padding-block-start": 32,
+          "padding-block-end": 0
         }
       }
     },

@@ -1,0 +1,372 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section page-width-content color-{{ section.settings.color_scheme }}">
+  <div
+    class="spacing-style layout-panel-flex layout-panel-flex--column section-content-wrapper mobile-column"
+    style="
+      {% render 'layout-panel-style', settings: section.settings %}
+      {% render 'spacing-style', settings: section.settings %}
+    "
+  >
+    <div class="wishlist-container" data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}" data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}">
+      {% if section.settings.show_title %}
+        <h1 class="wishlist-title">{{ page.title }}</h1>
+      {% endif %}
+      {% if section.settings.show_content and page.content != blank %}
+        <div class="wishlist-page-content rte">
+          {{ page.content }}
+        </div>
+      {% endif %}
+      <div id="wishlist-items" class="wishlist-grid">
+        <!-- Items will be populated by JavaScript -->
+      </div>
+      <div id="wishlist-empty" class="wishlist-empty">
+        <p>{{ 'customer.account.wishlist_empty' | default: 'Your wishlist is empty' }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'customer.account.continue_shopping' | default: 'Continue shopping' }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="wishlist-item-template" type="text/template">
+  <div class="wishlist-item" data-product-id="[[id]]" data-wishlist-key="[[item_key]]">
+    <div class="wishlist-item-image">
+      <a href="[[url]]">
+        <img src="[[image]]" alt="[[title]]">
+      </a>
+    </div>
+    <div class="wishlist-item-info">
+      <h2 class="wishlist-item-title">
+        <a href="[[url]]">[[title]]</a>
+      </h2>
+      <div class="wishlist-item-price">[[price]]</div>
+      <div class="wishlist-item-options">[[variant_picker]]</div>
+      <div class="wishlist-item-actions">
+        <product-form-component
+          class="wishlist-product-form"
+          data-section-id="wishlist"
+          data-product-id="[[id]]"
+          on:submit="/handleSubmit"
+          data-wishlist-form="true"
+        >
+          <div
+            class="visually-hidden"
+            aria-live="assertive"
+            role="status"
+            aria-atomic="true"
+            ref="liveRegion"
+          ></div>
+          <form
+            class="wishlist-product-form__form"
+            method="post"
+            action="/cart/add"
+            data-type="add-to-cart-form"
+            id="wishlist-product-form-[[variant_id]]"
+            novalidate="novalidate"
+          >
+            <input
+              type="hidden"
+              name="id"
+              ref="variantId"
+              value="[[variant_id]]"
+              [[variant_input_disabled_attr]]
+            >
+            <input type="hidden" name="quantity" value="1">
+            <add-to-cart-component
+              ref="addToCartButtonContainer"
+              data-product-variant-media="[[image]]"
+              data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
+            >
+              <button
+                type="submit"
+                name="add"
+                class="button button--primary wishlist-add-to-cart[[add_to_cart_extra_class]]"
+                ref="addToCartButton"
+                on:click="/handleClick"
+                data-product-id="[[id]]"
+                data-variant-id="[[variant_id]]"
+                data-variant-available="[[available]]"
+                [[add_to_cart_disabled_attr]]
+                [[add_to_cart_aria_disabled]]
+              >
+                <span class="add-to-cart-text">
+                  <span class="svg-wrapper add-to-cart-icon">
+                    {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+                  </span>
+                  <span class="add-to-cart-text__content">
+                    [[add_to_cart_text]]
+                  </span>
+                </span>
+                <span aria-hidden="true" class="add-to-cart-text--added">
+                  <span class="svg-wrapper add-to-cart-icon--added">
+                    {{- 'icon-checkmark.svg' | inline_asset_content -}}
+                  </span>
+                  <span>
+                    {{ 'actions.added' | t }}
+                  </span>
+                </span>
+              </button>
+            </add-to-cart-component>
+          </form>
+        </product-form-component>
+        <button type="button" class="wishlist-remove" data-product-id="[[id]]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</script>
+
+<style>
+  .wishlist-container {
+    display: grid;
+    gap: var(--gap-md, 1.5rem);
+  }
+
+  .wishlist-title {
+    margin: 0;
+    font: var(--font-h2);
+    text-wrap: balance;
+  }
+
+  .wishlist-page-content {
+    margin-block: var(--gap-md, 1.5rem);
+  }
+
+  .wishlist-grid {
+    display: grid;
+    gap: var(--gap-md, 1.5rem);
+  }
+
+  .wishlist-item {
+    display: grid;
+    gap: var(--gap-md, 1.5rem);
+    align-items: flex-start;
+    grid-template-columns: minmax(0, 160px) minmax(0, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    .wishlist-item {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .wishlist-item-image img {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius-md, 12px);
+  }
+
+  .wishlist-item-title {
+    margin: 0 0 var(--gap-xs, 0.5rem);
+    font: var(--font-h3);
+  }
+
+  .wishlist-item-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .wishlist-item-price {
+    font: var(--font-body-bold);
+    margin-bottom: var(--gap-sm, 0.75rem);
+  }
+
+  .wishlist-item-options {
+    display: grid;
+    gap: var(--gap-sm, 0.75rem);
+    margin-block: var(--gap-sm, 0.75rem);
+  }
+
+  .wishlist-variant-dropdowns {
+    display: grid;
+    gap: var(--gap-xs, 0.5rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wishlist-variant-dropdowns[data-option-count="1"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wishlist-item-options:empty {
+    display: none;
+  }
+
+  .wishlist-item-options .variant-option {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2xs, 0.5rem);
+  }
+
+  .wishlist-item-options .variant-option__select-wrapper {
+    position: relative;
+  }
+
+  .wishlist-item-options .variant-option__select {
+    width: 100%;
+    padding: 0.55rem 2.25rem 0.55rem 0.75rem;
+    border: 1px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.25);
+    border-radius: var(--variant-picker-button-radius, 6px);
+    background-color: rgb(var(--color-background-rgb, 255 255 255));
+    color: inherit;
+    appearance: none;
+    font-size: inherit;
+    line-height: 1.2;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .wishlist-item-options .variant-option__select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .wishlist-item-options .variant-option__select:focus {
+    outline: 2px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.4);
+    outline-offset: 1px;
+  }
+
+  .wishlist-item-options .variant-option__select option[disabled] {
+    color: rgb(var(--color-foreground-rgb, 17 17 17) / 0.4);
+  }
+
+  .variant-option__select-icon {
+    position: absolute;
+    inset-inline-end: 0.75rem;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    width: 0.75rem;
+    height: 0.45rem;
+    pointer-events: none;
+    color: currentColor;
+  }
+
+  .wishlist-add-to-cart {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wishlist-add-to-cart .add-to-cart-text {
+    display: flex;
+    gap: var(--gap-2xs);
+    align-items: center;
+    justify-content: center;
+    animation-duration: var(--animation-speed);
+    animation-timing-function: var(--animation-easing);
+    animation-fill-mode: forwards;
+    transition: opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-add-to-cart--sold-out .add-to-cart-icon {
+    display: none;
+  }
+
+  .wishlist-add-to-cart.atc-added .add-to-cart-text {
+    animation-name: atc-slide-out;
+  }
+
+  .wishlist-add-to-cart .add-to-cart-text--added {
+    position: absolute;
+    inset: 0;
+    animation-duration: var(--animation-speed);
+    animation-timing-function: var(--animation-easing);
+    animation-fill-mode: forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-2xs);
+    opacity: 0;
+    transition: width var(--animation-speed) var(--animation-easing),
+      opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-add-to-cart.atc-added .add-to-cart-text--added {
+    animation-name: atc-slide-in;
+  }
+
+  @keyframes atc-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5em);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes atc-slide-out {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    to {
+      transform: translateY(-1em);
+      opacity: 0;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Wishlist main",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "default": true,
+      "label": "Show page title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_content",
+      "default": true,
+      "label": "Show page content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    }
+  ]
+}
+{% endschema %}

@@ -117,11 +117,11 @@
   height: var(--minimum-touch-target, 44px);
   padding: 0;
   border-radius: 50%;
-  border: 1px solid rgba(var(--color-foreground), 0.15);
-  background-color: rgb(var(--color-background-rgb, 255 255 255));
+  border: none;
+  background-color: transparent;
   color: rgba(var(--color-foreground), 0.7);
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .wishlist-item-image .wishlist-remove {
@@ -134,8 +134,6 @@
 .wishlist-remove:hover,
 .wishlist-remove:focus-visible {
   color: rgba(var(--color-foreground), 1);
-  border-color: rgba(var(--color-foreground), 0.35);
-  box-shadow: 0 6px 16px rgba(var(--color-foreground), 0.12);
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }

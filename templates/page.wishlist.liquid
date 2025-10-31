@@ -1,5 +1,5 @@
 <div class="page-width">
-  <div class="wishlist-container">
+  <div class="wishlist-container" data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}" data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}">
     <h1 class="wishlist-title">{{ page.title }}</h1>
     
     <div id="wishlist-items" class="wishlist-grid">
@@ -78,7 +78,7 @@
                     {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
                   </span>
                   <span class="add-to-cart-text__content">
-                    {{ 'actions.add_to_cart' | t }}
+                    [[add_to_cart_text]]
                   </span>
                 </span>
                 <span aria-hidden="true" class="add-to-cart-text--added">

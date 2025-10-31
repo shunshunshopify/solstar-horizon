@@ -40,6 +40,18 @@
         visible: 'is-visible',
         added: 'is-added'
       };
+
+      /** @type {{ addToCart: string; soldOut: string }} */
+      this.translations = {
+        addToCart: 'Add to cart',
+        soldOut: 'Sold out'
+      };
+
+      const wishlistContainer = document.querySelector('.wishlist-container');
+      if (wishlistContainer instanceof HTMLElement) {
+        this.translations.addToCart = wishlistContainer.dataset.wishlistAddText || this.translations.addToCart;
+        this.translations.soldOut = wishlistContainer.dataset.wishlistSoldOutText || this.translations.soldOut;
+      }
       
       this.handleCartUpdate = this.handleCartUpdate.bind(this);
       this.handleCartError = this.handleCartError.bind(this);
@@ -582,6 +594,8 @@
         const addToCartDisabledAttr = isAvailable ? '' : 'disabled';
         const addToCartAriaDisabled = isAvailable ? '' : 'aria-disabled="true"';
         const variantInputDisabledAttr = isAvailable ? '' : 'disabled';
+        const addToCartText = isAvailable ? this.translations.addToCart : this.translations.soldOut;
+        const safeAddToCartText = this.escapeHtml(addToCartText);
 
         itemHtml = itemHtml.replace(/\[\[id\]\]/g, safeId);
         itemHtml = itemHtml.replace(/\[\[title\]\]/g, safeTitle);
@@ -593,6 +607,7 @@
         itemHtml = itemHtml.replace(/\[\[add_to_cart_disabled_attr\]\]/g, addToCartDisabledAttr);
         itemHtml = itemHtml.replace(/\[\[add_to_cart_aria_disabled\]\]/g, addToCartAriaDisabled);
         itemHtml = itemHtml.replace(/\[\[variant_input_disabled_attr\]\]/g, variantInputDisabledAttr);
+        itemHtml = itemHtml.replace(/\[\[add_to_cart_text\]\]/g, safeAddToCartText);
         html += itemHtml;
       });
 

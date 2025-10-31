@@ -55,12 +55,13 @@
 
   /**
    * @typedef {Object} WishlistRenderResult
-   * @property {WishlistItem} item
-   * @property {ProductData | undefined} productData
-   * @property {ProductVariant | undefined} selectedVariant
-   * @property {string} html
-   * @property {boolean} storageDirty
-   */
+  * @property {WishlistItem} item
+  * @property {ProductData | undefined} productData
+  * @property {ProductVariant | undefined} selectedVariant
+  * @property {string} html
+  * @property {boolean} storageDirty
+   * @property {boolean} shouldInitVariantPicker
+  */
 
   class SimpleWishlistController {
     constructor() {
@@ -963,7 +964,8 @@
         productData: undefined,
         selectedVariant: undefined,
         html: '',
-        storageDirty: false
+        storageDirty: false,
+        shouldInitVariantPicker: false
       };
 
       const productData = await this.fetchProductData(item);
@@ -988,9 +990,14 @@
       const price = selectedVariant ? this.formatMoney(selectedVariant.price) : item.price;
       const isAvailable = selectedVariant ? Boolean(selectedVariant.available) : item.available !== false;
 
+      let variantPickerHtml = '';
+      let shouldInitVariantPicker = false;
+
       if (productData && selectedVariant) {
-        const variantPickerHtml = this.buildVariantPickerHtml(productData, item, selectedVariant);
-        renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, variantPickerHtml);
+        if (isAvailable) {
+          variantPickerHtml = this.buildVariantPickerHtml(productData, item, selectedVariant);
+          shouldInitVariantPicker = variantPickerHtml.trim().length > 0;
+        }
 
         const updates = {
           variant_id: selectedVariant.id,
@@ -1010,10 +1017,16 @@
           baseUrl,
           selectedVariant
         });
+      } else if (!productData) {
+        variantPickerHtml = '';
+        this.wishlistProductData.delete(String(item.id));
       } else {
-        renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, '<p class="wishlist-variant-picker__unavailable">Variant options unavailable.</p>');
+        variantPickerHtml = '';
         this.wishlistProductData.delete(String(item.id));
       }
+
+      renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, variantPickerHtml);
+      result.shouldInitVariantPicker = shouldInitVariantPicker;
 
       const safeId = this.escapeHtml(item.id);
       const safeTitle = this.escapeHtml(item.title);
@@ -1384,7 +1397,7 @@
         wishlistContainer.innerHTML = renderResults.map((result) => result.html).join('');
 
         renderResults.forEach((result) => {
-          if (result.productData && result.selectedVariant) {
+          if (result.productData && result.selectedVariant && result.shouldInitVariantPicker) {
             const selector = `.wishlist-item[data-wishlist-key="${this.escapeSelector(String(result.item.id))}"]`;
             const itemElement = wishlistContainer.querySelector(selector);
             if (itemElement instanceof HTMLElement) {

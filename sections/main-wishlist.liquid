@@ -1,9 +1,23 @@
 {%- liquid
-  assign custom_title = section.settings.title | strip
-  assign resolved_title = custom_title | default: page.title
-  assign custom_description = section.settings.description
-  assign custom_description_text = custom_description | strip_html | strip
-  assign fallback_description = page.content
+  assign page_title = page.title | strip
+  assign page_description = page.content
+  assign heading_size = section.settings.heading_size | default: 'h1'
+  assign show_description = section.settings.show_description
+
+  case heading_size
+    when 'h2'
+      assign heading_tag = 'h2'
+    when 'h3'
+      assign heading_tag = 'h3'
+    when 'h4'
+      assign heading_tag = 'h4'
+    when 'h5'
+      assign heading_tag = 'h5'
+    when 'h6'
+      assign heading_tag = 'h6'
+    else
+      assign heading_tag = 'h1'
+  endcase
 -%}
 
 <div class="page-width">
@@ -12,17 +26,13 @@
     data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
     data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
   >
-    {% if resolved_title != blank %}
-      <h1 class="wishlist-title">{{ resolved_title }}</h1>
+    {% if page_title != blank %}
+      <{{ heading_tag }} class="wishlist-title">{{ page_title }}</{{ heading_tag }}>
     {% endif %}
 
-    {% if custom_description_text != blank %}
+    {% if show_description and page_description != blank %}
       <div class="wishlist-page-content rte">
-        {{ custom_description }}
-      </div>
-    {% elsif fallback_description != blank %}
-      <div class="wishlist-page-content rte">
-        {{ fallback_description }}
+        {{ page_description }}
       </div>
     {% endif %}
 
@@ -278,14 +288,24 @@
   "name": "Wishlist (custom)",
   "settings": [
     {
-      "type": "text",
-      "id": "title",
-      "label": "Title"
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "h1",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ]
     },
     {
-      "type": "richtext",
-      "id": "description",
-      "label": "Description"
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
     }
   ],
   "presets": [

@@ -17,7 +17,7 @@
   data-wishlist-button
   data-product-id="{{ product.id }}"
   data-product-title="{{ product.title | escape }}"
-  data-product-image="{{ featured_image | img_url: '1000x' }}"
+  data-product-image="{{ featured_image | image_url: width: 1000 }}"
   data-product-url="{{ product.url | within: collection }}"
   data-product-price="{{ current_variant.price | money }}"
   data-variant-id="{{ current_variant.id }}"

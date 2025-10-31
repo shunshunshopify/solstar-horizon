@@ -32,7 +32,9 @@
 }
 
 #shopify-section-{{ section.id }} .wishlist-grid {
-  grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));
+  {% if mobile_columns == 1 %}
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  {% endif %}
 }
 
 @media screen and (min-width: 750px) {

@@ -129,7 +129,7 @@
           </div>
         {%- when 'home_block' -%}
           <div class="sticky-section-column">
-            <a href="{{ routes.root_url }}" class="btm_link">
+            <a href="/" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'home-line.svg' | inline_asset_content }}
@@ -204,7 +204,7 @@
           </div>
         {%- when 'Account_block' -%}
           <div class="sticky-section-column">
-            <a href="{{ routes.account_url }}" class="btm_link">
+            <a href="/account" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-account.svg' | inline_asset_content }}
@@ -217,7 +217,7 @@
           </div>
         {%- when 'Search_block' -%}
           <div class="sticky-section-column">
-            <a href="{{ routes.search_url }}" class="btm_link">
+            <a href="/search" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-search.svg' | inline_asset_content }}
@@ -248,9 +248,9 @@
                 {% for link in linklists[block.settings.menu].links %}
                   <li class="custom-menu-links">
                     <div class="custom-menu-image">
-                        {% if link.object.featured_image %}
+                      {% if link.object.featured_image %}
                         {% assign menu_image_url = link.object.featured_image | image_url: width: 100, height: 100 %}
-                        <img src="{{ menu_image_url | asset_url }}" alt="Category {{ link.title }} featured product displayed in the menu popup. Product is shown in a clean and minimal environment. No visible text in the image." width="100" height="100">
+                        <img src="{{ menu_image_url }}" alt="{{ link.title | escape }}">
                       {% endif %}
                     </div>
                     <a href="{{ link.url }}" class="menu-link">{{ link.title }}</a>

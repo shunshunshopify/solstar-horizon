@@ -1,6 +1,11 @@
 <div class="page-width">
   <div class="wishlist-container" data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}" data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}">
     <h1 class="wishlist-title">{{ page.title }}</h1>
+    {% if page.content != blank %}
+      <div class="wishlist-page-content rte">
+        {{ page.content }}
+      </div>
+    {% endif %}
     
     <div id="wishlist-items" class="wishlist-grid">
       <!-- Items will be populated by JavaScript -->
@@ -145,6 +150,10 @@
 
   .wishlist-item-options:empty {
     display: none;
+  }
+
+  .wishlist-page-content {
+    margin-block: var(--gap-md, 1.5rem);
   }
 
   .wishlist-item-options .variant-option {

@@ -93,7 +93,7 @@
           "show_description": true,
           "mobile_columns": "1",
           "tablet_columns": "2",
-          "desktop_columns": "4",
+          "desktop_columns": "3",
           "padding-block-start": 32,
           "padding-block-end": 0
         }

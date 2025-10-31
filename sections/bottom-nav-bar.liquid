@@ -129,7 +129,7 @@
           </div>
         {%- when 'home_block' -%}
           <div class="sticky-section-column">
-            <a href="{{ root_url }}" class="btm_link">
+            <a href="{{ routes.root_url }}" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'home-line.svg' | inline_asset_content }}

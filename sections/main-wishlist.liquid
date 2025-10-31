@@ -5,6 +5,9 @@
   assign show_description = section.settings.show_description
   assign padding_block_start = section.settings['padding-block-start'] | default: 0
   assign padding_block_end = section.settings['padding-block-end'] | default: 0
+  assign mobile_columns = section.settings.mobile_columns | default: 1 | plus: 0
+  assign tablet_columns = section.settings.tablet_columns | default: 2 | plus: 0
+  assign desktop_columns = section.settings.desktop_columns | default: 4 | plus: 0
 
   case heading_size
     when 'h2'
@@ -26,6 +29,28 @@
 #shopify-section-{{ section.id }} {
   padding-block-start: {{ padding_block_start }}px;
   padding-block-end: {{ padding_block_end }}px;
+}
+
+#shopify-section-{{ section.id }} .wishlist-grid {
+  grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));
+}
+
+@media screen and (min-width: 750px) {
+  #shopify-section-{{ section.id }} .wishlist-grid {
+    grid-template-columns: repeat({{ tablet_columns | at_least: 1 }}, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 990px) {
+  #shopify-section-{{ section.id }} .wishlist-grid {
+    grid-template-columns: repeat({{ desktop_columns | at_least: 1 }}, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #shopify-section-{{ section.id }} .wishlist-grid {
+    grid-template-columns: repeat({{ desktop_columns | at_least: 1 }}, minmax(0, 1fr));
+  }
 }
 {% endstyle %}
 
@@ -315,6 +340,38 @@
       "id": "show_description",
       "label": "Show description",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Mobile columns",
+      "default": "1",
+      "options": [
+        { "value": "1", "label": "1 per row" },
+        { "value": "2", "label": "2 per row" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "tablet_columns",
+      "label": "Tablet columns",
+      "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "desktop_columns",
+      "label": "Desktop columns",
+      "default": "4",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ]
     },
     {
       "type": "range",

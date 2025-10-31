@@ -217,7 +217,7 @@
           </div>
         {%- when 'Search_block' -%}
           <div class="sticky-section-column">
-            <a href="/search" class="btm_link">
+            <a href="{{ routes.search_url }}" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-search.svg' | inline_asset_content }}

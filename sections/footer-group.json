@@ -22,14 +22,6 @@
             "url": ""
           }
         },
-        "search_block_YY3CcF": {
-          "type": "Search_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Search",
-            "url": ""
-          }
-        },
         "wishlist_block_LbM46V": {
           "type": "wishlist_block",
           "settings": {
@@ -38,15 +30,23 @@
             "url": ""
           }
         },
-        "home_block_ELtatp": {
-          "type": "home_block",
+        "cat_block_jWqtzW": {
+          "type": "cat_block",
+          "settings": {
+            "menu": "main-menu",
+            "icon_url": "",
+            "caption": "Categories"
+          }
+        },
+        "menu_block_difWiB": {
+          "type": "Menu_block",
           "settings": {
             "icon_url": "",
-            "caption": "Home",
+            "caption": "Menu",
             "url": ""
           }
         },
-        "block_7NnR9X": {
+        "block_rKMLgg": {
           "type": "block",
           "settings": {
             "icon_url": "",
@@ -57,10 +57,10 @@
       },
       "block_order": [
         "cart_block_PXFept",
-        "search_block_YY3CcF",
         "wishlist_block_LbM46V",
-        "home_block_ELtatp",
-        "block_7NnR9X"
+        "cat_block_jWqtzW",
+        "menu_block_difWiB",
+        "block_rKMLgg"
       ],
       "name": "Sticky bottom menu",
       "settings": {

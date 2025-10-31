@@ -596,6 +596,7 @@
         const variantInputDisabledAttr = isAvailable ? '' : 'disabled';
         const addToCartText = isAvailable ? this.translations.addToCart : this.translations.soldOut;
         const safeAddToCartText = this.escapeHtml(addToCartText);
+        const addToCartExtraClass = isAvailable ? '' : ' wishlist-add-to-cart--sold-out';
 
         itemHtml = itemHtml.replace(/\[\[id\]\]/g, safeId);
         itemHtml = itemHtml.replace(/\[\[title\]\]/g, safeTitle);
@@ -608,6 +609,7 @@
         itemHtml = itemHtml.replace(/\[\[add_to_cart_aria_disabled\]\]/g, addToCartAriaDisabled);
         itemHtml = itemHtml.replace(/\[\[variant_input_disabled_attr\]\]/g, variantInputDisabledAttr);
         itemHtml = itemHtml.replace(/\[\[add_to_cart_text\]\]/g, safeAddToCartText);
+        itemHtml = itemHtml.replace(/\[\[add_to_cart_extra_class\]\]/g, addToCartExtraClass);
         html += itemHtml;
       });
 

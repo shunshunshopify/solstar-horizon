@@ -64,7 +64,7 @@
               <button
                 type="submit"
                 name="add"
-                class="button button--primary wishlist-add-to-cart"
+                class="button button--primary wishlist-add-to-cart[[add_to_cart_extra_class]]"
                 ref="addToCartButton"
                 on:click="/handleClick"
                 data-product-id="[[id]]"
@@ -120,6 +120,10 @@
     animation-timing-function: var(--animation-easing);
     animation-fill-mode: forwards;
     transition: opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .wishlist-add-to-cart--sold-out .add-to-cart-icon {
+    display: none;
   }
 
   .wishlist-add-to-cart.atc-added .add-to-cart-text {

@@ -30,23 +30,6 @@
             "url": ""
           }
         },
-        "extended_menu_block_EYdg8i": {
-          "type": "extended_menu_block",
-          "settings": {
-            "caption": "More",
-            "show_search": true,
-            "search_url": "",
-            "show_whatsapp": true,
-            "wa_number": "",
-            "wa_message": "Hi There! I need some help",
-            "show_wishlist": true,
-            "wishlist_url": "",
-            "show_track": true,
-            "track_url": "",
-            "show_help": true,
-            "help_url": ""
-          }
-        },
         "wishlist_block_LbM46V": {
           "type": "wishlist_block",
           "settings": {
@@ -62,14 +45,22 @@
             "caption": "Home",
             "url": ""
           }
+        },
+        "account_block_7dUDrr": {
+          "type": "Account_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Account",
+            "url": ""
+          }
         }
       },
       "block_order": [
         "cart_block_PXFept",
         "search_block_YY3CcF",
-        "extended_menu_block_EYdg8i",
         "wishlist_block_LbM46V",
-        "home_block_ELtatp"
+        "home_block_ELtatp",
+        "account_block_7dUDrr"
       ],
       "name": "Sticky bottom menu",
       "settings": {

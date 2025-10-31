@@ -171,9 +171,16 @@
     font-size: var(--font-size--sm, 0.875rem);
     line-height: 1.2;
     min-height: auto;
+    display: grid;
+    justify-items: center;
+    align-items: center;
   }
 
   .wishlist-container[data-mobile-columns='2'] .wishlist-add-to-cart .add-to-cart-text {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-inline: auto;
     gap: var(--gap-3xs, 0.25rem);
   }
 

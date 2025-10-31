@@ -26,29 +26,73 @@
       </h2>
       <div class="wishlist-item-price">[[price]]</div>
       <div class="wishlist-item-actions">
-        <button type="button" class="button button--primary wishlist-add-to-cart" data-product-id="[[id]]" data-variant-id="[[variant_id]]">
-          <span class="add-to-cart-text">
-            <span class="svg-wrapper add-to-cart-icon">
-              {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
-            </span>
-            <span class="add-to-cart-text__content">
-              {{ 'actions.add_to_cart' | t }}
-            </span>
-          </span>
-          <span aria-hidden="true" class="add-to-cart-text--added">
-            <span class="svg-wrapper add-to-cart-icon--added">
-              {{- 'icon-checkmark.svg' | inline_asset_content -}}
-            </span>
-            <span>
-              {{ 'actions.added' | t }}
-            </span>
-          </span>
-          <span class="wishlist-add-to-cart-loading">
-            <svg class="spinner" viewBox="0 0 50 50">
-              <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-            </svg>
-          </span>
-        </button>
+        <product-form-component
+          class="wishlist-product-form"
+          data-section-id="wishlist"
+          data-product-id="[[id]]"
+          on:submit="/handleSubmit"
+          data-wishlist-form="true"
+        >
+          <div
+            class="visually-hidden"
+            aria-live="assertive"
+            role="status"
+            aria-atomic="true"
+            ref="liveRegion"
+          ></div>
+          <form
+            class="wishlist-product-form__form"
+            method="post"
+            action="/cart/add"
+            data-type="add-to-cart-form"
+            id="wishlist-product-form-[[variant_id]]"
+            novalidate="novalidate"
+          >
+            <input
+              type="hidden"
+              name="id"
+              ref="variantId"
+              value="[[variant_id]]"
+              [[variant_input_disabled_attr]]
+            >
+            <input type="hidden" name="quantity" value="1">
+            <add-to-cart-component
+              ref="addToCartButtonContainer"
+              data-product-variant-media="[[image]]"
+              data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
+            >
+              <button
+                type="submit"
+                name="add"
+                class="button button--primary wishlist-add-to-cart"
+                ref="addToCartButton"
+                on:click="/handleClick"
+                data-product-id="[[id]]"
+                data-variant-id="[[variant_id]]"
+                data-variant-available="[[available]]"
+                [[add_to_cart_disabled_attr]]
+                [[add_to_cart_aria_disabled]]
+              >
+                <span class="add-to-cart-text">
+                  <span class="svg-wrapper add-to-cart-icon">
+                    {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+                  </span>
+                  <span class="add-to-cart-text__content">
+                    {{ 'actions.add_to_cart' | t }}
+                  </span>
+                </span>
+                <span aria-hidden="true" class="add-to-cart-text--added">
+                  <span class="svg-wrapper add-to-cart-icon--added">
+                    {{- 'icon-checkmark.svg' | inline_asset_content -}}
+                  </span>
+                  <span>
+                    {{ 'actions.added' | t }}
+                  </span>
+                </span>
+              </button>
+            </add-to-cart-component>
+          </form>
+        </product-form-component>
         <button type="button" class="wishlist-remove" data-product-id="[[id]]">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -63,7 +107,8 @@
 <!-- Add to cart animation styles (same as PDP) -->
 <style>
   .wishlist-add-to-cart {
-    position: relative; /* Required for absolute positioning of animated elements */
+    position: relative;
+    overflow: hidden;
   }
 
   .wishlist-add-to-cart .add-to-cart-text {
@@ -98,25 +143,6 @@
 
   .wishlist-add-to-cart.atc-added .add-to-cart-text--added {
     animation-name: atc-slide-in;
-  }
-
-  .wishlist-add-to-cart .wishlist-add-to-cart-loading {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity var(--animation-speed) var(--animation-easing);
-  }
-
-  .wishlist-add-to-cart.loading .wishlist-add-to-cart-loading {
-    opacity: 1;
-  }
-
-  .wishlist-add-to-cart.loading .add-to-cart-text,
-  .wishlist-add-to-cart.loading .add-to-cart-text--added {
-    opacity: 0;
   }
 
   @keyframes atc-slide-in {

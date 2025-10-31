@@ -21,6 +21,8 @@
   data-product-url="{{ product.url | within: collection }}"
   data-product-price="{{ current_variant.price | money }}"
   data-variant-id="{{ current_variant.id }}"
+  data-variant-available="{{ current_variant.available }}"
+  data-product-handle="{{ product.handle }}"
   aria-label="{% if location == 'product' %}Add to wishlist{% else %}Add {{ product.title | escape }} to wishlist{% endif %}"
 >
   <span class="wishlist-button__icon">

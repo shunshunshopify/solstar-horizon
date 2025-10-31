@@ -6,13 +6,26 @@
 (function() {
   'use strict';
 
+  /**
+   * @typedef {Object} WishlistItem
+   * @property {string|number} id
+   * @property {string} title
+   * @property {string} image
+   * @property {string} url
+   * @property {string} price
+   * @property {string|number} variant_id
+   * @property {boolean} available
+   * @property {string} handle
+   * @property {string} [added_at]
+   */
+
   class SimpleWishlistController {
     constructor() {
       this.storageKey = 'shopify-wishlist';
+      /**
+       * @type {WishlistItem[]}
+       */
       this.items = this.loadFromStorage();
-      
-      // Animation constants (same as PDP)
-      this.ADD_TO_CART_TEXT_ANIMATION_DURATION = 2000;
       
       // Simple selectors - no complex registry
       this.selectors = {
@@ -27,6 +40,9 @@
         visible: 'is-visible',
         added: 'is-added'
       };
+      
+      this.handleCartUpdate = this.handleCartUpdate.bind(this);
+      this.handleCartError = this.handleCartError.bind(this);
       
       // Make wishlist available globally
       // @ts-ignore
@@ -53,8 +69,30 @@
       try {
         const stored = localStorage.getItem(this.storageKey);
         const items = stored ? JSON.parse(stored) : [];
-        console.log('🔍 Loaded', items.length, 'items from storage');
-        return items;
+        const normalized = Array.isArray(items)
+          ? items
+              .filter((item) => item && typeof item === 'object')
+              .map((item) => {
+                const availableValue =
+                  item.available === undefined
+                    ? true
+                    : item.available === true || item.available === 'true';
+
+                return {
+                  id: item.id,
+                  title: item.title,
+                  image: item.image,
+                  url: item.url,
+                  price: item.price,
+                  variant_id: item.variant_id,
+                  available: availableValue,
+                  handle: typeof item.handle === 'string' ? item.handle : '',
+                  added_at: item.added_at,
+                };
+              })
+          : [];
+        console.log('🔍 Loaded', normalized.length, 'items from storage');
+        return normalized;
       } catch (error) {
         console.error('Failed to load wishlist from storage:', error);
         return [];
@@ -79,6 +117,11 @@
       return this.items.length;
     }
 
+    /**
+     * Escape HTML entities in a string
+     * @param {unknown} value
+     * @returns {string}
+     */
     escapeHtml(value) {
       if (value === undefined || value === null) {
         return '';
@@ -190,7 +233,7 @@
      */
     contains(productId) {
       if (!productId) return false;
-      return this.items.some(/** @param {any} item */ item => String(item.id) === String(productId));
+      return this.items.some((item) => String(item.id) === String(productId));
     }
 
     /**
@@ -203,6 +246,11 @@
      * @param {string} product.price - Product price
      * @param {string|number} product.variant_id - Variant ID
      */
+    /**
+     * Add product to wishlist
+     * @param {WishlistItem} product
+     * @returns {boolean}
+     */
     add(product) {
       if (!this.contains(product.id)) {
         this.items.push({
@@ -212,6 +260,8 @@
           url: product.url,
           price: product.price,
           variant_id: product.variant_id,
+          available: product.available,
+          handle: product.handle || '',
           added_at: new Date().toISOString()
         });
         
@@ -230,7 +280,7 @@
     remove(productId) {
       if (!productId) return false;
       const initialLength = this.items.length;
-      this.items = this.items.filter(/** @param {any} item */ item => String(item.id) !== String(productId));
+      this.items = this.items.filter((item) => String(item.id) !== String(productId));
       
       if (this.items.length !== initialLength) {
         this.saveToStorage();
@@ -242,8 +292,8 @@
 
     /**
      * Toggle product in wishlist
-     * @param {any} product - Product object
-     * @returns {boolean} True if added, false if removed
+     * @param {WishlistItem} product
+     * @returns {boolean}
      */
     toggle(product) {
       if (this.contains(product.id)) {
@@ -292,22 +342,18 @@
           }
         }
 
-        // Handle add to cart from wishlist page
-        const addToCartButton = target.closest('.wishlist-add-to-cart');
-        if (addToCartButton) {
-          e.preventDefault();
-          e.stopPropagation();
-          this.handleAddToCart(/** @type {HTMLElement} */ (addToCartButton));
-        }
       });
 
       // Update button states on page load
       this.updateWishlistButtons();
       
+      document.addEventListener('cart:update', this.handleCartUpdate);
+      document.addEventListener('cart:error', this.handleCartError);
+
       // Listen for storage events to sync across tabs (from original)
       window.addEventListener('storage', (event) => {
         if (event.key === this.storageKey) {
-          this.items = JSON.parse(event.newValue || '[]');
+          this.items = this.loadFromStorage();
           this.updateWishlistButtons();
           this.updateWishlistCounters();
           this.renderWishlistPage();
@@ -322,14 +368,26 @@
     handleWishlistButtonClick(button) {
       console.log('🔥 Wishlist button clicked');
       
-      const product = {
-        id: button.dataset.productId,
-        title: button.dataset.productTitle,
-        image: button.dataset.productImage,
-        url: button.dataset.productUrl,
-        price: button.dataset.productPrice,
-        variant_id: button.dataset.variantId
-      };
+      const productId = button.dataset.productId;
+      const variantId = button.dataset.variantId;
+      const variantAvailableAttr = button.dataset.variantAvailable;
+      const productHandle = button.dataset.productHandle || '';
+
+      if (!productId || !variantId) {
+        console.error('Wishlist button missing product or variant identifiers');
+        return;
+      }
+
+      const product = /** @type {WishlistItem} */ ({
+        id: productId,
+        title: button.dataset.productTitle || '',
+        image: button.dataset.productImage || '',
+        url: button.dataset.productUrl || '',
+        price: button.dataset.productPrice || '',
+        variant_id: variantId,
+        available: variantAvailableAttr === undefined ? true : variantAvailableAttr === 'true',
+        handle: productHandle
+      });
 
       const wasAdded = this.toggle(product);
       console.log('✅ Wishlist toggle result:', wasAdded ? 'Added' : 'Removed');
@@ -337,183 +395,51 @@
     }
 
     /**
-     * Animate add to cart button (same logic as PDP)
-     * @param {HTMLElement} button - Add to cart button element
+     * Handle cart update events triggered from wishlist forms
+     * @param {CustomEvent} event
      */
-    animateAddToCart(button) {
-      // Use dataset to store timeout IDs to avoid TypeScript errors
-      const timeoutId = button.dataset.animationTimeout;
-      const cleanupId = button.dataset.cleanupTimeout;
-      
-      // Clear any existing timeouts
-      if (timeoutId) {
-        clearTimeout(parseInt(timeoutId, 10));
-        delete button.dataset.animationTimeout;
-      }
-      if (cleanupId) {
-        clearTimeout(parseInt(cleanupId, 10));
-        delete button.dataset.cleanupTimeout;
-      }
-
-      // Add the 'atc-added' class that triggers CSS animations
-      if (!button.classList.contains('atc-added')) {
-        button.classList.add('atc-added');
-      }
-
-      // Remove the class after animation duration (same as PDP)
-      const animationTimeout = setTimeout(() => {
-        const cleanupTimeout = setTimeout(() => {
-          button.classList.remove('atc-added');
-          delete button.dataset.cleanupTimeout;
-        }, 10);
-        button.dataset.cleanupTimeout = cleanupTimeout.toString();
-        delete button.dataset.animationTimeout;
-      }, this.ADD_TO_CART_TEXT_ANIMATION_DURATION);
-      
-      button.dataset.animationTimeout = animationTimeout.toString();
-    }
-
-    /**
-     * Announce text to screen readers (same as PDP)
-     * @param {string} text - Text to announce
-     */
-    announceToScreenReader(text) {
-      // Create or find existing live region
-      let liveRegion = document.querySelector('#wishlist-live-region');
-      if (!liveRegion) {
-        liveRegion = document.createElement('div');
-        liveRegion.id = 'wishlist-live-region';
-        liveRegion.setAttribute('aria-live', 'assertive');
-        liveRegion.setAttribute('role', 'status');
-        liveRegion.setAttribute('aria-atomic', 'true');
-        liveRegion.className = 'visually-hidden';
-        document.body.appendChild(liveRegion);
-      }
-
-      // Set the text for screen reader announcement
-      liveRegion.textContent = text;
-
-      // Clear the announcement after a delay
-      setTimeout(() => {
-        if (liveRegion) {
-          liveRegion.textContent = '';
-        }
-      }, 5000);
-    }
-
-    /**
-     * Handle add to cart from wishlist page - reuses PDP logic
-     * @param {HTMLElement} button - Add to cart button element
-     */
-    async handleAddToCart(button) {
-      const variantId = button.dataset.variantId;
-      const productId = button.dataset.productId;
-      
-      if (!variantId || !productId) {
-        console.error('No variant ID or product ID found for add to cart');
+    handleCartUpdate(event) {
+      const rawTarget = event.target;
+      if (!(rawTarget instanceof Element)) {
         return;
       }
 
-      // Trigger animation immediately (same as PDP)
-      this.animateAddToCart(button);
-
-      // Show loading state
-      const buttonElement = /** @type {HTMLButtonElement} */ (button);
-      buttonElement.classList.add('loading');
-      buttonElement.disabled = true;
-
-      try {
-        console.log('🛒 Adding to cart:', { variantId, productId });
-
-        // Use the same cart add logic as PDP
-        const formData = new FormData();
-        formData.append('id', variantId);
-        formData.append('quantity', '1');
-
-        // Add sections parameter like PDP does for cart drawer updates
-        const cartItemsComponents = document.querySelectorAll('cart-items-component');
-        /** @type {string[]} */
-        let cartItemComponentsSectionIds = [];
-        cartItemsComponents.forEach((item) => {
-          if (item instanceof HTMLElement && item.dataset.sectionId) {
-            cartItemComponentsSectionIds.push(item.dataset.sectionId);
-          }
-        });
-        if (cartItemComponentsSectionIds.length > 0) {
-          formData.append('sections', cartItemComponentsSectionIds.join(','));
-        }
-
-        const response = await fetch('/cart/add.js', {
-          method: 'POST',
-          body: formData
-        });
-
-        const result = await response.json();
-        console.log('🔍 Cart add response:', result);
-
-        // Check if there was an error in the response
-        if (!response.ok || result.status || result.message) {
-          // Handle cart add errors (like out of stock, etc.)
-          const errorMessage = result.message || result.description || 'Could not add to cart';
-          throw new Error(errorMessage);
-        }
-
-        console.log('✅ Successfully added to cart:', result);
-
-        // Find the product in wishlist to show notification
-        const product = this.items.find(/** @param {any} item */ item => String(item.id) === String(productId));
-        if (product) {
-          this.showNotification(`${product.title} added to cart`);
-          
-          // Add accessibility announcement (same as PDP)
-          this.announceToScreenReader(`${product.title} 追加済み`);
-          
-          // Optional: Remove from wishlist after adding to cart
-          // Users might want to keep items in wishlist even after adding to cart
-          // Uncomment the next two lines if you want auto-removal:
-          // this.remove(productId);
-          // this.renderWishlistPage();
-        }
-
-        // Dispatch CartAddEvent (same as PDP) - this is what updates the cart bubble!
-        // This creates the exact same event structure as ProductFormComponent uses
-        // Using 'product-form-component' source so cart-icon treats it as addition, not replacement
-        const cartAddEvent = new CustomEvent('cart:update', {
-          bubbles: true,
-          detail: {
-            resource: {},
-            sourceId: 'wishlist-component',
-            data: {
-              source: 'product-form-component', // Same source as PDP for consistent behavior
-              itemCount: 1, // Number of items being added (always 1 for wishlist)
-              productId: productId,
-              variantId: variantId,
-              sections: result.sections || {}
-            }
-          }
-        });
-        
-        document.dispatchEvent(cartAddEvent);
-        console.log('🔄 Dispatched CartAddEvent for cart bubble update');
-        
-        // Update cart drawer if it exists
-        const cartDrawer = document.querySelector('cart-drawer-component');
-        if (cartDrawer) {
-          // @ts-ignore
-          if (typeof cartDrawer.fetchCartContent === 'function') {
-            // @ts-ignore
-            cartDrawer.fetchCartContent();
-          }
-        }
-
-      } catch (error) {
-        console.error('❌ Error adding to cart:', error);
-        this.showNotification('Could not add to cart. Please try again.', 'error');
-      } finally {
-        // Remove loading state
-        buttonElement.classList.remove('loading');
-        buttonElement.disabled = false;
+      const wishlistItem = rawTarget.closest('.wishlist-item');
+      if (!(wishlistItem instanceof HTMLElement)) {
+        return;
       }
+
+      const detail = /** @type {{ data?: { didError?: boolean, productId?: string }, sourceId?: string }} */ (event.detail || {});
+      if (detail?.data?.didError) {
+        return;
+      }
+
+      const productId = detail?.data?.productId || wishlistItem.dataset.productId;
+      const product = this.items.find((item) => String(item.id) === String(productId));
+      const title = product?.title || 'Item';
+
+      this.showNotification(`${title} added to cart`);
+    }
+
+    /**
+     * Handle cart error events triggered from wishlist forms
+     * @param {CustomEvent} event
+     */
+    handleCartError(event) {
+      const rawTarget = event.target;
+      if (!(rawTarget instanceof Element)) {
+        return;
+      }
+
+      const wishlistItem = rawTarget.closest('.wishlist-item');
+      if (!(wishlistItem instanceof HTMLElement)) {
+        return;
+      }
+
+      const detail = /** @type {{ data?: { message?: string } }} */ (event.detail || {});
+      const message = detail?.data?.message || 'Could not add to cart. Please try again.';
+
+      this.showNotification(message, 'error');
     }
 
     /**
@@ -651,6 +577,11 @@
         const safeUrl = this.escapeHtml(item.url);
         const safePrice = this.escapeHtml(item.price);
         const safeVariantId = this.escapeHtml(item.variant_id);
+        const isAvailable = item.available !== false;
+        const availableValue = isAvailable ? 'true' : 'false';
+        const addToCartDisabledAttr = isAvailable ? '' : 'disabled';
+        const addToCartAriaDisabled = isAvailable ? '' : 'aria-disabled="true"';
+        const variantInputDisabledAttr = isAvailable ? '' : 'disabled';
 
         itemHtml = itemHtml.replace(/\[\[id\]\]/g, safeId);
         itemHtml = itemHtml.replace(/\[\[title\]\]/g, safeTitle);
@@ -658,6 +589,10 @@
         itemHtml = itemHtml.replace(/\[\[url\]\]/g, safeUrl);
         itemHtml = itemHtml.replace(/\[\[price\]\]/g, safePrice);
         itemHtml = itemHtml.replace(/\[\[variant_id\]\]/g, safeVariantId);
+        itemHtml = itemHtml.replace(/\[\[available\]\]/g, availableValue);
+        itemHtml = itemHtml.replace(/\[\[add_to_cart_disabled_attr\]\]/g, addToCartDisabledAttr);
+        itemHtml = itemHtml.replace(/\[\[add_to_cart_aria_disabled\]\]/g, addToCartAriaDisabled);
+        itemHtml = itemHtml.replace(/\[\[variant_input_disabled_attr\]\]/g, variantInputDisabledAttr);
         html += itemHtml;
       });
 

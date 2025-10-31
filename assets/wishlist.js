@@ -27,8 +27,6 @@
         visible: 'is-visible',
         added: 'is-added'
       };
-      this.variantAvailabilityCache = new Map();
-      this.variantAvailabilityTTL = 60 * 1000;
       
       // Make wishlist available globally
       // @ts-ignore
@@ -92,52 +90,6 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
-    }
-
-    /**
-     * Check variant availability (cached for a short period)
-     * @param {string|number} variantId
-     * @returns {Promise<boolean|null>} True if available, false if sold out, null if unknown
-     */
-    async checkVariantAvailability(variantId) {
-      if (!variantId) {
-        return null;
-      }
-
-      const cacheKey = String(variantId);
-      const cached = this.variantAvailabilityCache.get(cacheKey);
-      if (cached && Date.now() - cached.timestamp < this.variantAvailabilityTTL) {
-        return cached.available;
-      }
-
-      try {
-        const response = await fetch(`/variants/${variantId}.json`, {
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-
-        if (!response.ok) {
-          console.error('Failed to fetch variant availability', response.status, response.statusText);
-          return null;
-        }
-
-        const data = await response.json();
-        const variant = data && (data.variant || data);
-        if (!variant || typeof variant.available === 'undefined') {
-          return null;
-        }
-
-        const available = Boolean(variant.available);
-        this.variantAvailabilityCache.set(cacheKey, {
-          available,
-          timestamp: Date.now()
-        });
-        return available;
-      } catch (error) {
-        console.error('Failed to verify variant availability', error);
-        return null;
-      }
     }
 
     /**
@@ -456,36 +408,21 @@
     async handleAddToCart(button) {
       const variantId = button.dataset.variantId;
       const productId = button.dataset.productId;
-      const buttonElement = /** @type {HTMLButtonElement} */ (button);
-      let keepDisabled = false;
       
       if (!variantId || !productId) {
         console.error('No variant ID or product ID found for add to cart');
         return;
       }
 
+      // Trigger animation immediately (same as PDP)
+      this.animateAddToCart(button);
+
+      // Show loading state
+      const buttonElement = /** @type {HTMLButtonElement} */ (button);
       buttonElement.classList.add('loading');
       buttonElement.disabled = true;
 
       try {
-        const availability = await this.checkVariantAvailability(variantId);
-        if (availability === false) {
-          console.warn('Variant is sold out, skipping add to cart', variantId);
-          this.showNotification('This item is sold out.', 'error');
-          buttonElement.classList.add('is-disabled');
-          buttonElement.setAttribute('aria-disabled', 'true');
-          keepDisabled = true;
-          return;
-        }
-
-        if (availability === null) {
-          this.showNotification('Could not verify availability. Please try again.', 'error');
-          return;
-        }
-
-        // Trigger animation after verifying availability (same as PDP)
-        this.animateAddToCart(button);
-
         console.log('🛒 Adding to cart:', { variantId, productId });
 
         // Use the same cart add logic as PDP
@@ -575,13 +512,7 @@
       } finally {
         // Remove loading state
         buttonElement.classList.remove('loading');
-        if (keepDisabled) {
-          buttonElement.disabled = true;
-        } else {
-          buttonElement.disabled = false;
-          buttonElement.classList.remove('is-disabled');
-          buttonElement.removeAttribute('aria-disabled');
-        }
+        buttonElement.disabled = false;
       }
     }
 

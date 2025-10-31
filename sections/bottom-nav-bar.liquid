@@ -250,7 +250,7 @@
                     <div class="custom-menu-image">
                       {% if link.object.featured_image %}
                         {% assign menu_image_url = link.object.featured_image | image_url: width: 100, height: 100 %}
-                        <img src="{{ menu_image_url | asset_url }}" alt="{{ link.title | escape }}" width="100" height="100">
+                        <img src="{{ menu_image_url }}" alt="{{ link.title | escape }}" width="100" height="100">
                       {% endif %}
                     </div>
                     <a href="{{ link.url }}" class="menu-link">{{ link.title }}</a>

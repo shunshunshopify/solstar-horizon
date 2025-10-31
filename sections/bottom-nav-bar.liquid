@@ -204,7 +204,7 @@
           </div>
         {%- when 'Account_block' -%}
           <div class="sticky-section-column">
-            <a href="/account" class="btm_link">
+            <a href="{{ routes.account_url }}" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-account.svg' | inline_asset_content }}

@@ -46,11 +46,11 @@
             "url": ""
           }
         },
-        "account_block_7dUDrr": {
-          "type": "Account_block",
+        "block_7NnR9X": {
+          "type": "block",
           "settings": {
             "icon_url": "",
-            "caption": "Account",
+            "caption": "Caption",
             "url": ""
           }
         }
@@ -60,7 +60,7 @@
         "search_block_YY3CcF",
         "wishlist_block_LbM46V",
         "home_block_ELtatp",
-        "account_block_7dUDrr"
+        "block_7NnR9X"
       ],
       "name": "Sticky bottom menu",
       "settings": {

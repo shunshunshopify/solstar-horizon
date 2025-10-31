@@ -85,6 +85,15 @@
     "intro_desktop_video": "",
     "intro_mobile_video": "",
     "intro_skip": "スキップ",
+    "sections": {
+      "main-wishlist": {
+        "type": "main-wishlist",
+        "settings": {
+          "heading_size": "h4",
+          "show_description": true
+        }
+      }
+    },
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {

@@ -59,6 +59,9 @@
     class="wishlist-container"
     data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
     data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
+    data-mobile-columns="{{ mobile_columns }}"
+    data-tablet-columns="{{ tablet_columns }}"
+    data-desktop-columns="{{ desktop_columns }}"
   >
     {% if page_title != blank %}
       <{{ heading_tag }} class="wishlist-title">{{ page_title }}</{{ heading_tag }}>
@@ -70,7 +73,11 @@
       </div>
     {% endif %}
 
-    <div id="wishlist-items" class="wishlist-grid">
+    <div
+      id="wishlist-items"
+      class="wishlist-grid"
+      data-mobile-columns="{{ mobile_columns }}"
+    >
       <!-- Items will be populated by JavaScript -->
     </div>
 

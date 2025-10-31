@@ -14,7 +14,7 @@
 </div>
 
 <script id="wishlist-item-template" type="text/template">
-  <div class="wishlist-item" data-product-id="[[id]]">
+  <div class="wishlist-item" data-product-id="[[id]]" data-wishlist-key="[[item_key]]">
     <div class="wishlist-item-image">
       <a href="[[url]]">
         <img src="[[image]]" alt="[[title]]">
@@ -25,6 +25,9 @@
         <a href="[[url]]">[[title]]</a>
       </h2>
       <div class="wishlist-item-price">[[price]]</div>
+      <div class="wishlist-item-options">
+        [[variant_picker]]
+      </div>
       <div class="wishlist-item-actions">
         <product-form-component
           class="wishlist-product-form"
@@ -124,6 +127,61 @@
 
   .wishlist-add-to-cart--sold-out .add-to-cart-icon {
     display: none;
+  }
+
+  .wishlist-item-options {
+    display: grid;
+    gap: var(--gap-sm, 0.75rem);
+    margin-block: var(--gap-sm, 0.75rem);
+  }
+
+  .wishlist-item-options .variant-option {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-xs, 0.5rem);
+  }
+
+  .wishlist-item-options .variant-option legend {
+    width: 100%;
+    font-size: var(--font-size-xs, 0.875rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .wishlist-item-options .variant-option__button-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.2);
+    border-radius: var(--variant-picker-button-radius, 6px);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .wishlist-item-options .variant-option__button-label input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .wishlist-item-options .variant-option__button-label input:checked + .variant-option__button-label__text {
+    font-weight: 600;
+  }
+
+  .wishlist-item-options .variant-option__button-label.is-unavailable {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .wishlist-item-options .variant-option__button-label.is-unavailable input {
+    cursor: not-allowed;
+  }
+
+  .wishlist-item-options .variant-option__button-label.is-sold-out {
+    opacity: 0.6;
   }
 
   .wishlist-add-to-cart.atc-added .add-to-cart-text {

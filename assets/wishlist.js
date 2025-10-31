@@ -19,6 +19,49 @@
    * @property {string} [added_at]
    */
 
+  /**
+   * @typedef {Object} ProductOption
+   * @property {string} name
+   * @property {number} position
+   * @property {string[]} values
+   */
+
+  /**
+   * @typedef {Object} ProductVariant
+   * @property {string|number} id
+   * @property {boolean} available
+   * @property {number} price
+   * @property {string[]} options
+   * @property {string|undefined} option1
+   * @property {string|undefined} option2
+   * @property {string|undefined} option3
+   * @property {string|undefined} featuredImage
+   */
+
+  /**
+   * @typedef {Object} ProductData
+   * @property {string} handle
+   * @property {string} [url]
+   * @property {ProductOption[]} options
+   * @property {ProductVariant[]} variants
+   */
+
+  /**
+   * @typedef {Object} WishlistProductState
+   * @property {ProductData} productData
+   * @property {string} baseUrl
+   * @property {ProductVariant} selectedVariant
+   */
+
+  /**
+   * @typedef {Object} WishlistRenderResult
+   * @property {WishlistItem} item
+   * @property {ProductData | undefined} productData
+   * @property {ProductVariant | undefined} selectedVariant
+   * @property {string} html
+   * @property {boolean} storageDirty
+   */
+
   class SimpleWishlistController {
     constructor() {
       this.storageKey = 'shopify-wishlist';
@@ -40,6 +83,11 @@
         visible: 'is-visible',
         added: 'is-added'
       };
+
+      /** @type {Map<string, ProductData>} */
+      this.productCache = new Map();
+      /** @type {Map<string, WishlistProductState>} */
+      this.wishlistProductData = new Map();
 
       /** @type {{ addToCart: string; soldOut: string }} */
       this.translations = {
@@ -83,24 +131,25 @@
         const items = stored ? JSON.parse(stored) : [];
         const normalized = Array.isArray(items)
           ? items
-              .filter((item) => item && typeof item === 'object')
-              .map((item) => {
+              .filter((rawItem) => rawItem && typeof rawItem === 'object')
+              .map((rawItem) => {
+                const item = /** @type {any} */ (rawItem);
                 const availableValue =
                   item.available === undefined
                     ? true
                     : item.available === true || item.available === 'true';
 
-                return {
+                return /** @type {WishlistItem} */ ({
                   id: item.id,
-                  title: item.title,
-                  image: item.image,
-                  url: item.url,
-                  price: item.price,
+                  title: String(item.title ?? ''),
+                  image: String(item.image ?? ''),
+                  url: String(item.url ?? ''),
+                  price: String(item.price ?? ''),
                   variant_id: item.variant_id,
                   available: availableValue,
                   handle: typeof item.handle === 'string' ? item.handle : '',
                   added_at: item.added_at,
-                };
+                });
               })
           : [];
         console.log('🔍 Loaded', normalized.length, 'items from storage');
@@ -145,6 +194,41 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+    }
+
+    /**
+     * @param {number | string} cents
+     * @returns {string}
+     */
+    formatMoney(cents) {
+      if (cents === undefined || cents === null || Number.isNaN(Number(cents))) {
+        return '';
+      }
+
+      const amount = Number(cents);
+      try {
+        const shopifyGlobal = /** @type {{ formatMoney?: (value: number, format: string) => string, money_format?: string } | undefined} */ ((/** @type {any} */ (window)).Shopify);
+        if (shopifyGlobal && typeof shopifyGlobal.formatMoney === 'function') {
+          const themeSettings = /** @type {{ moneyFormat?: string } | undefined} */ ((/** @type {any} */ (window)).theme);
+          const format = themeSettings?.moneyFormat || shopifyGlobal.money_format || '${{amount}}';
+          return shopifyGlobal.formatMoney(amount, format);
+        }
+      } catch (error) {
+        console.warn('Failed to format money with Shopify utility:', error);
+      }
+
+      return (amount / 100).toFixed(2);
+    }
+
+    /**
+     * @param {string} value
+     * @returns {string}
+     */
+    escapeSelector(value) {
+      if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
+        return CSS.escape(value);
+      }
+      return value.replace(/([^a-zA-Z0-9_-])/g, '\\$1');
     }
 
     /**
@@ -236,6 +320,161 @@
       console.log('👁️ Counter observers set up for', allCounters.length, 'elements');
     }
 
+    /**
+     * @param {WishlistItem} item
+     * @returns {string | undefined}
+     */
+    getProductHandle(item) {
+      if (item.handle) {
+        return item.handle;
+      }
+
+      try {
+        const url = new URL(item.url, window.location.origin);
+        const segments = url.pathname.split('/').filter(Boolean);
+        const handleIndex = segments.indexOf('products');
+        if (handleIndex !== -1 && segments[handleIndex + 1]) {
+          return segments[handleIndex + 1];
+        }
+      } catch (error) {
+        console.warn('Unable to determine product handle from URL', item.url, error);
+      }
+
+      return undefined;
+    }
+
+    /**
+     * @param {any} rawData
+     * @returns {ProductData | undefined}
+     */
+    normalizeProductData(rawData) {
+      if (!rawData || typeof rawData !== 'object') {
+        return undefined;
+      }
+
+      /** @type {ProductOption[]} */
+      const options = [];
+      if (Array.isArray(rawData.options)) {
+        for (let index = 0; index < rawData.options.length; index += 1) {
+          const option = /** @type {any} */ (rawData.options[index]);
+          if (option && typeof option === 'object') {
+            const values = Array.isArray(option.values) ? option.values.map(String) : [];
+            options.push({
+              name: typeof option.name === 'string' ? option.name : `Option ${index + 1}`,
+              position: typeof option.position === 'number' ? option.position : index + 1,
+              values
+            });
+          } else {
+            options.push({
+              name: String(option ?? `Option ${index + 1}`),
+              position: index + 1,
+              values: []
+            });
+          }
+        }
+      }
+
+      /** @type {ProductVariant[]} */
+      const variants = [];
+      if (Array.isArray(rawData.variants)) {
+        for (const rawVariant of rawData.variants) {
+          const variant = /** @type {any} */ (rawVariant);
+          if (!variant || typeof variant !== 'object') {
+            continue;
+          }
+
+          const optionsArray = Array.isArray(variant.options) && variant.options.length > 0
+            ? variant.options.map(String)
+            : [variant.option1, variant.option2, variant.option3].filter((value) => typeof value === 'string');
+
+          const featuredImageSrc =
+            typeof variant.featured_image === 'object' && variant.featured_image
+              ? variant.featured_image.src
+              : variant.featured_image;
+
+          variants.push({
+            id: variant.id,
+            available: Boolean(variant.available),
+            price: Number(variant.price),
+            options: optionsArray,
+            option1: typeof variant.option1 === 'string' ? variant.option1 : undefined,
+            option2: typeof variant.option2 === 'string' ? variant.option2 : undefined,
+            option3: typeof variant.option3 === 'string' ? variant.option3 : undefined,
+            featuredImage: typeof featuredImageSrc === 'string' ? featuredImageSrc : undefined
+          });
+        }
+      }
+
+      const handle = typeof rawData.handle === 'string' ? rawData.handle : '';
+      const url = typeof rawData.url === 'string' ? rawData.url : undefined;
+
+      /** @type {ProductData} */
+      const normalized = {
+        handle,
+        url,
+        options,
+        variants
+      };
+
+      return normalized;
+    }
+
+    /**
+     * @param {WishlistItem} item
+     * @returns {Promise<ProductData | undefined>}
+     */
+    async fetchProductData(item) {
+      const handle = this.getProductHandle(item);
+      if (!handle) {
+        return undefined;
+      }
+
+      if (this.productCache.has(handle)) {
+        return this.productCache.get(handle);
+      }
+
+      try {
+        const response = await fetch(`/products/${handle}.js`);
+        if (!response.ok) {
+          console.error('Failed to fetch product data for handle', handle, response.status, response.statusText);
+          return undefined;
+        }
+
+        const rawData = await response.json();
+        const normalizedData = this.normalizeProductData(rawData);
+        if (!normalizedData) {
+          return undefined;
+        }
+
+        this.productCache.set(handle, normalizedData);
+        return normalizedData;
+      } catch (error) {
+        console.error('Failed to fetch product data for handle', handle, error);
+        return undefined;
+      }
+    }
+
+    /**
+     * @param {string} baseUrl
+     * @param {string | number | undefined} variantId
+     * @returns {string}
+     */
+    buildVariantUrl(baseUrl, variantId) {
+      if (!baseUrl) {
+        return '';
+      }
+
+      const cleanBase = baseUrl.split('?')[0];
+      if (!variantId) {
+        return cleanBase;
+      }
+
+      const origin = typeof window !== 'undefined' ? window.location.origin : 'https://example.com';
+      const url = new URL(cleanBase, origin);
+      url.searchParams.set('variant', String(variantId));
+      return url.pathname + url.search;
+    }
+
     // ===== CORE WISHLIST METHODS =====
 
     /**
@@ -297,6 +536,7 @@
       if (this.items.length !== initialLength) {
         this.saveToStorage();
         this.showNotification('Item removed from wishlist');
+        this.wishlistProductData.delete(String(productId));
         return true;
       }
       return false;
@@ -324,6 +564,7 @@
     clear() {
       this.items = [];
       this.saveToStorage();
+      this.wishlistProductData.clear();
       this.renderWishlistPage();
     }
 
@@ -502,6 +743,450 @@
     }
 
     /**
+     * @param {WishlistItem} item
+     * @param {Partial<WishlistItem>} updates
+     * @returns {boolean}
+     */
+    updateWishlistItemData(item, updates) {
+      let changed = false;
+      if (updates.id !== undefined && updates.id !== item.id) {
+        item.id = updates.id;
+        changed = true;
+      }
+      if (updates.title !== undefined && updates.title !== item.title) {
+        item.title = updates.title;
+        changed = true;
+      }
+      if (updates.image !== undefined && updates.image !== item.image) {
+        item.image = updates.image;
+        changed = true;
+      }
+      if (updates.url !== undefined && updates.url !== item.url) {
+        item.url = updates.url;
+        changed = true;
+      }
+      if (updates.price !== undefined && updates.price !== item.price) {
+        item.price = updates.price;
+        changed = true;
+      }
+      if (updates.variant_id !== undefined && updates.variant_id !== item.variant_id) {
+        item.variant_id = updates.variant_id;
+        changed = true;
+      }
+      if (updates.available !== undefined && updates.available !== item.available) {
+        item.available = updates.available;
+        changed = true;
+      }
+      if (updates.handle !== undefined && updates.handle !== item.handle) {
+        item.handle = updates.handle;
+        changed = true;
+      }
+      return changed;
+    }
+
+    /**
+     * @param {ProductVariant} variant
+     * @param {string | undefined} fallback
+     * @returns {string}
+     */
+    getVariantImageUrl(variant, fallback) {
+      const featuredImageSrc = typeof variant.featuredImage === 'string' ? variant.featuredImage : undefined;
+      if (featuredImageSrc) {
+        const url = new URL(featuredImageSrc, window.location.origin);
+        if (!url.searchParams.has('width')) {
+          url.searchParams.set('width', '600');
+        }
+        return url.pathname + url.search;
+      }
+      return fallback || '';
+    }
+
+    /**
+     * @param {ProductVariant[]} variants
+     * @param {(string | undefined)[]} selectedValues
+     * @returns {ProductVariant | undefined}
+     */
+    findVariantByOptions(variants, selectedValues) {
+      return variants.find((variant) => {
+        const optionValues = Array.isArray(variant.options)
+          ? variant.options
+          : [variant.option1, variant.option2, variant.option3].filter((value) => typeof value === 'string');
+
+        return selectedValues.every((value, index) => {
+          if (value === undefined) return true;
+          return optionValues[index] === value;
+        });
+      });
+    }
+
+    /**
+     * @param {ProductData} productData
+     * @param {WishlistItem} item
+     * @param {ProductVariant} selectedVariant
+     * @returns {string}
+     */
+    buildVariantPickerHtml(productData, item, selectedVariant) {
+      /** @type {ProductOption[]} */
+      const options = Array.isArray(productData.options) ? productData.options : [];
+      /** @type {ProductVariant[]} */
+      const variants = Array.isArray(productData.variants) ? productData.variants : [];
+      if (!options.length || !variants.length) {
+        return '<p class="wishlist-variant-picker__unavailable">Variant options unavailable.</p>';
+      }
+
+      /** @type {string[]} */
+      const selectedOptions = Array.isArray(selectedVariant.options) && selectedVariant.options.length > 0
+        ? selectedVariant.options
+        : [selectedVariant.option1, selectedVariant.option2, selectedVariant.option3].filter((value) => typeof value === 'string');
+      /** @type {string[]} */
+      const htmlParts = [];
+
+      options.forEach((option, index) => {
+        const optionName = typeof option === 'object' && option
+          ? option.name
+          : String(option ?? `Option ${index + 1}`);
+
+        /** @type {string[]} */
+        const optionValues = Array.from(
+          new Set(
+            variants
+              .map((variant) => {
+                const optionArray = Array.isArray(variant.options) && variant.options.length > 0
+                  ? variant.options
+                  : [variant.option1, variant.option2, variant.option3].filter((value) => typeof value === 'string');
+                return optionArray[index];
+              })
+              .filter((value) => typeof value === 'string')
+          )
+        );
+
+        const fieldsetBaseId = `wishlist-option-${String(item.id)}-${index}`;
+        const escapedFieldsetId = this.escapeHtml(fieldsetBaseId);
+        let fieldsetHtml = `<fieldset class="variant-option variant-option--buttons" data-wishlist-option-index="${index}"><legend>${this.escapeHtml(optionName)}</legend>`;
+
+        optionValues.forEach((value, valueIndex) => {
+          const escapedValue = this.escapeHtml(value);
+          const inputId = `${fieldsetBaseId}-${valueIndex}`;
+          const escapedInputId = this.escapeHtml(inputId);
+          const isChecked = selectedOptions[index] === value;
+          fieldsetHtml += `
+            <label class="variant-option__button-label">
+              <input
+                type="radio"
+                name="${escapedFieldsetId}"
+                id="${escapedInputId}"
+                value="${escapedValue}"
+                data-option-index="${index}"
+                data-option-value="${escapedValue}"
+                ${isChecked ? 'checked' : ''}
+              >
+              <span class="variant-option__button-label__text">${escapedValue}</span>
+            </label>
+          `;
+        });
+
+        fieldsetHtml += '</fieldset>';
+        htmlParts.push(fieldsetHtml);
+      });
+
+      return htmlParts.join('');
+    }
+
+    /**
+     * @param {string} templateHtml
+     * @param {WishlistItem} item
+     * @returns {Promise<WishlistRenderResult>}
+     */
+    async prepareWishlistItem(templateHtml, item) {
+      /** @type {WishlistRenderResult} */
+      const result = {
+        item,
+        productData: undefined,
+        selectedVariant: undefined,
+        html: '',
+        storageDirty: false
+      };
+
+      const productData = await this.fetchProductData(item);
+      result.productData = productData;
+
+      let selectedVariant;
+      if (productData && Array.isArray(productData.variants) && productData.variants.length > 0) {
+        selectedVariant = productData.variants.find((variant) => String(variant.id) === String(item.variant_id));
+        if (!selectedVariant) {
+          selectedVariant = productData.variants.find((variant) => variant.available) || productData.variants[0];
+        }
+        result.selectedVariant = selectedVariant;
+      }
+
+      let renderedItem = templateHtml;
+
+      const fallbackProductUrl = productData?.url || (productData?.handle ? `/products/${productData.handle}` : '');
+      const itemBaseUrl = item.url ? item.url.split('?')[0] : undefined;
+      const baseUrl = (itemBaseUrl ?? fallbackProductUrl) || '';
+      const variantUrl = selectedVariant ? this.buildVariantUrl(baseUrl, selectedVariant.id) : (item.url || baseUrl);
+      const imageUrl = selectedVariant ? this.getVariantImageUrl(selectedVariant, item.image) : item.image;
+      const price = selectedVariant ? this.formatMoney(selectedVariant.price) : item.price;
+      const isAvailable = selectedVariant ? Boolean(selectedVariant.available) : item.available !== false;
+
+      if (productData && selectedVariant) {
+        const variantPickerHtml = this.buildVariantPickerHtml(productData, item, selectedVariant);
+        renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, variantPickerHtml);
+
+        const updates = {
+          variant_id: selectedVariant.id,
+          available: selectedVariant.available,
+          price,
+          image: imageUrl,
+          url: variantUrl,
+          handle: productData.handle || this.getProductHandle(item)
+        };
+
+        if (this.updateWishlistItemData(item, updates)) {
+          result.storageDirty = true;
+        }
+
+        this.wishlistProductData.set(String(item.id), {
+          productData,
+          baseUrl,
+          selectedVariant
+        });
+      } else {
+        renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, '<p class="wishlist-variant-picker__unavailable">Variant options unavailable.</p>');
+        this.wishlistProductData.delete(String(item.id));
+      }
+
+      const safeId = this.escapeHtml(item.id);
+      const safeTitle = this.escapeHtml(item.title);
+      const safeImage = this.escapeHtml(imageUrl || item.image);
+      const safeUrl = this.escapeHtml(variantUrl || item.url);
+      const safePrice = this.escapeHtml(price || item.price);
+      const safeVariantId = this.escapeHtml(item.variant_id || '');
+      const availableValue = isAvailable ? 'true' : 'false';
+      const addToCartDisabledAttr = isAvailable ? '' : 'disabled';
+      const addToCartAriaDisabled = isAvailable ? '' : 'aria-disabled="true"';
+      const variantInputDisabledAttr = isAvailable ? '' : 'disabled';
+      const addToCartText = isAvailable ? this.translations.addToCart : this.translations.soldOut;
+      const safeAddToCartText = this.escapeHtml(addToCartText);
+      const addToCartExtraClass = isAvailable ? '' : ' wishlist-add-to-cart--sold-out';
+
+      renderedItem = renderedItem.replace(/\[\[item_key\]\]/g, safeId);
+      renderedItem = renderedItem.replace(/\[\[id\]\]/g, safeId);
+      renderedItem = renderedItem.replace(/\[\[title\]\]/g, safeTitle);
+      renderedItem = renderedItem.replace(/\[\[image\]\]/g, safeImage);
+      renderedItem = renderedItem.replace(/\[\[url\]\]/g, safeUrl);
+      renderedItem = renderedItem.replace(/\[\[price\]\]/g, safePrice);
+      renderedItem = renderedItem.replace(/\[\[variant_id\]\]/g, safeVariantId);
+      renderedItem = renderedItem.replace(/\[\[available\]\]/g, availableValue);
+      renderedItem = renderedItem.replace(/\[\[add_to_cart_disabled_attr\]\]/g, addToCartDisabledAttr);
+      renderedItem = renderedItem.replace(/\[\[add_to_cart_aria_disabled\]\]/g, addToCartAriaDisabled);
+      renderedItem = renderedItem.replace(/\[\[variant_input_disabled_attr\]\]/g, variantInputDisabledAttr);
+      renderedItem = renderedItem.replace(/\[\[add_to_cart_text\]\]/g, safeAddToCartText);
+      renderedItem = renderedItem.replace(/\[\[add_to_cart_extra_class\]\]/g, addToCartExtraClass);
+
+      result.html = renderedItem;
+      return result;
+    }
+
+    /**
+     * @param {HTMLElement} itemElement
+     * @param {WishlistItem} itemRecord
+     * @param {ProductData} productData
+     * @param {ProductVariant} selectedVariant
+     */
+    initializeWishlistVariantPicker(itemElement, itemRecord, productData, selectedVariant) {
+      const optionsContainer = itemElement.querySelector('.wishlist-item-options');
+      if (!optionsContainer) {
+        return;
+      }
+
+      const changeHandler = () => {
+        this.handleWishlistVariantSelection(itemElement, itemRecord, productData);
+      };
+
+      optionsContainer.addEventListener('change', changeHandler);
+      // Ensure initial availability state matches current selection
+      this.updateVariantOptionAvailability(itemElement, productData);
+    }
+
+    /**
+     * @param {HTMLElement} itemElement
+     * @param {ProductData} productData
+     * @returns {(string | undefined)[]}
+     */
+    collectSelectedOptionValues(itemElement, productData) {
+      return (productData.options || []).map((_, index) => {
+        const input = /** @type {HTMLInputElement | null} */ (
+          itemElement.querySelector(`input[data-option-index="${index}"]:checked`)
+        );
+        return input ? input.value : undefined;
+      });
+    }
+
+    /**
+     * @param {HTMLElement} itemElement
+     * @param {ProductData} productData
+     * @returns {void}
+     */
+    updateVariantOptionAvailability(itemElement, productData) {
+      const selectedValues = this.collectSelectedOptionValues(itemElement, productData);
+      (productData.options || []).forEach((_, optionIndex) => {
+        const inputs = itemElement.querySelectorAll(`input[data-option-index="${optionIndex}"]`);
+        inputs.forEach((input) => {
+          if (!(input instanceof HTMLInputElement)) return;
+          const value = input.value;
+          const testValues = [...selectedValues];
+          testValues[optionIndex] = value;
+          const variant = this.findVariantByOptions(productData.variants, testValues);
+
+          if (!variant) {
+            input.disabled = true;
+            input.parentElement?.classList.add('is-unavailable');
+          } else {
+            input.disabled = false;
+            input.parentElement?.classList.remove('is-unavailable');
+            input.parentElement?.classList.remove('is-sold-out');
+            if (!variant.available) {
+              input.parentElement?.classList.add('is-sold-out');
+            } else {
+              input.parentElement?.classList.remove('is-sold-out');
+            }
+          }
+        });
+      });
+    }
+
+    /**
+     * @param {HTMLElement} itemElement
+     * @param {WishlistItem} itemRecord
+     * @param {ProductData} productData
+     */
+    handleWishlistVariantSelection(itemElement, itemRecord, productData) {
+      const selectedValues = this.collectSelectedOptionValues(itemElement, productData);
+      const variant = this.findVariantByOptions(productData.variants, selectedValues);
+
+      if (!variant) {
+        this.applyVariantUnavailableState(itemElement, itemRecord);
+        this.updateVariantOptionAvailability(itemElement, productData);
+        return;
+      }
+
+      this.applyVariantSelection(itemElement, itemRecord, productData, variant);
+      this.updateVariantOptionAvailability(itemElement, productData);
+    }
+
+    /**
+     * @param {HTMLElement} itemElement
+     * @param {WishlistItem} itemRecord
+     */
+    applyVariantUnavailableState(itemElement, itemRecord) {
+      const button = itemElement.querySelector('.wishlist-add-to-cart');
+      const variantInput = itemElement.querySelector('input[ref="variantId"]');
+      if (button instanceof HTMLButtonElement) {
+        button.disabled = true;
+        button.classList.add('wishlist-add-to-cart--sold-out');
+        button.setAttribute('aria-disabled', 'true');
+        const textContentEl = button.querySelector('.add-to-cart-text__content');
+        if (textContentEl instanceof HTMLElement) {
+          textContentEl.textContent = this.translations.soldOut;
+        }
+        button.dataset.variantAvailable = 'false';
+        button.dataset.variantId = '';
+      }
+      if (variantInput instanceof HTMLInputElement) {
+        variantInput.value = '';
+        variantInput.disabled = true;
+      }
+      itemRecord.available = false;
+      this.saveToStorage();
+    }
+
+    /**
+     * @param {HTMLElement} itemElement
+     * @param {WishlistItem} itemRecord
+     * @param {ProductData} productData
+     * @param {ProductVariant} variant
+     */
+    applyVariantSelection(itemElement, itemRecord, productData, variant) {
+      const existingState = this.wishlistProductData.get(String(itemRecord.id));
+      const fallbackProductUrl = productData.url || (productData.handle ? `/products/${productData.handle}` : '');
+      const itemBaseUrl = itemRecord.url ? itemRecord.url.split('?')[0] : undefined;
+      const baseUrl = (existingState?.baseUrl ?? itemBaseUrl ?? fallbackProductUrl) || '';
+      const variantUrl = this.buildVariantUrl(baseUrl, variant.id);
+      const price = this.formatMoney(variant.price);
+      const imageUrl = this.getVariantImageUrl(variant, itemRecord.image);
+
+      const variantInput = itemElement.querySelector('input[ref="variantId"]');
+      if (variantInput instanceof HTMLInputElement) {
+        variantInput.value = String(variant.id);
+        variantInput.disabled = !variant.available;
+      }
+
+      const button = itemElement.querySelector('.wishlist-add-to-cart');
+      if (button instanceof HTMLButtonElement) {
+        button.dataset.variantId = String(variant.id);
+        button.dataset.productPrice = price;
+        button.dataset.variantAvailable = variant.available ? 'true' : 'false';
+        button.dataset.productUrl = variantUrl;
+        if (imageUrl) {
+          button.dataset.productImage = imageUrl;
+        }
+        button.disabled = !variant.available;
+        if (variant.available) {
+          button.classList.remove('wishlist-add-to-cart--sold-out');
+          button.removeAttribute('aria-disabled');
+          const textContentEl = button.querySelector('.add-to-cart-text__content');
+          if (textContentEl instanceof HTMLElement) {
+            textContentEl.textContent = this.translations.addToCart;
+          }
+        } else {
+          button.classList.add('wishlist-add-to-cart--sold-out');
+          button.setAttribute('aria-disabled', 'true');
+          const textContentEl = button.querySelector('.add-to-cart-text__content');
+          if (textContentEl instanceof HTMLElement) {
+            textContentEl.textContent = this.translations.soldOut;
+          }
+        }
+      }
+
+      const priceElement = itemElement.querySelector('.wishlist-item-price');
+      if (priceElement) {
+        priceElement.textContent = price;
+      }
+
+      const imageElement = itemElement.querySelector('.wishlist-item-image img');
+      if (imageElement instanceof HTMLImageElement && imageUrl) {
+        imageElement.src = imageUrl;
+      }
+
+      const linkElements = itemElement.querySelectorAll('.wishlist-item-title a, .wishlist-item-image a');
+      linkElements.forEach((link) => {
+        if (link instanceof HTMLAnchorElement) {
+          link.href = variantUrl;
+        }
+      });
+
+      const dataUpdates = {
+        variant_id: variant.id,
+        available: variant.available,
+        price,
+        image: imageUrl,
+        url: variantUrl,
+        handle: productData.handle || this.getProductHandle(itemRecord)
+      };
+
+      if (this.updateWishlistItemData(itemRecord, dataUpdates)) {
+        this.saveToStorage();
+      }
+
+      this.wishlistProductData.set(String(itemRecord.id), {
+        productData,
+        baseUrl,
+        selectedVariant: variant
+      });
+    }
+
+    /**
      * Show notification message - simplified from original
      * @param {string} message - Notification message
      * @param {string} type - Notification type ('success' or 'error')
@@ -556,64 +1241,55 @@
       }
     }
 
-    renderWishlistPage() {
-      const wishlistContainer = document.getElementById('wishlist-items');
-      const emptyContainer = document.getElementById('wishlist-empty');
-      
-      if (!wishlistContainer || !emptyContainer) {
-        return; // Not on wishlist page
+    async renderWishlistPage() {
+      try {
+        const wishlistContainer = document.getElementById('wishlist-items');
+        const emptyContainer = document.getElementById('wishlist-empty');
+        
+        if (!wishlistContainer || !emptyContainer) {
+          return; // Not on wishlist page
+        }
+
+        const items = this.getItems();
+        
+        if (items.length === 0) {
+          wishlistContainer.innerHTML = '';
+          emptyContainer.classList.remove(this.classes.hidden);
+          return;
+        }
+
+        emptyContainer.classList.add(this.classes.hidden);
+        
+        const template = document.getElementById('wishlist-item-template');
+        if (!template) {
+          console.error('Wishlist item template not found');
+          return;
+        }
+
+        const templateHtml = template.innerHTML;
+        /** @type {WishlistRenderResult[]} */
+        const renderResults = await Promise.all(
+          items.map((wishlistItem) => this.prepareWishlistItem(templateHtml, wishlistItem))
+        );
+
+        wishlistContainer.innerHTML = renderResults.map((result) => result.html).join('');
+
+        renderResults.forEach((result) => {
+          if (result.productData && result.selectedVariant) {
+            const selector = `.wishlist-item[data-wishlist-key="${this.escapeSelector(String(result.item.id))}"]`;
+            const itemElement = wishlistContainer.querySelector(selector);
+            if (itemElement instanceof HTMLElement) {
+              this.initializeWishlistVariantPicker(itemElement, result.item, result.productData, result.selectedVariant);
+            }
+          }
+        });
+
+        if (renderResults.some((result) => result.storageDirty)) {
+          this.saveToStorage();
+        }
+      } catch (error) {
+        console.error('Failed to render wishlist page', error);
       }
-
-      const items = this.getItems();
-      
-      if (items.length === 0) {
-        wishlistContainer.innerHTML = '';
-        emptyContainer.classList.remove(this.classes.hidden);
-        return;
-      }
-
-      emptyContainer.classList.add(this.classes.hidden);
-      
-      const template = document.getElementById('wishlist-item-template');
-      if (!template) {
-        console.error('Wishlist item template not found');
-        return;
-      }
-
-      let html = '';
-      items.forEach(item => {
-        let itemHtml = template.innerHTML;
-        const safeId = this.escapeHtml(item.id);
-        const safeTitle = this.escapeHtml(item.title);
-        const safeImage = this.escapeHtml(item.image);
-        const safeUrl = this.escapeHtml(item.url);
-        const safePrice = this.escapeHtml(item.price);
-        const safeVariantId = this.escapeHtml(item.variant_id);
-        const isAvailable = item.available !== false;
-        const availableValue = isAvailable ? 'true' : 'false';
-        const addToCartDisabledAttr = isAvailable ? '' : 'disabled';
-        const addToCartAriaDisabled = isAvailable ? '' : 'aria-disabled="true"';
-        const variantInputDisabledAttr = isAvailable ? '' : 'disabled';
-        const addToCartText = isAvailable ? this.translations.addToCart : this.translations.soldOut;
-        const safeAddToCartText = this.escapeHtml(addToCartText);
-        const addToCartExtraClass = isAvailable ? '' : ' wishlist-add-to-cart--sold-out';
-
-        itemHtml = itemHtml.replace(/\[\[id\]\]/g, safeId);
-        itemHtml = itemHtml.replace(/\[\[title\]\]/g, safeTitle);
-        itemHtml = itemHtml.replace(/\[\[image\]\]/g, safeImage);
-        itemHtml = itemHtml.replace(/\[\[url\]\]/g, safeUrl);
-        itemHtml = itemHtml.replace(/\[\[price\]\]/g, safePrice);
-        itemHtml = itemHtml.replace(/\[\[variant_id\]\]/g, safeVariantId);
-        itemHtml = itemHtml.replace(/\[\[available\]\]/g, availableValue);
-        itemHtml = itemHtml.replace(/\[\[add_to_cart_disabled_attr\]\]/g, addToCartDisabledAttr);
-        itemHtml = itemHtml.replace(/\[\[add_to_cart_aria_disabled\]\]/g, addToCartAriaDisabled);
-        itemHtml = itemHtml.replace(/\[\[variant_input_disabled_attr\]\]/g, variantInputDisabledAttr);
-        itemHtml = itemHtml.replace(/\[\[add_to_cart_text\]\]/g, safeAddToCartText);
-        itemHtml = itemHtml.replace(/\[\[add_to_cart_extra_class\]\]/g, addToCartExtraClass);
-        html += itemHtml;
-      });
-
-      wishlistContainer.innerHTML = html;
     }
   }
 

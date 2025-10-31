@@ -30,14 +30,6 @@
             "url": ""
           }
         },
-        "menu_block_WMnDh7": {
-          "type": "Menu_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Menu",
-            "url": ""
-          }
-        },
         "extended_menu_block_EYdg8i": {
           "type": "extended_menu_block",
           "settings": {
@@ -62,14 +54,22 @@
             "caption": "Wishlist",
             "url": ""
           }
+        },
+        "home_block_ELtatp": {
+          "type": "home_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Home",
+            "url": ""
+          }
         }
       },
       "block_order": [
         "cart_block_PXFept",
         "search_block_YY3CcF",
-        "menu_block_WMnDh7",
         "extended_menu_block_EYdg8i",
-        "wishlist_block_LbM46V"
+        "wishlist_block_LbM46V",
+        "home_block_ELtatp"
       ],
       "name": "Sticky bottom menu",
       "settings": {

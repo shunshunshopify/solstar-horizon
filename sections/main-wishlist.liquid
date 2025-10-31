@@ -3,6 +3,8 @@
   assign page_description = page.content
   assign heading_size = section.settings.heading_size | default: 'h1'
   assign show_description = section.settings.show_description
+  assign padding_block_start = section.settings['padding-block-start'] | default: 0
+  assign padding_block_end = section.settings['padding-block-end'] | default: 0
 
   case heading_size
     when 'h2'
@@ -19,6 +21,13 @@
       assign heading_tag = 'h1'
   endcase
 -%}
+
+{% style %}
+#shopify-section-{{ section.id }} {
+  padding-block-start: {{ padding_block_start }}px;
+  padding-block-end: {{ padding_block_end }}px;
+}
+{% endstyle %}
 
 <div class="page-width">
   <div
@@ -306,6 +315,26 @@
       "id": "show_description",
       "label": "Show description",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [

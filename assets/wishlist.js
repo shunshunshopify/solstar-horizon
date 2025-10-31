@@ -205,19 +205,39 @@
         return '';
       }
 
+      if (typeof cents === 'string') {
+        const digitsOnly = cents.replace(/[^0-9.-]/g, '');
+        if (digitsOnly !== '') {
+          const parsed = Number(digitsOnly);
+          if (!Number.isNaN(parsed)) {
+            cents = parsed;
+          }
+        }
+      }
+
       const amount = Number(cents);
+      if (Number.isNaN(amount)) {
+        return typeof cents === 'string' ? cents : '';
+      }
       try {
-        const shopifyGlobal = /** @type {{ formatMoney?: (value: number, format: string) => string, money_format?: string } | undefined} */ ((/** @type {any} */ (window)).Shopify);
+        const shopifyGlobal = /** @type {{ formatMoney?: (value: number, format: string) => string, money_format?: string, currency?: { active?: string }, locale?: string } | undefined} */ ((/** @type {any} */ (window)).Shopify);
         if (shopifyGlobal && typeof shopifyGlobal.formatMoney === 'function') {
           const themeSettings = /** @type {{ moneyFormat?: string } | undefined} */ ((/** @type {any} */ (window)).theme);
           const format = themeSettings?.moneyFormat || shopifyGlobal.money_format || '${{amount}}';
           return shopifyGlobal.formatMoney(amount, format);
         }
-      } catch (error) {
-        console.warn('Failed to format money with Shopify utility:', error);
-      }
 
-      return (amount / 100).toFixed(2);
+        const currency = shopifyGlobal?.currency?.active || 'USD';
+        const locale = shopifyGlobal?.locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
+        return new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency,
+          currencyDisplay: 'symbol'
+        }).format(amount / 100);
+      } catch (error) {
+        console.warn('Failed to format money, falling back to plain number:', error);
+        return `$${(amount / 100).toFixed(2)}`;
+      }
     }
 
     /**
@@ -846,7 +866,7 @@
         if (!url.searchParams.has('width')) {
           url.searchParams.set('width', '600');
         }
-        return url.pathname + url.search;
+        return url.toString();
       }
       return fallback || '';
     }
@@ -912,7 +932,6 @@
         const placeholderLabel = this.escapeHtml(`-- ${optionName} --`);
 
         let selectHtml = `<div class="variant-option variant-option--dropdowns" data-wishlist-option-index="${index}">`;
-        selectHtml += `<label class="variant-option__label" for="${escapedSelectId}">${escapedLabel}</label>`;
         selectHtml += '<div class="variant-option__select-wrapper">';
         selectHtml += `<select id="${escapedSelectId}" class="variant-option__select" data-option-index="${index}" aria-label="${escapedLabel}">`;
         selectHtml += `<option value="" disabled>${placeholderLabel}</option>`;

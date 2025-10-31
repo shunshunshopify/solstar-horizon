@@ -113,8 +113,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: var(--minimum-touch-target, 44px);
+  height: var(--minimum-touch-target, 44px);
   padding: 0;
   border-radius: 50%;
   border: 1px solid rgba(var(--color-foreground), 0.15);
@@ -141,7 +141,10 @@
 }
 
 .wishlist-remove svg {
+  width: 16px;
+  height: 16px;
   pointer-events: none;
+  stroke-width: 1.5;
 }
 .page-width{
     padding: 0 30px;

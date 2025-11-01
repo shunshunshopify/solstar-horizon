@@ -343,8 +343,8 @@
   .wishlist-item-options .variant-option__select {
     width: 100%;
     padding: 0.55rem 2.25rem 0.55rem 0.75rem;
-    border: 1px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.25);
-    border-radius: var(--variant-picker-button-radius, 6px);
+    border: {{ settings.variant_button_border_width }}px solid rgb(var(--color-foreground-rgb, 17 17 17) / 0.25);
+    border-radius: {{ settings.variant_button_radius }}px;
     background-color: rgb(var(--color-background-rgb, 255 255 255));
     color: inherit;
     appearance: none;

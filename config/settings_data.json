@@ -92,7 +92,7 @@
           "heading_type_preset": "h2",
           "heading_text_size": 30,
           "show_description": true,
-          "heading_gap": 100,
+          "heading_gap": 25,
           "product_card_size": "medium",
           "mobile_product_card_size": "small",
           "product_grid_width": "centered",

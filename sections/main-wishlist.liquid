@@ -13,6 +13,7 @@
   assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
   assign heading_gap = section.settings.heading_gap | default: 0 | plus: 0
   assign heading_inner_gap = section.settings.heading_inner_gap | default: 30 | plus: 0
+  assign heading_padding_top = section.settings.heading_padding_top | default: 0 | plus: 0
 
   assign has_description = false
   if show_description
@@ -90,6 +91,7 @@
 }
 
 #shopify-section-{{ section.id }} .wishlist-header {
+  margin-block-start: {{ heading_padding_top }}px;
   margin-block-end: {{ heading_gap }}px;
 }
 
@@ -549,6 +551,16 @@
       "type": "range",
       "id": "heading_gap",
       "label": "Heading spacing",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_padding_top",
+      "label": "Heading padding top",
       "default": 0,
       "min": 0,
       "max": 100,

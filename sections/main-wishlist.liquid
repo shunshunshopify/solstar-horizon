@@ -62,11 +62,13 @@
   grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));
 }
 
+{% if product_grid_width == 'centered' %}
 @media screen and (max-width: 749px) {
   #shopify-section-{{ section.id }} .wishlist-grid {
     padding-inline: var(--page-margin, 1.5rem);
   }
 }
+{% endif %}
 
 @media screen and (min-width: 750px) {
   #shopify-section-{{ section.id }} .wishlist-grid {

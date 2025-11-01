@@ -96,8 +96,8 @@
           "heading_gap": 30,
           "product_card_size": "small",
           "mobile_product_card_size": "small",
-          "product_grid_width": "full-width",
-          "columns_gap_horizontal": 0,
+          "product_grid_width": "centered",
+          "columns_gap_horizontal": 15,
           "color_scheme": ""
         }
       }

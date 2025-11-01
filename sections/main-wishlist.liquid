@@ -160,7 +160,9 @@
   endif
 
   assign has_header_content = false
-  if page_title != blank or (show_description and page_description != blank)
+  if page_title != blank
+    assign has_header_content = true
+  elsif show_description and page_description != blank
     assign has_header_content = true
   endif
 -%}

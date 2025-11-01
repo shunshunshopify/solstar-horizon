@@ -69,11 +69,6 @@
   margin-bottom: 10px;
 }
 
-.wishlist-item-price {
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
 .wishlist-item-actions {
   display: flex;
   flex-direction: column;

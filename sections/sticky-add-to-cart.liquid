@@ -274,9 +274,16 @@
     /* Add to cart – uses Horizon primary .button styles */
     #md-sticky-atc .product-form__submit.button{ 
       width: 100%; /* Full width base for mobile */
-      border-radius: var(--style-border-radius-buttons-primary); 
+      border: {{ settings.primary_button_border_width }}px solid;
+      border-radius: {{ settings.button_border_radius_primary }}px; 
     }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
+    
+    /* Quantity selector buttons - use secondary button settings */
+    #md-sticky-atc .quantity__button {
+      border: {{ settings.secondary_button_border_width }}px solid;
+      border-radius: {{ settings.button_border_radius_secondary }}px;
+    }
     
     /* Fix span wrapper around add-to-cart button to allow grid-column to work */
     #md-sticky-atc span[style*="--add-to-cart-font-case"] {

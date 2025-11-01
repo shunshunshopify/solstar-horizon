@@ -90,7 +90,7 @@
         "type": "main-wishlist",
         "settings": {
           "heading_type_preset": "h2",
-          "heading_text_size": 37,
+          "heading_text_size": 30,
           "show_description": true,
           "product_card_size": "medium",
           "mobile_product_card_size": "small",

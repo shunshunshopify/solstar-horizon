@@ -584,8 +584,8 @@
       }
 
       const cleanBase = baseUrl.split('?')[0];
-      if (!variantId) {
-        return cleanBase;
+      if (!variantId || !cleanBase) {
+        return cleanBase || '';
       }
 
       const origin = typeof window !== 'undefined' ? window.location.origin : 'https://example.com';

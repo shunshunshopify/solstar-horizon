@@ -91,7 +91,7 @@
         "settings": {
           "heading_size": "h4",
           "show_description": true,
-          "mobile_columns": "1",
+          "mobile_columns": "2",
           "tablet_columns": "2",
           "desktop_columns": "4",
           "padding-block-start": 32,

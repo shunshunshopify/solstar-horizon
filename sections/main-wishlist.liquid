@@ -5,9 +5,33 @@
   assign show_description = section.settings.show_description
   assign padding_block_start = section.settings['padding-block-start'] | default: 0
   assign padding_block_end = section.settings['padding-block-end'] | default: 0
-  assign mobile_columns = section.settings.mobile_columns | default: 1 | plus: 0
-  assign tablet_columns = section.settings.tablet_columns | default: 2 | plus: 0
-  assign desktop_columns = section.settings.desktop_columns | default: 4 | plus: 0
+  assign product_card_size = section.settings.product_card_size | default: 'medium'
+  assign mobile_product_card_size = section.settings.mobile_product_card_size | default: 'small'
+  assign product_grid_width = section.settings.product_grid_width | default: 'centered'
+  assign horizontal_gap = section.settings.columns_gap_horizontal | default: 20 | plus: 0
+  assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
+
+  assign mobile_columns = 2
+  if mobile_product_card_size == 'large'
+    assign mobile_columns = 1
+  endif
+
+  assign tablet_columns = 2
+  assign desktop_columns = 3
+  case product_card_size
+    when 'extra-large'
+      assign tablet_columns = 1
+      assign desktop_columns = 2
+    when 'large'
+      assign tablet_columns = 2
+      assign desktop_columns = 2
+    when 'medium'
+      assign tablet_columns = 2
+      assign desktop_columns = 3
+    when 'small'
+      assign tablet_columns = 3
+      assign desktop_columns = 4
+  endcase
 
   case heading_size
     when 'h2'
@@ -31,7 +55,18 @@
   padding-block-end: {{ padding_block_end }}px;
 }
 
+.wishlist-outer {
+  margin-inline: auto;
+}
+
+.wishlist-outer--full-width {
+  width: 100%;
+  max-width: none;
+  padding-inline: var(--page-margin, 1.5rem);
+}
+
 #shopify-section-{{ section.id }} .wishlist-grid {
+  gap: {{ horizontal_gap }}px;
   grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));
 }
 
@@ -54,14 +89,26 @@
 }
 {% endstyle %}
 
-<div class="page-width">
+{%- liquid
+  assign outer_classes = 'wishlist-outer'
+  if product_grid_width == 'centered'
+    assign outer_classes = outer_classes | append: ' page-width'
+  else
+    assign outer_classes = outer_classes | append: ' wishlist-outer--full-width'
+  endif
+
+  assign color_class = ''
+  if color_scheme != blank
+    assign color_class = ' color-' | append: color_scheme
+  endif
+-%}
+
+<div class="{{ outer_classes }}">
   <div
-    class="wishlist-container"
+    class="wishlist-container{{ color_class }}"
     data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
     data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
     data-mobile-columns="{{ mobile_columns }}"
-    data-tablet-columns="{{ tablet_columns }}"
-    data-desktop-columns="{{ desktop_columns }}"
   >
     {% if page_title != blank %}
       <{{ heading_tag }} class="wishlist-title">{{ page_title }}</{{ heading_tag }}>
@@ -350,42 +397,66 @@
     },
     {
       "type": "select",
-      "id": "mobile_columns",
-      "label": "Mobile columns",
-      "default": "1",
+      "id": "product_card_size",
+      "label": "カードサイズ",
+      "default": "medium",
       "options": [
-        { "value": "1", "label": "1 per row" },
-        { "value": "2", "label": "2 per row" }
+        { "value": "small", "label": "t:options.small" },
+        { "value": "medium", "label": "t:options.medium" },
+        { "value": "large", "label": "t:options.large" },
+        { "value": "extra-large", "label": "t:options.extra_large" }
       ]
     },
     {
       "type": "select",
-      "id": "tablet_columns",
-      "label": "Tablet columns",
-      "default": "2",
+      "id": "mobile_product_card_size",
+      "label": "モバイルカードサイズ",
+      "default": "small",
       "options": [
-        { "value": "1", "label": "1" },
-        { "value": "2", "label": "2" },
-        { "value": "3", "label": "3" }
+        { "value": "small", "label": "t:options.small" },
+        { "value": "large", "label": "t:options.large" }
       ]
     },
     {
+      "type": "header",
+      "content": "レイアウト"
+    },
+    {
       "type": "select",
-      "id": "desktop_columns",
-      "label": "Desktop columns",
-      "default": "4",
+      "id": "product_grid_width",
+      "label": "幅",
+      "default": "centered",
       "options": [
-        { "value": "2", "label": "2" },
-        { "value": "3", "label": "3" },
-        { "value": "4", "label": "4" }
+        { "value": "centered", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
       ]
     },
     {
       "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
+      "id": "columns_gap_horizontal",
+      "label": "水平方向の間隔",
       "min": 0,
-      "max": 32,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "セクションレイアウト"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "配色",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "上部の余白",
+      "min": 0,
+      "max": 100,
       "step": 1,
       "unit": "px",
       "default": 0
@@ -393,9 +464,9 @@
     {
       "type": "range",
       "id": "padding-block-end",
-      "label": "t:settings.bottom",
+      "label": "下部の余白",
       "min": 0,
-      "max": 32,
+      "max": 100,
       "step": 1,
       "unit": "px",
       "default": 0

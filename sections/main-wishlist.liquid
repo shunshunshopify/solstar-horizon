@@ -5,6 +5,8 @@
   assign show_description = section.settings.show_description
   assign padding_block_start = section.settings['padding-block-start'] | default: 0
   assign padding_block_end = section.settings['padding-block-end'] | default: 0
+  assign padding_inline_start = section.settings['padding-inline-start'] | default: 0 | plus: 0
+  assign padding_inline_end = section.settings['padding-inline-end'] | default: 0 | plus: 0
   assign product_card_size = section.settings.product_card_size | default: 'medium'
   assign mobile_product_card_size = section.settings.mobile_product_card_size | default: 'small'
   assign product_grid_width = section.settings.product_grid_width | default: 'centered'
@@ -110,7 +112,7 @@
     assign grid_margin_mobile = '0 var(--margin-lg)'
   endif
 
-  assign grid_style = '--grid--margin--mobile: ' | append: grid_margin_mobile | append: '; --grid-column--desktop: var(--' | append: column_scope | append: '); --grid-column--mobile: var(--' | append: column_scope | append: '); --padding-inline-start: 0px; --padding-inline-end: 0px;'
+  assign grid_style = '--grid--margin--mobile: ' | append: grid_margin_mobile | append: '; --grid-column--desktop: var(--' | append: column_scope | append: '); --grid-column--mobile: var(--' | append: column_scope | append: '); --padding-inline-start: ' | append: padding_inline_start | append: 'px; --padding-inline-end: ' | append: padding_inline_end | append: 'px;'
 
   assign vertical_gap = horizontal_gap
   assign inner_style = 'grid-column: var(--full-width); --product-grid-gap-mobile: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; --product-grid-gap-desktop: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; container-type: inline-size; container-name: product-grid;'
@@ -454,6 +456,26 @@
         { "value": "centered", "label": "t:options.page" },
         { "value": "full-width", "label": "t:options.full" }
       ]
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "左の余白",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "右の余白",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "range",

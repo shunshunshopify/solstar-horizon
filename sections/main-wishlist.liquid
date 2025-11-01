@@ -21,9 +21,6 @@
   assign tablet_columns = 2
   assign desktop_columns = 3
   case product_card_size
-    when 'extra-large'
-      assign tablet_columns = 1
-      assign desktop_columns = 2
     when 'large'
       assign tablet_columns = 2
       assign desktop_columns = 2
@@ -514,8 +511,7 @@
       "options": [
         { "value": "small", "label": "t:options.small" },
         { "value": "medium", "label": "t:options.medium" },
-        { "value": "large", "label": "t:options.large" },
-        { "value": "extra-large", "label": "t:options.extra_large" }
+        { "value": "large", "label": "t:options.large" }
       ]
     },
     {

@@ -91,9 +91,11 @@
         "settings": {
           "heading_size": "h4",
           "show_description": true,
-          "mobile_columns": "2",
-          "tablet_columns": "2",
-          "desktop_columns": "4",
+          "product_card_size": "small",
+          "mobile_product_card_size": "small",
+          "product_grid_width": "centered",
+          "columns_gap_horizontal": 20,
+          "color_scheme": "",
           "padding-block-start": 32,
           "padding-block-end": 0
         }

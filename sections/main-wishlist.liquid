@@ -5,8 +5,8 @@
   assign show_description = section.settings.show_description
   assign padding_block_start = section.settings['padding-block-start'] | default: 0
   assign padding_block_end = section.settings['padding-block-end'] | default: 0
-  assign padding_inline_start = section.settings['padding-inline-start'] | default: 0 | plus: 0
-  assign padding_inline_end = section.settings['padding-inline-end'] | default: 0 | plus: 0
+  assign padding_inline_start = 0
+  assign padding_inline_end = 0
   assign product_card_size = section.settings.product_card_size | default: 'medium'
   assign mobile_product_card_size = section.settings.mobile_product_card_size | default: 'small'
   assign product_grid_width = section.settings.product_grid_width | default: 'centered'
@@ -541,26 +541,6 @@
         { "value": "centered", "label": "t:options.page" },
         { "value": "full-width", "label": "t:options.full" }
       ]
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "左の余白",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "右の余白",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
     },
     {
       "type": "range",

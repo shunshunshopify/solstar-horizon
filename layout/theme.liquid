@@ -32,6 +32,14 @@
     {% endif %}
 
     {{ content_for_header }}
+
+     <!-- Add this in the <head> section, after the main stylesheet -->
+    {{ 'wishlist-styles.css' | asset_url | stylesheet_tag }}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+
      {% render 'video-intro' %}
   </head>
 
@@ -66,5 +74,10 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+     <!-- Add this before the closing </body> tag -->
+    {{ 'wishlist.js' | asset_url | script_tag }}
+
+
   </body>
 </html>

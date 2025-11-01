@@ -3,10 +3,6 @@
     assign current_variant = product.selected_or_first_available_variant
     assign product_form_id = 'product-form-' | append: section.id
     assign image = current_variant.image | default: product.featured_image
-    assign fly_to_cart_image = ''
-    if image
-      assign fly_to_cart_image = image | image_url: width: 120
-    endif
     assign variant_option_count = 0
     unless product.has_only_default_variant
       assign variant_option_count = product.options_with_values | size
@@ -164,7 +160,8 @@
     #md-sticky-atc .variant-option__select-wrapper{
       margin-top: 0;
       min-height: var(--height-buy-buttons);
-      border: var(--style-border-width) solid var(--color-variant-border);
+      border: {{ settings.variant_button_border_width }}px solid var(--color-variant-border);
+      border-radius: {{ settings.variant_button_radius }}px;
     }
     #md-sticky-atc .variant-option__select{
       padding-block: 0;
@@ -194,11 +191,23 @@
     }
 
     @media (max-width: 989px){
-      #md-sticky-atc .product-form__controls{
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: stretch;
-        gap: .5rem;
+      /* Keep other controls in a two-column layout */
+      #md-sticky-atc .product-form__controls {
+        grid-template-columns: repeat(2, 1fr);
       }
+
+      /* Make only the Add to Cart button span the full width */
+      #md-sticky-atc .product-form__submit.button {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      /* Ensure add-to-cart-component displays properly in grid */
+      #md-sticky-atc add-to-cart-component {
+        display: contents;
+        grid-column: 1 / -1;
+      }
+
       #md-sticky-atc .product-form__controls[data-variant-count="0"]{
         grid-template-columns: 1fr;
         gap: 0;
@@ -207,16 +216,14 @@
         grid-template-columns: 1fr;
         gap: 0;
       }
-      #md-sticky-atc .product-form__submit.button{
-        grid-column: 1 / -1;
-        margin-top: .5rem;
-      }
+      
       #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button{
         margin-top: 1rem;
       }
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
         margin-top: 0;
       }
+      
       /* Remove margin and gap when all optional elements are disabled on mobile */
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
         gap: 0;
@@ -224,10 +231,12 @@
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
         margin-top: 0;
       }
+      
       /* Add gap when only one variant option is available (no product info, no qty) */
       #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"] .product-form__submit.button{
         margin-top: .5rem;
       }
+      
       #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
       #md-sticky-atc .product-form__controls[data-variant-count="3"] .variant-controls,
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .variant-controls{
@@ -249,14 +258,42 @@
       #md-sticky-atc:not(.no-qty) .product-form__controls[data-variant-count="1"] .quantity-selector{
         grid-column: span 1;
       }
-      #md-sticky-atc.no-qty .product-form__submit.button{
-        grid-column: 1 / -1;
+    }
+      
+      /* Remove margin and gap when all optional elements are disabled on mobile */
+      #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
+        gap: 0;
+      }
+      
+      /* Add gap when only one variant option is available (no product info, no qty) */
+      #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"]{
+        margin-bottom: .5rem;
       }
     }
 
     /* Add to cart – uses Horizon primary .button styles */
-    #md-sticky-atc .product-form__submit.button{ width: 100%; border-radius: var(--style-border-radius-buttons-primary); }
+    #md-sticky-atc .product-form__submit.button{ 
+      width: 100%; /* Full width base for mobile */
+      border: {{ settings.primary_button_border_width }}px solid;
+      border-radius: {{ settings.button_border_radius_primary }}px; 
+    }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
+    
+    /* Quantity selector buttons - remove border styling */
+    #md-sticky-atc .quantity__button {
+      border: none;
+    }
+    
+    /* Fix span wrapper around add-to-cart button to allow grid-column to work */
+    #md-sticky-atc span[style*="--add-to-cart-font-case"] {
+      display: contents; /* Remove span from layout flow */
+    }
+    
+    /* Ensure proper add-to-cart button styling inheritance */
+    #md-sticky-atc .add-to-cart-button {
+      position: relative;
+      overflow: hidden;
+    }
 
     /* Desktop */
     @media (min-width: 990px){
@@ -279,11 +316,14 @@
       #md-sticky-atc .sticky-product-info{
         flex: 1;
       }
-      #md-sticky-atc .product-form{
+      #md-sticky-atc .product-form,
+      #md-sticky-atc product-form-component {
         flex: 1 1 auto;
         max-width: 60%;
         min-width: 0;
       }
+      
+      /* Use flexbox like your old code for reliable alignment */
       #md-sticky-atc .product-form__controls{
         display: flex;
         align-items: stretch;
@@ -292,10 +332,22 @@
         width: 100%;
         min-width: 0;
         justify-content: flex-end;
+        margin-bottom: 0;
       }
+      
       #md-sticky-atc.no-variant .product-form__controls{
         justify-content: flex-end;
       }
+      
+      /* Button gets constrained width like your old code */
+      #md-sticky-atc .product-form__submit.button{
+        flex: 0 0 auto;
+        width: clamp(140px, 185px, 185px);
+        min-width: 140px;
+        max-width: 185px;
+        height: var(--height-buy-buttons);
+      }
+      
       #md-sticky-atc .variant-controls{
         display: flex;
         flex: 1 1 auto;
@@ -321,13 +373,6 @@
         width: clamp(80px, var(--quantity-selector-width, 120px), 120px);
         align-self: stretch;
       }
-      #md-sticky-atc .product-form__submit.button{
-        flex: 0 0 auto;
-        width: clamp(140px, 185px, 185px);
-        min-width: 140px;
-        max-width: 185px;
-        height: var(--height-buy-buttons);
-      }
     }
   </style>
 
@@ -344,7 +389,8 @@
       const stickyOptionSelects = variantControls
         ? Array.from(variantControls.querySelectorAll('.variant-option__select'))
         : [];
-      const stickySelect = bar.querySelector('.select--variant-id select');
+      const stickySelect = bar.querySelector('.select--variant-id select[data-sticky]');
+      const stickyHiddenInput = bar.querySelector('input[ref="variantId"]');
       const variantsDataEl = bar.querySelector('[data-sticky-variants]');
       const variants = variantsDataEl ? JSON.parse(variantsDataEl.textContent) : [];
       if (variantsDataEl) variantsDataEl.remove();
@@ -355,6 +401,8 @@
       const minusBtn = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="minus"]') : null;
       const plusBtn  = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="plus"]') : null;
       const stickyAddBtn = bar.querySelector('button[name="add"]');
+      
+      // The add-to-cart-component automatically handles click and animation
       const stickyFallbackMedia = stickyAddBtn ? stickyAddBtn.dataset.productVariantMedia : '';
       const cartIcon = document.querySelector('.header-actions__cart-icon');
 
@@ -425,14 +473,25 @@
       };
 
       const setStickyVariant = (variantId, { source = 'external', variantData = null } = {}) => {
-        if (!variantId || !stickySelect) return;
+        if (!variantId || !stickySelect || !stickyHiddenInput) return;
+        
+        // Find the option element with variant data
         const target = stickySelect.querySelector(`option[value="${variantId}"]`);
         if (!target) return;
+        
+        // Update both the select dropdown and hidden input
         if (stickySelect.value !== String(variantId)) {
           stickySelect.value = String(variantId);
         }
+        if (stickyHiddenInput.value !== String(variantId)) {
+          stickyHiddenInput.value = String(variantId);
+        }
         currentVariantId = String(variantId);
+        
+        // Update UI elements using option data attributes
         updateStickyFromOption(target);
+        
+        // Get variant data and update option selectors
         const variant = variantData || findVariantById(variantId);
         if (variant) {
           if (source !== 'options') {
@@ -440,6 +499,9 @@
           }
           setMediaFromVariant(variant);
         }
+        
+        // Sync with main product form
+        const mainVariantControl = document.querySelector('[name="id"]:not([data-sticky])');
         if (source !== 'external' && mainVariantControl) {
           if (mainVariantControl.tagName === 'SELECT' && mainVariantControl.value !== stickySelect.value) {
             mainVariantControl.value = stickySelect.value;
@@ -554,9 +616,7 @@
 
         if (stickyAddBtn){
           stickyAddBtn.disabled = !available;
-          const addText = stickyAddBtn.getAttribute('data-add-text') || 'Add to cart';
-          const soldOutText = stickyAddBtn.getAttribute('data-sold-out-text') || 'Sold out';
-          stickyAddBtn.textContent = available ? addText : soldOutText;
+          // Don't manually update button text - let the add-to-cart-component handle it
           if (animationImg) {
             stickyAddBtn.dataset.productVariantMedia = animationImg;
           } else if (stickyFallbackMedia) {
@@ -589,19 +649,22 @@
         }
       }
 
-      if (stickySelect){
+      // Add event listener for variant dropdown changes
+      if (stickySelect) {
         stickySelect.addEventListener('change', () => {
           const selectedId = stickySelect.value;
           if (selectedId) {
             setStickyVariant(selectedId, { source: 'select', variantData: findVariantById(selectedId) });
           }
         });
-        if (stickySelect.value) {
-          setStickyVariant(stickySelect.value, {
-            source: 'external',
-            variantData: findVariantById(stickySelect.value),
-          });
-        }
+      }
+
+      // Initialize with current variant value
+      if (stickySelect && stickySelect.value) {
+        setStickyVariant(stickySelect.value, {
+          source: 'external',
+          variantData: findVariantById(stickySelect.value),
+        });
       } else if (variants.length) {
         const fallbackVariant = variants.find((variant) => variant.available) || variants[0];
         if (fallbackVariant) {
@@ -651,50 +714,8 @@
         });
       }
 
-      // Sticky ATC should behave EXACTLY like main PDP ATC
-      if (stickyAddBtn) {
-        stickyAddBtn.addEventListener('click', (e) => {
-          if (mainAddBtn) {
-            e.preventDefault();
-
-            // Sync variant to main select if needed
-            if (stickySelect && mainVariantControl && mainVariantControl.tagName === 'SELECT') {
-              if (mainVariantControl.value !== stickySelect.value) {
-                mainVariantControl.value = stickySelect.value;
-                mainVariantControl.dispatchEvent(new Event('change', { bubbles: true }));
-              }
-            }
-
-            // Sync quantity to main form if present
-            const mainQtyInput = mainForm && mainForm.querySelector('input[name="quantity"]');
-            if (mainQtyInput && qtyInput && mainQtyInput.value !== qtyInput.value) {
-              mainQtyInput.value = qtyInput.value || '1';
-              mainQtyInput.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-
-            const originalAnimationSetting =
-              mainAddComponent ? mainAddComponent.getAttribute('data-add-to-cart-animation') : null;
-            if (mainAddComponent && originalAnimationSetting === 'true') {
-              mainAddComponent.setAttribute('data-add-to-cart-animation', 'false');
-            }
-
-            animateFlyToCart();
-
-            // Delegate to theme logic (AJAX add, drawer, stay on PDP, etc.)
-            try {
-              mainAddBtn.click();
-            } finally {
-              if (mainAddComponent) {
-                if (originalAnimationSetting === null) {
-                  mainAddComponent.removeAttribute('data-add-to-cart-animation');
-                } else {
-                  mainAddComponent.setAttribute('data-add-to-cart-animation', originalAnimationSetting);
-                }
-              }
-            }
-          }
-        });
-      }
+      // The add-to-cart-component automatically handles click and animation
+      // No need for custom click handler - let the component work
 
       // ---- Layout optimization (no empty space when controls are hidden) ----
       function updateLayoutFlags(){
@@ -753,13 +774,32 @@
           </div>
 
           <!-- Controls -->
-          <product-form class="product-form">
-            {%- form 'product', product, id: product_form_id, class: 'form' -%}
+          <product-form-component
+            data-section-id="{{ section.id }}"
+            data-product-id="{{ product.id }}"
+            data-product-url="{{ product.url }}"
+            on:submit="/handleSubmit"
+            data-quantity-default="{% if product.selected_or_first_available_variant.quantity_rule.min %}{{ product.selected_or_first_available_variant.quantity_rule.min }}{% else %}1{% endif %}"
+          >
+            <div
+              class="visually-hidden"
+              aria-live="assertive"
+              role="status"
+              aria-atomic="true"
+              ref="liveRegion"
+            ></div>
+            {%- form 'product', product, id: product_form_id, class: 'form', data-type: 'add-to-cart-form' -%}
+              <input
+                type="hidden"
+                name="id"
+                ref="variantId"
+                value="{{ current_variant.id }}"
+              >
               {% assign controls_variant_count = 0 %}
               {% if variant_option_count > 0 and section.settings.show_variant_picker %}
                 {% assign controls_variant_count = variant_option_count %}
               {% endif %}
-              <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
+                            <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
                 {% if variant_option_count > 0 and section.settings.show_variant_picker %}
                   <div class="variant-controls" data-option-count="{{ variant_option_count }}">
                     {% for option in product.options_with_values %}
@@ -794,28 +834,6 @@
                     {% endfor %}
                   </div>
                 {% endif %}
-
-                <!-- Variant id select kept for data + submission -->
-                <div class="select select--variant-id" style="display:none;">
-                  <select name="id" aria-label="Select variant">
-                    {% for variant in product.variants %}
-                      {% assign variant_image = variant.image | default: product.featured_image %}
-                      <option
-                        value="{{ variant.id }}"
-                        data-img="{% if variant_image %}{{ variant_image | image_url: width: 60, height: 60, crop: 'center' }}{% endif %}"
-                        data-price-html="{{ variant.price | money }}"
-                        data-animation-img="{% if variant_image %}{{ variant_image | image_url: width: 120 }}{% endif %}"
-                        data-available="{{ variant.available }}"
-                        {% if current_variant.id == variant.id %}selected{% endif %}
-                      >
-                        {{ variant.title }} - {{ variant.price | money }}
-                      </option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <script type="application/json" data-sticky-variants>
-                  {{ product.variants | json }}
-                </script>
 
                 <!-- Quantity (toggle via setting) -->
                 {% if section.settings.show_qty %}
@@ -854,21 +872,52 @@
                   </div>
                 {% endif %}
 
-                <!-- Add to cart -->
-                <button
-                  type="submit"
-                  name="add"
-                  class="product-form__submit button"
-                  data-add-text="{{ 'products.product.add_to_cart' | t | escape }}"
-                  data-sold-out-text="{{ 'products.product.sold_out' | t | escape }}"
-                  data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
-                  data-product-variant-media="{{ fly_to_cart_image }}"
-                >
-                  {{ 'products.product.add_to_cart' | t }}
-                </button>
+                <!-- Variant id select kept for data + switching functionality -->
+                <div class="select select--variant-id" style="display:none;">
+                  <select name="id" aria-label="Select variant" data-sticky>
+                    {% for variant in product.variants %}
+                      {% assign variant_image = variant.image | default: product.featured_image %}
+                      <option
+                        value="{{ variant.id }}"
+                        data-img="{% if variant_image %}{{ variant_image | image_url: width: 60, height: 60, crop: 'center' }}{% endif %}"
+                        data-price-html="{{ variant.price | money }}"
+                        data-animation-img="{% if variant_image %}{{ variant_image | image_url: width: 120 }}{% endif %}"
+                        data-available="{{ variant.available }}"
+                        {% if current_variant.id == variant.id %}selected{% endif %}
+                      >
+                        {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <script type="application/json" data-sticky-variants>
+                  {{ product.variants | json }}
+                </script>
+                <!-- Add to cart button - back in grid -->
+                {% liquid
+                  if current_variant and current_variant.available
+                    assign can_add_to_cart = true
+                    assign add_to_cart_text = 'products.product.add_to_cart' | t
+                  else
+                    assign can_add_to_cart = false
+                    assign add_to_cart_text = 'products.product.sold_out' | t
+                  endif
+                  assign sticky_button_id = 'BuyButtons-ProductSubmitButton-' | append: section.id
+                %}
+                
+                <span style="--add-to-cart-font-case: {{ settings.button_text_case }};">
+                  {% render 'add-to-cart-button',
+                    id: sticky_button_id,
+                    class: 'add-to-cart-button product-form__submit button',
+                    can_add_to_cart: can_add_to_cart,
+                    product: product,
+                    add_to_cart_text: add_to_cart_text
+                  %}
+                </span>
               </div>
             {%- endform -%}
-          </product-form>
+          </product-form-component>
         </div>
       </div>
     </div>

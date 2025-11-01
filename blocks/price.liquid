@@ -45,11 +45,19 @@
   "
   {{ block.shopify_attributes }}
 >
-  {% render 'price',
-    show_unit_price: true,
-    product_resource: product_resource,
-    show_sale_price_first: block_settings.show_sale_price_first
-  %}
+  <div class="price-container{% if block_settings.show_wishlist_icon %} price-container--with-wishlist{% endif %}">
+    {% render 'price',
+      show_unit_price: true,
+      product_resource: product_resource,
+      show_sale_price_first: block_settings.show_sale_price_first
+    %}
+
+    {%- if block_settings.show_wishlist_icon and product_resource != blank -%}
+      <span class="price-wishlist-icon">
+        {% render 'wishlist-button', product: product_resource, location: 'product' %}
+      </span>
+    {%- endif -%}
+  </div>
 
   {% if block_settings.show_tax_info %}
     <div class="tax-note">
@@ -95,6 +103,45 @@
   .installments:not(:has(shopify-payment-terms)) {
     display: none;
   }
+
+  .price-container--with-wishlist {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
+  }
+
+  .price-wishlist-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .price-wishlist-icon .wishlist-button {
+    padding: var(--padding-2xs);
+    border: 1px solid rgba(var(--color-foreground), 0.2);
+    border-radius: var(--border-radius-button);
+    transition: all 0.2s ease;
+    background: transparent;
+    min-width: auto;
+    height: auto;
+  }
+
+  .price-wishlist-icon .wishlist-button:hover {
+    border-color: rgba(var(--color-foreground), 0.4);
+    background-color: rgba(var(--color-foreground), 0.05);
+  }
+
+  .price-wishlist-icon .wishlist-button.is-added {
+    background-color: rgba(var(--color-foreground), 0.1);
+    border-color: var(--color-foreground);
+  }
+
+  .price-wishlist-icon .wishlist-button .icon-heart {
+    width: 20px;
+    height: 20px;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -126,6 +173,13 @@
       "type": "checkbox",
       "id": "show_tax_info",
       "label": "t:settings.show_tax_info",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist_icon",
+      "label": "Show wishlist icon",
+      "info": "Display wishlist heart icon below the price",
       "default": false
     },
     {

@@ -1,0 +1,903 @@
+<head>
+  <!-- Import bottom menu CSS file -->
+  {{ 'bottom-menu.css' | asset_url | stylesheet_tag }}
+  
+  <!-- Import necessary scripts for cart and menu functionality -->
+  <script
+    type="module"
+    src="{{ 'cart-icon.js' | asset_url }}"
+    fetchpriority="low"
+  ></script>
+  
+  <script
+    type="module"
+    src="{{ 'header-drawer.js' | asset_url }}"
+    fetchpriority="low"
+  ></script>
+
+  <style>
+    /* Enhanced styling combining original design with optimized structure */
+    .sticky-section {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: {{ section.settings.bg_color}};
+      padding: 0;
+      text-align: center;
+      z-index: 100;
+      height: {{ section.settings.height }}px;
+      display: flex;
+      justify-content: space-around;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .11);
+    }
+    
+    @media only screen and (min-width: 768px) {
+      .sticky-section {
+        display: none;
+      }
+    }
+    
+    .sticky-section .btm_link {
+      color: {{ section.settings.color }};
+      text-decoration: none;
+      margin: 10px;
+      font-size: {{ section.settings.font_size }}px;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      align-items: center;
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .sticky-section svg {
+      width: {{ section.settings.icon_size }}rem;
+      height: {{ section.settings.icon_size }}rem;
+      stroke: {{ section.settings.icon_color }};
+      fill: none;
+      stroke-width: 1.5px;
+    }
+    
+    .sticky-section-column {
+      align-items: center;
+      border-right: 1px solid #eee;
+      display: flex;
+      flex: 1 0 auto;
+      justify-content: center;
+      position: relative;
+      width: 20%;
+      overflow: visible !important;
+    }
+    
+    .sticky-section-column:last-child {
+      border-right: none !important;
+      padding: 0;
+    }
+    
+    {% if section.settings.hide-border %}
+    .sticky-section-column {
+      border-right: none !important;
+    }
+    {% endif %}
+    
+    /* Dynamic background color for popups - Override CSS file */
+    .extended-menu, .collection-popup {
+      background-color: {{ section.settings.bg_color }};
+    }
+    
+    /* Dynamic text color for menu links - Override CSS file */
+    .menu-link {
+      color: {{ section.settings.color }};
+    }
+    
+    /* CSS Variables for consistency */
+    :root {
+      --bottom-menu-height: {{ section.settings.height }}px;
+      --bottom-menu-bg: {{ section.settings.bg_color }};
+      --bottom-menu-color: {{ section.settings.color }};
+      --bottom-menu-icon-color: {{ section.settings.icon_color }};
+      --bottom-menu-font-size: {{ section.settings.font_size }}px;
+      --bottom-menu-icon-size: {{ section.settings.icon_size }}rem;
+      --icon-stroke-width: 1.5px;
+      {% if section.settings.hide-border %}
+      --bottom-menu-border-color: transparent;
+      {% endif %}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sticky-section">
+    {% for block in section.blocks %}
+      {%- case block.type -%}
+        {%- when 'block' -%}
+          <div class="sticky-section-column">
+            <a href="{{ block.settings.url }}" class="btm_link">
+              {% if block.settings.icon_url == blank %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-link-line.svg' | inline_asset_content }}
+                </span>
+              {% else %}
+                {{ block.settings.icon_url }}
+              {% endif %}
+              {{ block.settings.caption }}
+            </a>
+          </div>
+        {%- when 'home_block' -%}
+          <div class="sticky-section-column">
+            <a href="{{ routes.root_url }}" class="btm_link">
+              {% if block.settings.icon_url == blank %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'home-line.svg' | inline_asset_content }}
+                </span>
+              {% else %}
+                {{ block.settings.icon_url }}
+              {% endif %}
+              {{ block.settings.caption }}
+            </a>
+          </div>
+        {%- when 'cart_block' -%}
+          <div class="sticky-section-column">
+            <button
+              class="btm_link button-unstyled bottom-nav-cart-trigger"
+              type="button"
+              aria-label="{{ 'accessibility.cart' | t }}"
+              aria-describedby="cart-bubble-text"
+              data-testid="bottom-cart-trigger"
+            >
+              <cart-icon
+                class="
+                  bottom-nav-cart-icon
+                  {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
+                "
+                data-testid="cart-icon"
+              >
+                {% if block.settings.icon_url == blank %}
+                  <span
+                    class="svg-wrapper"
+                    aria-hidden="true"
+                  >
+                    {{ 'icon-cart.svg' | inline_asset_content }}
+                  </span>
+                {% else %}
+                  {{ block.settings.icon_url }}
+                {% endif %}
+                {% render 'cart-bubble', limit: 100, live_region: true %}
+              </cart-icon>
+              {{ block.settings.caption }}
+            </button>
+          </div>
+        {%- when 'wishlist_block' -%}
+        <div class="sticky-section-column">
+          <a href="/pages/wishlist" class="bottom-icon-sticky btm_link header__icon--wishlist-link">
+            {% if block.settings.icon_url == blank %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-heart-line.svg' | inline_asset_content }}
+              </span>
+            {% else %}
+              {{ block.settings.icon_url }}
+            {% endif %}
+            {{ block.settings.caption }}
+            <!-- Enhanced wishlist counter with proper styling -->
+            <div class="cart-count wishlist-total-count-bottom-menu" data-wishlist-counter-bottom style="display: none;">
+              <span class="visually-hidden">Wishlist items: </span>
+              <span aria-hidden="true">0</span>
+            </div>
+          </a>
+        </div>
+        {%- when 'Menu_block' -%}
+          <div class="sticky-section-column sticky-section-menu-drawer">
+            <button type="button" class="btm_link" data-menu-drawer-trigger aria-label="Open navigation menu">
+              {% if block.settings.icon_url == blank %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-menu.svg' | inline_asset_content }}
+                </span>
+              {% else %}
+                {{ block.settings.icon_url }}
+              {% endif %}
+              {{ block.settings.caption }}
+            </button>
+          </div>
+        {%- when 'Account_block' -%}
+          <div class="sticky-section-column">
+            <a href="{{ routes.account_url }}" class="btm_link">
+              {% if block.settings.icon_url == blank %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-account.svg' | inline_asset_content }}
+                </span>
+              {% else %}
+                {{ block.settings.icon_url }}
+              {% endif %}
+              {{ block.settings.caption }}
+            </a>
+          </div>
+        {%- when 'Search_block' -%}
+          <div class="sticky-section-column">
+            <a href="{{ routes.search_url }}" class="btm_link">
+              {% if block.settings.icon_url == blank %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-search.svg' | inline_asset_content }}
+                </span>
+              {% else %}
+                {{ block.settings.icon_url }}
+              {% endif %}
+              {{ block.settings.caption }}
+            </a>
+          </div>
+        {%- when 'cat_block' -%}
+          <div class="sticky-section-column" id="collectionButton">
+            <a href="#collectionPopup" class="btm_link">
+              {% if block.settings.icon_url == blank %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-layout-grid-line.svg' | inline_asset_content }}
+                </span>
+              {% else %}
+                {{ block.settings.icon_url }}
+              {% endif %}
+              {{ block.settings.caption }}
+            </a>
+          </div>
+          <div id="collectionPopup" class="collection-popup">
+            <span class="close-popup" id="closeCollectionPopupButton">Close</span>
+            <div id="custom-menu-section">
+              <div class="custom-menu">
+                {% for link in linklists[block.settings.menu].links %}
+                  <li class="custom-menu-links">
+                    <div class="custom-menu-image">
+                      {% if link.object.featured_image %}
+                        {% assign menu_image_url = link.object.featured_image | image_url: width: 100, height: 100 %}
+                        <img src="{{ menu_image_url | asset_url }}" alt="{{ link.title | escape }}" width="100" height="100">
+                      {% endif %}
+                    </div>
+                    <a href="{{ link.url }}" class="menu-link">{{ link.title }}</a>
+                  </li>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {%- when 'extended_menu_block' -%}
+        <div class="sticky-section-column sticky-section-extended-menu-drawer" id="exmenuButton">
+          <a href="#popup" class="btm_link">
+             {% if block.settings.icon_url == blank %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-more-2-line.svg' | inline_asset_content }}
+                </span>
+             {% else %}
+                {{ block.settings.icon_url }}
+             {% endif %}
+              {{ block.settings.caption }}
+          </a>
+        </div>
+        <div id="popup" class="extended-menu">
+          <span class="close-popup" id="closePopupButton">Close</span>
+          <div class="container">
+            {% if block.settings.show_search %}
+            <div class="item item-1">
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-search.svg' | inline_asset_content }}
+                </span>
+                Search
+              </a>
+            </div>
+            {% endif %}
+            {% if block.settings.show_wishlist %}
+            <div class="item item-2">
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-heart-line.svg' | inline_asset_content }}
+                </span>
+                Wishlist
+              </a>
+            </div>
+            {% endif %}
+            {% if block.settings.show_whatsapp %}
+            <div class="item item-3">
+              <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message }}">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-whatsapp-line.svg' | inline_asset_content }}
+                </span>
+                Whatsapp
+              </a>
+            </div>
+            {% endif %}
+            {% if block.settings.show_track %}
+            <div class="item item-4">
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-truck-line.svg' | inline_asset_content }}
+                </span>
+                Track Order
+              </a>
+            </div>
+            {% endif %}
+            {% if block.settings.show_help %}
+            <div class="item item-5">
+              <a href="#">
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-question-line.svg' | inline_asset_content }}
+                </span>
+                Help
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {%- endcase -%}
+    {% endfor %}
+  </div>
+</body>
+<script>
+/**
+ * Enhanced Bottom Nav Bar Functionality
+ * Combines original styling with optimized cart integration
+ */
+(function() {
+  'use strict';
+  
+  // Enhanced menu drawer handling
+  function setupMenuDrawer() {
+    // Handle menu drawer trigger buttons
+    const menuButtons = document.querySelectorAll('[data-menu-drawer-trigger], .sticky-section-menu-drawer');
+    menuButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Find and trigger the main menu drawer
+        const mainMenuTrigger = document.querySelector('.menu-drawer-container .header__icon--menu, [aria-label*="menu"]:not(.btm_link)');
+        if (mainMenuTrigger) {
+          mainMenuTrigger.click();
+        } else {
+          // Fallback: try to trigger menu drawer component directly
+          const menuDrawer = document.querySelector('menu-drawer, [data-menu-drawer]');
+          if (menuDrawer && menuDrawer.showDialog) {
+            menuDrawer.showDialog();
+          }
+        }
+      });
+    });
+  }
+  
+  // Enhanced popup management with better UX
+  function initializePopups() {
+    // Collection popup management
+    const collectionButton = document.getElementById('collectionButton');
+    const closeCollectionButton = document.getElementById('closeCollectionPopupButton');
+    const collectionPopup = document.getElementById('collectionPopup');
+
+    if (collectionButton && collectionPopup) {
+      collectionButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (collectionPopup.style.display === 'flex') {
+          collectionPopup.style.display = 'none';
+        } else {
+          collectionPopup.style.display = 'flex';
+        }
+      });
+    }
+
+    if (closeCollectionButton && collectionPopup) {
+      closeCollectionButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        collectionPopup.style.display = 'none';
+      });
+    }
+
+    // Extended menu popup management
+    const menuButton = document.getElementById('exmenuButton');
+    const closePopupButton = document.getElementById('closePopupButton');
+    const popup = document.getElementById('popup');
+
+    if (menuButton && popup) {
+      menuButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (popup.style.display === 'flex') {
+          popup.style.display = 'none';
+        } else {
+          popup.style.display = 'flex';
+        }
+      });
+    }
+    
+    if (closePopupButton && popup) {
+      closePopupButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        popup.style.display = 'none';
+      });
+    }
+    
+    // Enhanced outside click handling
+    document.addEventListener('click', function (e) {
+      // Close collection popup if clicking outside
+      if (collectionPopup && collectionPopup.style.display === 'flex' && 
+          !collectionPopup.contains(e.target) && 
+          !collectionButton.contains(e.target)) {
+        collectionPopup.style.display = 'none';
+      }
+      
+      // Close extended menu popup if clicking outside
+      if (popup && popup.style.display === 'flex' && 
+          !popup.contains(e.target) && 
+          !menuButton.contains(e.target)) {
+        popup.style.display = 'none';
+      }
+    });
+    
+    // Enhanced escape key handling
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (collectionPopup && collectionPopup.style.display === 'flex') {
+          collectionPopup.style.display = 'none';
+        }
+        if (popup && popup.style.display === 'flex') {
+          popup.style.display = 'none';
+        }
+      }
+    });
+  }
+  
+  // Enhanced cart functionality
+  function enhanceCartFunctionality() {
+    // Handle bottom nav cart button clicks
+    const bottomCartTrigger = document.querySelector('.bottom-nav-cart-trigger');
+    if (bottomCartTrigger) {
+      bottomCartTrigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // For drawer cart type, find and trigger the header cart drawer
+        if ('{{ settings.cart_type }}' === 'drawer') {
+          // Try to find the header cart drawer trigger button
+          const headerCartTrigger = document.querySelector('cart-drawer-component button[on\\:click="/open"], .cart-drawer button[on\\:click="/open"]');
+          if (headerCartTrigger) {
+            headerCartTrigger.click();
+          } else {
+            // Alternative: try to find cart-drawer-component and call its open method
+            const cartDrawer = document.querySelector('cart-drawer-component');
+            if (cartDrawer && cartDrawer.showDialog) {
+              cartDrawer.showDialog();
+            }
+          }
+        } else {
+          // For page cart type, navigate to cart page
+          window.location.href = '{{ routes.cart_url }}';
+        }
+      });
+    }
+    
+    // Listen for theme cart updates to sync with any remaining legacy elements
+    document.addEventListener('theme:cart:change', function(e) {
+      const legacyCartCount = document.querySelector('#cart-count-bubble');
+      if (legacyCartCount && e.detail && e.detail.cart) {
+        legacyCartCount.textContent = e.detail.cart.item_count;
+      }
+    });
+  }
+  
+  // Initialize everything when DOM is ready
+  function initialize() {
+    setupMenuDrawer();
+    initializePopups();
+    enhanceCartFunctionality();
+    
+    // Note: Modern cart functionality is handled by cart-icon-component
+    // Note: Wishlist counter management is handled by assets/wishlist.js
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize);
+  } else {
+    initialize();
+  }
+  
+  // Handle page transitions if view transitions are enabled
+  document.addEventListener('astro:page-load', initialize);
+})();
+
+// Legacy openCartDrawer function for backward compatibility
+function openCartDrawer() {
+  const cartDrawer = document.querySelector('cart-drawer-component, [data-cart-drawer]');
+  if (cartDrawer && cartDrawer.showDialog) {
+    cartDrawer.showDialog();
+  }
+}
+</script>
+
+{% schema %}
+{
+    "name": "Sticky bottom menu",
+    "settings": [
+        {
+            "type": "header",
+            "content": "General"
+        },
+        {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background color",
+            "default": "#ffffff"
+        },
+        {
+            "type": "color",
+            "id": "icon_color",
+            "label": "Icon color",
+            "default": "#000"
+        },
+        {
+            "type": "color",
+            "id": "color",
+            "label": "Text color",
+            "default": "#000"
+        },
+        {
+        "type": "range",
+        "id": "font_size",
+        "min": 5,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Font Size",
+        "default": 10
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 1.5,
+          "max": 5,
+          "step": 0.1,
+          "unit": "rem",
+          "label": "Icon Size",
+          "default": 2.2
+        },
+        {
+        "type": "header",
+        "content": "Spacing"
+        },
+        {
+        "type": "range",
+        "id": "height",
+        "min": 50,
+        "max": 100,
+        "step": 10,
+        "unit": "px",
+        "label": "height",
+        "default": 70
+        },
+        {
+            "type": "checkbox",
+            "id": "hide-border",
+            "label": "Hide Borders",
+            "default": false
+        }
+    ],
+    "blocks": [
+        {
+            "type": "block",
+            "name": "Custom Block",
+            "limit": 5,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Caption"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "home_block",
+            "name": "Home",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                     "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Home"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "cart_block",
+            "name": "Cart",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                    "placeholder": "<i class=\"ri-shopping-basket-2-line\"></i>",
+                     "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Cart"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "wishlist_block",
+            "name": "Wishlist",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                    "placeholder": "<i class=\"ri-heart-line\"></i>",
+                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Wishlist"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "Menu_block",
+            "name": "Drawer Menu Toggle",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                    "placeholder": "<i class=\"ri-bars-line\"></i>",
+                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Menu"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "Account_block",
+            "name": "Account",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                     "placeholder": "<i class=\"ri-account-line\"></i>",
+                      "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Account"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+        {
+            "type": "Search_block",
+            "name": "Search",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                    "placeholder": "<i class=\"ri-search-line\"></i>",
+                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Search"
+                },
+                {
+                    "type": "url",
+                    "id": "url",
+                    "label": "Link"
+                }
+            ]
+        },
+      {
+            "type": "cat_block",
+            "name": "Categories",
+            "limit": 1,
+            "settings": [
+                {
+                  "type": "link_list",
+                  "id": "menu",
+                  "default": "main-menu",
+                  "label": "Custom Menu"
+                },
+                {
+                    "type": "textarea",
+                    "id": "icon_url",
+                    "label": "Add Icon",
+                    "placeholder": "<i class=\"ri-search-line\"></i>",
+                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "Categories"
+                },
+            ]
+        },
+      {
+            "type": "extended_menu_block",
+            "name": "More",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "General"
+                },
+                {
+                    "type": "text",
+                    "id": "caption",
+                    "label": "Caption",
+                    "default": "More"
+                },
+                {
+                    "type": "header",
+                    "content": "Search"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "show_search",
+                    "label": "Search",
+                    "default": true
+                },
+                {
+                    "type": "url",
+                    "id": "search_url",
+                    "label": "Search Link"
+                },
+                {
+                    "type": "header",
+                    "content": "Whatsapp"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "show_whatsapp",
+                    "label": "Whatsapp",
+                    "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "wa_number",
+                    "label": "Whatsapp Number with Country Code",
+                     "info": "+911234567890"
+                },
+                {
+                    "type": "text",
+                    "id": "wa_message",
+                    "label": "Whatsapp Text",
+                    "default": "Hi There! I need some help",
+                     "info": "Hi There! I need some help"
+                },
+                {
+                    "type": "header",
+                    "content": "Wishlist"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "show_wishlist",
+                    "label": "Wishlist",
+                    "default": true
+                },
+                {
+                    "type": "url",
+                    "id": "wishlist_url",
+                    "label": "Wishlist Link"
+                },
+                {
+                    "type": "header",
+                    "content": "Track Order"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "show_track",
+                    "label": "Track Order",
+                    "default": true
+                },
+                {
+                    "type": "url",
+                    "id": "track_url",
+                    "label": "Track Link"
+                },
+                {
+                    "type": "header",
+                    "content": "Help/Contact us"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "show_help",
+                    "label": "Help",
+                    "default": true
+                },
+                {
+                    "type": "url",
+                    "id": "help_url",
+                    "label": "Help Link"
+                }
+            ]
+        }
+    ],
+    "max_blocks": 5,
+    "presets": [
+        {
+            "name": "Sticky bottom menu",
+            "blocks": [
+              {
+              "type": "home_block"
+            },
+            {
+              "type": "cart_block"
+            },
+            {
+              "type": "Search_block"
+            },
+            {
+              "type": "Menu_block"
+            },
+            {
+              "type": "Account_block"
+            }
+            ]
+        }
+    ]
+}
+{% endschema %}

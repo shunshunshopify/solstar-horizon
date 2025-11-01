@@ -11,6 +11,68 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "bottom_nav_bar_9FENJe": {
+      "type": "bottom-nav-bar",
+      "blocks": {
+        "cart_block_PXFept": {
+          "type": "cart_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Cart",
+            "url": ""
+          }
+        },
+        "wishlist_block_LbM46V": {
+          "type": "wishlist_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Wishlist",
+            "url": ""
+          }
+        },
+        "cat_block_jWqtzW": {
+          "type": "cat_block",
+          "settings": {
+            "menu": "main-menu",
+            "icon_url": "",
+            "caption": "Categories"
+          }
+        },
+        "menu_block_difWiB": {
+          "type": "Menu_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Menu",
+            "url": ""
+          }
+        },
+        "block_rKMLgg": {
+          "type": "block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Caption",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "cart_block_PXFept",
+        "wishlist_block_LbM46V",
+        "cat_block_jWqtzW",
+        "menu_block_difWiB",
+        "block_rKMLgg"
+      ],
+      "name": "Sticky bottom menu",
+      "settings": {
+        "bg_color": "#ffffff",
+        "icon_color": "#000000",
+        "color": "#000000",
+        "font_size": 10,
+        "icon_size": 1.5,
+        "height": 70,
+        "hide-border": false
+      }
+    },
     "sticky_add_to_cart_6wHPQB": {
       "type": "sticky-add-to-cart",
       "name": "Sticky ATC",
@@ -18,80 +80,11 @@
         "enable_section": true,
         "mobile_only": false,
         "color_scheme": "scheme-1",
-        "show_qty": false,
-        "show_variant_picker": false,
+        "show_qty": true,
+        "show_variant_picker": true,
         "show_img": true,
         "pt": 0.5,
-        "pb": 0.5
-      }
-    },
-    "bottom_menu_3hFqLr": {
-      "type": "bottom-menu",
-      "blocks": {
-        "home_block_AhTb6w": {
-          "type": "home_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "トップ",
-            "url": ""
-          }
-        },
-        "cart_block_hVdAmV": {
-          "type": "cart_block",
-          "settings": {
-            "caption": "カート"
-          }
-        },
-        "search_block_LBK7xP": {
-          "type": "Search_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "検索",
-            "url": ""
-          }
-        },
-        "block_Ufx83b": {
-          "type": "block",
-          "settings": {
-            "icon_url": "",
-            "caption": "ギフト",
-            "url": ""
-          }
-        },
-        "extended_menu_block_BzzJ3M": {
-          "type": "extended_menu_block",
-          "settings": {
-            "caption": "More",
-            "show_search": true,
-            "search_url": "shopify://pages/contact",
-            "show_whatsapp": true,
-            "wa_number": "",
-            "wa_message": "Hi There! I need some help",
-            "show_wishlist": true,
-            "wishlist_url": "",
-            "show_track": true,
-            "track_url": "",
-            "show_help": true,
-            "help_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "home_block_AhTb6w",
-        "cart_block_hVdAmV",
-        "search_block_LBK7xP",
-        "block_Ufx83b",
-        "extended_menu_block_BzzJ3M"
-      ],
-      "name": "Bottom Nav Bar",
-      "settings": {
-        "bg_color": "#ffffff",
-        "icon_color": "#000000",
-        "color": "#000000",
-        "font_size": 10,
-        "icon_size": 2.2,
-        "height": 70,
-        "hide-border": true
+        "pb": 5
       }
     },
     "footer_m9NzUG": {
@@ -288,8 +281,8 @@
     }
   },
   "order": [
+    "bottom_nav_bar_9FENJe",
     "sticky_add_to_cart_6wHPQB",
-    "bottom_menu_3hFqLr",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

@@ -1,0 +1,33 @@
+{% comment %}
+  Usage:
+  {% render 'wishlist-button', product: product, location: 'product' %}
+  
+  Locations:
+  - 'product': Full button with text on product page
+  - 'collection': Icon-only button on collection cards
+  - 'buy_buttons': Icon-only button for placement next to Add to Cart
+{% endcomment %}
+
+{% assign current_variant = variant | default: product.selected_or_first_available_variant %}
+{% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+
+<button 
+  type="button"
+  class="wishlist-button wishlist-button--{{ location }}"
+  data-wishlist-button
+  data-product-id="{{ product.id }}"
+  data-product-title="{{ product.title | escape }}"
+  data-product-image="{{ featured_image | image_url: width: 1000 }}"
+  data-product-url="{{ product.url | within: collection }}"
+  data-product-price="{{ current_variant.price | money }}"
+  data-variant-id="{{ current_variant.id }}"
+  data-variant-available="{{ current_variant.available }}"
+  data-product-handle="{{ product.handle }}"
+  aria-label="{% if location == 'product' %}Add to wishlist{% else %}Add {{ product.title | escape }} to wishlist{% endif %}"
+>
+  <span class="wishlist-button__icon">
+    <svg class="icon icon-heart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    </svg>
+  </span>
+</button>

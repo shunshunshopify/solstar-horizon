@@ -68,12 +68,20 @@
   #shopify-section-{{ section.id }} .main-collection-grid.grid {
     grid-template-columns: 0 repeat(var(--centered-column-number), minmax(0, 1fr)) 0;
   }
+  
+  #shopify-section-{{ section.id }} .product-grid-container {
+    display: block;
+  }
 }
 
 @media screen and (min-width: 1400px) {
   #shopify-section-{{ section.id }} .collection-wrapper.grid,
   #shopify-section-{{ section.id }} .main-collection-grid.grid {
     grid-template-columns: 0 repeat(var(--centered-column-number), minmax(0, 1fr)) 0;
+  }
+  
+  #shopify-section-{{ section.id }} .product-grid-container {
+    display: block;
   }
 }
 {% endif %}

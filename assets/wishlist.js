@@ -50,12 +50,19 @@
    * @property {Record<string, string>} [variantMedia]
    */
 
-  /**
-   * @typedef {Object} WishlistProductState
-   * @property {ProductData} productData
-   * @property {string} baseUrl
-   * @property {ProductVariant} selectedVariant
-   */
+/**
+ * @typedef {Object} WishlistGalleryMeta
+ * @property {boolean} isVariant
+ * @property {boolean} isSelectedVariant
+ * @property {string | undefined} [variantId]
+ */
+
+/**
+ * @typedef {Object} WishlistProductState
+ * @property {ProductData} productData
+ * @property {string} baseUrl
+ * @property {ProductVariant} selectedVariant
+ */
 
   /**
    * @typedef {Object} WishlistRenderResult
@@ -93,6 +100,8 @@
       this.productCache = new Map();
       /** @type {Map<string, WishlistProductState>} */
       this.wishlistProductData = new Map();
+      /** @type {WeakMap<HTMLElement, { detach: () => void }>} */
+      this.galleryHoverHandlers = new WeakMap();
 
       /** @type {{ addToCart: string; soldOut: string }} */
       this.translations = {
@@ -243,6 +252,26 @@
         console.warn('Failed to format money, falling back to plain number:', error);
         return `$${(amount / 100).toFixed(2)}`;
       }
+    }
+
+    /**
+     * Safely read a theme setting exposed on window.theme.settings
+     * @template T
+     * @param {string} key
+     * @param {T} defaultValue
+     * @returns {T}
+     */
+    getThemeSetting(key, defaultValue) {
+      try {
+        const windowAny = /** @type {any} */ (window);
+        const themeSettings = /** @type {Record<string, unknown> | undefined} */ (windowAny?.theme?.settings);
+        if (themeSettings && Object.prototype.hasOwnProperty.call(themeSettings, key)) {
+          return /** @type {T} */ (/** @type {any} */ (themeSettings[key]));
+        }
+      } catch (error) {
+        console.warn('Unable to access theme setting', key, error);
+      }
+      return defaultValue;
     }
 
     /**
@@ -1014,6 +1043,221 @@
     }
 
     /**
+     * Build an ordered list of images for the wishlist gallery
+     * @param {ProductData | undefined} productData
+     * @param {ProductVariant | undefined} selectedVariant
+     * @param {string | undefined} fallbackImage
+     * @returns {Array<{ src: string; isVariant: boolean; isSelectedVariant: boolean; variantId?: string }>}
+     */
+    collectWishlistGalleryImages(productData, selectedVariant, fallbackImage) {
+      /** @type {Array<{ src: string; isVariant: boolean; isSelectedVariant: boolean; variantId?: string }>} */
+      const images = [];
+      /** @type {Set<string>} */
+      const seen = new Set();
+      /**
+       * @param {string | undefined} src
+       * @param {WishlistGalleryMeta} meta
+       */
+      const pushImage = (src, meta) => {
+        if (typeof src !== 'string' || !src) {
+          return;
+        }
+        const normalized = this.normalizeImageUrl(src, 832);
+        if (!normalized) {
+          return;
+        }
+        const key = normalized.split('?')[0];
+        if (seen.has(key)) {
+          return;
+        }
+        seen.add(key);
+        images.push(Object.assign({ src: normalized }, meta));
+      };
+
+      const selectedVariantId = selectedVariant ? String(selectedVariant.id) : undefined;
+      const selectedVariantImage =
+        (selectedVariant && selectedVariant.featuredImage) ||
+        (selectedVariantId && productData?.variantMedia ? productData.variantMedia[selectedVariantId] : undefined);
+
+      if (selectedVariantImage) {
+        pushImage(selectedVariantImage, {
+          isVariant: true,
+          isSelectedVariant: true,
+          variantId: selectedVariantId
+        });
+      }
+
+      if (productData?.variantMedia) {
+        Object.entries(productData.variantMedia).forEach(([variantId, src]) => {
+          const isSelected = selectedVariantId !== undefined && String(variantId) === selectedVariantId;
+          if (isSelected && selectedVariantImage) {
+            return;
+          }
+          pushImage(src, {
+            isVariant: true,
+            isSelectedVariant: isSelected,
+            variantId: variantId
+          });
+        });
+      }
+
+      if (productData?.featuredMedia) {
+        pushImage(productData.featuredMedia, { isVariant: false, isSelectedVariant: false });
+      }
+
+      if (productData?.featuredImage) {
+        pushImage(productData.featuredImage, { isVariant: false, isSelectedVariant: false });
+      }
+
+      if (Array.isArray(productData?.images)) {
+        productData.images.forEach((imageSrc) => {
+          pushImage(imageSrc, { isVariant: false, isSelectedVariant: false });
+        });
+      }
+
+      if (images.length === 0 && fallbackImage) {
+        pushImage(fallbackImage, { isVariant: false, isSelectedVariant: true });
+      }
+
+      return images;
+    }
+
+    /**
+     * Build gallery markup for the wishlist item
+     * @param {ProductData | undefined} productData
+     * @param {ProductVariant | undefined} selectedVariant
+     * @param {{ title?: string; url?: string; fallbackImage?: string }} context
+     * @returns {{ html: string }}
+     */
+    buildWishlistGalleryHtml(productData, selectedVariant, context = {}) {
+      const titleText = this.escapeHtml(context.title || '');
+      const altText = this.escapeHtml(context.title || '');
+      const linkUrl = context.url ? this.escapeHtml(context.url) : '#';
+      const galleryImages = this.collectWishlistGalleryImages(productData, selectedVariant, context.fallbackImage);
+
+      if (galleryImages.length === 0) {
+        const fallbackSrc =
+          typeof context.fallbackImage === 'string' && context.fallbackImage
+            ? this.escapeHtml(this.normalizeImageUrl(context.fallbackImage, 832))
+            : '';
+        if (!fallbackSrc) {
+          return {
+            html: `<a class="wishlist-item-gallery__link" href="${linkUrl}" aria-label="${titleText}"></a>`
+          };
+        }
+        return {
+          html: `<a class="wishlist-item-gallery__link" href="${linkUrl}" aria-label="${titleText}"><div class="wishlist-gallery__slides"><div class="wishlist-gallery__slide" data-index="0"><img src="${fallbackSrc}" alt="${altText}" loading="lazy" decoding="async"></div></div></a>`
+        };
+      }
+
+      const showSecondImageOnHover = this.getThemeSetting('show_second_image_on_hover', false);
+      const maxVisibleSlides = showSecondImageOnHover ? 2 : 1;
+
+      const visibleImages = galleryImages.slice(0, Math.max(1, maxVisibleSlides));
+
+      const slidesHtml = visibleImages
+        .map((image, index) => {
+          const slideClasses = ['wishlist-gallery__slide'];
+          if (index === 0) {
+            slideClasses.push('wishlist-gallery__slide--primary');
+          } else {
+            slideClasses.push('wishlist-gallery__slide--alternate');
+          }
+          const loading = index === 0 ? 'eager' : 'lazy';
+          const src = this.escapeHtml(image.src);
+          const variantIdAttr =
+            image.isVariant && image.variantId !== undefined
+              ? ` data-variant-id="${this.escapeHtml(String(image.variantId))}"`
+              : '';
+          return `<div class="${slideClasses.join(' ')}" data-index="${index}"${variantIdAttr}><img src="${src}" alt="${altText}" loading="${loading}" decoding="async"></div>`;
+        })
+        .join('');
+
+      return {
+        html: `<a class="wishlist-item-gallery__link" href="${linkUrl}" aria-label="${titleText}"><div class="wishlist-gallery__slides">${slidesHtml}</div></a>`
+      };
+    }
+
+    /**
+     * Set up hover/focus interactions for a wishlist gallery
+     * @param {HTMLElement} galleryElement
+     */
+    initializeWishlistGallery(galleryElement) {
+      if (!(galleryElement instanceof HTMLElement)) {
+        return;
+      }
+
+      const existing = this.galleryHoverHandlers.get(galleryElement);
+      if (existing) {
+        existing.detach();
+        this.galleryHoverHandlers.delete(galleryElement);
+      }
+
+      const showSecondImageOnHover = this.getThemeSetting('show_second_image_on_hover', false);
+      if (!showSecondImageOnHover) {
+        galleryElement.classList.remove('wishlist-gallery--hover');
+        return;
+      }
+
+      const slides = galleryElement.querySelectorAll('.wishlist-gallery__slide');
+      if (slides.length <= 1) {
+        galleryElement.classList.remove('wishlist-gallery--hover');
+        return;
+      }
+
+      const link = galleryElement.querySelector('.wishlist-item-gallery__link');
+      if (!(link instanceof HTMLElement)) {
+        return;
+      }
+
+      const enter = () => {
+        galleryElement.classList.add('wishlist-gallery--hover');
+      };
+      const leave = () => {
+        galleryElement.classList.remove('wishlist-gallery--hover');
+      };
+
+      link.addEventListener('pointerenter', enter);
+      link.addEventListener('pointerleave', leave);
+      link.addEventListener('focus', enter);
+      link.addEventListener('blur', leave);
+
+      this.galleryHoverHandlers.set(galleryElement, {
+        detach() {
+          link.removeEventListener('pointerenter', enter);
+          link.removeEventListener('pointerleave', leave);
+          link.removeEventListener('focus', enter);
+          link.removeEventListener('blur', leave);
+        }
+      });
+    }
+
+    /**
+     * Regenerate the gallery markup for a wishlist item
+     * @param {HTMLElement} itemElement
+     * @param {ProductData} productData
+     * @param {ProductVariant | undefined} variant
+     * @param {string} variantUrl
+     * @param {string} title
+     * @param {string | undefined} fallbackImage
+     */
+    updateWishlistGallery(itemElement, productData, variant, variantUrl, title, fallbackImage) {
+      const galleryElement = itemElement.querySelector('[data-wishlist-gallery]');
+      if (!(galleryElement instanceof HTMLElement)) {
+        return;
+      }
+
+      const galleryMarkup = this.buildWishlistGalleryHtml(productData, variant, {
+        title,
+        url: variantUrl,
+        fallbackImage
+      });
+
+      galleryElement.innerHTML = galleryMarkup.html;
+      this.initializeWishlistGallery(galleryElement);
+    }
+
+    /**
      * @param {ProductVariant[]} variants
      * @param {(string | undefined)[]} selectedValues
      * @returns {ProductVariant | undefined}
@@ -1126,8 +1370,17 @@
       const fallbackProductUrl = productData?.url || (productData?.handle ? `/products/${productData.handle}` : '');
       const itemBaseUrl = item.url ? item.url.split('?')[0] : undefined;
       const baseUrl = (itemBaseUrl ?? fallbackProductUrl) || '';
-      const variantUrl = selectedVariant ? this.buildVariantUrl(baseUrl, selectedVariant.id) : (item.url || baseUrl);
+      let variantUrl = selectedVariant ? this.buildVariantUrl(baseUrl, selectedVariant.id) : (item.url || baseUrl);
+      if (!variantUrl) {
+        variantUrl = item.url || baseUrl || '';
+      }
       const imageUrl = this.resolveProductImage(productData, selectedVariant, item.image);
+      const galleryHref = variantUrl || item.url || baseUrl || '';
+      const galleryMarkup = this.buildWishlistGalleryHtml(productData, selectedVariant, {
+        title: item.title,
+        url: galleryHref,
+        fallbackImage: imageUrl || item.image
+      });
       const price = selectedVariant ? this.formatMoney(selectedVariant.price) : item.price;
       const isAvailable = selectedVariant ? Boolean(selectedVariant.available) : item.available !== false;
 
@@ -1167,12 +1420,13 @@
       }
 
       renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, variantPickerHtml);
+      renderedItem = renderedItem.replace(/\[\[gallery\]\]/g, galleryMarkup.html);
       result.shouldInitVariantPicker = shouldInitVariantPicker;
 
       const safeId = this.escapeHtml(item.id);
       const safeTitle = this.escapeHtml(item.title);
       const safeImage = this.escapeHtml(imageUrl || item.image);
-      const safeUrl = this.escapeHtml(variantUrl || item.url);
+      const safeUrl = this.escapeHtml(galleryHref || '#');
       const safePrice = this.escapeHtml(price || item.price);
       const safeVariantId = this.escapeHtml(item.variant_id || '');
       const availableValue = isAvailable ? 'true' : 'false';
@@ -1365,9 +1619,14 @@
       const fallbackProductUrl = productData.url || (productData.handle ? `/products/${productData.handle}` : '');
       const itemBaseUrl = itemRecord.url ? itemRecord.url.split('?')[0] : undefined;
       const baseUrl = (existingState?.baseUrl ?? itemBaseUrl ?? fallbackProductUrl) || '';
-      const variantUrl = this.buildVariantUrl(baseUrl, variant.id);
+      let variantUrl = this.buildVariantUrl(baseUrl, variant.id);
+      if (!variantUrl) {
+        variantUrl = itemRecord.url || baseUrl || '';
+      }
       const price = this.formatMoney(variant.price);
       const imageUrl = this.resolveProductImage(productData, variant, itemRecord.image);
+      const galleryHref = variantUrl || itemRecord.url || baseUrl || '';
+      const datasetUrl = galleryHref || '#';
 
       this.setSelectValues(itemElement, productData, variant);
       this.updateVariantOptionAvailability(itemElement, productData);
@@ -1383,7 +1642,7 @@
         button.dataset.variantId = String(variant.id);
         button.dataset.productPrice = price;
         button.dataset.variantAvailable = variant.available ? 'true' : 'false';
-        button.dataset.productUrl = variantUrl;
+        button.dataset.productUrl = datasetUrl;
         if (imageUrl) {
           button.dataset.productImage = imageUrl;
         }
@@ -1410,11 +1669,6 @@
         priceElement.textContent = price;
       }
 
-      const imageElement = itemElement.querySelector('.wishlist-item-image img');
-      if (imageElement instanceof HTMLImageElement && imageUrl) {
-        imageElement.src = imageUrl;
-      }
-
       const selects = itemElement.querySelectorAll('.variant-option__select');
       selects.forEach((select) => {
         if (select instanceof HTMLSelectElement) {
@@ -1422,10 +1676,12 @@
         }
       });
 
-      const linkElements = itemElement.querySelectorAll('.wishlist-item-title a, .wishlist-item-image a');
+      this.updateWishlistGallery(itemElement, productData, variant, galleryHref, itemRecord.title, imageUrl || itemRecord.image);
+
+      const linkElements = itemElement.querySelectorAll('.wishlist-item-title a, .wishlist-item-image a, .wishlist-item-gallery__link');
       linkElements.forEach((link) => {
         if (link instanceof HTMLAnchorElement) {
-          link.href = variantUrl;
+          link.href = datasetUrl;
         }
       });
 
@@ -1434,7 +1690,7 @@
         available: variant.available,
         price,
         image: imageUrl,
-        url: variantUrl,
+        url: galleryHref,
         handle: productData.handle || this.getProductHandle(itemRecord)
       };
 
@@ -1538,12 +1794,19 @@
         wishlistContainer.innerHTML = renderResults.map((result) => result.html).join('');
 
         renderResults.forEach((result) => {
+          const selector = `.wishlist-item[data-wishlist-key="${this.escapeSelector(String(result.item.id))}"]`;
+          const itemElement = wishlistContainer.querySelector(selector);
+          if (!(itemElement instanceof HTMLElement)) {
+            return;
+          }
+
+          const galleryElement = itemElement.querySelector('[data-wishlist-gallery]');
+          if (galleryElement instanceof HTMLElement) {
+            this.initializeWishlistGallery(galleryElement);
+          }
+
           if (result.productData && result.selectedVariant && result.shouldInitVariantPicker) {
-            const selector = `.wishlist-item[data-wishlist-key="${this.escapeSelector(String(result.item.id))}"]`;
-            const itemElement = wishlistContainer.querySelector(selector);
-            if (itemElement instanceof HTMLElement) {
-              this.initializeWishlistVariantPicker(itemElement, result.item, result.productData, result.selectedVariant);
-            }
+            this.initializeWishlistVariantPicker(itemElement, result.item, result.productData, result.selectedVariant);
           }
         });
 

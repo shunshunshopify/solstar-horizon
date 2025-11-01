@@ -187,6 +187,25 @@
   .wishlist-container[data-mobile-columns='2'] .wishlist-add-to-cart .add-to-cart-text__content {
     white-space: nowrap;
   }
+
+  .wishlist-container[data-mobile-columns='2'] .wishlist-item-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-xs, 0.5rem);
+  }
+
+  .wishlist-container[data-mobile-columns='2'] .wishlist-variant-dropdowns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wishlist-container[data-mobile-columns='2']
+    .wishlist-variant-dropdowns[data-option-count='1'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wishlist-container[data-mobile-columns='2'] .wishlist-item-options .variant-option {
+    min-width: 0;
+  }
 }
 .page-width{
     padding: 0 30px;

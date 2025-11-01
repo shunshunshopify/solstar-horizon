@@ -4,8 +4,6 @@
   assign heading_type_preset = section.settings.heading_type_preset | default: 'h2'
   assign heading_text_size = section.settings.heading_text_size | default: 48 | plus: 0
   assign show_description = section.settings.show_description
-  assign padding_block_start = section.settings['padding-block-start'] | default: 0
-  assign padding_block_end = section.settings['padding-block-end'] | default: 0
   assign padding_inline_start = 0
   assign padding_inline_end = 0
   assign product_card_size = section.settings.product_card_size | default: 'medium'
@@ -92,16 +90,12 @@
 }
 
 #shopify-section-{{ section.id }} .wishlist-header {
-  padding-block-start: {{ padding_block_start }}px;
-  padding-block-end: {{ padding_block_end }}px;
   margin-block-end: {{ heading_gap }}px;
 }
 
 #shopify-section-{{ section.id }} .wishlist-title {
   font-size: var(--wishlist-title-size-mobile);
-  {% if has_description %}
-    margin-block-end: {{ heading_inner_gap }}px;
-  {% endif %}
+  margin-bottom: {% if has_description %}{{ heading_inner_gap }}{% else %}0{% endif %}px;
 }
 
 @media screen and (min-width: 750px) {
@@ -625,26 +619,6 @@
       "id": "color_scheme",
       "label": "配色",
       "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "上部の余白",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "下部の余白",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
     }
   ],
   "presets": [

@@ -121,7 +121,7 @@
   assign grid_style = '--grid--margin--mobile: ' | append: grid_margin_mobile | append: '; --grid-column--desktop: var(--' | append: column_scope | append: '); --grid-column--mobile: var(--' | append: column_scope | append: '); --padding-inline-start: ' | append: padding_inline_start | append: 'px; --padding-inline-end: ' | append: padding_inline_end | append: 'px;'
 
   assign vertical_gap = horizontal_gap
-  assign inner_style = 'grid-column: var(--full-width); --product-grid-gap-mobile: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; --product-grid-gap-desktop: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; container-type: inline-size; container-name: product-grid;'
+  assign inner_style = 'grid-column: var(--' | append: column_scope | append: '); --product-grid-gap-mobile: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; --product-grid-gap-desktop: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; container-type: inline-size; container-name: product-grid;'
 
   assign color_class = ''
   if color_scheme != blank

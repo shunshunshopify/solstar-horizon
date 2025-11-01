@@ -1,7 +1,8 @@
 {%- liquid
   assign page_title = page.title | strip
   assign page_description = page.content
-  assign heading_size = section.settings.heading_size | default: 'h1'
+  assign heading_type_preset = section.settings.heading_type_preset | default: 'h2'
+  assign heading_text_size = section.settings.heading_text_size | default: 48 | plus: 0
   assign show_description = section.settings.show_description
   assign padding_block_start = section.settings['padding-block-start'] | default: 0
   assign padding_block_end = section.settings['padding-block-end'] | default: 0
@@ -32,19 +33,12 @@
       assign desktop_columns = 4
   endcase
 
-  case heading_size
-    when 'h2'
-      assign heading_tag = 'h2'
-    when 'h3'
-      assign heading_tag = 'h3'
-    when 'h4'
-      assign heading_tag = 'h4'
-    when 'h5'
-      assign heading_tag = 'h5'
-    when 'h6'
-      assign heading_tag = 'h6'
-    else
-      assign heading_tag = 'h1'
+  assign heading_tag = 'div'
+  case heading_type_preset
+    when 'h1','h2','h3','h4','h5','h6'
+      assign heading_tag = heading_type_preset
+    when 'paragraph'
+      assign heading_tag = 'p'
   endcase
 -%}
 
@@ -52,6 +46,8 @@
 #shopify-section-{{ section.id }} {
   padding-block-start: {{ padding_block_start }}px;
   padding-block-end: {{ padding_block_end }}px;
+  --wishlist-title-size-mobile: {{ heading_text_size | times: 0.6 | round: 0 }}px;
+  --wishlist-title-size-desktop: {{ heading_text_size }}px;
 }
 
 #shopify-section-{{ section.id }} .main-collection-grid {
@@ -86,6 +82,16 @@
 #shopify-section-{{ section.id }} .wishlist-grid {
   gap: {{ horizontal_gap }}px;
   grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));
+}
+
+#shopify-section-{{ section.id }} .wishlist-title {
+  font-size: var(--wishlist-title-size-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  #shopify-section-{{ section.id }} .wishlist-title {
+    font-size: var(--wishlist-title-size-desktop);
+  }
 }
 
 {% if product_grid_width == 'centered' %}
@@ -162,7 +168,7 @@
           data-mobile-columns="{{ mobile_columns }}"
         >
           {% if page_title != blank %}
-            <{{ heading_tag }} class="wishlist-title">{{ page_title }}</{{ heading_tag }}>
+            <{{ heading_tag }} class="wishlist-title{% if heading_type_preset != blank %} {{ heading_type_preset }}{% endif %}">{{ page_title }}</{{ heading_tag }}>
           {% endif %}
 
           {% if show_description and page_description != blank %}
@@ -484,18 +490,34 @@
   "name": "Wishlist (custom)",
   "settings": [
     {
+      "type": "header",
+      "content": "t:content.typography"
+    },
+    {
       "type": "select",
-      "id": "heading_size",
-      "label": "Heading size",
-      "default": "h1",
+      "id": "heading_type_preset",
+      "label": "t:settings.preset",
+      "default": "h2",
       "options": [
-        { "value": "h1", "label": "H1" },
-        { "value": "h2", "label": "H2" },
-        { "value": "h3", "label": "H3" },
-        { "value": "h4", "label": "H4" },
-        { "value": "h5", "label": "H5" },
-        { "value": "h6", "label": "H6" }
+        { "value": "rte", "label": "t:options.default" },
+        { "value": "paragraph", "label": "t:options.paragraph" },
+        { "value": "h1", "label": "t:options.h1" },
+        { "value": "h2", "label": "t:options.h2" },
+        { "value": "h3", "label": "t:options.h3" },
+        { "value": "h4", "label": "t:options.h4" },
+        { "value": "h5", "label": "t:options.h5" },
+        { "value": "h6", "label": "t:options.h6" }
       ]
+    },
+    {
+      "type": "range",
+      "id": "heading_text_size",
+      "label": "Heading text size",
+      "default": 48,
+      "min": 24,
+      "max": 96,
+      "step": 1,
+      "unit": "px"
     },
     {
       "type": "checkbox",

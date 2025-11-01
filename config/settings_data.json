@@ -89,7 +89,8 @@
       "main-wishlist": {
         "type": "main-wishlist",
         "settings": {
-          "heading_size": "h4",
+          "heading_type_preset": "h4",
+          "heading_text_size": 48,
           "show_description": true,
           "product_card_size": "small",
           "mobile_product_card_size": "small",

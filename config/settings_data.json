@@ -97,7 +97,7 @@
           "product_grid_width": "centered",
           "columns_gap_horizontal": 20,
           "color_scheme": "",
-          "padding-block-start": 0,
+          "padding-block-start": 20,
           "padding-block-end": 0
         }
       }

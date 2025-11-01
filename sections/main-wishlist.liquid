@@ -57,6 +57,10 @@
   padding-block-end: {{ padding_block_end }}px;
 }
 
+#shopify-section-{{ section.id }} .main-collection-grid {
+  padding: 0;
+}
+
 #shopify-section-{{ section.id }} .wishlist-grid {
   gap: {{ horizontal_gap }}px;
   grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));

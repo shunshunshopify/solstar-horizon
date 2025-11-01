@@ -91,8 +91,8 @@
         "settings": {
           "heading_size": "h4",
           "show_description": true,
-          "product_card_size": "medium",
-          "mobile_product_card_size": "large",
+          "product_card_size": "small",
+          "mobile_product_card_size": "small",
           "product_grid_width": "full-width",
           "padding-inline-start": 0,
           "padding-inline-end": 0,

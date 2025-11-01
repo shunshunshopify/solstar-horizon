@@ -14,6 +14,14 @@
   assign horizontal_gap = section.settings.columns_gap_horizontal | default: 20 | plus: 0
   assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
   assign heading_gap = section.settings.heading_gap | default: 0 | plus: 0
+  assign heading_inner_gap = section.settings.heading_inner_gap | default: 30 | plus: 0
+
+  assign has_description = false
+  if show_description
+    if page_description != blank
+      assign has_description = true
+    endif
+  endif
 
   assign mobile_columns = 2
   if mobile_product_card_size == 'large'
@@ -91,6 +99,9 @@
 
 #shopify-section-{{ section.id }} .wishlist-title {
   font-size: var(--wishlist-title-size-mobile);
+  {% if has_description %}
+    margin-block-end: {{ heading_inner_gap }}px;
+  {% endif %}
 }
 
 @media screen and (min-width: 750px) {
@@ -164,7 +175,7 @@
   assign has_header_content = false
   if page_title != blank
     assign has_header_content = true
-  elsif show_description and page_description != blank
+  elsif has_description
     assign has_header_content = true
   endif
 -%}
@@ -184,7 +195,7 @@
               {% if page_title != blank %}
                 <{{ heading_tag }} class="wishlist-title{% if heading_type_preset != blank %} {{ heading_type_preset }}{% endif %}">{{ page_title }}</{{ heading_tag }}>
               {% endif %}
-              {% if show_description and page_description != blank %}
+              {% if has_description %}
                 <div class="wishlist-page-content rte">
                   {{ page_description }}
                 </div>
@@ -545,6 +556,16 @@
       "id": "heading_gap",
       "label": "Heading spacing",
       "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_inner_gap",
+      "label": "Heading content spacing",
+      "default": 30,
       "min": 0,
       "max": 100,
       "step": 1,

@@ -55,16 +55,6 @@
   padding-block-end: {{ padding_block_end }}px;
 }
 
-.wishlist-outer {
-  margin-inline: auto;
-}
-
-.wishlist-outer--full-width {
-  width: 100%;
-  max-width: none;
-  padding-inline: var(--page-margin, 1.5rem);
-}
-
 #shopify-section-{{ section.id }} .wishlist-grid {
   gap: {{ horizontal_gap }}px;
   grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));
@@ -90,12 +80,34 @@
 {% endstyle %}
 
 {%- liquid
-  assign outer_classes = 'wishlist-outer'
-  if product_grid_width == 'centered'
-    assign outer_classes = outer_classes | append: ' page-width'
-  else
-    assign outer_classes = outer_classes | append: ' wishlist-outer--full-width'
+  assign section_classes = 'section wishlist-section product-grid-container'
+  if color_scheme != blank
+    assign section_classes = section_classes | append: ' color-' | append: color_scheme
   endif
+
+  assign section_style = '--padding-block-start: ' | append: padding_block_start | append: 'px; --padding-block-end: ' | append: padding_block_end | append: 'px;'
+
+  assign wrapper_classes = 'collection-wrapper grid gap-style'
+  if product_grid_width == 'full-width'
+    assign wrapper_classes = wrapper_classes | append: ' collection-wrapper--full-width'
+  endif
+
+  assign column_scope = 'full-width'
+  if product_grid_width == 'centered'
+    assign column_scope = 'centered'
+  endif
+
+  assign grid_classes = 'grid main-collection-grid wishlist-grid-container spacing-style'
+
+  assign grid_margin_mobile = '0 0'
+  if product_grid_width == 'centered'
+    assign grid_margin_mobile = '0 var(--margin-lg)'
+  endif
+
+  assign grid_style = '--grid--margin--mobile: ' | append: grid_margin_mobile | append: '; --grid-column--desktop: var(--' | append: column_scope | append: '); --grid-column--mobile: var(--' | append: column_scope | append: '); --padding-inline-start: 0px; --padding-inline-end: 0px;'
+
+  assign vertical_gap = horizontal_gap
+  assign inner_style = 'grid-column: var(--full-width); --product-grid-gap-mobile: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; --product-grid-gap-desktop: ' | append: vertical_gap | append: 'px ' | append: horizontal_gap | append: 'px; container-type: inline-size; container-name: product-grid;'
 
   assign color_class = ''
   if color_scheme != blank
@@ -103,34 +115,40 @@
   endif
 -%}
 
-<div class="{{ outer_classes }}">
-  <div
-    class="wishlist-container{{ color_class }}"
-    data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
-    data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
-    data-mobile-columns="{{ mobile_columns }}"
-  >
-    {% if page_title != blank %}
-      <{{ heading_tag }} class="wishlist-title">{{ page_title }}</{{ heading_tag }}>
-    {% endif %}
+<div class="{{ section_classes }}" style="{{ section_style }}">
+  <div class="{{ wrapper_classes }}">
+    <div class="{{ grid_classes }}" style="{{ grid_style }}">
+      <div style="{{ inner_style }}">
+        <div
+          class="wishlist-container{{ color_class }}"
+          data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
+          data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
+          data-mobile-columns="{{ mobile_columns }}"
+        >
+          {% if page_title != blank %}
+            <{{ heading_tag }} class="wishlist-title">{{ page_title }}</{{ heading_tag }}>
+          {% endif %}
 
-    {% if show_description and page_description != blank %}
-      <div class="wishlist-page-content rte">
-        {{ page_description }}
+          {% if show_description and page_description != blank %}
+            <div class="wishlist-page-content rte">
+              {{ page_description }}
+            </div>
+          {% endif %}
+
+          <div
+            id="wishlist-items"
+            class="wishlist-grid"
+            data-mobile-columns="{{ mobile_columns }}"
+          >
+            <!-- Items will be populated by JavaScript -->
+          </div>
+
+          <div id="wishlist-empty" class="wishlist-empty">
+            <p>Your wishlist is empty</p>
+            <a href="{{ routes.all_products_collection_url }}" class="button">Continue shopping</a>
+          </div>
+        </div>
       </div>
-    {% endif %}
-
-    <div
-      id="wishlist-items"
-      class="wishlist-grid"
-      data-mobile-columns="{{ mobile_columns }}"
-    >
-      <!-- Items will be populated by JavaScript -->
-    </div>
-
-    <div id="wishlist-empty" class="wishlist-empty">
-      <p>Your wishlist is empty</p>
-      <a href="{{ routes.all_products_collection_url }}" class="button">Continue shopping</a>
     </div>
   </div>
 </div>

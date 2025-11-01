@@ -155,21 +155,11 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
-                },
-                "custom_liquid_mdctT7": {
-                  "type": "custom-liquid",
-                  "name": "t:names.custom_liquid",
-                  "disabled": true,
-                  "settings": {
-                    "custom_liquid": "{% render 'wishlist-button', product: product, location: 'product' %}"
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
                 "text_xpVMaM",
-                "price_tVjtKg",
-                "custom_liquid_mdctT7"
+                "price_tVjtKg"
               ]
             },
             "divider_VJhene": {

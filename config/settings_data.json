@@ -89,15 +89,15 @@
       "main-wishlist": {
         "type": "main-wishlist",
         "settings": {
-          "heading_type_preset": "h4",
-          "heading_text_size": 48,
+          "heading_type_preset": "h2",
+          "heading_text_size": 25,
           "show_description": true,
           "product_card_size": "small",
           "mobile_product_card_size": "small",
           "product_grid_width": "centered",
           "columns_gap_horizontal": 20,
           "color_scheme": "",
-          "padding-block-start": 50,
+          "padding-block-start": 0,
           "padding-block-end": 0
         }
       }

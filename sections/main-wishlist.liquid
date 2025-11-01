@@ -61,6 +61,21 @@
   padding: 0;
 }
 
+/* Override grid template for full-width on desktop */
+{% if product_grid_width == 'full-width' %}
+@media screen and (min-width: 750px) {
+  #shopify-section-{{ section.id }} .grid {
+    grid-template-columns: 0 repeat(var(--centered-column-number), minmax(0, 1fr)) 0;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  #shopify-section-{{ section.id }} .grid {
+    grid-template-columns: 0 repeat(var(--centered-column-number), minmax(0, 1fr)) 0;
+  }
+}
+{% endif %}
+
 #shopify-section-{{ section.id }} .wishlist-grid {
   gap: {{ horizontal_gap }}px;
   grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));

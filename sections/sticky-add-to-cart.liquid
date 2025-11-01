@@ -160,7 +160,8 @@
     #md-sticky-atc .variant-option__select-wrapper{
       margin-top: 0;
       min-height: var(--height-buy-buttons);
-      border: var(--style-border-width) solid var(--color-variant-border);
+      border: {{ settings.variant_button_border_width }}px solid var(--color-variant-border);
+      border-radius: {{ settings.variant_button_radius }}px;
     }
     #md-sticky-atc .variant-option__select{
       padding-block: 0;

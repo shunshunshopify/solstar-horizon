@@ -1093,7 +1093,7 @@
           if (isSelected && selectedVariantImage) {
             return;
           }
-          pushImage(src, {
+          pushImage(typeof src === 'string' ? src : undefined, {
             isVariant: true,
             isSelectedVariant: isSelected,
             variantId: variantId
@@ -1102,16 +1102,25 @@
       }
 
       if (productData?.featuredMedia) {
-        pushImage(productData.featuredMedia, { isVariant: false, isSelectedVariant: false });
+        pushImage(
+          typeof productData.featuredMedia === 'string' ? productData.featuredMedia : undefined,
+          { isVariant: false, isSelectedVariant: false }
+        );
       }
 
       if (productData?.featuredImage) {
-        pushImage(productData.featuredImage, { isVariant: false, isSelectedVariant: false });
+        pushImage(
+          typeof productData.featuredImage === 'string' ? productData.featuredImage : undefined,
+          { isVariant: false, isSelectedVariant: false }
+        );
       }
 
       if (Array.isArray(productData?.images)) {
         productData.images.forEach((imageSrc) => {
-          pushImage(imageSrc, { isVariant: false, isSelectedVariant: false });
+          pushImage(typeof imageSrc === 'string' ? imageSrc : undefined, {
+            isVariant: false,
+            isSelectedVariant: false
+          });
         });
       }
 

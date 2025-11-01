@@ -45,11 +45,19 @@
   "
   {{ block.shopify_attributes }}
 >
-  {% render 'price',
-    show_unit_price: true,
-    product_resource: product_resource,
-    show_sale_price_first: block_settings.show_sale_price_first
-  %}
+  <div class="price-container{% if block_settings.show_wishlist_icon %} price-container--with-wishlist{% endif %}">
+    {% render 'price',
+      show_unit_price: true,
+      product_resource: product_resource,
+      show_sale_price_first: block_settings.show_sale_price_first
+    %}
+
+    {%- if block_settings.show_wishlist_icon and product_resource != blank -%}
+      <span class="price-wishlist-icon">
+        {% render 'wishlist-button', product: product_resource, location: 'product' %}
+      </span>
+    {%- endif -%}
+  </div>
 
   {% if block_settings.show_tax_info %}
     <div class="tax-note">

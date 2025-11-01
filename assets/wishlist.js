@@ -445,14 +445,28 @@
           ? rawData.featured_media.preview_image?.src || rawData.featured_media.src
           : undefined;
 
-      const images = Array.isArray(rawData.images)
-        ? rawData.images.filter((imageSrc) => typeof imageSrc === 'string')
-        : undefined;
+      /** @type {string[]|undefined} */
+      let images;
+      if (Array.isArray(rawData.images)) {
+        const imageEntries = /** @type {unknown[]} */ (rawData.images);
+        /** @type {string[]} */
+        const normalizedImages = [];
+        imageEntries.forEach((value) => {
+          if (typeof value === 'string') {
+            normalizedImages.push(value);
+          }
+        });
+        images = normalizedImages.length > 0 ? normalizedImages : undefined;
+      } else {
+        images = undefined;
+      }
 
       /** @type {Record<string, string>} */
       const variantMedia = {};
       if (Array.isArray(rawData.media)) {
-        rawData.media.forEach((media) => {
+        const mediaEntries = /** @type {unknown[]} */ (rawData.media);
+        mediaEntries.forEach((mediaEntry) => {
+          const media = /** @type {any} */ (mediaEntry);
           if (!media || typeof media !== 'object') {
             return;
           }
@@ -470,15 +484,29 @@
           /** @type {Array<string|number>} */
           const possibleVariantIds = [];
           if (Array.isArray(media.variant_ids)) {
-            possibleVariantIds.push(...media.variant_ids);
+            const variantIdEntries = /** @type {unknown[]} */ (media.variant_ids);
+            variantIdEntries.forEach((variantId) => {
+              if (variantId === null || variantId === undefined) {
+                return;
+              }
+              if (typeof variantId === 'string' || typeof variantId === 'number') {
+                possibleVariantIds.push(variantId);
+              }
+            });
           }
           if (Array.isArray(media.variants)) {
-            media.variants.forEach((variantEntry) => {
-              if (typeof variantEntry === 'object' && variantEntry) {
-                if (variantEntry.id) {
-                  possibleVariantIds.push(variantEntry.id);
+            const variantEntries = /** @type {unknown[]} */ (media.variants);
+            variantEntries.forEach((variantEntry) => {
+              if (variantEntry && typeof variantEntry === 'object') {
+                const variantObject = /** @type {{ id?: string | number }} */ (variantEntry);
+                if (variantObject.id !== undefined && variantObject.id !== null) {
+                  possibleVariantIds.push(variantObject.id);
                 }
-              } else if (variantEntry) {
+              } else if (
+                variantEntry !== null &&
+                variantEntry !== undefined &&
+                (typeof variantEntry === 'string' || typeof variantEntry === 'number')
+              ) {
                 possibleVariantIds.push(variantEntry);
               }
             });
@@ -486,7 +514,7 @@
 
           possibleVariantIds
             .map((id) => String(id))
-            .filter(Boolean)
+            .filter((id) => Boolean(id))
             .forEach((id) => {
               if (!variantMedia[id]) {
                 variantMedia[id] = previewSrc;
@@ -962,23 +990,27 @@
         return this.normalizeImageUrl(variant.featuredImage);
       }
 
-      if (variantId && productData?.variantMedia && productData.variantMedia[variantId]) {
-        return this.normalizeImageUrl(productData.variantMedia[variantId]);
+      const variantMediaSrc = variantId && productData?.variantMedia ? productData.variantMedia[variantId] : undefined;
+      if (typeof variantMediaSrc === 'string' && variantMediaSrc) {
+        return this.normalizeImageUrl(variantMediaSrc);
       }
 
-      if (productData?.featuredMedia) {
+      if (typeof productData?.featuredMedia === 'string' && productData.featuredMedia) {
         return this.normalizeImageUrl(productData.featuredMedia);
       }
 
-      if (productData?.featuredImage) {
+      if (typeof productData?.featuredImage === 'string' && productData.featuredImage) {
         return this.normalizeImageUrl(productData.featuredImage);
       }
 
-      if (Array.isArray(productData?.images) && productData.images.length > 0) {
-        return this.normalizeImageUrl(productData.images[0]);
+      if (Array.isArray(productData?.images)) {
+        const firstImage = productData.images.find((imageSrc) => typeof imageSrc === 'string' && imageSrc);
+        if (firstImage) {
+          return this.normalizeImageUrl(firstImage);
+        }
       }
 
-      return fallback ? this.normalizeImageUrl(fallback) : '';
+      return typeof fallback === 'string' && fallback ? this.normalizeImageUrl(fallback) : '';
     }
 
     /**

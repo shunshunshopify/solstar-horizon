@@ -44,6 +44,10 @@
    * @property {string} [url]
    * @property {ProductOption[]} options
    * @property {ProductVariant[]} variants
+   * @property {string|undefined} featuredImage
+   * @property {string|undefined} featuredMedia
+   * @property {string[]|undefined} images
+   * @property {Record<string, string>} [variantMedia]
    */
 
   /**
@@ -429,12 +433,78 @@
       const handle = typeof rawData.handle === 'string' ? rawData.handle : '';
       const url = typeof rawData.url === 'string' ? rawData.url : undefined;
 
+      const featuredImage =
+        typeof rawData.featured_image === 'string'
+          ? rawData.featured_image
+          : typeof rawData.featured_image === 'object' && rawData.featured_image
+          ? rawData.featured_image.src
+          : undefined;
+
+      const featuredMedia =
+        rawData.featured_media && typeof rawData.featured_media === 'object'
+          ? rawData.featured_media.preview_image?.src || rawData.featured_media.src
+          : undefined;
+
+      const images = Array.isArray(rawData.images)
+        ? rawData.images.filter((imageSrc) => typeof imageSrc === 'string')
+        : undefined;
+
+      /** @type {Record<string, string>} */
+      const variantMedia = {};
+      if (Array.isArray(rawData.media)) {
+        rawData.media.forEach((media) => {
+          if (!media || typeof media !== 'object') {
+            return;
+          }
+
+          const previewSrc =
+            typeof media.preview_image === 'object' && media.preview_image
+              ? media.preview_image.src
+              : typeof media.src === 'string'
+              ? media.src
+              : undefined;
+          if (!previewSrc) {
+            return;
+          }
+
+          /** @type {Array<string|number>} */
+          const possibleVariantIds = [];
+          if (Array.isArray(media.variant_ids)) {
+            possibleVariantIds.push(...media.variant_ids);
+          }
+          if (Array.isArray(media.variants)) {
+            media.variants.forEach((variantEntry) => {
+              if (typeof variantEntry === 'object' && variantEntry) {
+                if (variantEntry.id) {
+                  possibleVariantIds.push(variantEntry.id);
+                }
+              } else if (variantEntry) {
+                possibleVariantIds.push(variantEntry);
+              }
+            });
+          }
+
+          possibleVariantIds
+            .map((id) => String(id))
+            .filter(Boolean)
+            .forEach((id) => {
+              if (!variantMedia[id]) {
+                variantMedia[id] = previewSrc;
+              }
+            });
+        });
+      }
+
       /** @type {ProductData} */
       const normalized = {
         handle,
         url,
         options,
-        variants
+        variants,
+        featuredImage,
+        featuredMedia,
+        images,
+        variantMedia: Object.keys(variantMedia).length > 0 ? variantMedia : undefined
       };
 
       return normalized;
@@ -856,20 +926,59 @@
     }
 
     /**
-     * @param {ProductVariant} variant
+     * @param {string|undefined} src
+     * @param {number} [width]
+     * @returns {string}
+     */
+    normalizeImageUrl(src, width = 600) {
+      if (!src || typeof src !== 'string') {
+        return '';
+      }
+      if (typeof window === 'undefined' || !window.location) {
+        return src;
+      }
+      try {
+        const normalizedSrc = src.startsWith('//') ? `${window.location.protocol}${src}` : src;
+        const url = new URL(normalizedSrc, window.location.origin);
+        if (!url.searchParams.has('width')) {
+          url.searchParams.set('width', String(width));
+        }
+        return url.toString();
+      } catch (_error) {
+        return src;
+      }
+    }
+
+    /**
+     * @param {ProductVariant | undefined} variant
+     * @param {ProductData | undefined} productData
      * @param {string | undefined} fallback
      * @returns {string}
      */
-    getVariantImageUrl(variant, fallback) {
-      const featuredImageSrc = typeof variant.featuredImage === 'string' ? variant.featuredImage : undefined;
-      if (featuredImageSrc) {
-        const url = new URL(featuredImageSrc, window.location.origin);
-        if (!url.searchParams.has('width')) {
-          url.searchParams.set('width', '600');
-        }
-        return url.toString();
+    resolveProductImage(productData, variant, fallback) {
+      const variantId = variant ? String(variant.id) : undefined;
+
+      if (variant && typeof variant.featuredImage === 'string' && variant.featuredImage) {
+        return this.normalizeImageUrl(variant.featuredImage);
       }
-      return fallback || '';
+
+      if (variantId && productData?.variantMedia && productData.variantMedia[variantId]) {
+        return this.normalizeImageUrl(productData.variantMedia[variantId]);
+      }
+
+      if (productData?.featuredMedia) {
+        return this.normalizeImageUrl(productData.featuredMedia);
+      }
+
+      if (productData?.featuredImage) {
+        return this.normalizeImageUrl(productData.featuredImage);
+      }
+
+      if (Array.isArray(productData?.images) && productData.images.length > 0) {
+        return this.normalizeImageUrl(productData.images[0]);
+      }
+
+      return fallback ? this.normalizeImageUrl(fallback) : '';
     }
 
     /**
@@ -986,7 +1095,7 @@
       const itemBaseUrl = item.url ? item.url.split('?')[0] : undefined;
       const baseUrl = (itemBaseUrl ?? fallbackProductUrl) || '';
       const variantUrl = selectedVariant ? this.buildVariantUrl(baseUrl, selectedVariant.id) : (item.url || baseUrl);
-      const imageUrl = selectedVariant ? this.getVariantImageUrl(selectedVariant, item.image) : item.image;
+      const imageUrl = this.resolveProductImage(productData, selectedVariant, item.image);
       const price = selectedVariant ? this.formatMoney(selectedVariant.price) : item.price;
       const isAvailable = selectedVariant ? Boolean(selectedVariant.available) : item.available !== false;
 
@@ -1226,7 +1335,7 @@
       const baseUrl = (existingState?.baseUrl ?? itemBaseUrl ?? fallbackProductUrl) || '';
       const variantUrl = this.buildVariantUrl(baseUrl, variant.id);
       const price = this.formatMoney(variant.price);
-      const imageUrl = this.getVariantImageUrl(variant, itemRecord.image);
+      const imageUrl = this.resolveProductImage(productData, variant, itemRecord.image);
 
       this.setSelectValues(itemElement, productData, variant);
       this.updateVariantOptionAvailability(itemElement, productData);

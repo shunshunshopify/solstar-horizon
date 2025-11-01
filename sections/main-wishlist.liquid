@@ -44,8 +44,6 @@
 
 {% style %}
 #shopify-section-{{ section.id }} {
-  padding-block-start: {{ padding_block_start }}px;
-  padding-block-end: {{ padding_block_end }}px;
   --wishlist-title-size-mobile: {{ heading_text_size | times: 0.6 | round: 0 }}px;
   --wishlist-title-size-desktop: {{ heading_text_size }}px;
 }
@@ -82,6 +80,11 @@
 #shopify-section-{{ section.id }} .wishlist-grid {
   gap: {{ horizontal_gap }}px;
   grid-template-columns: repeat({{ mobile_columns | at_least: 1 }}, minmax(0, 1fr));
+}
+
+#shopify-section-{{ section.id }} .wishlist-header {
+  padding-block-start: {{ padding_block_start }}px;
+  padding-block-end: {{ padding_block_end }}px;
 }
 
 #shopify-section-{{ section.id }} .wishlist-title {
@@ -127,7 +130,7 @@
     assign section_classes = section_classes | append: ' color-' | append: color_scheme
   endif
 
-  assign section_style = '--padding-block-start: ' | append: padding_block_start | append: 'px; --padding-block-end: ' | append: padding_block_end | append: 'px;'
+  assign section_style = '--padding-block-start: 0px; --padding-block-end: 0px;'
 
   assign wrapper_classes = 'collection-wrapper grid gap-style'
   if product_grid_width == 'full-width'
@@ -155,6 +158,11 @@
   if color_scheme != blank
     assign color_class = ' color-' | append: color_scheme
   endif
+
+  assign has_header_content = false
+  if page_title != blank or (show_description and page_description != blank)
+    assign has_header_content = true
+  endif
 -%}
 
 <div class="{{ section_classes }}" style="{{ section_style }}">
@@ -167,13 +175,16 @@
           data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
           data-mobile-columns="{{ mobile_columns }}"
         >
-          {% if page_title != blank %}
-            <{{ heading_tag }} class="wishlist-title{% if heading_type_preset != blank %} {{ heading_type_preset }}{% endif %}">{{ page_title }}</{{ heading_tag }}>
-          {% endif %}
-
-          {% if show_description and page_description != blank %}
-            <div class="wishlist-page-content rte">
-              {{ page_description }}
+          {% if has_header_content %}
+            <div class="wishlist-header">
+              {% if page_title != blank %}
+                <{{ heading_tag }} class="wishlist-title{% if heading_type_preset != blank %} {{ heading_type_preset }}{% endif %}">{{ page_title }}</{{ heading_tag }}>
+              {% endif %}
+              {% if show_description and page_description != blank %}
+                <div class="wishlist-page-content rte">
+                  {{ page_description }}
+                </div>
+              {% endif %}
             </div>
           {% endif %}
 

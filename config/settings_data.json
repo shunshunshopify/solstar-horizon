@@ -91,7 +91,7 @@
         "settings": {
           "heading_size": "h4",
           "show_description": true,
-          "product_card_size": "large",
+          "product_card_size": "small",
           "mobile_product_card_size": "small",
           "product_grid_width": "full-width",
           "columns_gap_horizontal": 20,

@@ -93,7 +93,7 @@
           "show_description": true,
           "product_card_size": "small",
           "mobile_product_card_size": "small",
-          "product_grid_width": "full-width",
+          "product_grid_width": "centered",
           "padding-inline-start": 0,
           "padding-inline-end": 0,
           "columns_gap_horizontal": 20,

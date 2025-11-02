@@ -5,7 +5,7 @@
 -%}
 
 {% liquid
-  assign wishlist_icon_enabled = settings.enable_wishlist_icon | default: true
+  assign wishlist_icon_enabled = settings.enable_wishlist_icon
 
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true
@@ -47,14 +47,14 @@
   "
   {{ block.shopify_attributes }}
 >
-  <div class="price-container{% if wishlist_icon_enabled and product_resource != blank %} price-container--with-wishlist{% endif %}">
+  <div class="price-container{% if wishlist_icon_enabled and product_resource != blank and template.name == 'product' %} price-container--with-wishlist{% endif %}">
     {% render 'price',
       show_unit_price: true,
       product_resource: product_resource,
       show_sale_price_first: block_settings.show_sale_price_first
     %}
 
-    {%- if wishlist_icon_enabled and product_resource != blank -%}
+    {%- if wishlist_icon_enabled and product_resource != blank and template.name == 'product' -%}
       <span class="price-wishlist-icon">
         {% render 'wishlist-button', product: product_resource, location: 'product' %}
       </span>

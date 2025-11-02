@@ -815,11 +815,7 @@
         return;
       }
 
-      const productId = detail?.data?.productId || wishlistItem.dataset.productId;
-      const product = this.items.find((item) => String(item.id) === String(productId));
-      const title = product?.title || 'Item';
-
-      this.showNotification(`${title} added to cart`);
+      // Cart drawer surfaces the added item, so no additional notification needed.
     }
 
     /**

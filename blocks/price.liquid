@@ -5,15 +5,8 @@
 -%}
 
 {% liquid
-  assign wishlist_button_border_color = block_settings.wishlist_button_border_color
-  if wishlist_button_border_color == blank
-    assign wishlist_button_border_color = 'rgba(var(--color-foreground), 0.2)'
-  endif
-
-  assign wishlist_button_active_background = block_settings.wishlist_button_active_background
-  if wishlist_button_active_background == blank
-    assign wishlist_button_active_background = 'rgba(var(--color-foreground), 0.1)'
-  endif
+  assign wishlist_button_border_color = block_settings.wishlist_button_border_color | default: 'rgba(var(--color-foreground), 0.2)'
+  assign wishlist_button_active_background = block_settings.wishlist_button_active_background | default: 'rgba(var(--color-foreground), 0.1)'
 
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true

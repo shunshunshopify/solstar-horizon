@@ -140,7 +140,7 @@
                     "show_installments": false,
                     "show_tax_info": true,
                     "show_wishlist_icon": true,
-                    "wishlist_heart_outline_color": "",
+                    "wishlist_heart_outline_color": "#000000",
                     "wishlist_heart_fill_color": "#ff4545",
                     "type_preset": "paragraph",
                     "width": "100%",

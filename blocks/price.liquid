@@ -5,8 +5,8 @@
 -%}
 
 {% liquid
-  assign wishlist_button_border_color = block_settings.wishlist_button_border_color | default: 'rgba(var(--color-foreground), 0.2)'
-  assign wishlist_button_active_background = block_settings.wishlist_button_active_background | default: 'rgba(var(--color-foreground), 0.1)'
+  assign wishlist_heart_outline_color = block_settings.wishlist_heart_outline_color | default: 'rgb(var(--color-foreground-rgb, 17 17 17))'
+  assign wishlist_heart_fill_color = block_settings.wishlist_heart_fill_color | default: 'rgb(var(--color-foreground-rgb, 17 17 17))'
 
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true
@@ -56,7 +56,7 @@
     %}
 
     {%- if block_settings.show_wishlist_icon and product_resource != blank -%}
-      <span class="price-wishlist-icon" style="--wishlist-button-border-color: {{ wishlist_button_border_color }}; --wishlist-button-active-background: {{ wishlist_button_active_background }};">
+      <span class="price-wishlist-icon" style="--wishlist-heart-stroke: {{ wishlist_heart_outline_color }}; --wishlist-heart-fill: {{ wishlist_heart_fill_color }};">
         {% render 'wishlist-button', product: product_resource, location: 'product' %}
       </span>
     {%- endif -%}
@@ -123,28 +123,31 @@
 
   .price-wishlist-icon .wishlist-button {
     padding: var(--padding-2xs);
-    border: 1px solid var(--wishlist-button-border-color, rgba(var(--color-foreground), 0.2));
+    border: 1px solid transparent;
     border-radius: var(--border-radius-button);
     transition: all 0.2s ease;
     background: transparent;
+    color: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
     min-width: auto;
     height: auto;
   }
 
   .price-wishlist-icon .wishlist-button:hover,
   .price-wishlist-icon .wishlist-button:focus-visible {
-    border-color: var(--wishlist-button-border-color, rgba(var(--color-foreground), 0.2));
     background-color: transparent;
-  }
-
-  .price-wishlist-icon .wishlist-button.is-added {
-    background-color: var(--wishlist-button-active-background, rgba(var(--color-foreground), 0.1));
-    border-color: var(--wishlist-button-border-color, rgba(var(--color-foreground), 0.2));
   }
 
   .price-wishlist-icon .wishlist-button .icon-heart {
     width: 20px;
     height: 20px;
+    fill: transparent;
+    stroke: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
+    stroke-width: 1.5;
+  }
+
+  .price-wishlist-icon .wishlist-button.is-added .icon-heart {
+    fill: var(--wishlist-heart-fill, rgb(var(--color-foreground-rgb, 17 17 17)));
+    stroke: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
   }
 {% endstylesheet %}
 
@@ -192,15 +195,15 @@
     },
     {
       "type": "color",
-      "id": "wishlist_button_border_color",
+      "id": "wishlist_heart_outline_color",
       "label": "Border color",
-      "info": "Outline color for the wishlist button"
+      "info": "Line color for the wishlist heart icon"
     },
     {
       "type": "color",
-      "id": "wishlist_button_active_background",
+      "id": "wishlist_heart_fill_color",
       "label": "背景",
-      "info": "Background color when the wishlist button is active"
+      "info": "Fill color for the wishlist heart icon when active"
     },
     {
       "type": "header",

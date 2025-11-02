@@ -665,7 +665,7 @@
         });
         
         this.saveToStorage();
-        this.showNotification('Item added to wishlist');
+        this.showNotification('お気に入りリストに追加しました');
         return true;
       }
       return false;
@@ -683,7 +683,7 @@
       
       if (this.items.length !== initialLength) {
         this.saveToStorage();
-        this.showNotification('Item removed from wishlist');
+        this.showNotification('お気に入りリストから削除しました');
         this.wishlistProductData.delete(String(productId));
         return true;
       }

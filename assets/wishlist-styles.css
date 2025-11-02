@@ -214,11 +214,11 @@
   display: flex;
   align-items: center;
   transition: color 0.2s ease;
-  color: rgba(var(--color-foreground));
+  color: var(--wishlist-heart-stroke, rgba(var(--color-foreground)));
 }
 
 .wishlist-button:hover {
-  color: rgba(var(--color-foreground), 1);
+  color: var(--wishlist-heart-stroke, rgba(var(--color-foreground), 1));
 }
 
 .wishlist-button--product {
@@ -232,7 +232,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: white;
+  background: var(--wishlist-heart-background, #ffffff);
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -291,6 +291,9 @@
 
 .wishlist-button .icon-heart {
   transition: fill 0.3s ease, transform 0.3s ease;
+  stroke: var(--wishlist-heart-stroke, rgba(var(--color-foreground)));
+  stroke-width: 1.5;
+  fill: transparent;
 }
 
 .wishlist-button:hover .icon-heart {
@@ -298,7 +301,8 @@
 }
 
 .wishlist-button.is-added .icon-heart {
-  fill: currentColor;
+  fill: var(--wishlist-heart-fill, var(--wishlist-heart-stroke, rgba(var(--color-foreground))));
+  stroke: var(--wishlist-heart-stroke, rgba(var(--color-foreground)));
 }
 
 /* Add animation for adding/removing from wishlist */
@@ -493,7 +497,7 @@
   top: 10px;
   right: 10px;
   z-index: 5;
-  background: white;
+  background: var(--wishlist-heart-background, #ffffff);
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -507,7 +511,7 @@
 }
 
 .card .wishlist-button--collection:hover {
-  background: #f3f3f3;
+  background: color-mix(in srgb, var(--wishlist-heart-background, #ffffff) 80%, transparent);
   transform: scale(1.1);
 }
 

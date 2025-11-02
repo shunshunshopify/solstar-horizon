@@ -2106,6 +2106,28 @@
         "id": "product_card_carousel",
         "label": "t:settings.product_card_carousel",
         "default": true
+      },
+      {
+        "type": "header",
+        "content": "Wishlist"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_outline_color",
+        "label": "Wishlist icon outline",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_fill_color",
+        "label": "Wishlist icon fill (added state)",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_background_color",
+        "label": "Wishlist button background",
+        "default": "#ffffff"
       }
     ]
   },

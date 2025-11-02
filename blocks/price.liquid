@@ -5,9 +5,6 @@
 -%}
 
 {% liquid
-  assign wishlist_heart_outline_color = block_settings.wishlist_heart_outline_color | default: 'rgb(var(--color-foreground-rgb, 17 17 17))'
-  assign wishlist_heart_fill_color = block_settings.wishlist_heart_fill_color | default: 'rgb(var(--color-foreground-rgb, 17 17 17))'
-
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true
   endif
@@ -56,7 +53,7 @@
     %}
 
     {%- if block_settings.show_wishlist_icon and product_resource != blank -%}
-      <span class="price-wishlist-icon" style="--wishlist-heart-stroke: {{ wishlist_heart_outline_color }}; --wishlist-heart-fill: {{ wishlist_heart_fill_color }};">
+      <span class="price-wishlist-icon">
         {% render 'wishlist-button', product: product_resource, location: 'product' %}
       </span>
     {%- endif -%}
@@ -188,22 +185,6 @@
       "label": "Show wishlist icon",
       "info": "Display wishlist heart icon below the price",
       "default": false
-    },
-    {
-      "type": "header",
-      "content": "Wishlist"
-    },
-    {
-      "type": "color",
-      "id": "wishlist_heart_outline_color",
-      "label": "Border color",
-      "info": "Line color for the wishlist heart icon"
-    },
-    {
-      "type": "color",
-      "id": "wishlist_heart_fill_color",
-      "label": "背景",
-      "info": "Fill color for the wishlist heart icon when active"
     },
     {
       "type": "header",

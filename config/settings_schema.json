@@ -2106,7 +2106,12 @@
         "id": "product_card_carousel",
         "label": "t:settings.product_card_carousel",
         "default": true
-      },
+      }
+    ]
+  },
+  {
+    "name": "Wishlist",
+    "settings": [
       {
         "type": "header",
         "content": "Wishlist"

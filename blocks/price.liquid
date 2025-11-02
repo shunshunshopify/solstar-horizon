@@ -56,7 +56,7 @@
     %}
 
     {%- if block_settings.show_wishlist_icon and product_resource != blank -%}
-      <span class="price-wishlist-icon">
+      <span class="price-wishlist-icon" style="--wishlist-button-border-color: {{ wishlist_button_border_color }}; --wishlist-button-active-background: {{ wishlist_button_active_background }};">
         {% render 'wishlist-button', product: product_resource, location: 'product' %}
       </span>
     {%- endif -%}
@@ -123,7 +123,7 @@
 
   .price-wishlist-icon .wishlist-button {
     padding: var(--padding-2xs);
-    border: 1px solid {{ wishlist_button_border_color }};
+    border: 1px solid var(--wishlist-button-border-color, rgba(var(--color-foreground), 0.2));
     border-radius: var(--border-radius-button);
     transition: all 0.2s ease;
     background: transparent;
@@ -133,13 +133,13 @@
 
   .price-wishlist-icon .wishlist-button:hover,
   .price-wishlist-icon .wishlist-button:focus-visible {
-    border-color: {{ wishlist_button_border_color }};
+    border-color: var(--wishlist-button-border-color, rgba(var(--color-foreground), 0.2));
     background-color: transparent;
   }
 
   .price-wishlist-icon .wishlist-button.is-added {
-    background-color: {{ wishlist_button_active_background }};
-    border-color: {{ wishlist_button_border_color }};
+    background-color: var(--wishlist-button-active-background, rgba(var(--color-foreground), 0.1));
+    border-color: var(--wishlist-button-border-color, rgba(var(--color-foreground), 0.2));
   }
 
   .price-wishlist-icon .wishlist-button .icon-heart {

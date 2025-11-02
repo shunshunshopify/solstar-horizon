@@ -90,15 +90,15 @@
         "type": "main-wishlist",
         "settings": {
           "heading_type_preset": "h2",
-          "heading_text_size": 25,
+          "heading_text_size": 30,
           "show_description": true,
+          "heading_padding_top": 30,
+          "heading_gap": 30,
           "product_card_size": "small",
           "mobile_product_card_size": "small",
           "product_grid_width": "centered",
-          "columns_gap_horizontal": 20,
-          "color_scheme": "",
-          "padding-block-start": 20,
-          "padding-block-end": 0
+          "columns_gap_horizontal": 15,
+          "color_scheme": ""
         }
       }
     },

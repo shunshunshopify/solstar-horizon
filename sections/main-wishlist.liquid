@@ -4,8 +4,6 @@
   assign heading_type_preset = section.settings.heading_type_preset | default: 'h2'
   assign heading_text_size = section.settings.heading_text_size | default: 48 | plus: 0
   assign show_description = section.settings.show_description
-  assign padding_block_start = section.settings['padding-block-start'] | default: 0
-  assign padding_block_end = section.settings['padding-block-end'] | default: 0
   assign padding_inline_start = 0
   assign padding_inline_end = 0
   assign product_card_size = section.settings.product_card_size | default: 'medium'
@@ -13,6 +11,15 @@
   assign product_grid_width = section.settings.product_grid_width | default: 'centered'
   assign horizontal_gap = section.settings.columns_gap_horizontal | default: 20 | plus: 0
   assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
+  assign heading_padding_top = section.settings.heading_padding_top | default: 0 | plus: 0
+  assign heading_gap = section.settings.heading_gap | default: 0 | plus: 0
+
+  assign has_description = false
+  if show_description
+    if page_description != blank
+      assign has_description = true
+    endif
+  endif
 
   assign mobile_columns = 2
   if mobile_product_card_size == 'large'
@@ -83,8 +90,8 @@
 }
 
 #shopify-section-{{ section.id }} .wishlist-header {
-  padding-block-start: {{ padding_block_start }}px;
-  padding-block-end: {{ padding_block_end }}px;
+  margin-block-start: {{ heading_padding_top }}px;
+  margin-block-end: {{ heading_gap }}px;
 }
 
 #shopify-section-{{ section.id }} .wishlist-title {
@@ -160,7 +167,9 @@
   endif
 
   assign has_header_content = false
-  if page_title != blank or (show_description and page_description != blank)
+  if page_title != blank
+    assign has_header_content = true
+  elsif has_description
     assign has_header_content = true
   endif
 -%}
@@ -180,7 +189,7 @@
               {% if page_title != blank %}
                 <{{ heading_tag }} class="wishlist-title{% if heading_type_preset != blank %} {{ heading_type_preset }}{% endif %}">{{ page_title }}</{{ heading_tag }}>
               {% endif %}
-              {% if show_description and page_description != blank %}
+              {% if has_description %}
                 <div class="wishlist-page-content rte">
                   {{ page_description }}
                 </div>
@@ -537,6 +546,26 @@
       "default": true
     },
     {
+      "type": "range",
+      "id": "heading_padding_top",
+      "label": "上部の余白",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "下部の余白",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
       "type": "select",
       "id": "product_card_size",
       "label": "カードサイズ",
@@ -590,26 +619,6 @@
       "id": "color_scheme",
       "label": "配色",
       "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "上部の余白",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "下部の余白",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
     }
   ],
   "presets": [

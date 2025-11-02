@@ -5,6 +5,16 @@
 -%}
 
 {% liquid
+  assign wishlist_button_border_color = block_settings.wishlist_button_border_color
+  if wishlist_button_border_color == blank
+    assign wishlist_button_border_color = 'rgba(var(--color-foreground), 0.2)'
+  endif
+
+  assign wishlist_button_active_background = block_settings.wishlist_button_active_background
+  if wishlist_button_active_background == blank
+    assign wishlist_button_active_background = 'rgba(var(--color-foreground), 0.1)'
+  endif
+
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true
   endif
@@ -120,7 +130,7 @@
 
   .price-wishlist-icon .wishlist-button {
     padding: var(--padding-2xs);
-    border: 1px solid rgba(var(--color-foreground), 0.2);
+    border: 1px solid {{ wishlist_button_border_color }};
     border-radius: var(--border-radius-button);
     transition: all 0.2s ease;
     background: transparent;
@@ -128,14 +138,15 @@
     height: auto;
   }
 
-  .price-wishlist-icon .wishlist-button:hover {
-    border-color: rgba(var(--color-foreground), 0.4);
-    background-color: rgba(var(--color-foreground), 0.05);
+  .price-wishlist-icon .wishlist-button:hover,
+  .price-wishlist-icon .wishlist-button:focus-visible {
+    border-color: {{ wishlist_button_border_color }};
+    background-color: transparent;
   }
 
   .price-wishlist-icon .wishlist-button.is-added {
-    background-color: rgba(var(--color-foreground), 0.1);
-    border-color: var(--color-foreground);
+    background-color: {{ wishlist_button_active_background }};
+    border-color: {{ wishlist_button_border_color }};
   }
 
   .price-wishlist-icon .wishlist-button .icon-heart {
@@ -181,6 +192,22 @@
       "label": "Show wishlist icon",
       "info": "Display wishlist heart icon below the price",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "Wishlist"
+    },
+    {
+      "type": "color",
+      "id": "wishlist_button_border_color",
+      "label": "Border color",
+      "info": "Outline color for the wishlist button"
+    },
+    {
+      "type": "color",
+      "id": "wishlist_button_active_background",
+      "label": "背景",
+      "info": "Background color when the wishlist button is active"
     },
     {
       "type": "header",

@@ -1062,7 +1062,7 @@
         if (!normalized) {
           return;
         }
-        const key = normalized.split('?')[0];
+        const key = normalized.split('?')[0] || normalized;
         if (seen.has(key)) {
           return;
         }
@@ -1092,7 +1092,7 @@
           pushImage(typeof src === 'string' ? src : undefined, {
             isVariant: true,
             isSelectedVariant: isSelected,
-            variantId: variantId
+            variantId: String(variantId)
           });
         });
       }

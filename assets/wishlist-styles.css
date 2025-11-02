@@ -320,21 +320,23 @@
 
 /* Wishlist Counter Styles */
 .wishlist-count-bubble {
-    position: absolute;
-    padding: 0 4px;
-    background-color: black;
-    color: white;
-    transition: transform .2s ease;
-    height: 20px;
-    width: 20px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    top: 5px;
-    right: 0px;
-    line-height: calc(1 + .1 / var(--font-body-scale));
+  position: absolute;
+  top: 4.5px;
+  right: 2.5px;
+  width: 20px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+  font-family: var(--font-paragraph--family);
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+  line-height: 1;
+  padding: 0;
+  transition: transform 0.2s ease;
 }
 
 /* Force hidden state to override any inherited display properties */

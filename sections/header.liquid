@@ -58,7 +58,7 @@
   endcapture
 
   capture actions
-    render 'header-actions'
+    render 'header-actions', show_wishlist_icon: section.settings.enable_wishlist_icon | default: true
   endcapture
 
   if shop.customer_accounts_enabled
@@ -767,6 +767,16 @@
       ],
       "default": "top",
       "visible_if": "{{ section.settings.show_search }}"
+    },
+    {
+      "type": "header",
+      "content": "Wishlist"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_wishlist_icon",
+      "label": "Enable wishlist icon",
+      "default": true
     },
     {
       "type": "header",

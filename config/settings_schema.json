@@ -2113,6 +2113,12 @@
     "name": "Wishlist",
     "settings": [
       {
+        "type": "checkbox",
+        "id": "enable_wishlist_icon",
+        "label": "Enable wishlist icon",
+        "default": true
+      },
+      {
         "type": "header",
         "content": "Wishlist"
       },

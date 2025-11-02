@@ -384,6 +384,7 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
   max-width: 320px;
   width: calc(100% - 40px);
+  color: #000;
 }
 
 .wishlist-notification.is-active {
@@ -403,6 +404,8 @@
   margin: 0;
   font-size: 15px;
   flex: 1;
+  color: #000;
+  text-align: center;
 }
 
 .wishlist-notification__close {
@@ -428,12 +431,9 @@
   stroke: currentColor;
 }
 
-.wishlist-notification--error {
-  color: #c00;
-}
-
+.wishlist-notification--error,
 .wishlist-notification--success {
-  color: #060;
+  color: #000;
 }
 
 /* Mobile responsive */

@@ -665,7 +665,7 @@
         });
         
         this.saveToStorage();
-        this.showNotification(`${product.title} added to wishlist`);
+        this.showNotification('Item added to wishlist');
         return true;
       }
       return false;

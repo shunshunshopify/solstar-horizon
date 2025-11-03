@@ -179,7 +179,7 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
   right: var(--cart-bubble-right);
   z-index: 100;
   margin: 0;
-  transform: translate(50%, -50%);
+  transform: none;
   width: var(--cart-bubble-size);
 }
 

@@ -320,8 +320,11 @@
       bottomCounters.forEach(counter => {
         const element = /** @type {HTMLElement} */ (counter);
         const countSpan = element.querySelector('[aria-hidden="true"]');
+        const srText = element.querySelector('[data-wishlist-counter-bottom-sr]');
         element.style.removeProperty('display');
         element.hidden = !hasItems;
+        element.classList.toggle(this.classes.hidden, !hasItems);
+        element.classList.toggle(this.classes.visible, hasItems);
 
         if (hasItems) {
           element.removeAttribute('aria-hidden');
@@ -331,6 +334,10 @@
 
         if (countSpan) {
           countSpan.textContent = String(count);
+        }
+
+        if (srText) {
+          srText.textContent = `Wishlist items: ${count}`;
         }
       });
       

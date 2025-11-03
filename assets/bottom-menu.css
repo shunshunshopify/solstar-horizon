@@ -19,6 +19,7 @@
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   text-align: center;
+  overflow: visible;
 }
 
 /* Hide on desktop */
@@ -39,6 +40,7 @@
   position: relative;
   border-right: 1px solid #eee;
   width: 20%;
+  overflow: visible;
 }
 
 .bottom-menu__item:last-child,
@@ -77,6 +79,7 @@
 }
 
 /* Icon styles */
+/* Icon styles */
 .bottom-menu__icon,
 .sticky-section i,
 .sticky-section .svg-wrapper {
@@ -86,20 +89,33 @@
   margin-bottom: var(--margin-3xs, 2px);
   color: var(--bottom-menu-icon-color, #000);
   position: relative;
-  font-size: var(--bottom-menu-icon-size, 2.2rem) !important;
+  width: 22px;
+  height: 22px;
+  font-size: 22px !important;
+}
+
+.sticky-section .sticky-section-menu-drawer .svg-wrapper {
+  width: var(--icon-size-xs, 0.85rem);
+  height: var(--icon-size-xs, 0.85rem);
+  font-size: var(--icon-size-xs, 0.85rem) !important;
 }
 
 .bottom-menu__icon.svg-wrapper,
 .sticky-section .svg-wrapper {
-  width: var(--bottom-menu-icon-size, 2.2rem);
-  height: var(--bottom-menu-icon-size, 2.2rem);
+  width: 22px;
+  height: 22px;
+}
+
+.sticky-section .sticky-section-menu-drawer .svg-wrapper svg {
+  width: var(--icon-size-xs, 0.85rem);
+  height: var(--icon-size-xs, 0.85rem);
 }
 
 /* SVG icon styling - Support both fill and stroke icons */
 .bottom-menu__icon.svg-wrapper svg,
 .sticky-section .svg-wrapper svg {
-  width: var(--bottom-menu-icon-size, 2.2rem);
-  height: var(--bottom-menu-icon-size, 2.2rem);
+  width: 100%;
+  height: 100%;
   display: block;
   color: var(--bottom-menu-icon-color, #000);
 }
@@ -134,66 +150,85 @@
 }
 
 /* Specific sizing for menu icon only - match header menu size */
-.sticky-section-menu-drawer .svg-wrapper {
-  width: var(--icon-size-xs, 0.85rem) !important;
-  height: var(--icon-size-xs, 0.85rem) !important;
-  font-size: var(--icon-size-xs, 0.85rem) !important;
-}
-
-.sticky-section-menu-drawer .svg-wrapper svg {
-  width: var(--icon-size-xs, 0.85rem) !important;
-  height: var(--icon-size-xs, 0.85rem) !important;
-}
-
 
 
 /* Cart Icon Specific Styles - Both naming conventions */
 .bottom-menu__cart-icon,
 .bottom-nav-cart-icon {
   --cart-bubble-size: 20px;
-  --cart-bubble-top: 0px;
-  --cart-bubble-right: 12px;
-  
+  --cart-bubble-top: 4.5px;
+  --cart-bubble-right: 2.5px;
+}
+
+cart-icon.bottom-menu__cart-icon,
+cart-icon.bottom-nav-cart-icon {
   position: relative;
-  display: contents; /* Allow the component to not interfere with layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  overflow: visible;
+}
+
+cart-icon.bottom-menu__cart-icon .svg-wrapper,
+cart-icon.bottom-nav-cart-icon .svg-wrapper {
+  position: relative;
 }
 
 .bottom-menu__cart-icon .cart-bubble,
 .bottom-nav-cart-icon .cart-bubble {
   position: absolute;
-  top: var(--cart-bubble-top);
-  right: var(--cart-bubble-right);
+  top: var(--cart-bubble-top, 4.5px);
+  right: var(--cart-bubble-right, 2.5px);
   z-index: 100;
   margin: 0;
-  transform: none;
+  transform: translate(50%, -50%);
   width: var(--cart-bubble-size);
 }
 
 /* Ensure cart bubble background and text colors are consistent */
-.bottom-nav-cart-icon .cart-bubble__background {
-  background-color: black;
+.bottom-nav-cart-icon,
+.bottom-menu__cart-icon {
+  --cart-bubble-background: var(
+    --bottom-menu-cart-bubble-background,
+    var(--color-primary-button-background, rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25)))
+  );
+  --cart-bubble-text: var(
+    --bottom-menu-cart-bubble-text,
+    var(--color-primary-button-text, var(--color-foreground))
+  );
 }
 
-.bottom-nav-cart-icon .cart-bubble__text {
-  color: white;
+.bottom-nav-cart-icon .cart-bubble__background,
+.bottom-menu__cart-icon .cart-bubble__background {
+  background-color: var(--cart-bubble-background);
+}
+
+.bottom-nav-cart-icon .cart-bubble__text,
+.bottom-menu__cart-icon .cart-bubble__text {
+  color: var(--cart-bubble-text);
   font-size: var(--font-size--2xs);
   font-weight: var(--font-paragraph--weight);
 }
 
-.bottom-menu__cart-icon--has-cart .bottom-menu__icon {
+.header-actions__cart-icon--has-cart .svg-wrapper svg {
   /* Create donut mask where the cart bubble sits */
   mask: radial-gradient(
-    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
+    calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
     transparent 45.45%,
     #fff 45.45%,
     #fff 100%
   );
 }
 
+.bottom-nav-cart-icon.header-actions__cart-icon--has-cart .svg-wrapper svg {
+  mask: none;
+}
+
 /* Ensure cart-icon component integrates properly */
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
-  display: contents;
+  display: inline-flex;
 }
 
 cart-icon.bottom-menu__cart-icon .bottom-menu__link,
@@ -204,15 +239,6 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Wishlist Icon Specific Styles */
 .bottom-menu__wishlist-icon {
   position: relative;
-}
-
-.bottom-menu__wishlist-icon .cart-bubble {
-  position: absolute !important;
-  top: -2px !important;
-  right: -4px !important;
-  z-index: 10;
-  margin: 0 !important;
-  transform: none !important;
 }
 
 .bottom-menu__wishlist-icon--has-items .bottom-menu__icon {
@@ -228,28 +254,83 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Legacy cart count styles (keeping for backward compatibility) */
 .cart-count {
   position: absolute;
-  background-color: black;
-  color: white;
-  height: 16px;
-  width: 16px;
-  border-radius: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 10px;
-  font-weight: bold;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  inset: auto;
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
   bottom: 35px;
   right: -8px;
 }
 
+.bottom-icon-sticky .svg-wrapper {
+  position: relative;
+}
+
 .wishlist-total-count-bottom-menu {
+  --wishlist-bubble-size: 20px;
+  --wishlist-bubble-top: 4.5px;
+  --wishlist-bubble-right: 2.5px;
   position: absolute;
-  top: -3px;
-  left: 35px;
-  width: 20px;
-  height: 20px;
-  bottom: auto;
-  right: auto;
+  top: var(--wishlist-bubble-top);
+  right: var(--wishlist-bubble-right);
+  width: var(--wishlist-bubble-size);
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(50%, -50%);
+  border-radius: var(--style-border-radius-lg, 999px);
+  color: var(
+    --bottom-menu-wishlist-counter-text,
+    var(--color-primary-button-text, var(--color-foreground))
+  );
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+  line-height: 1;
+  isolation: isolate;
+  pointer-events: none;
+  --wishlist-counter-background: var(
+    --bottom-menu-wishlist-counter-background,
+    var(
+      --color-primary-button-background,
+      rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25))
+    )
+  );
+}
+
+.wishlist-total-count-bottom-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--wishlist-counter-background);
+  z-index: -1;
+}
+
+.wishlist-total-count-bottom-menu__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size--2xs);
+}
+
+.wishlist-total-count-bottom-menu__number {
+  font-size: inherit;
+}
+
+.wishlist-total-count-bottom-menu.is-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.wishlist-total-count-bottom-menu.is-visible {
+  display: inline-flex !important;
+  visibility: visible !important;
 }
 
 /* Popup Styles - Both naming conventions */
@@ -495,8 +576,8 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   
   .bottom-menu__icon.svg-wrapper,
   .sticky-section .svg-wrapper {
-    width: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
-    height: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -523,7 +604,7 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Ensure proper cart icon component integration - Both naming conventions */
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
-  display: contents;
+  display: inline-flex;
 }
 
 cart-icon.bottom-menu__cart-icon .bottom-menu__link,

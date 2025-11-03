@@ -29,6 +29,18 @@
       display: flex;
       justify-content: space-around;
       box-shadow: 0 0 10px rgba(0, 0, 0, .11);
+      {% if section.settings.cart_bubble_background != blank %}
+        --bottom-menu-cart-bubble-background: {{ section.settings.cart_bubble_background }};
+      {% endif %}
+      {% if section.settings.cart_bubble_text != blank %}
+        --bottom-menu-cart-bubble-text: {{ section.settings.cart_bubble_text }};
+      {% endif %}
+      {% if section.settings.wishlist_counter_background != blank %}
+        --bottom-menu-wishlist-counter-background: {{ section.settings.wishlist_counter_background }};
+      {% endif %}
+      {% if section.settings.wishlist_counter_text != blank %}
+        --bottom-menu-wishlist-counter-text: {{ section.settings.wishlist_counter_text }};
+      {% endif %}
     }
     
     @media only screen and (min-width: 768px) {
@@ -55,8 +67,8 @@
     }
     
     .sticky-section svg {
-      width: {{ section.settings.icon_size }}rem;
-      height: {{ section.settings.icon_size }}rem;
+      width: var(--bottom-menu-icon-size, 2.2rem);
+      height: var(--bottom-menu-icon-size, 2.2rem);
       stroke: {{ section.settings.icon_color }};
       fill: none;
       stroke-width: 1.5px;
@@ -101,7 +113,6 @@
       --bottom-menu-color: {{ section.settings.color }};
       --bottom-menu-icon-color: {{ section.settings.icon_color }};
       --bottom-menu-font-size: {{ section.settings.font_size }}px;
-      --bottom-menu-icon-size: {{ section.settings.icon_size }}rem;
       --icon-stroke-width: 1.5px;
       {% if section.settings.hide-border %}
       --bottom-menu-border-color: transparent;
@@ -130,13 +141,9 @@
         {%- when 'home_block' -%}
           <div class="sticky-section-column">
             <a href="{{ routes.root_url }}" class="btm_link">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'home-line.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'home-line.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </a>
           </div>
@@ -151,21 +158,18 @@
             >
               <cart-icon
                 class="
+                  header-actions__cart-icon
                   bottom-nav-cart-icon
-                  {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
+                  {% unless cart == empty %} header-actions__cart-icon--has-cart{% endunless %}
                 "
                 data-testid="cart-icon"
               >
-                {% if block.settings.icon_url == blank %}
-                  <span
-                    class="svg-wrapper"
-                    aria-hidden="true"
-                  >
-                    {{ 'icon-cart.svg' | inline_asset_content }}
-                  </span>
-                {% else %}
-                  {{ block.settings.icon_url }}
-                {% endif %}
+                <span
+                  class="svg-wrapper"
+                  aria-hidden="true"
+                >
+                  {{ 'icon-cart.svg' | inline_asset_content }}
+                </span>
                 {% render 'cart-bubble', limit: 100, live_region: true %}
               </cart-icon>
               {{ block.settings.caption }}
@@ -174,44 +178,38 @@
         {%- when 'wishlist_block' -%}
         <div class="sticky-section-column">
           <a href="/pages/wishlist" class="bottom-icon-sticky btm_link header__icon--wishlist-link">
-            {% if block.settings.icon_url == blank %}
-              <span class="svg-wrapper" aria-hidden="true">
-                {{ 'icon-heart-line.svg' | inline_asset_content }}
+            <span class="svg-wrapper">
+              {{ 'icon-heart-line.svg' | inline_asset_content }}
+              <span
+                class="wishlist-total-count-bottom-menu is-hidden"
+                data-wishlist-counter-bottom
+                role="status"
+                aria-live="polite"
+              >
+                <span class="wishlist-total-count-bottom-menu__text">
+                  <span class="visually-hidden" data-wishlist-counter-bottom-sr>Wishlist items: 0</span>
+                  <span class="wishlist-total-count-bottom-menu__number" aria-hidden="true">0</span>
+                </span>
               </span>
-            {% else %}
-              {{ block.settings.icon_url }}
-            {% endif %}
+            </span>
             {{ block.settings.caption }}
-            <!-- Enhanced wishlist counter with proper styling -->
-            <div class="cart-count wishlist-total-count-bottom-menu" data-wishlist-counter-bottom style="display: none;">
-              <span class="visually-hidden">Wishlist items: </span>
-              <span aria-hidden="true">0</span>
-            </div>
           </a>
         </div>
         {%- when 'Menu_block' -%}
           <div class="sticky-section-column sticky-section-menu-drawer">
             <button type="button" class="btm_link" data-menu-drawer-trigger aria-label="Open navigation menu">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-menu.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-menu.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </button>
           </div>
         {%- when 'Account_block' -%}
           <div class="sticky-section-column">
             <a href="{{ routes.account_url }}" class="btm_link">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-account.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-account.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </a>
           </div>
@@ -231,13 +229,9 @@
         {%- when 'cat_block' -%}
           <div class="sticky-section-column" id="collectionButton">
             <a href="#collectionPopup" class="btm_link">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-layout-grid-line.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-layout-grid-line.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </a>
           </div>
@@ -533,38 +527,52 @@ function openCartDrawer() {
             "default": "#000"
         },
         {
-        "type": "range",
-        "id": "font_size",
-        "min": 5,
-        "max": 20,
-        "step": 1,
-        "unit": "px",
-        "label": "Font Size",
-        "default": 10
+            "type": "header",
+            "content": "Badge colors"
         },
         {
-          "type": "range",
-          "id": "icon_size",
-          "min": 1.5,
-          "max": 5,
-          "step": 0.1,
-          "unit": "rem",
-          "label": "Icon Size",
-          "default": 2.2
+            "type": "color",
+            "id": "cart_bubble_background",
+            "label": "Cart badge background"
         },
         {
-        "type": "header",
-        "content": "Spacing"
+            "type": "color",
+            "id": "cart_bubble_text",
+            "label": "Cart badge text"
         },
         {
-        "type": "range",
-        "id": "height",
-        "min": 50,
-        "max": 100,
-        "step": 10,
-        "unit": "px",
-        "label": "height",
-        "default": 70
+            "type": "color",
+            "id": "wishlist_counter_background",
+            "label": "Wishlist counter background"
+        },
+        {
+            "type": "color",
+            "id": "wishlist_counter_text",
+            "label": "Wishlist counter text"
+        },
+        {
+            "type": "range",
+            "id": "font_size",
+            "min": 5,
+            "max": 20,
+            "step": 1,
+            "unit": "px",
+            "label": "Font Size",
+            "default": 10
+        },
+        {
+            "type": "header",
+            "content": "Spacing"
+        },
+        {
+            "type": "range",
+            "id": "height",
+            "min": 50,
+            "max": 100,
+            "step": 10,
+            "unit": "px",
+            "label": "height",
+            "default": 70
         },
         {
             "type": "checkbox",
@@ -604,22 +612,10 @@ function openCartDrawer() {
             "limit": 1,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "Add Icon",
-                     "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
                     "default": "Home"
-                },
-                {
-                    "type": "url",
-                    "id": "url",
-                    "label": "Link"
                 }
             ]
         },
@@ -629,23 +625,10 @@ function openCartDrawer() {
             "limit": 1,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "Add Icon",
-                    "placeholder": "<i class=\"ri-shopping-basket-2-line\"></i>",
-                     "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
                     "default": "Cart"
-                },
-                {
-                    "type": "url",
-                    "id": "url",
-                    "label": "Link"
                 }
             ]
         },
@@ -655,22 +638,10 @@ function openCartDrawer() {
             "limit": 1,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "Add Icon",
-                    "placeholder": "<i class=\"ri-heart-line\"></i>",
-                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
                     "default": "Wishlist"
-                },
-                {
-                    "type": "url",
-                    "id": "url",
-                    "label": "Link"
                 }
             ]
         },
@@ -680,22 +651,10 @@ function openCartDrawer() {
             "limit": 1,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "Add Icon",
-                    "placeholder": "<i class=\"ri-bars-line\"></i>",
-                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
                     "default": "Menu"
-                },
-                {
-                    "type": "url",
-                    "id": "url",
-                    "label": "Link"
                 }
             ]
         },
@@ -705,22 +664,10 @@ function openCartDrawer() {
             "limit": 1,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "Add Icon",
-                     "placeholder": "<i class=\"ri-account-line\"></i>",
-                      "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
                     "default": "Account"
-                },
-                {
-                    "type": "url",
-                    "id": "url",
-                    "label": "Link"
                 }
             ]
         },
@@ -749,7 +696,7 @@ function openCartDrawer() {
                 }
             ]
         },
-      {
+        {
             "type": "cat_block",
             "name": "Categories",
             "limit": 1,
@@ -761,18 +708,11 @@ function openCartDrawer() {
                   "label": "Custom Menu"
                 },
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "Add Icon",
-                    "placeholder": "<i class=\"ri-search-line\"></i>",
-                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
                     "default": "Categories"
-                },
+                }
             ]
         },
       {

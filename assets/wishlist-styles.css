@@ -322,7 +322,9 @@
   animation: heartPulse 0.6s ease;
 }
 
-/* Wishlist Counter Styles */
+/* Wishlist Counter Styles - Integrated with Header System */
+
+/* Legacy counter support for bottom nav and other locations */
 .wishlist-count-bubble {
   position: absolute;
   top: 4.5px;
@@ -333,8 +335,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: var(--color-primary-button-background);
-  color: var(--color-primary-button-text);
+  background-color: rgb(var(--color-button-rgb));
+  color: rgb(var(--color-button-text-rgb));
   font-family: var(--font-paragraph--family);
   font-size: var(--font-size--2xs);
   font-weight: var(--font-paragraph--weight);
@@ -344,33 +346,17 @@
 }
 
 /* Force hidden state to override any inherited display properties */
-.wishlist-count-bubble.is-hidden {
+.wishlist-count-bubble.is-hidden,
+.wishlist-bubble.visually-hidden {
   display: none !important;
   visibility: hidden !important;
 }
 
 /* Force visible state to override hidden state */
-.wishlist-count-bubble.is-visible {
+.wishlist-count-bubble.is-visible,
+.wishlist-bubble:not(.visually-hidden) {
   display: flex !important;
   visibility: visible !important;
-}
-
-/* Ensure visible wins even if both classes are present - this should never happen but failsafe */
-.wishlist-count-bubble.is-hidden.is-visible {
-  display: flex !important;
-  visibility: visible !important;
-}
-
-.header__icon--wishlist {
-  position: relative;
-}
-
-.header__icon--wishlist-link {
-  display: flex;
-}
-.header__icon--wishlist .icon-wishlist{
-  height: 2.2rem;
-  width: 2.2rem;
 }
 /* Notification Styles */
 .wishlist-notification {

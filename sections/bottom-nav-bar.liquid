@@ -29,6 +29,18 @@
       display: flex;
       justify-content: space-around;
       box-shadow: 0 0 10px rgba(0, 0, 0, .11);
+      {% if section.settings.cart_bubble_background != blank %}
+        --bottom-menu-cart-bubble-background: {{ section.settings.cart_bubble_background }};
+      {% endif %}
+      {% if section.settings.cart_bubble_text != blank %}
+        --bottom-menu-cart-bubble-text: {{ section.settings.cart_bubble_text }};
+      {% endif %}
+      {% if section.settings.wishlist_counter_background != blank %}
+        --bottom-menu-wishlist-counter-background: {{ section.settings.wishlist_counter_background }};
+      {% endif %}
+      {% if section.settings.wishlist_counter_text != blank %}
+        --bottom-menu-wishlist-counter-text: {{ section.settings.wishlist_counter_text }};
+      {% endif %}
     }
     
     @media only screen and (min-width: 768px) {
@@ -531,6 +543,30 @@ function openCartDrawer() {
             "id": "color",
             "label": "Text color",
             "default": "#000"
+        },
+        {
+            "type": "header",
+            "content": "Badge colors"
+        },
+        {
+            "type": "color",
+            "id": "cart_bubble_background",
+            "label": "Cart badge background"
+        },
+        {
+            "type": "color",
+            "id": "cart_bubble_text",
+            "label": "Cart badge text"
+        },
+        {
+            "type": "color",
+            "id": "wishlist_counter_background",
+            "label": "Wishlist counter background"
+        },
+        {
+            "type": "color",
+            "id": "wishlist_counter_text",
+            "label": "Wishlist counter text"
         },
         {
         "type": "range",

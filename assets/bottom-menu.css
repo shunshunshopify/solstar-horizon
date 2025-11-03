@@ -170,12 +170,26 @@
 }
 
 /* Ensure cart bubble background and text colors are consistent */
-.bottom-nav-cart-icon .cart-bubble__background {
-  background-color: black;
+.bottom-nav-cart-icon,
+.bottom-menu__cart-icon {
+  --cart-bubble-background: var(
+    --bottom-menu-cart-bubble-background,
+    var(--color-primary-button-background, rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25)))
+  );
+  --cart-bubble-text: var(
+    --bottom-menu-cart-bubble-text,
+    var(--color-primary-button-text, var(--color-foreground))
+  );
 }
 
-.bottom-nav-cart-icon .cart-bubble__text {
-  color: white;
+.bottom-nav-cart-icon .cart-bubble__background,
+.bottom-menu__cart-icon .cart-bubble__background {
+  background-color: var(--cart-bubble-background);
+}
+
+.bottom-nav-cart-icon .cart-bubble__text,
+.bottom-menu__cart-icon .cart-bubble__text {
+  color: var(--cart-bubble-text);
   font-size: var(--font-size--2xs);
   font-weight: var(--font-paragraph--weight);
 }
@@ -228,16 +242,15 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Legacy cart count styles (keeping for backward compatibility) */
 .cart-count {
   position: absolute;
-  background-color: black;
-  color: white;
-  height: 16px;
-  width: 16px;
-  border-radius: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 10px;
-  font-weight: bold;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  inset: auto;
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
   bottom: 35px;
   right: -8px;
 }
@@ -246,10 +259,36 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   position: absolute;
   top: -3px;
   left: 35px;
-  width: 20px;
-  height: 20px;
   bottom: auto;
   right: auto;
+  width: 20px;
+  height: 20px;
+  padding-inline: 0.2em;
+  border-radius: var(--style-border-radius-lg, 999px);
+  color: var(
+    --bottom-menu-wishlist-counter-text,
+    var(--color-primary-button-text, var(--color-foreground))
+  );
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+  line-height: 1;
+  isolation: isolate;
+  --wishlist-counter-background: var(
+    --bottom-menu-wishlist-counter-background,
+    var(
+      --color-primary-button-background,
+      rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25))
+    )
+  );
+}
+
+.wishlist-total-count-bottom-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--wishlist-counter-background);
+  z-index: -1;
 }
 
 /* Popup Styles - Both naming conventions */

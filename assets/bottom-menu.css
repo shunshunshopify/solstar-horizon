@@ -154,11 +154,22 @@
 .bottom-menu__cart-icon,
 .bottom-nav-cart-icon {
   --cart-bubble-size: 20px;
-  --cart-bubble-top: 0px;
-  --cart-bubble-right: 12px;
-  
+  --cart-bubble-top: 4.5px;
+  --cart-bubble-right: 2.5px;
+}
+
+cart-icon.bottom-menu__cart-icon,
+cart-icon.bottom-nav-cart-icon {
   position: relative;
-  display: contents; /* Allow the component to not interfere with layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--margin-3xs, 2px);
+}
+
+cart-icon.bottom-menu__cart-icon .svg-wrapper,
+cart-icon.bottom-nav-cart-icon .svg-wrapper {
+  position: relative;
 }
 
 .bottom-menu__cart-icon .cart-bubble,
@@ -197,10 +208,12 @@
   font-weight: var(--font-paragraph--weight);
 }
 
-.bottom-menu__cart-icon--has-cart .bottom-menu__icon {
+.bottom-nav-cart-icon--has-cart .svg-wrapper svg,
+.bottom-menu__cart-icon--has-cart .svg-wrapper svg,
+.header-actions__cart-icon--has-cart .svg-wrapper svg {
   /* Create donut mask where the cart bubble sits */
   mask: radial-gradient(
-    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
+    calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
     transparent 45.45%,
     #fff 45.45%,
     #fff 100%
@@ -210,7 +223,7 @@
 /* Ensure cart-icon component integrates properly */
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
-  display: contents;
+  display: inline-flex;
 }
 
 cart-icon.bottom-menu__cart-icon .bottom-menu__link,
@@ -258,15 +271,22 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   right: -8px;
 }
 
+.bottom-icon-sticky .svg-wrapper {
+  position: relative;
+}
+
 .wishlist-total-count-bottom-menu {
+  --wishlist-bubble-size: 20px;
+  --wishlist-bubble-top: 4.5px;
+  --wishlist-bubble-right: 2.5px;
   position: absolute;
-  top: -3px;
-  left: 35px;
-  bottom: auto;
-  right: auto;
-  width: 20px;
-  height: 20px;
-  padding-inline: 0.2em;
+  top: var(--wishlist-bubble-top);
+  right: var(--wishlist-bubble-right);
+  width: var(--wishlist-bubble-size);
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--style-border-radius-lg, 999px);
   color: var(
     --bottom-menu-wishlist-counter-text,
@@ -276,6 +296,7 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   font-weight: var(--font-paragraph--weight);
   line-height: 1;
   isolation: isolate;
+  pointer-events: none;
   --wishlist-counter-background: var(
     --bottom-menu-wishlist-counter-background,
     var(
@@ -294,13 +315,24 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   z-index: -1;
 }
 
+.wishlist-total-count-bottom-menu__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size--2xs);
+}
+
+.wishlist-total-count-bottom-menu__number {
+  font-size: inherit;
+}
+
 .wishlist-total-count-bottom-menu.is-hidden {
   display: none !important;
   visibility: hidden !important;
 }
 
 .wishlist-total-count-bottom-menu.is-visible {
-  display: flex !important;
+  display: inline-flex !important;
   visibility: visible !important;
 }
 

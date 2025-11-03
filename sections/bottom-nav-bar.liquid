@@ -158,8 +158,9 @@
             >
               <cart-icon
                 class="
+                  header-actions__cart-icon
                   bottom-nav-cart-icon
-                  {% unless cart == empty %} bottom-nav-cart-icon--has-cart{% endunless %}
+                  {% unless cart == empty %} header-actions__cart-icon--has-cart bottom-nav-cart-icon--has-cart{% endunless %}
                 "
                 data-testid="cart-icon"
               >
@@ -177,15 +178,21 @@
         {%- when 'wishlist_block' -%}
         <div class="sticky-section-column">
           <a href="/pages/wishlist" class="bottom-icon-sticky btm_link header__icon--wishlist-link">
-            <span class="svg-wrapper" aria-hidden="true">
+            <span class="svg-wrapper">
               {{ 'icon-heart-line.svg' | inline_asset_content }}
+              <span
+                class="wishlist-total-count-bottom-menu is-hidden"
+                data-wishlist-counter-bottom
+                role="status"
+                aria-live="polite"
+              >
+                <span class="wishlist-total-count-bottom-menu__text">
+                  <span class="visually-hidden" data-wishlist-counter-bottom-sr>Wishlist items: 0</span>
+                  <span class="wishlist-total-count-bottom-menu__number" aria-hidden="true">0</span>
+                </span>
+              </span>
             </span>
             {{ block.settings.caption }}
-            <!-- Enhanced wishlist counter with proper styling -->
-            <div class="cart-count wishlist-total-count-bottom-menu is-hidden" data-wishlist-counter-bottom>
-              <span class="visually-hidden">Wishlist items: </span>
-              <span aria-hidden="true">0</span>
-            </div>
           </a>
         </div>
         {%- when 'Menu_block' -%}

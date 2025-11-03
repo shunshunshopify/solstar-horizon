@@ -294,6 +294,16 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   z-index: -1;
 }
 
+.wishlist-total-count-bottom-menu.is-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.wishlist-total-count-bottom-menu.is-visible {
+  display: flex !important;
+  visibility: visible !important;
+}
+
 /* Popup Styles - Both naming conventions */
 .bottom-menu__popup,
 .extended-menu,

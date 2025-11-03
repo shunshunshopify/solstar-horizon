@@ -322,6 +322,8 @@
         const countSpan = element.querySelector('[aria-hidden="true"]');
         element.style.removeProperty('display');
         element.hidden = !hasItems;
+        element.classList.toggle(this.classes.hidden, !hasItems);
+        element.classList.toggle(this.classes.visible, hasItems);
 
         if (hasItems) {
           element.removeAttribute('aria-hidden');

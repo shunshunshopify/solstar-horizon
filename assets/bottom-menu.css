@@ -19,6 +19,7 @@
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   text-align: center;
+  overflow: visible;
 }
 
 /* Hide on desktop */
@@ -39,6 +40,7 @@
   position: relative;
   border-right: 1px solid #eee;
   width: 20%;
+  overflow: visible;
 }
 
 .bottom-menu__item:last-child,
@@ -176,7 +178,8 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
 .bottom-menu__cart-icon .cart-bubble,
 .bottom-nav-cart-icon .cart-bubble {
   position: absolute;
-  right: 0;
+  top: var(--cart-bubble-top, 4.5px);
+  right: var(--cart-bubble-right, 2.5px);
   z-index: 100;
   margin: 0;
   transform: translate(50%, -50%);

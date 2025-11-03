@@ -154,8 +154,8 @@
 .bottom-menu__cart-icon,
 .bottom-nav-cart-icon {
   --cart-bubble-size: 20px;
-  --cart-bubble-top: 4.5px;
-  --cart-bubble-right: 2.5px;
+  --cart-bubble-top: -6px;
+  --cart-bubble-right: -6px;
 }
 
 cart-icon.bottom-menu__cart-icon,

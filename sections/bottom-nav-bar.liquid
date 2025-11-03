@@ -67,8 +67,8 @@
     }
     
     .sticky-section svg {
-      width: {{ section.settings.icon_size }}rem;
-      height: {{ section.settings.icon_size }}rem;
+      width: var(--bottom-menu-icon-size, 2.2rem);
+      height: var(--bottom-menu-icon-size, 2.2rem);
       stroke: {{ section.settings.icon_color }};
       fill: none;
       stroke-width: 1.5px;
@@ -113,7 +113,6 @@
       --bottom-menu-color: {{ section.settings.color }};
       --bottom-menu-icon-color: {{ section.settings.icon_color }};
       --bottom-menu-font-size: {{ section.settings.font_size }}px;
-      --bottom-menu-icon-size: {{ section.settings.icon_size }}rem;
       --icon-stroke-width: 1.5px;
       {% if section.settings.hide-border %}
       --bottom-menu-border-color: transparent;
@@ -569,38 +568,28 @@ function openCartDrawer() {
             "label": "Wishlist counter text"
         },
         {
-        "type": "range",
-        "id": "font_size",
-        "min": 5,
-        "max": 20,
-        "step": 1,
-        "unit": "px",
-        "label": "Font Size",
-        "default": 10
+            "type": "range",
+            "id": "font_size",
+            "min": 5,
+            "max": 20,
+            "step": 1,
+            "unit": "px",
+            "label": "Font Size",
+            "default": 10
         },
         {
-          "type": "range",
-          "id": "icon_size",
-          "min": 1.5,
-          "max": 5,
-          "step": 0.1,
-          "unit": "rem",
-          "label": "Icon Size",
-          "default": 2.2
+            "type": "header",
+            "content": "Spacing"
         },
         {
-        "type": "header",
-        "content": "Spacing"
-        },
-        {
-        "type": "range",
-        "id": "height",
-        "min": 50,
-        "max": 100,
-        "step": 10,
-        "unit": "px",
-        "label": "height",
-        "default": 70
+            "type": "range",
+            "id": "height",
+            "min": 50,
+            "max": 100,
+            "step": 10,
+            "unit": "px",
+            "label": "height",
+            "default": 70
         },
         {
             "type": "checkbox",

@@ -597,7 +597,7 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Ensure proper cart icon component integration - Both naming conventions */
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
-  display: contents;
+  display: inline-flex;
 }
 
 cart-icon.bottom-menu__cart-icon .bottom-menu__link,

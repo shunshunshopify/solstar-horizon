@@ -2110,6 +2110,39 @@
     ]
   },
   {
+    "name": "Wishlist",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_wishlist_icon",
+        "label": "Enable wishlist icon",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Wishlist"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_outline_color",
+        "label": "Wishlist icon outline",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_fill_color",
+        "label": "Wishlist icon fill (added state)",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_background_color",
+        "label": "Wishlist button background",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
     "name": "t:names.search",
     "settings": [
       {

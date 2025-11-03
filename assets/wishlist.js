@@ -665,7 +665,7 @@
         });
         
         this.saveToStorage();
-        this.showNotification(`${product.title} added to wishlist`);
+        this.showNotification('お気に入りに追加しました');
         return true;
       }
       return false;
@@ -683,7 +683,7 @@
       
       if (this.items.length !== initialLength) {
         this.saveToStorage();
-        this.showNotification('Item removed from wishlist');
+        this.showNotification('お気に入りから削除しました');
         this.wishlistProductData.delete(String(productId));
         return true;
       }
@@ -815,11 +815,7 @@
         return;
       }
 
-      const productId = detail?.data?.productId || wishlistItem.dataset.productId;
-      const product = this.items.find((item) => String(item.id) === String(productId));
-      const title = product?.title || 'Item';
-
-      this.showNotification(`${title} added to cart`);
+      // Cart drawer surfaces the added item, so no additional notification needed.
     }
 
     /**
@@ -1066,7 +1062,7 @@
         if (!normalized) {
           return;
         }
-        const key = normalized.split('?')[0];
+        const key = normalized.split('?')[0] || normalized;
         if (seen.has(key)) {
           return;
         }
@@ -1096,7 +1092,7 @@
           pushImage(typeof src === 'string' ? src : undefined, {
             isVariant: true,
             isSelectedVariant: isSelected,
-            variantId: variantId
+            variantId: String(variantId)
           });
         });
       }

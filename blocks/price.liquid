@@ -5,6 +5,8 @@
 -%}
 
 {% liquid
+  assign wishlist_icon_enabled = settings.enable_wishlist_icon
+
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true
   endif
@@ -45,14 +47,14 @@
   "
   {{ block.shopify_attributes }}
 >
-  <div class="price-container{% if block_settings.show_wishlist_icon %} price-container--with-wishlist{% endif %}">
+  <div class="price-container{% if wishlist_icon_enabled and product_resource != blank and template.name == 'product' %} price-container--with-wishlist{% endif %}">
     {% render 'price',
       show_unit_price: true,
       product_resource: product_resource,
       show_sale_price_first: block_settings.show_sale_price_first
     %}
 
-    {%- if block_settings.show_wishlist_icon and product_resource != blank -%}
+    {%- if wishlist_icon_enabled and product_resource != blank and template.name == 'product' -%}
       <span class="price-wishlist-icon">
         {% render 'wishlist-button', product: product_resource, location: 'product' %}
       </span>
@@ -120,27 +122,31 @@
 
   .price-wishlist-icon .wishlist-button {
     padding: var(--padding-2xs);
-    border: 1px solid rgba(var(--color-foreground), 0.2);
+    border: 1px solid transparent;
     border-radius: var(--border-radius-button);
     transition: all 0.2s ease;
     background: transparent;
+    color: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
     min-width: auto;
     height: auto;
   }
 
-  .price-wishlist-icon .wishlist-button:hover {
-    border-color: rgba(var(--color-foreground), 0.4);
-    background-color: rgba(var(--color-foreground), 0.05);
-  }
-
-  .price-wishlist-icon .wishlist-button.is-added {
-    background-color: rgba(var(--color-foreground), 0.1);
-    border-color: var(--color-foreground);
+  .price-wishlist-icon .wishlist-button:hover,
+  .price-wishlist-icon .wishlist-button:focus-visible {
+    background-color: transparent;
   }
 
   .price-wishlist-icon .wishlist-button .icon-heart {
     width: 20px;
     height: 20px;
+    fill: transparent;
+    stroke: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
+    stroke-width: 1.5;
+  }
+
+  .price-wishlist-icon .wishlist-button.is-added .icon-heart {
+    fill: var(--wishlist-heart-fill, rgb(var(--color-foreground-rgb, 17 17 17)));
+    stroke: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
   }
 {% endstylesheet %}
 
@@ -173,13 +179,6 @@
       "type": "checkbox",
       "id": "show_tax_info",
       "label": "t:settings.show_tax_info",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_wishlist_icon",
-      "label": "Show wishlist icon",
-      "info": "Display wishlist heart icon below the price",
       "default": false
     },
     {

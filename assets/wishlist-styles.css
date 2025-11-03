@@ -214,11 +214,11 @@
   display: flex;
   align-items: center;
   transition: color 0.2s ease;
-  color: rgba(var(--color-foreground));
+  color: var(--wishlist-heart-stroke, rgba(var(--color-foreground)));
 }
 
 .wishlist-button:hover {
-  color: rgba(var(--color-foreground), 1);
+  color: var(--wishlist-heart-stroke, rgba(var(--color-foreground), 1));
 }
 
 .wishlist-button--product {
@@ -232,7 +232,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: white;
+  background: var(--wishlist-heart-background, #ffffff);
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -291,6 +291,9 @@
 
 .wishlist-button .icon-heart {
   transition: fill 0.3s ease, transform 0.3s ease;
+  stroke: var(--wishlist-heart-stroke, rgba(var(--color-foreground)));
+  stroke-width: 1.5;
+  fill: transparent;
 }
 
 .wishlist-button:hover .icon-heart {
@@ -298,7 +301,8 @@
 }
 
 .wishlist-button.is-added .icon-heart {
-  fill: currentColor;
+  fill: var(--wishlist-heart-fill, var(--wishlist-heart-stroke, rgba(var(--color-foreground))));
+  stroke: var(--wishlist-heart-stroke, rgba(var(--color-foreground)));
 }
 
 /* Add animation for adding/removing from wishlist */
@@ -320,21 +324,23 @@
 
 /* Wishlist Counter Styles */
 .wishlist-count-bubble {
-    position: absolute;
-    padding: 0 4px;
-    background-color: black;
-    color: white;
-    transition: transform .2s ease;
-    height: 20px;
-    width: 20px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    top: 5px;
-    right: 0px;
-    line-height: calc(1 + .1 / var(--font-body-scale));
+  position: absolute;
+  top: 4.5px;
+  right: 2.5px;
+  width: 20px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+  font-family: var(--font-paragraph--family);
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+  line-height: 1;
+  padding: 0;
+  transition: transform 0.2s ease;
 }
 
 /* Force hidden state to override any inherited display properties */
@@ -372,17 +378,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
-  background: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
   padding: 20px;
   z-index: 10001;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
-  max-width: 300px;
-  width: 90%;
-  min-width: 250px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  max-width: 320px;
+  width: calc(100% - 40px);
+  color: #000;
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.15);
 }
 
 .wishlist-notification.is-active {
@@ -400,25 +407,30 @@
 
 .wishlist-notification-content p {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   flex: 1;
+  color: #000;
+  text-align: center;
 }
 
 .wishlist-notification__close {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.7;
+  opacity: 1;
   transition: opacity 0.2s ease;
   flex-shrink: 0;
+  color: #000;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .wishlist-notification__close:hover {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .wishlist-notification__close svg {
@@ -427,16 +439,9 @@
   stroke: currentColor;
 }
 
-.wishlist-notification--error {
-  background: #fee;
-  color: #c00;
-  border-left: 4px solid #c00;
-}
-
+.wishlist-notification--error,
 .wishlist-notification--success {
-  background: #efe;
-  color: #060;
-  border-left: 4px solid #060;
+  color: #000;
 }
 
 /* Mobile responsive */
@@ -492,7 +497,7 @@
   top: 10px;
   right: 10px;
   z-index: 5;
-  background: white;
+  background: var(--wishlist-heart-background, #ffffff);
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -506,7 +511,7 @@
 }
 
 .card .wishlist-button--collection:hover {
-  background: #f3f3f3;
+  background: color-mix(in srgb, var(--wishlist-heart-background, #ffffff) 80%, transparent);
   transform: scale(1.1);
 }
 

@@ -113,7 +113,6 @@
       --bottom-menu-color: {{ section.settings.color }};
       --bottom-menu-icon-color: {{ section.settings.icon_color }};
       --bottom-menu-font-size: {{ section.settings.font_size }}px;
-      --bottom-menu-icon-size: {{ section.settings.icon_size | default: 2.2 }}rem;
       --icon-stroke-width: 1.5px;
       {% if section.settings.hide-border %}
       --bottom-menu-border-color: transparent;
@@ -577,16 +576,6 @@ function openCartDrawer() {
             "unit": "px",
             "label": "Font Size",
             "default": 10
-        },
-        {
-            "type": "range",
-            "id": "icon_size",
-            "min": 1.5,
-            "max": 5,
-            "step": 0.1,
-            "unit": "rem",
-            "label": "Icon size",
-            "default": 2.2
         },
         {
             "type": "header",

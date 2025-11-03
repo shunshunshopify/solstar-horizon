@@ -176,11 +176,11 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
 .bottom-menu__cart-icon .cart-bubble,
 .bottom-nav-cart-icon .cart-bubble {
   position: absolute;
-  top: var(--cart-bubble-top);
-  right: var(--cart-bubble-right);
+  top: 0;
+  right: 0;
   z-index: 100;
   margin: 0;
-  transform: none;
+  transform: translate(50%, -50%);
   width: var(--cart-bubble-size);
 }
 

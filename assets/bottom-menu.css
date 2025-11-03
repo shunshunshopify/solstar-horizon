@@ -158,6 +158,11 @@
   --cart-bubble-right: 2.5px;
 }
 
+.bottom-nav-cart-icon {
+  --cart-bubble-top: -4px;
+  --cart-bubble-right: -4px;
+}
+
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
   position: relative;
@@ -180,7 +185,7 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
   right: var(--cart-bubble-right);
   z-index: 100;
   margin: 0;
-  transform: translate(50%, -50%);
+  transform: none;
   width: var(--cart-bubble-size);
 }
 
@@ -217,6 +222,10 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
     #fff 45.45%,
     #fff 100%
   );
+}
+
+.bottom-nav-cart-icon.header-actions__cart-icon--has-cart .svg-wrapper svg {
+  mask: none;
 }
 
 /* Ensure cart-icon component integrates properly */

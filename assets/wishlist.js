@@ -292,45 +292,56 @@
     updateWishlistCounters() {
       const count = this.getCount();
       console.log(`🔄 Updating all counters to: ${count}`);
+      const hasItems = count > 0;
+
+      /**
+       * @param {Element} counter
+       */
+      const updateHeaderCounter = (counter) => {
+        const element = /** @type {HTMLElement} */ (counter);
+        element.textContent = String(count);
+        element.style.removeProperty('display');
+        element.classList.toggle(this.classes.hidden, !hasItems);
+        element.classList.toggle(this.classes.visible, hasItems);
+
+        if (hasItems) {
+          element.removeAttribute('aria-hidden');
+        } else {
+          element.setAttribute('aria-hidden', 'true');
+        }
+      };
       
       // Update header counter
       const headerCounters = document.querySelectorAll(this.selectors.wishlistCounterHeader);
-      headerCounters.forEach(counter => {
-        const element = /** @type {HTMLElement} */ (counter);
-        element.textContent = String(count);
-        if (count > 0) {
-          element.style.display = 'flex';
-          element.classList.remove(this.classes.hidden);
-          element.classList.add(this.classes.visible);
-        } else {
-          element.style.display = 'none';
-          element.classList.add(this.classes.hidden);
-          element.classList.remove(this.classes.visible);
-        }
-      });
+      headerCounters.forEach(updateHeaderCounter);
       
       // Update bottom counter
       const bottomCounters = document.querySelectorAll(this.selectors.wishlistCounterBottom);
       bottomCounters.forEach(counter => {
         const element = /** @type {HTMLElement} */ (counter);
         const countSpan = element.querySelector('[aria-hidden="true"]');
-        if (count > 0) {
-          element.style.display = 'flex';
-          if (countSpan) {
-            countSpan.textContent = String(count);
-          }
+        element.style.removeProperty('display');
+        element.hidden = !hasItems;
+
+        if (hasItems) {
+          element.removeAttribute('aria-hidden');
         } else {
-          element.style.display = 'none';
+          element.setAttribute('aria-hidden', 'true');
+        }
+
+        if (countSpan) {
+          countSpan.textContent = String(count);
         }
       });
       
       // Update legacy bubble counters
       const bubbleCounters = document.querySelectorAll(this.selectors.wishlistBubble);
       bubbleCounters.forEach(counter => {
-        if (count > 0) {
+        if (hasItems) {
           counter.classList.remove('visually-hidden');
           counter.textContent = String(count);
         } else {
+          counter.textContent = '';
           counter.classList.add('visually-hidden');
         }
       });
@@ -342,12 +353,9 @@
      * Watch for counter changes and fix them - from original working code
      */
     observeCounterChanges() {
-      const allCounters = [
-        ...document.querySelectorAll(this.selectors.wishlistCounterHeader),
-        ...document.querySelectorAll(this.selectors.wishlistCounterBottom)
-      ];
-      
-      allCounters.forEach(counter => {
+      const headerCounters = document.querySelectorAll(this.selectors.wishlistCounterHeader);
+
+      headerCounters.forEach(counter => {
         const observer = new MutationObserver((mutations) => {
           mutations.forEach((mutation) => {
             if (mutation.attributeName === 'class') {
@@ -355,11 +363,7 @@
               // If counter has items but is hidden, fix it
               if (count > 0 && counter.classList.contains(this.classes.hidden)) {
                 console.log('🔧 Counter was hidden incorrectly, fixing...');
-                const element = /** @type {HTMLElement} */ (counter);
-                element.classList.remove(this.classes.hidden);
-                element.classList.add(this.classes.visible);
-                element.style.display = 'flex';
-                element.textContent = String(count);
+                this.updateWishlistCounters();
               }
             }
           });
@@ -371,7 +375,7 @@
         });
       });
       
-      console.log('👁️ Counter observers set up for', allCounters.length, 'elements');
+      console.log('👁️ Counter observers set up for', headerCounters.length, 'elements');
     }
 
     /**

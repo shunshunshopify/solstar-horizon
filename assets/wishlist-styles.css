@@ -333,8 +333,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: var(--color-primary-button-background);
-  color: var(--color-primary-button-text);
+  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25));
+  color: var(--color-foreground);
   font-family: var(--font-paragraph--family);
   font-size: var(--font-size--2xs);
   font-weight: var(--font-paragraph--weight);
@@ -363,6 +363,15 @@
 
 .header__icon--wishlist {
   position: relative;
+}
+
+.header[transparent]:not([data-sticky-state='active'])
+  .header__icon--wishlist
+  .wishlist-count-bubble,
+.header[transparent='always'][data-sticky-state='active']
+  .header__icon--wishlist
+  .wishlist-count-bubble {
+  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.35));
 }
 
 .header__icon--wishlist-link {

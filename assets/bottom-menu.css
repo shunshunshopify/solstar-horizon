@@ -158,18 +158,13 @@
   --cart-bubble-right: 2.5px;
 }
 
-.bottom-nav-cart-icon {
-  --cart-bubble-top: -4px;
-  --cart-bubble-right: -4px;
-}
-
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--margin-3xs, 2px);
+  margin-bottom: 0;
   overflow: visible;
 }
 

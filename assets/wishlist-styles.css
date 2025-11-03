@@ -332,15 +332,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25));
-  color: var(--color-foreground);
+  border-radius: var(--style-border-radius-lg, 999px);
+  color: var(--color-primary-button-text, var(--color-foreground));
   font-family: var(--font-paragraph--family);
   font-size: var(--font-size--2xs);
   font-weight: var(--font-paragraph--weight);
   line-height: 1;
-  padding: 0;
+  padding-inline: 0.2em;
   transition: transform 0.2s ease;
+  z-index: 0;
+  isolation: isolate;
+}
+
+.wishlist-count-bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--color-primary-button-background, rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25)));
+  transition: background-color 0.2s ease;
+  z-index: -1;
 }
 
 /* Force hidden state to override any inherited display properties */
@@ -363,15 +374,6 @@
 
 .header__icon--wishlist {
   position: relative;
-}
-
-.header[transparent]:not([data-sticky-state='active'])
-  .header__icon--wishlist
-  .wishlist-count-bubble,
-.header[transparent='always'][data-sticky-state='active']
-  .header__icon--wishlist
-  .wishlist-count-bubble {
-  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.35));
 }
 
 .header__icon--wishlist-link {

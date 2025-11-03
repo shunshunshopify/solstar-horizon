@@ -293,32 +293,7 @@
       const count = this.getCount();
       console.log(`🔄 Updating all counters to: ${count}`);
       
-      // Update header counter with new bubble structure
-      const headerWishlistIcons = document.querySelectorAll('.header__icon--wishlist');
-      headerWishlistIcons.forEach(icon => {
-        const counter = icon.querySelector('[data-wishlist-counter]');
-        const textElement = counter ? counter.querySelector('.wishlist-bubble__text') : null;
-        
-        if (textElement) {
-          textElement.textContent = String(count);
-        }
-        
-        if (count > 0) {
-          icon.classList.add('header__icon--wishlist--has-items');
-          if (counter) {
-            counter.classList.remove('visually-hidden');
-            /** @type {HTMLElement} */ (counter).style.display = 'flex';
-          }
-        } else {
-          icon.classList.remove('header__icon--wishlist--has-items');
-          if (counter) {
-            counter.classList.add('visually-hidden');
-            /** @type {HTMLElement} */ (counter).style.display = 'none';
-          }
-        }
-      });
-      
-      // Update legacy header counters (for backward compatibility)
+      // Update header counter
       const headerCounters = document.querySelectorAll(this.selectors.wishlistCounterHeader);
       headerCounters.forEach(counter => {
         const element = /** @type {HTMLElement} */ (counter);
@@ -360,7 +335,7 @@
         }
       });
       
-      console.log(`✅ Updated wishlist counters for ${headerWishlistIcons.length} header icons and ${headerCounters.length + bottomCounters.length + bubbleCounters.length} legacy counters`);
+      console.log(`✅ Updated ${headerCounters.length + bottomCounters.length + bubbleCounters.length} counters`);
     }
 
     /**

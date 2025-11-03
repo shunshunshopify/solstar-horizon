@@ -333,6 +333,10 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--style-border-radius-lg, 999px);
+  --wishlist-counter-background: var(
+    --color-primary-button-background,
+    rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25))
+  );
   color: var(--color-primary-button-text, var(--color-foreground));
   font-family: var(--font-paragraph--family);
   font-size: var(--font-size--2xs);
@@ -349,7 +353,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background-color: var(--color-primary-button-background, rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25)));
+  background-color: var(--wishlist-counter-background);
   transition: background-color 0.2s ease;
   z-index: -1;
 }
@@ -374,6 +378,15 @@
 
 .header__icon--wishlist {
   position: relative;
+  --wishlist-counter-background: var(
+    --color-primary-button-background,
+    rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25))
+  );
+}
+
+.header[transparent]:not([data-sticky-state='active']) .header__icon--wishlist,
+.header[transparent='always'][data-sticky-state='active'] .header__icon--wishlist {
+  --wishlist-counter-background: rgb(var(--color-foreground-rgb) / var(--opacity-30-60, 0.35));
 }
 
 .header__icon--wishlist-link {

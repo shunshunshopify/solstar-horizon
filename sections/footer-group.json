@@ -17,41 +17,43 @@
         "cart_block_PXFept": {
           "type": "cart_block",
           "settings": {
-            "icon_url": "",
-            "caption": "Cart",
-            "url": ""
+            "caption": "カート"
           }
         },
         "wishlist_block_LbM46V": {
           "type": "wishlist_block",
           "settings": {
-            "icon_url": "",
-            "caption": "Wishlist",
-            "url": ""
+            "caption": "お気に入り"
           }
         },
         "cat_block_jWqtzW": {
           "type": "cat_block",
           "settings": {
             "menu": "main-menu",
-            "icon_url": "",
-            "caption": "Categories"
+            "caption": "カテゴリー"
           }
         },
         "menu_block_difWiB": {
           "type": "Menu_block",
           "settings": {
-            "icon_url": "",
-            "caption": "Menu",
-            "url": ""
+            "caption": "メニュー"
           }
         },
-        "block_rKMLgg": {
-          "type": "block",
+        "extended_menu_block_XQ6iN6": {
+          "type": "extended_menu_block",
           "settings": {
-            "icon_url": "",
-            "caption": "Caption",
-            "url": ""
+            "caption": "More",
+            "show_search": true,
+            "search_url": "",
+            "show_whatsapp": true,
+            "wa_number": "",
+            "wa_message": "Hi There! I need some help",
+            "show_wishlist": true,
+            "wishlist_url": "",
+            "show_track": true,
+            "track_url": "",
+            "show_help": true,
+            "help_url": ""
           }
         }
       },
@@ -60,15 +62,18 @@
         "wishlist_block_LbM46V",
         "cat_block_jWqtzW",
         "menu_block_difWiB",
-        "block_rKMLgg"
+        "extended_menu_block_XQ6iN6"
       ],
       "name": "Sticky bottom menu",
       "settings": {
         "bg_color": "#ffffff",
         "icon_color": "#000000",
         "color": "#000000",
+        "cart_bubble_background": "",
+        "cart_bubble_text": "",
+        "wishlist_counter_background": "",
+        "wishlist_counter_text": "",
         "font_size": 10,
-        "icon_size": 1.5,
         "height": 70,
         "hide-border": false
       }

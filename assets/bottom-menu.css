@@ -236,15 +236,12 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Wishlist Icon Specific Styles */
 .bottom-menu__wishlist-icon {
   position: relative;
-  --wishlist-bubble-size: 20px;
-  --wishlist-bubble-top: 4.5px;
-  --wishlist-bubble-right: 2.5px;
 }
 
 .bottom-menu__wishlist-icon--has-items .bottom-menu__icon {
   /* Create donut mask where the wishlist bubble sits */
   mask: radial-gradient(
-    calc(var(--wishlist-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
+    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
     transparent 45.45%,
     #fff 45.45%,
     #fff 100%
@@ -272,16 +269,18 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 }
 
 .wishlist-total-count-bottom-menu {
+  --wishlist-bubble-size: 20px;
+  --wishlist-bubble-top: 4.5px;
+  --wishlist-bubble-right: 2.5px;
   position: absolute;
-  right: 0;
-  z-index: 100;
-  margin: 0;
-  transform: translate(50%, -50%);
-  width: var(--wishlist-bubble-size, 20px);
+  top: var(--wishlist-bubble-top);
+  right: var(--wishlist-bubble-right);
+  width: var(--wishlist-bubble-size);
   aspect-ratio: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transform: translate(50%, -50%);
   border-radius: var(--style-border-radius-lg, 999px);
   color: var(
     --bottom-menu-wishlist-counter-text,

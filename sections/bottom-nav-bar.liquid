@@ -177,19 +177,19 @@
           </div>
         {%- when 'wishlist_block' -%}
         <div class="sticky-section-column">
-          <a href="/pages/wishlist" class="bottom-icon-sticky btm_link header__icon--wishlist-link bottom-menu__wishlist-icon">
+          <a href="/pages/wishlist" class="bottom-icon-sticky btm_link header__icon--wishlist-link">
             <span class="svg-wrapper">
               {{ 'icon-heart-line.svg' | inline_asset_content }}
-            </span>
-            <span
-              class="wishlist-total-count-bottom-menu is-hidden"
-              data-wishlist-counter-bottom
-              role="status"
-              aria-live="polite"
-            >
-              <span class="wishlist-total-count-bottom-menu__text">
-                <span class="visually-hidden" data-wishlist-counter-bottom-sr>Wishlist items: 0</span>
-                <span class="wishlist-total-count-bottom-menu__number" aria-hidden="true">0</span>
+              <span
+                class="wishlist-total-count-bottom-menu is-hidden"
+                data-wishlist-counter-bottom
+                role="status"
+                aria-live="polite"
+              >
+                <span class="wishlist-total-count-bottom-menu__text">
+                  <span class="visually-hidden" data-wishlist-counter-bottom-sr>Wishlist items: 0</span>
+                  <span class="wishlist-total-count-bottom-menu__number" aria-hidden="true">0</span>
+                </span>
               </span>
             </span>
             {{ block.settings.caption }}

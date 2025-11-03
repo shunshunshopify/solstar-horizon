@@ -179,7 +179,7 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
   right: var(--cart-bubble-right);
   z-index: 100;
   margin: 0;
-  transform: none;
+  transform: translate(50%, -50%);
   width: var(--cart-bubble-size);
 }
 
@@ -276,6 +276,7 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transform: translate(50%, -50%);
   border-radius: var(--style-border-radius-lg, 999px);
   color: var(
     --bottom-menu-wishlist-counter-text,
@@ -596,7 +597,7 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Ensure proper cart icon component integration - Both naming conventions */
 cart-icon.bottom-menu__cart-icon,
 cart-icon.bottom-nav-cart-icon {
-  display: inline-flex;
+  display: contents;
 }
 
 cart-icon.bottom-menu__cart-icon .bottom-menu__link,

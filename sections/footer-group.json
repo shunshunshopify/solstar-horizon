@@ -14,6 +14,12 @@
     "bottom_nav_bar_9FENJe": {
       "type": "bottom-nav-bar",
       "blocks": {
+        "home_block_zqJ9xR": {
+          "type": "home_block",
+          "settings": {
+            "caption": "Home"
+          }
+        },
         "cart_block_PXFept": {
           "type": "cart_block",
           "settings": {
@@ -31,12 +37,6 @@
           "settings": {
             "menu": "main-menu",
             "caption": "カテゴリー"
-          }
-        },
-        "menu_block_difWiB": {
-          "type": "Menu_block",
-          "settings": {
-            "caption": "メニュー"
           }
         },
         "extended_menu_block_XQ6iN6": {
@@ -58,10 +58,10 @@
         }
       },
       "block_order": [
+        "home_block_zqJ9xR",
         "cart_block_PXFept",
         "wishlist_block_LbM46V",
         "cat_block_jWqtzW",
-        "menu_block_difWiB",
         "extended_menu_block_XQ6iN6"
       ],
       "name": "Sticky bottom menu",

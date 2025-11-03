@@ -165,6 +165,7 @@ cart-icon.bottom-nav-cart-icon {
   align-items: center;
   justify-content: center;
   margin-bottom: var(--margin-3xs, 2px);
+  overflow: visible;
 }
 
 cart-icon.bottom-menu__cart-icon .svg-wrapper,
@@ -179,7 +180,7 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
   right: var(--cart-bubble-right);
   z-index: 100;
   margin: 0;
-  transform: none;
+  transform: translate(50%, -50%);
   width: var(--cart-bubble-size);
 }
 

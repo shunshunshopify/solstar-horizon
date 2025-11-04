@@ -17,7 +17,7 @@
         "home_block_zqJ9xR": {
           "type": "home_block",
           "settings": {
-            "caption": "Home"
+            "caption": "トップ"
           }
         },
         "cart_block_PXFept": {
@@ -42,7 +42,7 @@
         "extended_menu_block_XQ6iN6": {
           "type": "extended_menu_block",
           "settings": {
-            "caption": "More",
+            "caption": "その他",
             "show_search": true,
             "search_caption": "検索",
             "show_line": true,

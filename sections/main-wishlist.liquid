@@ -206,8 +206,13 @@
           </div>
 
           <div id="wishlist-empty" class="wishlist-empty">
-            <p>Your wishlist is empty</p>
-            <a href="{{ routes.all_products_collection_url }}" class="button">Continue shopping</a>
+            <p>お気に入りリストは空です</p>
+            <a
+              href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}"
+              class="button cart-items__empty-button"
+            >
+              {{ 'actions.continue_shopping' | t }}
+            </a>
           </div>
         </div>
       </div>

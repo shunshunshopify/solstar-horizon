@@ -205,6 +205,12 @@
   margin-bottom: 20px;
 }
 
+.wishlist-empty .cart-items__empty-button {
+  margin-top: var(--margin-md);
+  padding-inline: var(--padding-4xl);
+  padding-block: var(--padding-lg);
+}
+
 /* Wishlist Button Styles */
 .wishlist-button {
   background: transparent;

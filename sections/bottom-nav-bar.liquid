@@ -271,51 +271,58 @@
           <div class="container">
             {% if block.settings.show_search %}
             <div class="item item-1">
-              <a href="#">
+              <a href="{{ routes.search_url }}">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-search.svg' | inline_asset_content }}
                 </span>
-                Search
+                {{ block.settings.search_caption | default: 'Search' }}
               </a>
             </div>
             {% endif %}
             {% if block.settings.show_wishlist %}
             <div class="item item-2">
-              <a href="#">
+              <a href="/pages/wishlist">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-heart-line.svg' | inline_asset_content }}
                 </span>
-                Wishlist
+                {{ block.settings.wishlist_caption | default: 'Wishlist' }}
               </a>
             </div>
             {% endif %}
-            {% if block.settings.show_whatsapp %}
+            {% if block.settings.show_line %}
             <div class="item item-3">
-              <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message }}">
+              <a href="{{ block.settings.line_link | default: '#' }}">
                 <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-whatsapp-line.svg' | inline_asset_content }}
+                  <img
+                    src="{{ 'line-app.png' | asset_url }}"
+                    alt="LINE"
+                    loading="lazy"
+                    decoding="async"
+                    width="22"
+                    height="22"
+                  >
                 </span>
-                Whatsapp
+                {{ block.settings.line_caption | default: 'Line' }}
               </a>
             </div>
             {% endif %}
             {% if block.settings.show_track %}
             <div class="item item-4">
-              <a href="#">
+              <a href="{{ block.settings.track_url | default: '#' }}">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-truck-line.svg' | inline_asset_content }}
                 </span>
-                Track Order
+                {{ block.settings.track_caption | default: 'Track Order' }}
               </a>
             </div>
             {% endif %}
             {% if block.settings.show_help %}
             <div class="item item-5">
-              <a href="#">
+              <a href="{{ block.settings.help_url | default: '#' }}">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-question-line.svg' | inline_asset_content }}
                 </span>
-                Help
+                {{ block.settings.help_caption | default: 'Help' }}
               </a>
             </div>
             {% endif %}
@@ -741,32 +748,31 @@ function openCartDrawer() {
                     "default": true
                 },
                 {
-                    "type": "url",
-                    "id": "search_url",
-                    "label": "Search Link"
+                    "type": "text",
+                    "id": "search_caption",
+                    "label": "Caption",
+                    "default": "Search"
                 },
                 {
                     "type": "header",
-                    "content": "Whatsapp"
+                    "content": "Line"
                 },
                 {
                     "type": "checkbox",
-                    "id": "show_whatsapp",
-                    "label": "Whatsapp",
+                    "id": "show_line",
+                    "label": "Line",
                     "default": true
                 },
                 {
                     "type": "text",
-                    "id": "wa_number",
-                    "label": "Whatsapp Number with Country Code",
-                     "info": "+911234567890"
+                    "id": "line_caption",
+                    "label": "Line Caption"
                 },
                 {
-                    "type": "text",
-                    "id": "wa_message",
-                    "label": "Whatsapp Text",
-                    "default": "Hi There! I need some help",
-                     "info": "Hi There! I need some help"
+                    "type": "url",
+                    "id": "line_link",
+                    "label": "Line Link",
+                    "info": "Example: https://line.me/R/ti/p/your-id"
                 },
                 {
                     "type": "header",
@@ -779,9 +785,9 @@ function openCartDrawer() {
                     "default": true
                 },
                 {
-                    "type": "url",
-                    "id": "wishlist_url",
-                    "label": "Wishlist Link"
+                    "type": "text",
+                    "id": "wishlist_caption",
+                    "label": "Wishlist Caption"
                 },
                 {
                     "type": "header",
@@ -792,6 +798,11 @@ function openCartDrawer() {
                     "id": "show_track",
                     "label": "Track Order",
                     "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "track_caption",
+                    "label": "Track Caption"
                 },
                 {
                     "type": "url",
@@ -807,6 +818,11 @@ function openCartDrawer() {
                     "id": "show_help",
                     "label": "Help",
                     "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "help_caption",
+                    "label": "Help Caption"
                 },
                 {
                     "type": "url",

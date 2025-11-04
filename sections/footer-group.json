@@ -44,16 +44,18 @@
           "settings": {
             "caption": "More",
             "show_search": true,
-            "search_url": "",
-            "show_whatsapp": true,
-            "wa_number": "",
-            "wa_message": "Hi There! I need some help",
+            "search_caption": "検索",
+            "show_line": true,
+            "line_caption": "友だち追加",
+            "line_link": "https://line.me/ti/p/XTASQnVzKv",
             "show_wishlist": true,
-            "wishlist_url": "",
+            "wishlist_caption": "お気に入り",
             "show_track": true,
-            "track_url": "",
+            "track_caption": "注文追跡",
+            "track_url": "shopify://policies/privacy-policy",
             "show_help": true,
-            "help_url": ""
+            "help_caption": "お問い合わせ",
+            "help_url": "shopify://pages/contact"
           }
         }
       },

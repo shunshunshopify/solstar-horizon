@@ -184,6 +184,17 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
   margin: 0;
   transform: translate(50%, -50%);
   width: var(--cart-bubble-size);
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--style-border-radius-lg, 999px);
+  color: var(--cart-bubble-text);
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+  line-height: 1;
+  isolation: isolate;
+  pointer-events: none;
 }
 
 /* Ensure cart bubble background and text colors are consistent */
@@ -201,14 +212,22 @@ cart-icon.bottom-nav-cart-icon .svg-wrapper {
 
 .bottom-nav-cart-icon .cart-bubble__background,
 .bottom-menu__cart-icon .cart-bubble__background {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
   background-color: var(--cart-bubble-background);
+  z-index: -1;
 }
 
 .bottom-nav-cart-icon .cart-bubble__text,
 .bottom-menu__cart-icon .cart-bubble__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--cart-bubble-text);
   font-size: var(--font-size--2xs);
   font-weight: var(--font-paragraph--weight);
+  line-height: 1;
 }
 
 .header-actions__cart-icon--has-cart .svg-wrapper svg {

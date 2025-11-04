@@ -128,7 +128,7 @@
       placeholder="{{ 'blocks.contact_form.phone' | t }}"
     >
 
-{% if settings.show_dropdown %}
+{%- if settings.show_dropdown -%}
   <label class="visually-hidden"
     for="ContactForm-CustomDropdown"
   >
@@ -154,7 +154,7 @@
       {% endfor %}
     </select>
   </div>
-{% endif %}
+{%- endif -%}
 
     <label
       class="visually-hidden"

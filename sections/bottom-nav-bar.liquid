@@ -281,11 +281,11 @@
             {% endif %}
             {% if block.settings.show_wishlist %}
             <div class="item item-2">
-              <a href="#">
+              <a href="/pages/wishlist">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-heart-line.svg' | inline_asset_content }}
                 </span>
-                Wishlist
+                {{ block.settings.wishlist_caption | default: 'Wishlist' }}
               </a>
             </div>
             {% endif %}
@@ -302,27 +302,27 @@
                     height="22"
                   >
                 </span>
-                Line
+                {{ block.settings.line_caption | default: 'Line' }}
               </a>
             </div>
             {% endif %}
             {% if block.settings.show_track %}
             <div class="item item-4">
-              <a href="#">
+              <a href="{{ block.settings.track_url | default: '#' }}">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-truck-line.svg' | inline_asset_content }}
                 </span>
-                Track Order
+                {{ block.settings.track_caption | default: 'Track Order' }}
               </a>
             </div>
             {% endif %}
             {% if block.settings.show_help %}
             <div class="item item-5">
-              <a href="#">
+              <a href="{{ block.settings.help_url | default: '#' }}">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-question-line.svg' | inline_asset_content }}
                 </span>
-                Help
+                {{ block.settings.help_caption | default: 'Help' }}
               </a>
             </div>
             {% endif %}

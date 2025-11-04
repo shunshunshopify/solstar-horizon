@@ -67,7 +67,7 @@
   transition: all 0.2s ease;
   min-height: 44px; /* Minimum touch target */
   position: relative;
-  margin: 10px;
+  margin: 20px;
 }
 
 .bottom-menu__link:hover,

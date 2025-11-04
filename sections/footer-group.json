@@ -20,11 +20,10 @@
             "caption": "トップ"
           }
         },
-        "cat_block_jWqtzW": {
-          "type": "cat_block",
+        "account_block_jegRGz": {
+          "type": "Account_block",
           "settings": {
-            "menu": "main-menu",
-            "caption": "カテゴリー"
+            "caption": "アカウント"
           }
         },
         "cart_block_PXFept": {
@@ -61,7 +60,7 @@
       },
       "block_order": [
         "home_block_zqJ9xR",
-        "cat_block_jWqtzW",
+        "account_block_jegRGz",
         "cart_block_PXFept",
         "wishlist_block_LbM46V",
         "extended_menu_block_XQ6iN6"

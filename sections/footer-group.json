@@ -20,6 +20,13 @@
             "caption": "トップ"
           }
         },
+        "cat_block_jWqtzW": {
+          "type": "cat_block",
+          "settings": {
+            "menu": "main-menu",
+            "caption": "カテゴリー"
+          }
+        },
         "cart_block_PXFept": {
           "type": "cart_block",
           "settings": {
@@ -30,13 +37,6 @@
           "type": "wishlist_block",
           "settings": {
             "caption": "お気に入り"
-          }
-        },
-        "cat_block_jWqtzW": {
-          "type": "cat_block",
-          "settings": {
-            "menu": "main-menu",
-            "caption": "カテゴリー"
           }
         },
         "extended_menu_block_XQ6iN6": {
@@ -61,9 +61,9 @@
       },
       "block_order": [
         "home_block_zqJ9xR",
+        "cat_block_jWqtzW",
         "cart_block_PXFept",
         "wishlist_block_LbM46V",
-        "cat_block_jWqtzW",
         "extended_menu_block_XQ6iN6"
       ],
       "name": "Sticky bottom menu",

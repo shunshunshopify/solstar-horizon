@@ -291,7 +291,7 @@
             {% endif %}
             {% if block.settings.show_whatsapp %}
             <div class="item item-3">
-              <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message }}">
+              <a href="{{ block.settings.line_link | default: '#' }}">
                 <span class="svg-wrapper" aria-hidden="true">
                   <img
                     src="{{ 'line-app.png' | asset_url }}"
@@ -302,7 +302,7 @@
                     height="22"
                   >
                 </span>
-                Whatsapp
+                Line
               </a>
             </div>
             {% endif %}
@@ -754,26 +754,19 @@ function openCartDrawer() {
                 },
                 {
                     "type": "header",
-                    "content": "Whatsapp"
+                    "content": "Line"
                 },
                 {
                     "type": "checkbox",
                     "id": "show_whatsapp",
-                    "label": "Whatsapp",
+                    "label": "Line",
                     "default": true
                 },
                 {
-                    "type": "text",
-                    "id": "wa_number",
-                    "label": "Whatsapp Number with Country Code",
-                     "info": "+911234567890"
-                },
-                {
-                    "type": "text",
-                    "id": "wa_message",
-                    "label": "Whatsapp Text",
-                    "default": "Hi There! I need some help",
-                     "info": "Hi There! I need some help"
+                    "type": "url",
+                    "id": "line_link",
+                    "label": "Line Link",
+                    "info": "Example: https://line.me/R/ti/p/your-id"
                 },
                 {
                     "type": "header",

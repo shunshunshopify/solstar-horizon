@@ -271,11 +271,11 @@
           <div class="container">
             {% if block.settings.show_search %}
             <div class="item item-1">
-              <a href="#">
+              <a href="{{ routes.search_url }}">
                 <span class="svg-wrapper" aria-hidden="true">
                   {{ 'icon-search.svg' | inline_asset_content }}
                 </span>
-                Search
+                {{ block.settings.search_caption | default: 'Search' }}
               </a>
             </div>
             {% endif %}
@@ -748,9 +748,10 @@ function openCartDrawer() {
                     "default": true
                 },
                 {
-                    "type": "url",
-                    "id": "search_url",
-                    "label": "Search Link"
+                    "type": "text",
+                    "id": "search_caption",
+                    "label": "Search Caption",
+                    "default": "Search"
                 },
                 {
                     "type": "header",

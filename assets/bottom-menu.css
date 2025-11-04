@@ -236,6 +236,10 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   position: relative;
 }
 
+.bottom-nav-cart-trigger {
+  overflow: visible;
+}
+
 /* Wishlist Icon Specific Styles */
 .bottom-menu__wishlist-icon {
   position: relative;

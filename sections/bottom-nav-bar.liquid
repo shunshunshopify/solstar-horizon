@@ -289,7 +289,7 @@
               </a>
             </div>
             {% endif %}
-            {% if block.settings.show_whatsapp %}
+            {% if block.settings.show_line %}
             <div class="item item-3">
               <a href="{{ block.settings.line_link | default: '#' }}">
                 <span class="svg-wrapper" aria-hidden="true">
@@ -758,7 +758,7 @@ function openCartDrawer() {
                 },
                 {
                     "type": "checkbox",
-                    "id": "show_whatsapp",
+                    "id": "show_line",
                     "label": "Line",
                     "default": true
                 },

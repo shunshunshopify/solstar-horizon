@@ -342,20 +342,20 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 .extended-menu,
 .collection-popup {
   display: none;
+  justify-content: center;
   position: fixed;
   bottom: var(--bottom-menu-height, 70px);
   left: 0;
   right: 0;
   width: 100%;
   background: var(--bottom-menu-bg, #fff);
-  border-top: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  border-bottom: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  border-radius: 10px 10px 0px 0px;
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
   z-index: 999;
   max-height: 60vh;
   overflow-y: auto;
-  padding: var(--padding-lg);
-  border-radius: 10px 10px 0px 0px;
-  justify-content: center;
+  padding: 20px 0 0 0;
 }
 
 /* Active popup states */
@@ -397,17 +397,15 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 /* Extended Menu Styles - Both naming conventions */
 .bottom-menu__extended,
 .extended-menu .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: var(--gap-md);
-  padding: var(--padding-md, 40px) 0;
   width: 80%;
+  padding: 40px 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .bottom-menu__extended-item,
 .extended-menu .container .item {
-  display: flex;
-  justify-content: center;
   border-bottom: 1px solid #d3d3d3;
   margin-bottom: 10px;
 }
@@ -420,16 +418,13 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 .bottom-menu__extended-link,
 .extended-menu .container a {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: row;
   text-decoration: none;
   color: inherit;
   font-size: var(--font-size--xs, 16px);
-  padding: var(--padding-sm);
-  border-radius: var(--border-radius-md);
   transition: all 0.2s ease;
   margin-bottom: 10px;
-  flex-direction: row;
 }
 
 .bottom-menu__extended-link:hover,
@@ -443,7 +438,6 @@ cart-icon.bottom-nav-cart-icon .btm_link {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--margin-2xs);
   margin-right: 10px;
   color: var(--bottom-menu-icon-color, #000);
 }

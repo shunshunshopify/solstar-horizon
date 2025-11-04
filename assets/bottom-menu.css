@@ -67,7 +67,7 @@
   transition: all 0.2s ease;
   min-height: 44px; /* Minimum touch target */
   position: relative;
-  margin: 10px;
+  margin: 20px;
 }
 
 .bottom-menu__link:hover,
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--margin-3xs, 2px);
+  margin-bottom: var(--margin-2xs, 6px);
   color: var(--bottom-menu-icon-color, #000);
   position: relative;
   width: 22px;
@@ -234,6 +234,10 @@ cart-icon.bottom-nav-cart-icon {
 cart-icon.bottom-menu__cart-icon .bottom-menu__link,
 cart-icon.bottom-nav-cart-icon .btm_link {
   position: relative;
+}
+
+.bottom-nav-cart-trigger {
+  overflow: visible;
 }
 
 /* Wishlist Icon Specific Styles */

@@ -293,7 +293,12 @@
             <div class="item item-3">
               <a href="https://api.whatsapp.com/send?phone={{ block.settings.wa_number }}&text={{ block.settings.wa_message }}">
                 <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-whatsapp-line.svg' | inline_asset_content }}
+                  <img
+                    src="{{ 'line-100.png' | asset_url }}"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  >
                 </span>
                 Whatsapp
               </a>

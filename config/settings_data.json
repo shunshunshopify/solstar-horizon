@@ -116,7 +116,7 @@
           "text_align": "center",
           "img": "shopify://shop_images/Shun_6.jpg",
           "image_focal_point": 0,
-          "disable_image_mobile": false,
+          "disable_image_mobile": true,
           "title": "今すぐ10%オフを手に入れませんか？",
           "heading_preset": "h3",
           "description": "<p>最新のオファーをいち早く入手して、次回のご注文で<strong>10%オフ</strong>を受け取りましょう。</p>",

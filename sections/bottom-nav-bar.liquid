@@ -122,6 +122,7 @@
 </head>
 
 <body>
+  {% assign extended_menu_block = section.blocks | where: 'type', 'extended_menu_block' | first %}
   <div class="sticky-section">
     {% for block in section.blocks %}
       {%- case block.type -%}
@@ -196,13 +197,29 @@
           </a>
         </div>
         {%- when 'Menu_block' -%}
-          <div class="sticky-section-column sticky-section-menu-drawer">
-            <button type="button" class="btm_link" data-menu-drawer-trigger aria-label="Open navigation menu">
+          {% assign line_caption = block.settings.caption | default: 'Line' %}
+          {% assign line_link = '#' %}
+          {% if extended_menu_block %}
+            {% assign line_caption = extended_menu_block.settings.line_caption | default: line_caption %}
+            {% assign line_link = extended_menu_block.settings.line_link | default: line_link %}
+            {% if extended_menu_block.settings.show_line != true %}
+              {% continue %}
+            {% endif %}
+          {% endif %}
+          <div class="sticky-section-column">
+            <a href="{{ line_link }}" class="btm_link">
               <span class="svg-wrapper" aria-hidden="true">
-                {{ 'icon-menu.svg' | inline_asset_content }}
+                <img
+                  src="{{ 'line-app.png' | asset_url }}"
+                  alt="LINE"
+                  loading="lazy"
+                  decoding="async"
+                  width="22"
+                  height="22"
+                >
               </span>
-              {{ block.settings.caption }}
-            </button>
+              {{ line_caption | default: 'Line' }}
+            </a>
           </div>
         {%- when 'Account_block' -%}
           <div class="sticky-section-column">

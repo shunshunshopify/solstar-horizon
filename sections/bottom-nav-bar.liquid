@@ -197,14 +197,24 @@
           </a>
         </div>
         {%- when 'Menu_block' -%}
-          {% assign line_caption = block.settings.caption | default: 'Line' %}
-          {% assign line_link = '#' %}
+          {% assign line_caption = block.settings.caption %}
+          {% assign line_link = block.settings.line_link %}
           {% if extended_menu_block %}
-            {% assign line_caption = extended_menu_block.settings.line_caption | default: line_caption %}
-            {% assign line_link = extended_menu_block.settings.line_link | default: line_link %}
             {% if extended_menu_block.settings.show_line != true %}
               {% continue %}
             {% endif %}
+            {% if line_caption == blank %}
+              {% assign line_caption = extended_menu_block.settings.line_caption %}
+            {% endif %}
+            {% if line_link == blank %}
+              {% assign line_link = extended_menu_block.settings.line_link %}
+            {% endif %}
+          {% endif %}
+          {% if line_caption == blank %}
+            {% assign line_caption = 'Line' %}
+          {% endif %}
+          {% if line_link == blank %}
+            {% assign line_link = '#' %}
           {% endif %}
           <div class="sticky-section-column">
             <a href="{{ line_link }}" class="btm_link">
@@ -671,14 +681,20 @@ function openCartDrawer() {
         },
         {
             "type": "Menu_block",
-            "name": "Drawer Menu Toggle",
+            "name": "Line",
             "limit": 1,
             "settings": [
                 {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
-                    "default": "Menu"
+                    "default": "Line"
+                },
+                {
+                    "type": "url",
+                    "id": "line_link",
+                    "label": "Line Link",
+                    "info": "Example: https://line.me/R/ti/p/your-id"
                 }
             ]
         },

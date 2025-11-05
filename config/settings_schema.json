@@ -1480,6 +1480,12 @@
         "default": "scheme-5"
       },
       {
+        "type": "color_scheme",
+        "id": "badge_new_color_scheme",
+        "label": "t:settings.badge_new_color_scheme",
+        "default": "scheme-3"
+      },
+      {
         "type": "header",
         "content": "t:names.typography"
       },

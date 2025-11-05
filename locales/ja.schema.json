@@ -186,6 +186,10 @@
     "footer_password": "パスワードフッター"
   },
   "settings": {
+    "badge_new_color_scheme": "新着バッジ",
+    "badge_sale_color_scheme": "セール",
+    "badge_sold_out_color_scheme": "売り切れ",
+
     "alignment": "配置",
     "autoplay": "自動再生",
     "background": "背景",

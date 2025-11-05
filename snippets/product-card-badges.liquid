@@ -20,7 +20,8 @@
   {%- assign has_new_tag = false -%}
 
   {%- for tag in product.tags -%}
-    {%- if tag | downcase == 'new' -%}
+    {%- assign normalized_tag = tag | strip | handle -%}
+    {%- if normalized_tag == 'new' -%}
       {%- assign has_new_tag = true -%}
       {%- break -%}
     {%- endif -%}
@@ -34,7 +35,7 @@
     {%- assign badge_color_scheme = settings.badge_sale_color_scheme -%}
   {%- elsif has_new_tag -%}
     {%- assign badge_text = 'content.product_badge_new' | t -%}
-    {%- assign badge_color_scheme = settings.badge_sale_color_scheme -%}
+    {%- assign badge_color_scheme = settings.badge_new_color_scheme -%}
   {%- endif -%}
 
   {%- if badge_text != blank -%}

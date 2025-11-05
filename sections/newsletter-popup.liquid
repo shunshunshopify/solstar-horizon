@@ -1,0 +1,302 @@
+{% if section.settings.enable_section %}
+  {% if section.settings.show_only_homepage == false or template.name == 'index' %}
+    {% assign modal_id = 'newsletter-modal-' | append: section.id %}
+    {% assign label_id = modal_id | append: '-label' %}
+    {% assign image_id = modal_id | append: '-image' %}
+    {% assign cookie_key = 'newsletter-popup-' | append: section.id %}
+
+    {{ 'newsletter-popup.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'micromodal.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'newsletter-popup.js' | asset_url }}" defer></script>
+
+    <div
+      id="{{ modal_id }}"
+      class="micromodal micromodal-slide newsletter-modal"
+      aria-hidden="true"
+      data-newsletter-modal
+      data-section-id="{{ section.id }}"
+      data-delay="{{ section.settings.delay }}"
+      data-days-to-wait="{{ section.settings.days_to_wait }}"
+      data-cookie-key="{{ cookie_key }}"
+    >
+      <div
+        class="micromodal__overlay"
+        tabindex="-1"
+        data-micromodal-close
+        style="
+          background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+          backdrop-filter: blur({{ section.settings.overlay_blur | append: 'px' }});
+        "
+      >
+        <div
+          class="micromodal__container newsletter-modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="{{ label_id }}"
+          style="max-width: 800px; text-align: {{ section.settings.text_align }};"
+        >
+          <button
+            class="micromodal__close newsletter-modal__close"
+            type="button"
+            aria-label="{{ 'general.close' | t }}"
+            data-micromodal-close
+          >
+            <span aria-hidden="true">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 50 50"
+                focusable="false"
+              >
+                <path
+                  d="M9.016 40.837a1 1 0 0 0 1.415 0l14.292-14.309 14.292 14.309a1 1 0 0 0 1.415 0 1 1 0 0 0 .001-1.414L26.153 25.129 40.43 10.836a1 1 0 0 0-.001-1.414 1 1 0 0 0-1.414.001L24.722 23.732 10.43 9.423a1 1 0 0 0-1.414-.001 1 1 0 0 0-.001 1.414l14.276 14.293L9.015 39.423a1 1 0 0 0 .001 1.414Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </span>
+          </button>
+
+          {% if section.settings.img %}
+            <img
+              id="{{ image_id }}"
+              class="newsletter-modal__image"
+              src="{{ section.settings.img | image_url: width: 600, height: 600, crop: 'center' }}"
+              alt="{{ section.settings.img.alt | escape }}"
+              width="{{ section.settings.img.width }}"
+              height="{{ section.settings.img.height }}"
+              loading="lazy"
+            >
+          {% endif %}
+
+          <div class="micromodal__container-inner newsletter-modal__content">
+            <header class="micromodal__header newsletter-modal__header">
+              <h2
+                id="{{ label_id }}"
+                class="micromodal__title newsletter-modal__title {{ section.settings.heading_size }}"
+              >
+                {{ section.settings.title | escape }}
+              </h2>
+            </header>
+            <main class="micromodal__content newsletter-modal__body">
+              {% unless section.settings.description == blank %}
+                <div class="newsletter-modal__description rte">
+                  {{ section.settings.description }}
+                </div>
+              {% endunless %}
+              {% form 'customer', id: modal_id %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                {{ form.errors | default_errors }}
+                <div class="field">
+                  <input
+                    id="{{ modal_id }}-input"
+                    type="email"
+                    name="contact[email]"
+                    class="form-control field__input"
+                    value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+                    placeholder="{{ section.settings.text_form_input_label }}"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    required
+                  >
+                  <label class="field__label" for="{{ modal_id }}-input">
+                    {{ section.settings.text_form_input_label }}
+                  </label>
+                </div>
+                <button
+                  class="btn button btn-primary button--primary newsletter-modal__submit"
+                  type="submit"
+                  name="commit"
+                >
+                  {{ section.settings.text_form_btn_text }}
+                </button>
+              {% endform %}
+              {% unless section.settings.img %}
+                <style>
+                  @media (min-width: 750px) {
+                    #{{ modal_id }} .newsletter-modal__content,
+                    #{{ modal_id }} .newsletter-modal__image {
+                      width: 100%;
+                      max-width: 400px;
+                    }
+                    #{{ modal_id }} .newsletter-modal__content {
+                      padding: 30px;
+                    }
+                  }
+                </style>
+              {% endunless %}
+              <style>
+                @media (max-width: 749px) {
+                  #{{ image_id }} {
+                    object-position: 100% {{ section.settings.image_focal_point }}%;
+                  }
+                }
+              </style>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if section.settings.disable_image_mobile %}
+      <style>
+        @media screen and (max-width: 798px) {
+          #{{ image_id }} {
+            display: none !important;
+          }
+        }
+      </style>
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Newsletter Popup",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Enable section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_homepage",
+      "label": "Show only on the homepage",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "delay",
+      "label": "Delay (sec)",
+      "info": "The time to wait before showing the modal. (in seconds)",
+      "default": 5,
+      "min": 1,
+      "max": 20
+    },
+    {
+      "type": "range",
+      "id": "days_to_wait",
+      "label": "Days to wait",
+      "info": "Days to wait before showing the popup again.",
+      "default": 3,
+      "min": 1,
+      "max": 30
+    },
+    {
+      "type": "header",
+      "content": "Modal styling"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "overlay_blur",
+      "label": "Overlay blur",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "img",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_focal_point",
+      "label": "Image Focal Point - Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "default": 0,
+      "info": "0% = Top | 100% = Bottom"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_image_mobile",
+      "label": "Disable Image on mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Want 10% Off Right Now?!"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Be the first to know about our latest offers and <b>get 10% off your next order</b></p>"
+    },
+    {
+      "type": "header",
+      "content": "Translatable Text"
+    },
+    {
+      "type": "text",
+      "id": "text_form_input_label",
+      "label": "Input label",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "text_form_btn_text",
+      "label": "Button text",
+      "default": "Subscribe"
+    }
+  ]
+}
+{% endschema %}

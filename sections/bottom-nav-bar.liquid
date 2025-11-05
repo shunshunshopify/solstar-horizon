@@ -73,6 +73,32 @@
       fill: none;
       stroke-width: 1.5px;
     }
+
+    .sticky-section .line-icon-wrapper {
+      width: 25px;
+      height: 25px;
+      margin-bottom: calc(var(--margin-2xs, 6px) - 3px);
+      position: relative;
+    }
+
+    .sticky-section .line-icon-wrapper::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: {{ section.settings.icon_color }};
+      -webkit-mask: url({{ 'line-app.png' | asset_url }}) center/contain no-repeat;
+      mask: url({{ 'line-app.png' | asset_url }}) center/contain no-repeat;
+    }
+
+    .extended-menu .line-icon {
+      width: 22px;
+      height: 22px;
+      display: block;
+      background-color: {{ section.settings.icon_color }};
+      -webkit-mask: url({{ 'line-app.png' | asset_url }}) center/contain no-repeat;
+      mask: url({{ 'line-app.png' | asset_url }}) center/contain no-repeat;
+    }
     
     .sticky-section-column {
       align-items: center;
@@ -122,6 +148,7 @@
 </head>
 
 <body>
+  {% assign extended_menu_block = section.blocks | where: 'type', 'extended_menu_block' | first %}
   <div class="sticky-section">
     {% for block in section.blocks %}
       {%- case block.type -%}
@@ -196,13 +223,34 @@
           </a>
         </div>
         {%- when 'Menu_block' -%}
-          <div class="sticky-section-column sticky-section-menu-drawer">
-            <button type="button" class="btm_link" data-menu-drawer-trigger aria-label="Open navigation menu">
-              <span class="svg-wrapper" aria-hidden="true">
-                {{ 'icon-menu.svg' | inline_asset_content }}
-              </span>
-              {{ block.settings.caption }}
-            </button>
+          {% assign line_caption = block.settings.caption %}
+          {% assign line_link = block.settings.line_link %}
+          {% if extended_menu_block %}
+            {% if extended_menu_block.settings.show_line != true %}
+              {% continue %}
+            {% endif %}
+            {% if line_caption == blank %}
+              {% assign line_caption = extended_menu_block.settings.line_caption %}
+            {% endif %}
+            {% if line_link == blank %}
+              {% assign line_link = extended_menu_block.settings.line_link %}
+            {% endif %}
+          {% endif %}
+          {% if line_caption == blank %}
+            {% assign line_caption = 'Line' %}
+          {% endif %}
+          {% if line_link == blank %}
+            {% assign line_link = '#' %}
+          {% endif %}
+          <div class="sticky-section-column">
+            <a
+              href="{{ line_link }}"
+              class="btm_link"
+              {% if line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
+            >
+              <span class="svg-wrapper line-icon-wrapper" aria-hidden="true"></span>
+              {{ line_caption | default: 'Line' }}
+            </a>
           </div>
         {%- when 'Account_block' -%}
           <div class="sticky-section-column">
@@ -290,17 +338,14 @@
             </div>
             {% endif %}
             {% if block.settings.show_line %}
+            {% assign popup_line_link = block.settings.line_link | default: '#' %}
             <div class="item item-3">
-              <a href="{{ block.settings.line_link | default: '#' }}">
+              <a
+                href="{{ popup_line_link }}"
+                {% if popup_line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
+              >
                 <span class="svg-wrapper" aria-hidden="true">
-                  <img
-                    src="{{ 'line-app.png' | asset_url }}"
-                    alt="LINE"
-                    loading="lazy"
-                    decoding="async"
-                    width="22"
-                    height="22"
-                  >
+                  <span class="line-icon"></span>
                 </span>
                 {{ block.settings.line_caption | default: 'Line' }}
               </a>
@@ -654,14 +699,20 @@ function openCartDrawer() {
         },
         {
             "type": "Menu_block",
-            "name": "Drawer Menu Toggle",
+            "name": "Line",
             "limit": 1,
             "settings": [
                 {
                     "type": "text",
                     "id": "caption",
                     "label": "Caption",
-                    "default": "Menu"
+                    "default": "Line"
+                },
+                {
+                    "type": "url",
+                    "id": "line_link",
+                    "label": "Line Link",
+                    "info": "Example: https://line.me/R/ti/p/your-id"
                 }
             ]
         },

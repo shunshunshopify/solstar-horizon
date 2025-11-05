@@ -20,12 +20,6 @@
             "caption": "トップ"
           }
         },
-        "account_block_jegRGz": {
-          "type": "Account_block",
-          "settings": {
-            "caption": "アカウント"
-          }
-        },
         "cart_block_PXFept": {
           "type": "cart_block",
           "settings": {
@@ -36,6 +30,13 @@
           "type": "wishlist_block",
           "settings": {
             "caption": "お気に入り"
+          }
+        },
+        "menu_block_hKpdGf": {
+          "type": "Menu_block",
+          "settings": {
+            "caption": "友だち追加",
+            "line_link": "https://line.me/ti/p/XTASQnVzKv"
           }
         },
         "extended_menu_block_XQ6iN6": {
@@ -60,9 +61,9 @@
       },
       "block_order": [
         "home_block_zqJ9xR",
-        "account_block_jegRGz",
         "cart_block_PXFept",
         "wishlist_block_LbM46V",
+        "menu_block_hKpdGf",
         "extended_menu_block_XQ6iN6"
       ],
       "name": "Sticky bottom menu",

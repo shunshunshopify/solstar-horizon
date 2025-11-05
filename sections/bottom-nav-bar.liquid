@@ -228,8 +228,13 @@
           {% if line_link == blank %}
             {% assign line_link = '#' %}
           {% endif %}
+          {% assign line_is_external = line_link contains '://' %}
           <div class="sticky-section-column">
-            <a href="{{ line_link }}" class="btm_link">
+            <a
+              href="{{ line_link }}"
+              class="btm_link"
+              {% if line_is_external %}target="_blank" rel="noopener"{% endif %}
+            >
               <span class="svg-wrapper line-icon-wrapper" aria-hidden="true">
                 <img
                   src="{{ 'line-app.png' | asset_url }}"
@@ -329,8 +334,13 @@
             </div>
             {% endif %}
             {% if block.settings.show_line %}
+            {% assign popup_line_link = block.settings.line_link | default: '#' %}
+            {% assign popup_line_is_external = popup_line_link contains '://' %}
             <div class="item item-3">
-              <a href="{{ block.settings.line_link | default: '#' }}">
+              <a
+                href="{{ popup_line_link }}"
+                {% if popup_line_is_external %}target="_blank" rel="noopener"{% endif %}
+              >
                 <span class="svg-wrapper" aria-hidden="true">
                   <img
                     src="{{ 'line-app.png' | asset_url }}"

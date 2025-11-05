@@ -246,6 +246,13 @@
   z-index: 1;
 }
 
+@media (max-width: 749px) {
+  .wishlist-button--collection {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 /* New style for buy_buttons location */
 .wishlist-button--buy_buttons {
   background: rgba(var(--color-background));

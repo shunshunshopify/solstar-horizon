@@ -118,7 +118,7 @@
           "image_focal_point": 0,
           "disable_image_mobile": false,
           "title": "今すぐ10%オフを手に入れませんか？",
-          "heading_size": "h1",
+          "heading_preset": "h3",
           "description": "<p>最新のオファーをいち早く入手して、次回のご注文で<strong>10%オフ</strong>を受け取りましょう。</p>",
           "text_form_input_label": "メールアドレスを入力してください",
           "text_form_btn_text": "購読する"

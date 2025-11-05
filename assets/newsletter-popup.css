@@ -216,6 +216,10 @@
 }
 
 @media (max-width: 749px) {
+    .newsletter-modal__content {
+        padding: 40px 20px;
+    }
+
     .newsletter-modal__close {
         top: 10px;
         right: 25px;

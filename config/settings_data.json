@@ -109,8 +109,8 @@
         "settings": {
           "enable_section": true,
           "show_only_homepage": true,
-          "delay": 5,
-          "days_to_wait": 3,
+          "delay": 1,
+          "days_to_wait": 1,
           "overlay_opacity": 50,
           "overlay_blur": 3,
           "text_align": "center",

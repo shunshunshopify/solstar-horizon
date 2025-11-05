@@ -87,6 +87,7 @@
     "media": "メディア",
     "menu": "メニュー",
     "mobile_layout": "モバイルのレイアウト",
+    "newsletter_popup": "ニュースレターポップアップ",
     "payment_icons": "決済アイコン",
     "popup_link": "ポップアップリンク",
     "predictive_search": "ポップオーバーを検索する",
@@ -920,6 +921,72 @@
     "cart_features": "カートの特徴",
     "email_signup": "メール登録者",
     "submissions_are_sent_to_store_email_address": "送信はストストアの [差出人メールアドレス](https://admin.shopify.com/settings/notifications) に送信されます。"
+  },
+  "sections": {
+    "newsletter_popup": {
+      "name": "ニュースレターポップアップ",
+      "settings": {
+        "general": "一般",
+        "enable_section": {
+          "label": "セクションを有効にする"
+        },
+        "show_only_homepage": {
+          "label": "ホームページのみで表示"
+        },
+        "delay": {
+          "label": "表示までの遅延（秒）",
+          "info": "モーダルを表示するまで待機する時間（秒）。"
+        },
+        "days_to_wait": {
+          "label": "再表示までの日数",
+          "info": "ポップアップを再表示するまで待機する日数。"
+        },
+        "modal_styling": "モーダルのスタイル",
+        "overlay_opacity": {
+          "label": "オーバーレイの不透明度"
+        },
+        "overlay_blur": {
+          "label": "オーバーレイのぼかし"
+        },
+        "text_align": {
+          "label": "テキストの配置",
+          "options": {
+            "left": "左揃え",
+            "center": "中央揃え",
+            "right": "右揃え"
+          }
+        },
+        "image": "画像",
+        "img": {
+          "label": "画像"
+        },
+        "image_focal_point": {
+          "label": "画像の焦点（モバイル）",
+          "info": "0% = 上 / 100% = 下"
+        },
+        "disable_image_mobile": {
+          "label": "モバイルで画像を非表示"
+        },
+        "text": "テキスト",
+        "title": {
+          "label": "見出し",
+          "default": "今すぐ10%オフを手に入れませんか？"
+        },
+        "description": {
+          "label": "説明",
+          "default": "<p>最新のオファーをいち早く入手して、次回のご注文で<b>10%オフ</b>を受け取りましょう。</p>"
+        },
+        "translatable_text": "翻訳可能なテキスト",
+        "text_form_input_label": {
+          "label": "入力ラベル",
+          "default": "メールアドレスを入力してください"
+        },
+        "text_form_btn_text": {
+          "label": "ボタンテキスト",
+          "default": "購読する"
+        }
+      }
+    }
   },
   "html_defaults": {
     "share_information_about_your": "<p>ブランドに関する情報をお客様と共有します。商品を説明したり、告知をしたり、ストアへのお客様を歓迎したりします。</p>",

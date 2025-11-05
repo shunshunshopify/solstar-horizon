@@ -323,6 +323,7 @@
     "media_with_text": "Media with text",
     "menu": "Menu",
     "mobile_layout": "Mobile layout",
+    "newsletter_popup": "Newsletter popup",
     "multicolumn": "Multicolumn",
     "rich_text_section": "Rich text",
     "overlapping_blocks": "Overlapping blocks",
@@ -1112,6 +1113,72 @@
     "z_index": "Z-index",
     "product_corner_radius": "Product corner radius",
     "card_corner_radius": "Card corner radius"
+  },
+  "sections": {
+    "newsletter_popup": {
+      "name": "Newsletter popup",
+      "settings": {
+        "general": "General",
+        "enable_section": {
+          "label": "Enable section"
+        },
+        "show_only_homepage": {
+          "label": "Show only on the homepage"
+        },
+        "delay": {
+          "label": "Delay (sec)",
+          "info": "The time to wait before showing the modal. (in seconds)"
+        },
+        "days_to_wait": {
+          "label": "Days to wait",
+          "info": "Days to wait before showing the popup again."
+        },
+        "modal_styling": "Modal styling",
+        "overlay_opacity": {
+          "label": "Overlay opacity"
+        },
+        "overlay_blur": {
+          "label": "Overlay blur"
+        },
+        "text_align": {
+          "label": "Text align",
+          "options": {
+            "left": "Left",
+            "center": "Center",
+            "right": "Right"
+          }
+        },
+        "image": "Image",
+        "img": {
+          "label": "Image"
+        },
+        "image_focal_point": {
+          "label": "Image Focal Point - Mobile",
+          "info": "0% = Top | 100% = Bottom"
+        },
+        "disable_image_mobile": {
+          "label": "Disable Image on mobile"
+        },
+        "text": "Text",
+        "title": {
+          "label": "Heading",
+          "default": "Want 10% Off Right Now?!"
+        },
+        "description": {
+          "label": "Description",
+          "default": "<p>Be the first to know about our latest offers and <b>get 10% off your next order</b></p>"
+        },
+        "translatable_text": "Translatable Text",
+        "text_form_input_label": {
+          "label": "Input label",
+          "default": "Enter your email address"
+        },
+        "text_form_btn_text": {
+          "label": "Button text",
+          "default": "Subscribe"
+        }
+      }
+    }
   },
   "text_defaults": {
     "accordion_heading": "Accordion heading",

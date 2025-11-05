@@ -150,29 +150,29 @@
 
 {% schema %}
 {
-  "name": "Newsletter Popup",
+  "name": "t:sections.newsletter_popup.name",
   "settings": [
     {
       "type": "header",
-      "content": "General"
+      "content": "t:sections.newsletter_popup.settings.general"
     },
     {
       "type": "checkbox",
       "id": "enable_section",
-      "label": "Enable section",
+      "label": "t:sections.newsletter_popup.settings.enable_section.label",
       "default": true
     },
     {
       "type": "checkbox",
       "id": "show_only_homepage",
-      "label": "Show only on the homepage",
+      "label": "t:sections.newsletter_popup.settings.show_only_homepage.label",
       "default": true
     },
     {
       "type": "range",
       "id": "delay",
-      "label": "Delay (sec)",
-      "info": "The time to wait before showing the modal. (in seconds)",
+      "label": "t:sections.newsletter_popup.settings.delay.label",
+      "info": "t:sections.newsletter_popup.settings.delay.info",
       "default": 5,
       "min": 1,
       "max": 20
@@ -180,20 +180,20 @@
     {
       "type": "range",
       "id": "days_to_wait",
-      "label": "Days to wait",
-      "info": "Days to wait before showing the popup again.",
+      "label": "t:sections.newsletter_popup.settings.days_to_wait.label",
+      "info": "t:sections.newsletter_popup.settings.days_to_wait.info",
       "default": 3,
       "min": 1,
       "max": 30
     },
     {
       "type": "header",
-      "content": "Modal styling"
+      "content": "t:sections.newsletter_popup.settings.modal_styling"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
-      "label": "Overlay opacity",
+      "label": "t:sections.newsletter_popup.settings.overlay_opacity.label",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -202,7 +202,7 @@
     {
       "type": "range",
       "id": "overlay_blur",
-      "label": "Overlay blur",
+      "label": "t:sections.newsletter_popup.settings.overlay_blur.label",
       "min": 0,
       "max": 20,
       "step": 1,
@@ -211,49 +211,49 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Text align",
+      "label": "t:sections.newsletter_popup.settings.text_align.label",
       "default": "center",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
+        { "value": "left", "label": "t:sections.newsletter_popup.settings.text_align.options.left" },
+        { "value": "center", "label": "t:sections.newsletter_popup.settings.text_align.options.center" },
+        { "value": "right", "label": "t:sections.newsletter_popup.settings.text_align.options.right" }
       ]
     },
     {
       "type": "header",
-      "content": "Image"
+      "content": "t:sections.newsletter_popup.settings.image"
     },
     {
       "type": "image_picker",
       "id": "img",
-      "label": "Image"
+      "label": "t:sections.newsletter_popup.settings.img.label"
     },
     {
       "type": "range",
       "id": "image_focal_point",
-      "label": "Image Focal Point - Mobile",
+      "label": "t:sections.newsletter_popup.settings.image_focal_point.label",
       "min": 0,
       "max": 100,
       "step": 10,
       "unit": "%",
       "default": 0,
-      "info": "0% = Top | 100% = Bottom"
+      "info": "t:sections.newsletter_popup.settings.image_focal_point.info"
     },
     {
       "type": "checkbox",
       "id": "disable_image_mobile",
-      "label": "Disable Image on mobile",
+      "label": "t:sections.newsletter_popup.settings.disable_image_mobile.label",
       "default": false
     },
     {
       "type": "header",
-      "content": "Text"
+      "content": "t:sections.newsletter_popup.settings.text"
     },
     {
       "type": "text",
       "id": "title",
-      "label": "Heading",
-      "default": "Want 10% Off Right Now?!"
+      "label": "t:sections.newsletter_popup.settings.title.label",
+      "default": "t:sections.newsletter_popup.settings.title.default"
     },
     {
       "type": "select",
@@ -278,24 +278,24 @@
     {
       "type": "richtext",
       "id": "description",
-      "label": "Description",
-      "default": "<p>Be the first to know about our latest offers and <b>get 10% off your next order</b></p>"
+      "label": "t:sections.newsletter_popup.settings.description.label",
+      "default": "t:sections.newsletter_popup.settings.description.default"
     },
     {
       "type": "header",
-      "content": "Translatable Text"
+      "content": "t:sections.newsletter_popup.settings.translatable_text"
     },
     {
       "type": "text",
       "id": "text_form_input_label",
-      "label": "Input label",
-      "default": "Enter your email address"
+      "label": "t:sections.newsletter_popup.settings.text_form_input_label.label",
+      "default": "t:sections.newsletter_popup.settings.text_form_input_label.default"
     },
     {
       "type": "text",
       "id": "text_form_btn_text",
-      "label": "Button text",
-      "default": "Subscribe"
+      "label": "t:sections.newsletter_popup.settings.text_form_btn_text.label",
+      "default": "t:sections.newsletter_popup.settings.text_form_btn_text.default"
     }
   ]
 }

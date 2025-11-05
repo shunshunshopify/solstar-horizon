@@ -993,14 +993,6 @@
         "text_form_btn_text": {
           "label": "ボタンテキスト",
           "default": "購読する"
-        },
-        "heading_size": {
-          "label": "見出しサイズ",
-          "options": {
-            "h2": "見出し2",
-            "h1": "見出し1",
-            "h0": "ヒーロー見出し"
-          }
         }
       }
     }

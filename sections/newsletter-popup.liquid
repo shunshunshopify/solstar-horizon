@@ -1,0 +1,312 @@
+{% if section.settings.enable_section %}
+  {% if section.settings.show_only_homepage == false or template.name == 'index' %}
+    {% assign modal_id = 'newsletter-modal-' | append: section.id %}
+    {% assign label_id = modal_id | append: '-label' %}
+    {% assign image_id = modal_id | append: '-image' %}
+    {% assign cookie_key = 'newsletter-popup-' | append: section.id %}
+
+    {{ 'newsletter-popup.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'micromodal.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'newsletter-popup.js' | asset_url }}" defer></script>
+
+    <div
+      id="{{ modal_id }}"
+      class="micromodal micromodal-slide newsletter-modal"
+      aria-hidden="true"
+      data-newsletter-modal
+      data-section-id="{{ section.id }}"
+      data-delay="{{ section.settings.delay }}"
+      data-days-to-wait="{{ section.settings.days_to_wait }}"
+      data-cookie-key="{{ cookie_key }}"
+    >
+      <div
+        class="micromodal__overlay"
+        tabindex="-1"
+        data-micromodal-close
+        style="
+          background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+          backdrop-filter: blur({{ section.settings.overlay_blur | append: 'px' }});
+        "
+      >
+        <div
+          class="micromodal__container newsletter-modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="{{ label_id }}"
+          style="max-width: 800px; text-align: {{ section.settings.text_align }};"
+        >
+          <button
+            class="micromodal__close newsletter-modal__close"
+            type="button"
+            aria-label="{{ 'general.close' | t }}"
+            data-micromodal-close
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+
+          {% if section.settings.img %}
+            <img
+              id="{{ image_id }}"
+              class="newsletter-modal__image"
+              src="{{ section.settings.img | image_url: width: 600, height: 600, crop: 'center' }}"
+              alt="{{ section.settings.img.alt | escape }}"
+              width="{{ section.settings.img.width }}"
+              height="{{ section.settings.img.height }}"
+              loading="lazy"
+            >
+          {% endif %}
+
+          <div class="micromodal__container-inner newsletter-modal__content">
+            <header class="micromodal__header newsletter-modal__header">
+              <h2
+                id="{{ label_id }}"
+                class="micromodal__title newsletter-modal__title {{ section.settings.heading_preset }}"
+              >
+                {{ section.settings.title | escape }}
+              </h2>
+            </header>
+            <main class="micromodal__content newsletter-modal__body">
+              {% unless section.settings.description == blank %}
+                <div class="newsletter-modal__description rte">
+                  {{ section.settings.description }}
+                </div>
+              {% endunless %}
+              {% form 'customer', id: modal_id %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                {{ form.errors | default_errors }}
+                <div class="field">
+                  <input
+                    id="{{ modal_id }}-input"
+                    type="email"
+                    name="contact[email]"
+                    class="form-control field__input"
+                    value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+                    placeholder="{{ section.settings.text_form_input_label }}"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    required
+                  >
+                  <label class="field__label" for="{{ modal_id }}-input">
+                    {{ section.settings.text_form_input_label }}
+                  </label>
+                </div>
+                <button
+                  class="btn button btn-primary button--primary newsletter-modal__submit"
+                  type="submit"
+                  name="commit"
+                >
+                  {{ section.settings.text_form_btn_text }}
+                </button>
+              {% endform %}
+              {% unless section.settings.img %}
+                <style>
+                  @media (min-width: 750px) {
+                    #{{ modal_id }} .newsletter-modal__content,
+                    #{{ modal_id }} .newsletter-modal__image {
+                      width: 100%;
+                      max-width: 400px;
+                    }
+                    #{{ modal_id }} .newsletter-modal__content {
+                      padding: 30px;
+                    }
+                  }
+                </style>
+              {% endunless %}
+              <style>
+                @media (max-width: 749px) {
+                  #{{ image_id }} {
+                    object-position: 100% {{ section.settings.image_focal_point }}%;
+                  }
+                }
+              </style>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if section.settings.disable_image_mobile %}
+      <style>
+        @media screen and (max-width: 798px) {
+          #{{ image_id }} {
+            display: none !important;
+          }
+        }
+      </style>
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:sections.newsletter_popup.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.newsletter_popup.settings.general"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "t:sections.newsletter_popup.settings.enable_section.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_homepage",
+      "label": "t:sections.newsletter_popup.settings.show_only_homepage.label",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "delay",
+      "label": "t:sections.newsletter_popup.settings.delay.label",
+      "info": "t:sections.newsletter_popup.settings.delay.info",
+      "default": 5,
+      "min": 1,
+      "max": 20
+    },
+    {
+      "type": "range",
+      "id": "days_to_wait",
+      "label": "t:sections.newsletter_popup.settings.days_to_wait.label",
+      "info": "t:sections.newsletter_popup.settings.days_to_wait.info",
+      "default": 3,
+      "min": 1,
+      "max": 30
+    },
+    {
+      "type": "header",
+      "content": "t:sections.newsletter_popup.settings.modal_styling"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:sections.newsletter_popup.settings.overlay_opacity.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "overlay_blur",
+      "label": "t:sections.newsletter_popup.settings.overlay_blur.label",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "t:sections.newsletter_popup.settings.text_align.label",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "t:sections.newsletter_popup.settings.text_align.options.left" },
+        { "value": "center", "label": "t:sections.newsletter_popup.settings.text_align.options.center" },
+        { "value": "right", "label": "t:sections.newsletter_popup.settings.text_align.options.right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.newsletter_popup.settings.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "img",
+      "label": "t:sections.newsletter_popup.settings.img.label"
+    },
+    {
+      "type": "range",
+      "id": "image_focal_point",
+      "label": "t:sections.newsletter_popup.settings.image_focal_point.label",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "default": 0,
+      "info": "t:sections.newsletter_popup.settings.image_focal_point.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_image_mobile",
+      "label": "t:sections.newsletter_popup.settings.disable_image_mobile.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.newsletter_popup.settings.text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.newsletter_popup.settings.title.label",
+      "default": "t:sections.newsletter_popup.settings.title.default"
+    },
+    {
+      "type": "select",
+      "id": "heading_preset",
+      "label": "t:settings.heading_preset",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "h2",
+      "info": "t:info.edit_presets_in_theme_settings"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.newsletter_popup.settings.description.label",
+      "default": "t:sections.newsletter_popup.settings.description.default"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.newsletter_popup.settings.translatable_text"
+    },
+    {
+      "type": "text",
+      "id": "text_form_input_label",
+      "label": "t:sections.newsletter_popup.settings.text_form_input_label.label",
+      "default": "t:sections.newsletter_popup.settings.text_form_input_label.default"
+    },
+    {
+      "type": "text",
+      "id": "text_form_btn_text",
+      "label": "t:sections.newsletter_popup.settings.text_form_btn_text.label",
+      "default": "t:sections.newsletter_popup.settings.text_form_btn_text.default"
+    }
+  ]
+}
+{% endschema %}

@@ -236,8 +236,6 @@
 
 .wishlist-button--collection {
   position: absolute;
-  top: 10px;
-  left: 10px;
   background: var(--wishlist-heart-background, #ffffff);
   border-radius: 50%;
   width: 36px;

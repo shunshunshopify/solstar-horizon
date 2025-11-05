@@ -72,6 +72,17 @@
       window.setTimeout(() => {
         showModal(modal);
       }, Math.max(0, delay) * 1000);
+    } else {
+      // Ensure close buttons work in editor
+      const closeButtons = modal.querySelectorAll('[data-micromodal-close]');
+      closeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const lib = getModalLib();
+          if (lib) {
+            lib.close(modal.id);
+          }
+        });
+      });
     }
   };
 

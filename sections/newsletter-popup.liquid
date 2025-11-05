@@ -41,18 +41,7 @@
             aria-label="{{ 'general.close' | t }}"
             data-micromodal-close
           >
-            <span aria-hidden="true">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 50 50"
-                focusable="false"
-              >
-                <path
-                  d="M9.016 40.837a1 1 0 0 0 1.415 0l14.292-14.309 14.292 14.309a1 1 0 0 0 1.415 0 1 1 0 0 0 .001-1.414L26.153 25.129 40.43 10.836a1 1 0 0 0-.001-1.414 1 1 0 0 0-1.414.001L24.722 23.732 10.43 9.423a1 1 0 0 0-1.414-.001 1 1 0 0 0-.001 1.414l14.276 14.293L9.015 39.423a1 1 0 0 0 .001 1.414Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </span>
+            {{- 'icon-close.svg' | inline_asset_content -}}
           </button>
 
           {% if section.settings.img %}
@@ -71,7 +60,7 @@
             <header class="micromodal__header newsletter-modal__header">
               <h2
                 id="{{ label_id }}"
-                class="micromodal__title newsletter-modal__title {{ section.settings.heading_size }}"
+                class="micromodal__title newsletter-modal__title {{ section.settings.heading_preset }}"
               >
                 {{ section.settings.title | escape }}
               </h2>
@@ -257,23 +246,44 @@
     },
     {
       "type": "select",
-      "id": "heading_size",
+      "id": "heading_preset",
+      "label": "t:settings.heading_preset",
       "options": [
         {
-          "value": "h2",
-          "label": "t:sections.newsletter_popup.settings.heading_size.options.h2"
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
         },
         {
           "value": "h1",
-          "label": "t:sections.newsletter_popup.settings.heading_size.options.h1"
+          "label": "t:options.h1"
         },
         {
-          "value": "h0",
-          "label": "t:sections.newsletter_popup.settings.heading_size.options.h0"
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
         }
       ],
-      "default": "h1",
-      "label": "t:sections.newsletter_popup.settings.heading_size.label"
+      "default": "h2",
+      "info": "t:info.edit_presets_in_theme_settings"
     },
     {
       "type": "richtext",

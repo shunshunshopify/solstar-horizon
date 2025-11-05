@@ -56,6 +56,7 @@
     -webkit-transform: scale(0);
         -ms-transform: scale(0);
             transform: scale(0);
+    position: relative;
 }
 
 .micromodal.is-open .micromodal__container {
@@ -144,6 +145,8 @@
 */
 .newsletter-modal__container {
     padding: 0;
+    position: relative;
+    overflow: visible;
 }
 
 .newsletter-modal__content {
@@ -161,20 +164,21 @@
 
 .newsletter-modal__close {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 24px;
-    height: 24px;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     color: inherit;
     transition: transform 0.15s var(--animation-timing-bounce, ease), opacity 0.2s ease;
-    z-index: 1;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .newsletter-modal__close:hover,
@@ -184,8 +188,8 @@
 }
 
 .newsletter-modal__close svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
 }
 
 .newsletter-modal__description {
@@ -220,6 +224,18 @@
         -o-object-position: top;
            object-position: top;
     } 
+    
+    .newsletter-modal__close {
+        top: 16px;
+        right: 16px;
+        width: 28px;
+        height: 28px;
+    }
+    
+    .newsletter-modal__close svg {
+        width: 14px;
+        height: 14px;
+    }
 }
 
 @media (min-width: 750px) {

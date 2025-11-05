@@ -150,7 +150,7 @@
 }
 
 .newsletter-modal__content {
-    padding: 20px;
+    padding: 40px 20px;
 }
 
 .newsletter-modal__header {
@@ -164,8 +164,8 @@
 
 .newsletter-modal__close {
     position: absolute;
-    top: 10px;
-    right: 25px;
+    top: 12px;
+    right: 12px;
     width: 32px;
     height: 32px;
     padding: 0;
@@ -216,6 +216,18 @@
 }
 
 @media (max-width: 749px) {
+    .newsletter-modal__close {
+        top: 10px;
+        right: 25px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .newsletter-modal__close svg {
+        width: 14px;
+        height: 14px;
+    }
+
     .newsletter-modal__image {
         max-height: 30vh;
         -o-object-fit: cover;
@@ -224,18 +236,6 @@
         -o-object-position: top;
            object-position: top;
     } 
-    
-    .newsletter-modal__close {
-        top: 16px;
-        right: 16px;
-        width: 28px;
-        height: 28px;
-    }
-    
-    .newsletter-modal__close svg {
-        width: 14px;
-        height: 14px;
-    }
 }
 
 @media (min-width: 750px) {

@@ -11,22 +11,40 @@
 <div
   class="product-badges product-badges--{{ settings.badge_position }}"
   style="
-    --badge-border-radius: {{ settings.badge_corner_radius }}px;
+    --badge-border-radius: {{ settings.button_border_radius_primary }}px;
     --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
   "
 >
-  {%- if product.available == false or product.compare_at_price > product.price and product.available -%}
+  {%- assign badge_text = '' -%}
+  {%- assign badge_color_scheme = '' -%}
+  {%- assign has_new_tag = false -%}
+
+  {%- for tag in product.tags -%}
+    {%- if tag | downcase == 'new' -%}
+      {%- assign has_new_tag = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if product.available == false -%}
+    {%- assign badge_text = 'content.product_badge_sold_out' | t -%}
+    {%- assign badge_color_scheme = settings.badge_sold_out_color_scheme -%}
+  {%- elsif product.compare_at_price > product.price and product.available -%}
+    {%- assign badge_text = 'content.product_badge_sale' | t -%}
+    {%- assign badge_color_scheme = settings.badge_sale_color_scheme -%}
+  {%- elsif has_new_tag -%}
+    {%- assign badge_text = 'content.product_badge_new' | t -%}
+    {%- assign badge_color_scheme = settings.badge_sale_color_scheme -%}
+  {%- endif -%}
+
+  {%- if badge_text != blank -%}
     <div
       class="
         product-badges__badge product-badges__badge--rectangle
-        {% if product.available == false %} color-{{ settings.badge_sold_out_color_scheme }}{% elsif product.compare_at_price > product.price %} color-{{ settings.badge_sale_color_scheme }}{% endif %}
+        {% if badge_color_scheme != blank %} color-{{ badge_color_scheme }}{% endif %}
       "
     >
-      {%- if product.available == false -%}
-        {{ 'content.product_badge_sold_out' | t }}
-      {%- elsif product.compare_at_price > product.price -%}
-        {{ 'content.product_badge_sale' | t }}
-      {%- endif -%}
+      {{ badge_text }}
     </div>
   {%- endif -%}
 </div>

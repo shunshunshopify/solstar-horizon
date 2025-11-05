@@ -143,7 +143,9 @@
     Section settings
 */
 .newsletter-modal__container {
+    position: relative;
     padding: 0;
+    overflow: visible;
 }
 
 .newsletter-modal__content {

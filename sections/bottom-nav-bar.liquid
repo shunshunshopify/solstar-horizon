@@ -73,6 +73,17 @@
       fill: none;
       stroke-width: 1.5px;
     }
+
+    .sticky-section .line-icon-wrapper {
+      width: 30px;
+      height: 30px;
+    }
+
+    .sticky-section .line-icon-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
     
     .sticky-section-column {
       align-items: center;
@@ -218,7 +229,7 @@
           {% endif %}
           <div class="sticky-section-column">
             <a href="{{ line_link }}" class="btm_link">
-              <span class="svg-wrapper" aria-hidden="true">
+              <span class="svg-wrapper line-icon-wrapper" aria-hidden="true">
                 <img
                   src="{{ 'line-app.png' | asset_url }}"
                   alt="LINE"

@@ -540,6 +540,11 @@
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
+.card:has(.product-badges--top-right) .wishlist-button--collection {
+  right: auto;
+  left: 10px;
+}
+
 .card .wishlist-button--collection:hover {
   background: color-mix(in srgb, var(--wishlist-heart-background, #ffffff) 80%, transparent);
   transform: scale(1.1);

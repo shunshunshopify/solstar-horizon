@@ -131,6 +131,7 @@
     "faq_section": "よくある質問",
     "hero": "ヒーロー",
     "hero_bottom_aligned": "ヒーロー: 下揃え",
+    "hero_video": "ヒーロービデオ",
     "jumbo_text": "ジャンボテキスト",
     "read_only": "読み取り専用",
     "search_input": "入力を検索",
@@ -1214,6 +1215,61 @@
             "help_url": {
               "label": "ヘルプリンク"
             }
+          }
+        }
+      }
+    },
+    "hero_video": {
+      "name": "ヒーロービデオ",
+      "settings": {
+        "title": {
+          "label": "見出し"
+        },
+        "title_size": {
+          "label": "見出しテキストサイズ"
+        },
+        "subheading": {
+          "label": "サブ見出し"
+        },
+        "subheading_size": {
+          "label": "サブ見出しテキストサイズ"
+        },
+        "link_text": {
+          "label": "ボタンテキスト"
+        },
+        "link": {
+          "label": "ボタンリンク"
+        },
+        "text_align": {
+          "label": "テキスト配置",
+          "options": {
+            "center_left": "中央左",
+            "center": "中央",
+            "center_right": "中央右",
+            "bottom_left": "下部左",
+            "bottom_center": "下部中央",
+            "bottom_right": "下部右"
+          }
+        },
+        "video_url": {
+          "label": "背景ビデオリンク",
+          "info": "YouTubeまたは.MP4 - 空欄のままにするとデフォルトビデオが再生されます"
+        },
+        "overlay_opacity": {
+          "label": "テキスト保護",
+          "info": "画像を暗くしてテキストが読みやすくなるようにします"
+        },
+        "section_height": {
+          "label": "デスクトップの高さ",
+          "options": {
+            "full_screen": "全画面"
+          }
+        },
+        "mobile_height": {
+          "label": "モバイルの高さ",
+          "options": {
+            "auto": "自動",
+            "iphone_height": "iPhone高さ"
           }
         }
       }

@@ -300,6 +300,7 @@
     "hero": "Hero",
     "hero_bottom_aligned": "Hero: Bottom aligned",
     "hero_marquee": "Hero: Marquee",
+    "hero_video": "Hero video",
     "icon": "Icon",
     "icons": "Icons",
     "icons_with_text": "Icons with text",
@@ -1399,6 +1400,61 @@
             "help_url": {
               "label": "Help Link"
             }
+          }
+        }
+      }
+    },
+    "hero_video": {
+      "name": "Hero video",
+      "settings": {
+        "title": {
+          "label": "Heading"
+        },
+        "title_size": {
+          "label": "Heading text size"
+        },
+        "subheading": {
+          "label": "Subheading"
+        },
+        "subheading_size": {
+          "label": "Subheading text size"
+        },
+        "link_text": {
+          "label": "Button text"
+        },
+        "link": {
+          "label": "Button link"
+        },
+        "text_align": {
+          "label": "Text alignment",
+          "options": {
+            "center_left": "Center left",
+            "center": "Center",
+            "center_right": "Center right",
+            "bottom_left": "Bottom left",
+            "bottom_center": "Bottom center",
+            "bottom_right": "Bottom right"
+          }
+        },
+        "video_url": {
+          "label": "Background video link",
+          "info": "Youtube or .MP4 - Default video will play if left empty"
+        },
+        "overlay_opacity": {
+          "label": "Text protection",
+          "info": "Darkens your image to ensure your text is readable"
+        },
+        "section_height": {
+          "label": "Desktop height",
+          "options": {
+            "full_screen": "Full screen"
+          }
+        },
+        "mobile_height": {
+          "label": "Mobile height",
+          "options": {
+            "auto": "Auto",
+            "iphone_height": "iPhone Height"
           }
         }
       }

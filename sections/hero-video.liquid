@@ -451,19 +451,19 @@
  
 {% schema %}
 {
-  "name": "Hero video",
+  "name": "t:names.hero_video",
   "class": "index-section--hero",
   "settings": [
     {
       "type": "textarea",
       "id": "title",
-      "label": "Heading",
+      "label": "t:sections.hero_video.settings.title.label",
       "default": "This is heading"
     },
     {
       "type": "range",
       "id": "title_size",
-      "label": "Heading text size",
+      "label": "t:sections.hero_video.settings.title_size.label",
       "default": 80,
       "min": 40,
       "max": 100,
@@ -472,13 +472,13 @@
     {
       "type": "text",
       "id": "subheading",
-      "label": "Subheading",
+      "label": "t:sections.hero_video.settings.subheading.label",
       "default": "This is subheading"
     },
     {
       "type": "range",
       "id": "subheading_size",
-      "label": "Subheading text size",
+      "label": "t:sections.hero_video.settings.subheading_size.label",
       "default": 40,
       "min": 16,
       "max": 60,
@@ -487,13 +487,13 @@
     {
       "type": "text",
       "id": "link_text",
-      "label": "Button text",
+      "label": "t:sections.hero_video.settings.link_text.label",
       "default": "Button"
     },
     {
       "type": "url",
       "id": "link",
-      "label": "Button link"
+      "label": "t:sections.hero_video.settings.link.label"
     },
     {
       "type": "color_scheme",
@@ -524,47 +524,47 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Text alignment",
+      "label": "t:sections.hero_video.settings.text_align.label",
       "default": "vertical-center horizontal-center",
       "options": [
         {
           "value": "vertical-center horizontal-left",
-          "label": "Center left"
+          "label": "t:sections.hero_video.settings.text_align.options.center_left"
         },
         {
           "value": "vertical-center horizontal-center",
-          "label": "Center"
+          "label": "t:sections.hero_video.settings.text_align.options.center"
         },
         {
           "value": "vertical-center horizontal-right",
-          "label": "Center right"
+          "label": "t:sections.hero_video.settings.text_align.options.center_right"
         },
         {
           "value": "vertical-bottom horizontal-left",
-          "label": "Bottom left"
+          "label": "t:sections.hero_video.settings.text_align.options.bottom_left"
         },
         {
           "value": "vertical-bottom horizontal-center",
-          "label": "Bottom center"
+          "label": "t:sections.hero_video.settings.text_align.options.bottom_center"
         },
         {
           "value": "vertical-bottom horizontal-right",
-          "label": "Bottom right"
+          "label": "t:sections.hero_video.settings.text_align.options.bottom_right"
         }
       ]
     },
     {
       "type": "text",
       "id": "video_url",
-      "label": "Background video link",
+      "label": "t:sections.hero_video.settings.video_url.label",
       "default": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
-      "info": "Youtube or .MP4 - Default video will play if left empty"
+      "info": "t:sections.hero_video.settings.video_url.info"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
-      "label": "Text protection",
-      "info": "Darkens your image to ensure your text is readable",
+      "label": "t:sections.hero_video.settings.overlay_opacity.label",
+      "info": "t:sections.hero_video.settings.overlay_opacity.info",
       "default": 0,
       "min": 0,
       "max": 100,
@@ -574,7 +574,7 @@
     {
       "type": "select",
       "id": "section_height",
-      "label": "Desktop height",
+      "label": "t:sections.hero_video.settings.section_height.label",
       "default": "650px",
       "options": [
         {
@@ -598,7 +598,7 @@
           "value": "750px"
         },
         {
-          "label": "Full screen",
+          "label": "t:sections.hero_video.settings.section_height.options.full_screen",
           "value": "100vh"
         }
       ]
@@ -606,11 +606,11 @@
     {
       "type": "select",
       "id": "mobile_height",
-      "label": "Mobile height",
+      "label": "t:sections.hero_video.settings.mobile_height.label",
       "default": "auto",
       "options": [
         {
-          "label": "Auto",
+          "label": "t:sections.hero_video.settings.mobile_height.options.auto",
           "value": "auto"
         },
         {
@@ -630,7 +630,7 @@
           "value": "500px"
         },
         {
-          "label": "iPhone Height",
+          "label": "t:sections.hero_video.settings.mobile_height.options.iphone_height",
           "value": "850px"
         }
       ]
@@ -658,7 +658,7 @@
   ],
   "presets": [
     {
-      "name": "Hero video"
+      "name": "t:names.hero_video"
     }
   ]
 }

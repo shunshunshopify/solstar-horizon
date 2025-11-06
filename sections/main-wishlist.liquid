@@ -511,7 +511,7 @@
 
 {% schema %}
 {
-  "name": "Wishlist",
+  "name": "t:names.wishlist",
   "settings": [
     {
       "type": "header",
@@ -536,7 +536,7 @@
     {
       "type": "range",
       "id": "heading_text_size",
-      "label": "Heading text size",
+      "label": "t:sections.wishlist.settings.heading_text_size.label",
       "default": 48,
       "min": 24,
       "max": 96,
@@ -546,13 +546,13 @@
     {
       "type": "checkbox",
       "id": "show_description",
-      "label": "Show description",
+      "label": "t:sections.wishlist.settings.show_description.label",
       "default": true
     },
     {
       "type": "range",
       "id": "heading_padding_top",
-      "label": "上部の余白",
+      "label": "t:sections.wishlist.settings.heading_padding_top.label",
       "default": 0,
       "min": 0,
       "max": 100,
@@ -562,7 +562,7 @@
     {
       "type": "range",
       "id": "heading_gap",
-      "label": "下部の余白",
+      "label": "t:sections.wishlist.settings.heading_gap.label",
       "default": 0,
       "min": 0,
       "max": 100,
@@ -572,7 +572,7 @@
     {
       "type": "select",
       "id": "product_card_size",
-      "label": "カードサイズ",
+      "label": "t:sections.wishlist.settings.product_card_size.label",
       "default": "medium",
       "options": [
         { "value": "small", "label": "t:options.small" },
@@ -583,7 +583,7 @@
     {
       "type": "select",
       "id": "mobile_product_card_size",
-      "label": "モバイルカードサイズ",
+      "label": "t:sections.wishlist.settings.mobile_product_card_size.label",
       "default": "small",
       "options": [
         { "value": "small", "label": "t:options.small" },
@@ -592,12 +592,12 @@
     },
     {
       "type": "header",
-      "content": "レイアウト"
+      "content": "t:sections.wishlist.settings.layout"
     },
     {
       "type": "select",
       "id": "product_grid_width",
-      "label": "幅",
+      "label": "t:settings.width",
       "default": "centered",
       "options": [
         { "value": "centered", "label": "t:options.page" },
@@ -607,7 +607,7 @@
     {
       "type": "range",
       "id": "columns_gap_horizontal",
-      "label": "水平方向の間隔",
+      "label": "t:sections.wishlist.settings.columns_gap_horizontal.label",
       "min": 0,
       "max": 50,
       "step": 1,
@@ -616,18 +616,18 @@
     },
     {
       "type": "header",
-      "content": "セクションレイアウト"
+      "content": "t:sections.wishlist.settings.section_layout"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "配色",
+      "label": "t:settings.color_scheme",
       "default": "scheme-1"
     }
   ],
   "presets": [
     {
-      "name": "Wishlist"
+      "name": "t:names.wishlist"
     }
   ]
 }

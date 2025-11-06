@@ -7,6 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
+
 {
   "blocks": {
     "load_video": "ビデオを読み込む: {{ description }}",
@@ -304,6 +305,43 @@
       "post": "コメントを投稿する",
       "success_moderated": "コメントを投稿しました。承認待ちです",
       "success": "コメントを投稿しました"
+    }
+  },
+  "sections": {
+    "sticky_atc": {
+      "name": "追従カート",
+      "settings": {
+        "general": "一般設定",
+        "enable_section": {
+          "label": "「追従カート」を有効にする"
+        },
+        "mobile_only": {
+          "label": "モバイル画面のみ表示"
+        },
+        "color_scheme": {
+          "label": "カラースキーム"
+        },
+        "note_bottom_menu": "注：ヘッダーでボトムメニューが有効になっている場合、スティッキーカートに追加はメニューバーの上に自動的に配置されます。",
+        "controls": "コントロール",
+        "show_qty": {
+          "label": "数量ピッカーを表示"
+        },
+        "show_variant_picker": {
+          "label": "バリエーションピッカーを表示"
+        },
+        "show_img": {
+          "label": "商品画像、タイトル、価格を表示"
+        },
+        "positioning": "配置",
+        "note_positioning": "注：ボトムナビゲーションバーが有効になっている場合、スティッキーカートに追加はナビゲーションバーの上に自動的に配置されます。高さはボトムナビゲーションバーセクションの設定で調整できます。",
+        "spacing": "間隔",
+        "pt": {
+          "label": "上部の余白（rem）"
+        },
+        "pb": {
+          "label": "下部の余白（rem）"
+        }
+      }
     }
   }
 }

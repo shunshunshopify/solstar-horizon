@@ -300,6 +300,7 @@
     "hero": "Hero",
     "hero_bottom_aligned": "Hero: Bottom aligned",
     "hero_marquee": "Hero: Marquee",
+    "hero_video": "Hero video",
     "icon": "Icon",
     "icons": "Icons",
     "icons_with_text": "Icons with text",
@@ -324,6 +325,9 @@
     "menu": "Menu",
     "mobile_layout": "Mobile layout",
     "newsletter_popup": "Newsletter popup",
+    "sticky_atc": "Sticky ATC",
+    "sticky_bottom_menu": "Sticky bottom menu",
+    "wishlist": "Wishlist",
     "multicolumn": "Multicolumn",
     "rich_text_section": "Rich text",
     "overlapping_blocks": "Overlapping blocks",
@@ -1181,6 +1185,307 @@
           "label": "Button text",
           "default": "Subscribe"
         }
+      }
+    },
+    "sticky_atc": {
+      "name": "Sticky ATC",
+      "settings": {
+        "general": "General",
+        "enable_section": {
+          "label": "Enable \"Sticky ATC\""
+        },
+        "mobile_only": {
+          "label": "Show mobile screen only"
+        },
+        "color_scheme": {
+          "label": "Color scheme"
+        },
+        "note_bottom_menu": {
+          "content": "Note: When bottom menu is enabled in the header, the sticky add to cart will automatically position itself above the menu bar."
+        },
+        "controls": "Controls",
+        "show_qty": {
+          "label": "Show quantity picker"
+        },
+        "show_variant_picker": {
+          "label": "Show variant picker"
+        },
+        "show_img": {
+          "label": "Show product image, title and price"
+        },
+        "positioning": "Positioning",
+        "note_positioning": {
+          "content": "Note: When a bottom navigation bar is enabled, the sticky add to cart will automatically position itself above the navigation bar. The height can be adjusted in the bottom navigation bar section settings."
+        },
+        "spacing": "Spacing",
+        "pt": {
+          "label": "Padding top (rem)"
+        },
+        "pb": {
+          "label": "Padding bottom (rem)"
+        }
+      }
+    },
+    "sticky_bottom_menu": {
+      "name": "Sticky bottom menu",
+      "settings": {
+        "general": "General",
+        "bg_color": {
+          "label": "Background color"
+        },
+        "icon_color": {
+          "label": "Icon color"
+        },
+        "color": {
+          "label": "Text color"
+        },
+        "badge_colors": "Badge colors",
+        "cart_bubble_background": {
+          "label": "Cart badge background"
+        },
+        "cart_bubble_text": {
+          "label": "Cart badge text"
+        },
+        "wishlist_counter_background": {
+          "label": "Wishlist counter background"
+        },
+        "wishlist_counter_text": {
+          "label": "Wishlist counter text"
+        },
+        "font_size": {
+          "label": "Font Size"
+        },
+        "spacing": "Spacing",
+        "height": {
+          "label": "Height"
+        },
+        "hide_border": {
+          "label": "Hide Borders"
+        }
+      },
+      "blocks": {
+        "custom_block": {
+          "name": "Custom Block",
+          "settings": {
+            "icon_url": {
+              "label": "Add Icon",
+              "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+            },
+            "caption": {
+              "label": "Caption"
+            },
+            "url": {
+              "label": "Link"
+            }
+          }
+        },
+        "home_block": {
+          "name": "Home",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "cart_block": {
+          "name": "Cart",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "wishlist_block": {
+          "name": "Wishlist",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "line_block": {
+          "name": "Line",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            },
+            "line_link": {
+              "label": "Line Link",
+              "info": "Example: https://line.me/R/ti/p/your-id"
+            }
+          }
+        },
+        "account_block": {
+          "name": "Account",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "search_block": {
+          "name": "Search",
+          "settings": {
+            "icon_url": {
+              "label": "Add Icon",
+              "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+            },
+            "caption": {
+              "label": "Caption"
+            },
+            "url": {
+              "label": "Link"
+            }
+          }
+        },
+        "categories_block": {
+          "name": "Categories",
+          "settings": {
+            "menu": {
+              "label": "Custom Menu"
+            },
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "more_block": {
+          "name": "More",
+          "settings": {
+            "general": "General",
+            "caption": {
+              "label": "Caption"
+            },
+            "search": "Search",
+            "show_search": {
+              "label": "Search"
+            },
+            "search_caption": {
+              "label": "Caption"
+            },
+            "line": "Line",
+            "show_line": {
+              "label": "Line"
+            },
+            "line_caption": {
+              "label": "Line Caption"
+            },
+            "line_link": {
+              "label": "Line Link",
+              "info": "Example: https://line.me/R/ti/p/your-id"
+            },
+            "wishlist": "Wishlist",
+            "show_wishlist": {
+              "label": "Wishlist"
+            },
+            "wishlist_caption": {
+              "label": "Wishlist Caption"
+            },
+            "track_order": "Track Order",
+            "show_track": {
+              "label": "Track Order"
+            },
+            "track_caption": {
+              "label": "Track Caption"
+            },
+            "track_url": {
+              "label": "Track Link"
+            },
+            "help": "Help/Contact us",
+            "show_help": {
+              "label": "Help"
+            },
+            "help_caption": {
+              "label": "Help Caption"
+            },
+            "help_url": {
+              "label": "Help Link"
+            }
+          }
+        }
+      }
+    },
+    "hero_video": {
+      "name": "Hero video",
+      "settings": {
+        "title": {
+          "label": "Heading"
+        },
+        "title_size": {
+          "label": "Heading text size"
+        },
+        "subheading": {
+          "label": "Subheading"
+        },
+        "subheading_size": {
+          "label": "Subheading text size"
+        },
+        "link_text": {
+          "label": "Button text"
+        },
+        "link": {
+          "label": "Button link"
+        },
+        "text_align": {
+          "label": "Text alignment",
+          "options": {
+            "center_left": "Center left",
+            "center": "Center",
+            "center_right": "Center right",
+            "bottom_left": "Bottom left",
+            "bottom_center": "Bottom center",
+            "bottom_right": "Bottom right"
+          }
+        },
+        "video_url": {
+          "label": "Background video link",
+          "info": "Youtube or .MP4 - Default video will play if left empty"
+        },
+        "overlay_opacity": {
+          "label": "Text protection",
+          "info": "Darkens your image to ensure your text is readable"
+        },
+        "section_height": {
+          "label": "Desktop height",
+          "options": {
+            "full_screen": "Full screen"
+          }
+        },
+        "mobile_height": {
+          "label": "Mobile height",
+          "options": {
+            "auto": "Auto",
+            "iphone_height": "iPhone Height"
+          }
+        }
+      }
+    },
+    "wishlist": {
+      "name": "Wishlist",
+      "settings": {
+        "heading_text_size": {
+          "label": "Heading text size"
+        },
+        "show_description": {
+          "label": "Show description"
+        },
+        "heading_padding_top": {
+          "label": "Top padding"
+        },
+        "heading_gap": {
+          "label": "Bottom gap"
+        },
+        "product_card_size": {
+          "label": "Card size"
+        },
+        "mobile_product_card_size": {
+          "label": "Mobile card size"
+        },
+        "layout": "Layout",
+        "columns_gap_horizontal": {
+          "label": "Horizontal gap"
+        },
+        "section_layout": "Section layout"
       }
     }
   },

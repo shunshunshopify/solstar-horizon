@@ -1,5 +1,5 @@
 {% comment %}theme-check-disable{% endcomment %}
-{% if settings.enable_video_intro and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
+{% if settings.enable_video_intro == true and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
 {%- liquid
   assign is_homepage = false
   if request.path == '/' or request.path == '/index'

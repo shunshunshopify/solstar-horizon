@@ -184,7 +184,8 @@
     "blog_posts_editorial": "ブログ記事：編集",
     "excerpt": "抜粋",
     "footer_password": "パスワードフッター",
-    "sticky_atc": "追従カート"
+    "sticky_atc": "追従カート",
+    "sticky_bottom_menu": "下部固定メニュー"
   },
   "settings": {
     "badge_new_color_scheme": "新着バッジ",
@@ -1035,6 +1036,185 @@
         },
         "pb": {
           "label": "下部パディング（rem）"
+        }
+      }
+    },
+    "sticky_bottom_menu": {
+      "name": "下部固定メニュー",
+      "settings": {
+        "general": "一般設定",
+        "bg_color": {
+          "label": "背景色"
+        },
+        "icon_color": {
+          "label": "アイコンカラー"
+        },
+        "color": {
+          "label": "テキストカラー"
+        },
+        "badge_colors": "バッジカラー",
+        "cart_bubble_background": {
+          "label": "カートバッジの背景"
+        },
+        "cart_bubble_text": {
+          "label": "カートバッジのテキスト"
+        },
+        "wishlist_counter_background": {
+          "label": "ウィッシュリストカウンターの背景"
+        },
+        "wishlist_counter_text": {
+          "label": "ウィッシュリストカウンターのテキスト"
+        },
+        "font_size": {
+          "label": "フォントサイズ"
+        },
+        "spacing": "間隔",
+        "height": {
+          "label": "高さ"
+        },
+        "hide_border": {
+          "label": "罫線を非表示"
+        }
+      },
+      "blocks": {
+        "custom_block": {
+          "name": "カスタムブロック",
+          "settings": {
+            "icon_url": {
+              "label": "アイコンを追加",
+              "info": "Remix Icon : [アイコンを取得](https://remixicon.com/)"
+            },
+            "caption": {
+              "label": "キャプション"
+            },
+            "url": {
+              "label": "リンク"
+            }
+          }
+        },
+        "home_block": {
+          "name": "ホーム",
+          "settings": {
+            "caption": {
+              "label": "キャプション"
+            }
+          }
+        },
+        "cart_block": {
+          "name": "カート",
+          "settings": {
+            "caption": {
+              "label": "キャプション"
+            }
+          }
+        },
+        "wishlist_block": {
+          "name": "ウィッシュリスト",
+          "settings": {
+            "caption": {
+              "label": "キャプション"
+            }
+          }
+        },
+        "line_block": {
+          "name": "LINE",
+          "settings": {
+            "caption": {
+              "label": "キャプション"
+            },
+            "line_link": {
+              "label": "LINEリンク",
+              "info": "例: https://line.me/R/ti/p/your-id"
+            }
+          }
+        },
+        "account_block": {
+          "name": "アカウント",
+          "settings": {
+            "caption": {
+              "label": "キャプション"
+            }
+          }
+        },
+        "search_block": {
+          "name": "検索",
+          "settings": {
+            "icon_url": {
+              "label": "アイコンを追加",
+              "info": "Remix Icon : [アイコンを取得](https://remixicon.com/)"
+            },
+            "caption": {
+              "label": "キャプション"
+            },
+            "url": {
+              "label": "リンク"
+            }
+          }
+        },
+        "categories_block": {
+          "name": "カテゴリー",
+          "settings": {
+            "menu": {
+              "label": "カスタムメニュー"
+            },
+            "caption": {
+              "label": "キャプション"
+            }
+          }
+        },
+        "more_block": {
+          "name": "もっと見る",
+          "settings": {
+            "general": "一般設定",
+            "caption": {
+              "label": "キャプション"
+            },
+            "search": "検索",
+            "show_search": {
+              "label": "検索"
+            },
+            "search_caption": {
+              "label": "キャプション"
+            },
+            "line": "LINE",
+            "show_line": {
+              "label": "LINE"
+            },
+            "line_caption": {
+              "label": "LINEキャプション"
+            },
+            "line_link": {
+              "label": "LINEリンク",
+              "info": "例: https://line.me/R/ti/p/your-id"
+            },
+            "wishlist": "ウィッシュリスト",
+            "show_wishlist": {
+              "label": "ウィッシュリスト"
+            },
+            "wishlist_caption": {
+              "label": "ウィッシュリストキャプション"
+            },
+            "track_order": "注文追跡",
+            "show_track": {
+              "label": "注文追跡"
+            },
+            "track_caption": {
+              "label": "追跡キャプション"
+            },
+            "track_url": {
+              "label": "追跡リンク"
+            },
+            "help": "ヘルプ / お問い合わせ",
+            "show_help": {
+              "label": "ヘルプ"
+            },
+            "help_caption": {
+              "label": "ヘルプキャプション"
+            },
+            "help_url": {
+              "label": "ヘルプリンク"
+            }
+          }
         }
       }
     }

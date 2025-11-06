@@ -325,6 +325,7 @@
     "mobile_layout": "Mobile layout",
     "newsletter_popup": "Newsletter popup",
     "sticky_atc": "Sticky ATC",
+    "sticky_bottom_menu": "Sticky bottom menu",
     "multicolumn": "Multicolumn",
     "rich_text_section": "Rich text",
     "overlapping_blocks": "Overlapping blocks",
@@ -1220,6 +1221,185 @@
         },
         "pb": {
           "label": "Padding bottom (rem)"
+        }
+      }
+    },
+    "sticky_bottom_menu": {
+      "name": "Sticky bottom menu",
+      "settings": {
+        "general": "General",
+        "bg_color": {
+          "label": "Background color"
+        },
+        "icon_color": {
+          "label": "Icon color"
+        },
+        "color": {
+          "label": "Text color"
+        },
+        "badge_colors": "Badge colors",
+        "cart_bubble_background": {
+          "label": "Cart badge background"
+        },
+        "cart_bubble_text": {
+          "label": "Cart badge text"
+        },
+        "wishlist_counter_background": {
+          "label": "Wishlist counter background"
+        },
+        "wishlist_counter_text": {
+          "label": "Wishlist counter text"
+        },
+        "font_size": {
+          "label": "Font Size"
+        },
+        "spacing": "Spacing",
+        "height": {
+          "label": "Height"
+        },
+        "hide_border": {
+          "label": "Hide Borders"
+        }
+      },
+      "blocks": {
+        "custom_block": {
+          "name": "Custom Block",
+          "settings": {
+            "icon_url": {
+              "label": "Add Icon",
+              "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+            },
+            "caption": {
+              "label": "Caption"
+            },
+            "url": {
+              "label": "Link"
+            }
+          }
+        },
+        "home_block": {
+          "name": "Home",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "cart_block": {
+          "name": "Cart",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "wishlist_block": {
+          "name": "Wishlist",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "line_block": {
+          "name": "Line",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            },
+            "line_link": {
+              "label": "Line Link",
+              "info": "Example: https://line.me/R/ti/p/your-id"
+            }
+          }
+        },
+        "account_block": {
+          "name": "Account",
+          "settings": {
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "search_block": {
+          "name": "Search",
+          "settings": {
+            "icon_url": {
+              "label": "Add Icon",
+              "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+            },
+            "caption": {
+              "label": "Caption"
+            },
+            "url": {
+              "label": "Link"
+            }
+          }
+        },
+        "categories_block": {
+          "name": "Categories",
+          "settings": {
+            "menu": {
+              "label": "Custom Menu"
+            },
+            "caption": {
+              "label": "Caption"
+            }
+          }
+        },
+        "more_block": {
+          "name": "More",
+          "settings": {
+            "general": "General",
+            "caption": {
+              "label": "Caption"
+            },
+            "search": "Search",
+            "show_search": {
+              "label": "Search"
+            },
+            "search_caption": {
+              "label": "Caption"
+            },
+            "line": "Line",
+            "show_line": {
+              "label": "Line"
+            },
+            "line_caption": {
+              "label": "Line Caption"
+            },
+            "line_link": {
+              "label": "Line Link",
+              "info": "Example: https://line.me/R/ti/p/your-id"
+            },
+            "wishlist": "Wishlist",
+            "show_wishlist": {
+              "label": "Wishlist"
+            },
+            "wishlist_caption": {
+              "label": "Wishlist Caption"
+            },
+            "track_order": "Track Order",
+            "show_track": {
+              "label": "Track Order"
+            },
+            "track_caption": {
+              "label": "Track Caption"
+            },
+            "track_url": {
+              "label": "Track Link"
+            },
+            "help": "Help/Contact us",
+            "show_help": {
+              "label": "Help"
+            },
+            "help_caption": {
+              "label": "Help Caption"
+            },
+            "help_url": {
+              "label": "Help Link"
+            }
+          }
         }
       }
     }

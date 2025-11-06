@@ -554,53 +554,53 @@ function openCartDrawer() {
 
 {% schema %}
 {
-    "name": "Sticky bottom menu",
+    "name": "t:names.sticky_bottom_menu",
     "settings": [
         {
             "type": "header",
-            "content": "General"
+            "content": "t:sections.sticky_bottom_menu.settings.general"
         },
         {
             "type": "color",
             "id": "bg_color",
-            "label": "Background color",
+            "label": "t:sections.sticky_bottom_menu.settings.bg_color.label",
             "default": "#ffffff"
         },
         {
             "type": "color",
             "id": "icon_color",
-            "label": "Icon color",
+            "label": "t:sections.sticky_bottom_menu.settings.icon_color.label",
             "default": "#000"
         },
         {
             "type": "color",
             "id": "color",
-            "label": "Text color",
+            "label": "t:sections.sticky_bottom_menu.settings.color.label",
             "default": "#000"
         },
         {
             "type": "header",
-            "content": "Badge colors"
+            "content": "t:sections.sticky_bottom_menu.settings.badge_colors"
         },
         {
             "type": "color",
             "id": "cart_bubble_background",
-            "label": "Cart badge background"
+            "label": "t:sections.sticky_bottom_menu.settings.cart_bubble_background.label"
         },
         {
             "type": "color",
             "id": "cart_bubble_text",
-            "label": "Cart badge text"
+            "label": "t:sections.sticky_bottom_menu.settings.cart_bubble_text.label"
         },
         {
             "type": "color",
             "id": "wishlist_counter_background",
-            "label": "Wishlist counter background"
+            "label": "t:sections.sticky_bottom_menu.settings.wishlist_counter_background.label"
         },
         {
             "type": "color",
             "id": "wishlist_counter_text",
-            "label": "Wishlist counter text"
+            "label": "t:sections.sticky_bottom_menu.settings.wishlist_counter_text.label"
         },
         {
             "type": "range",
@@ -609,12 +609,12 @@ function openCartDrawer() {
             "max": 20,
             "step": 1,
             "unit": "px",
-            "label": "Font Size",
+            "label": "t:sections.sticky_bottom_menu.settings.font_size.label",
             "default": 10
         },
         {
             "type": "header",
-            "content": "Spacing"
+            "content": "t:sections.sticky_bottom_menu.settings.spacing"
         },
         {
             "type": "range",
@@ -623,262 +623,262 @@ function openCartDrawer() {
             "max": 100,
             "step": 10,
             "unit": "px",
-            "label": "height",
+            "label": "t:sections.sticky_bottom_menu.settings.height.label",
             "default": 70
         },
         {
             "type": "checkbox",
             "id": "hide-border",
-            "label": "Hide Borders",
+            "label": "t:sections.sticky_bottom_menu.settings.hide_border.label",
             "default": false
         }
     ],
     "blocks": [
         {
             "type": "block",
-            "name": "Custom Block",
+            "name": "t:sections.sticky_bottom_menu.blocks.custom_block.name",
             "limit": 5,
             "settings": [
                 {
                     "type": "textarea",
                     "id": "icon_url",
-                    "label": "Add Icon",
-                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                    "label": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.icon_url.label",
+                    "info": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.icon_url.info"
                 },
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.caption.label",
                     "default": "Caption"
                 },
                 {
                     "type": "url",
                     "id": "url",
-                    "label": "Link"
+                    "label": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.url.label"
                 }
             ]
         },
         {
             "type": "home_block",
-            "name": "Home",
+            "name": "t:sections.sticky_bottom_menu.blocks.home_block.name",
             "limit": 1,
             "settings": [
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.home_block.settings.caption.label",
                     "default": "Home"
                 }
             ]
         },
         {
             "type": "cart_block",
-            "name": "Cart",
+            "name": "t:sections.sticky_bottom_menu.blocks.cart_block.name",
             "limit": 1,
             "settings": [
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.cart_block.settings.caption.label",
                     "default": "Cart"
                 }
             ]
         },
         {
             "type": "wishlist_block",
-            "name": "Wishlist",
+            "name": "t:sections.sticky_bottom_menu.blocks.wishlist_block.name",
             "limit": 1,
             "settings": [
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.wishlist_block.settings.caption.label",
                     "default": "Wishlist"
                 }
             ]
         },
         {
             "type": "Menu_block",
-            "name": "Line",
+            "name": "t:sections.sticky_bottom_menu.blocks.line_block.name",
             "limit": 1,
             "settings": [
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.line_block.settings.caption.label",
                     "default": "Line"
                 },
                 {
                     "type": "url",
                     "id": "line_link",
-                    "label": "Line Link",
-                    "info": "Example: https://line.me/R/ti/p/your-id"
+                    "label": "t:sections.sticky_bottom_menu.blocks.line_block.settings.line_link.label",
+                    "info": "t:sections.sticky_bottom_menu.blocks.line_block.settings.line_link.info"
                 }
             ]
         },
         {
             "type": "Account_block",
-            "name": "Account",
+            "name": "t:sections.sticky_bottom_menu.blocks.account_block.name",
             "limit": 1,
             "settings": [
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.account_block.settings.caption.label",
                     "default": "Account"
                 }
             ]
         },
         {
             "type": "Search_block",
-            "name": "Search",
+            "name": "t:sections.sticky_bottom_menu.blocks.search_block.name",
             "limit": 1,
             "settings": [
                 {
                     "type": "textarea",
                     "id": "icon_url",
-                    "label": "Add Icon",
+                    "label": "t:sections.sticky_bottom_menu.blocks.search_block.settings.icon_url.label",
                     "placeholder": "<i class=\"ri-search-line\"></i>",
-                    "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
+                    "info": "t:sections.sticky_bottom_menu.blocks.search_block.settings.icon_url.info"
                 },
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.search_block.settings.caption.label",
                     "default": "Search"
                 },
                 {
                     "type": "url",
                     "id": "url",
-                    "label": "Link"
+                    "label": "t:sections.sticky_bottom_menu.blocks.search_block.settings.url.label"
                 }
             ]
         },
         {
             "type": "cat_block",
-            "name": "Categories",
+            "name": "t:sections.sticky_bottom_menu.blocks.categories_block.name",
             "limit": 1,
             "settings": [
                 {
                   "type": "link_list",
                   "id": "menu",
                   "default": "main-menu",
-                  "label": "Custom Menu"
+                  "label": "t:sections.sticky_bottom_menu.blocks.categories_block.settings.menu.label"
                 },
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.categories_block.settings.caption.label",
                     "default": "Categories"
                 }
             ]
         },
       {
             "type": "extended_menu_block",
-            "name": "More",
+            "name": "t:sections.sticky_bottom_menu.blocks.more_block.name",
             "limit": 1,
             "settings": [
                 {
                     "type": "header",
-                    "content": "General"
+                    "content": "t:sections.sticky_bottom_menu.blocks.more_block.settings.general"
                 },
                 {
                     "type": "text",
                     "id": "caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.caption.label",
                     "default": "More"
                 },
                 {
                     "type": "header",
-                    "content": "Search"
+                    "content": "t:sections.sticky_bottom_menu.blocks.more_block.settings.search"
                 },
                 {
                     "type": "checkbox",
                     "id": "show_search",
-                    "label": "Search",
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.show_search.label",
                     "default": true
                 },
                 {
                     "type": "text",
                     "id": "search_caption",
-                    "label": "Caption",
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.search_caption.label",
                     "default": "Search"
                 },
                 {
                     "type": "header",
-                    "content": "Line"
+                    "content": "t:sections.sticky_bottom_menu.blocks.more_block.settings.line"
                 },
                 {
                     "type": "checkbox",
                     "id": "show_line",
-                    "label": "Line",
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.show_line.label",
                     "default": true
                 },
                 {
                     "type": "text",
                     "id": "line_caption",
-                    "label": "Line Caption"
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.line_caption.label"
                 },
                 {
                     "type": "url",
                     "id": "line_link",
-                    "label": "Line Link",
-                    "info": "Example: https://line.me/R/ti/p/your-id"
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.line_link.label",
+                    "info": "t:sections.sticky_bottom_menu.blocks.more_block.settings.line_link.info"
                 },
                 {
                     "type": "header",
-                    "content": "Wishlist"
+                    "content": "t:sections.sticky_bottom_menu.blocks.more_block.settings.wishlist"
                 },
                 {
                     "type": "checkbox",
                     "id": "show_wishlist",
-                    "label": "Wishlist",
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.show_wishlist.label",
                     "default": true
                 },
                 {
                     "type": "text",
                     "id": "wishlist_caption",
-                    "label": "Wishlist Caption"
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.wishlist_caption.label"
                 },
                 {
                     "type": "header",
-                    "content": "Track Order"
+                    "content": "t:sections.sticky_bottom_menu.blocks.more_block.settings.track_order"
                 },
                 {
                     "type": "checkbox",
                     "id": "show_track",
-                    "label": "Track Order",
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.show_track.label",
                     "default": true
                 },
                 {
                     "type": "text",
                     "id": "track_caption",
-                    "label": "Track Caption"
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.track_caption.label"
                 },
                 {
                     "type": "url",
                     "id": "track_url",
-                    "label": "Track Link"
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.track_url.label"
                 },
                 {
                     "type": "header",
-                    "content": "Help/Contact us"
+                    "content": "t:sections.sticky_bottom_menu.blocks.more_block.settings.help"
                 },
                 {
                     "type": "checkbox",
                     "id": "show_help",
-                    "label": "Help",
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.show_help.label",
                     "default": true
                 },
                 {
                     "type": "text",
                     "id": "help_caption",
-                    "label": "Help Caption"
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.help_caption.label"
                 },
                 {
                     "type": "url",
                     "id": "help_url",
-                    "label": "Help Link"
+                    "label": "t:sections.sticky_bottom_menu.blocks.more_block.settings.help_url.label"
                 }
             ]
         }
@@ -886,7 +886,7 @@ function openCartDrawer() {
     "max_blocks": 5,
     "presets": [
         {
-            "name": "Sticky bottom menu",
+            "name": "t:names.sticky_bottom_menu",
             "blocks": [
               {
               "type": "home_block"

@@ -17,7 +17,7 @@
 
   <style>
     /* Enhanced styling combining original design with optimized structure */
-    .sticky-section {
+    .bottom-menu {
       position: fixed;
       bottom: 0;
       width: 100%;
@@ -44,12 +44,12 @@
     }
     
     @media only screen and (min-width: 768px) {
-      .sticky-section {
+      .bottom-menu {
         display: none;
       }
     }
     
-    .sticky-section .btm_link {
+    .bottom-menu .btm_link {
       color: {{ section.settings.color }};
       text-decoration: none;
       margin: 10px;
@@ -66,7 +66,7 @@
       height: 100%;
     }
     
-    .sticky-section svg {
+    .bottom-menu svg {
       width: var(--bottom-menu-icon-size, 2.2rem);
       height: var(--bottom-menu-icon-size, 2.2rem);
       stroke: {{ section.settings.icon_color }};
@@ -74,14 +74,14 @@
       stroke-width: 1.5px;
     }
 
-    .sticky-section .line-icon-wrapper {
+    .bottom-menu .line-icon-wrapper {
       width: 25px;
       height: 25px;
       margin-bottom: calc(var(--margin-2xs, 6px) - 3px);
       position: relative;
     }
 
-    .sticky-section .line-icon-wrapper::before {
+    .bottom-menu .line-icon-wrapper::before {
       content: '';
       display: block;
       width: 100%;
@@ -100,7 +100,7 @@
       mask: url({{ 'line-app.png' | asset_url }}) center/contain no-repeat;
     }
     
-    .sticky-section-column {
+    .bottom-menu-column {
       align-items: center;
       border-right: 1px solid #eee;
       display: flex;
@@ -111,13 +111,13 @@
       overflow: visible !important;
     }
     
-    .sticky-section-column:last-child {
+    .bottom-menu-column:last-child {
       border-right: none !important;
       padding: 0;
     }
     
     {% if section.settings.hide-border %}
-    .sticky-section-column {
+    .bottom-menu-column {
       border-right: none !important;
     }
     {% endif %}
@@ -149,11 +149,11 @@
 
 <body>
   {% assign extended_menu_block = section.blocks | where: 'type', 'extended_menu_block' | first %}
-  <div class="sticky-section">
+  <div class="bottom-menu">
     {% for block in section.blocks %}
       {%- case block.type -%}
         {%- when 'block' -%}
-          <div class="sticky-section-column">
+          <div class="bottom-menu-column">
             <a href="{{ block.settings.url }}" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
@@ -166,7 +166,7 @@
             </a>
           </div>
         {%- when 'home_block' -%}
-          <div class="sticky-section-column">
+          <div class="bottom-menu-column">
             <a href="{{ routes.root_url }}" class="btm_link">
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'home-line.svg' | inline_asset_content }}
@@ -175,7 +175,7 @@
             </a>
           </div>
         {%- when 'cart_block' -%}
-          <div class="sticky-section-column">
+          <div class="bottom-menu-column">
             <button
               class="btm_link button-unstyled bottom-nav-cart-trigger"
               type="button"
@@ -203,7 +203,7 @@
             </button>
           </div>
         {%- when 'wishlist_block' -%}
-        <div class="sticky-section-column">
+        <div class="bottom-menu-column">
           <a href="/pages/wishlist" class="bottom-icon-sticky btm_link header__icon--wishlist-link">
             <span class="svg-wrapper">
               {{ 'icon-heart-line.svg' | inline_asset_content }}
@@ -242,7 +242,7 @@
           {% if line_link == blank %}
             {% assign line_link = '#' %}
           {% endif %}
-          <div class="sticky-section-column">
+          <div class="bottom-menu-column">
             <a
               href="{{ line_link }}"
               class="btm_link"
@@ -253,7 +253,7 @@
             </a>
           </div>
         {%- when 'Account_block' -%}
-          <div class="sticky-section-column">
+          <div class="bottom-menu-column">
             <a href="{{ routes.account_url }}" class="btm_link">
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'icon-account.svg' | inline_asset_content }}
@@ -262,7 +262,7 @@
             </a>
           </div>
         {%- when 'Search_block' -%}
-          <div class="sticky-section-column">
+          <div class="bottom-menu-column">
             <a href="{{ routes.search_url }}" class="btm_link">
               {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
@@ -275,7 +275,7 @@
             </a>
           </div>
         {%- when 'cat_block' -%}
-          <div class="sticky-section-column" id="collectionButton">
+          <div class="bottom-menu-column" id="collectionButton">
             <a href="#collectionPopup" class="btm_link">
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'icon-layout-grid-line.svg' | inline_asset_content }}
@@ -302,7 +302,7 @@
             </div>
           </div>
         {%- when 'extended_menu_block' -%}
-        <div class="sticky-section-column sticky-section-extended-menu-drawer" id="exmenuButton">
+        <div class="bottom-menu-column bottom-menu-extended-menu-drawer" id="exmenuButton">
           <a href="#popup" class="btm_link">
              {% if block.settings.icon_url == blank %}
                 <span class="svg-wrapper" aria-hidden="true">
@@ -388,7 +388,7 @@
   // Enhanced menu drawer handling
   function setupMenuDrawer() {
     // Handle menu drawer trigger buttons
-    const menuButtons = document.querySelectorAll('[data-menu-drawer-trigger], .sticky-section-menu-drawer');
+    const menuButtons = document.querySelectorAll('[data-menu-drawer-trigger], .bottom-menu-menu-drawer');
     menuButtons.forEach(button => {
       button.addEventListener('click', function(e) {
         e.preventDefault();

@@ -1060,10 +1060,10 @@
           "label": "カートバッジのテキスト"
         },
         "wishlist_counter_background": {
-          "label": "ウィッシュリストカウンターの背景"
+          "label": "お気に入りカウンターの背景"
         },
         "wishlist_counter_text": {
-          "label": "ウィッシュリストカウンターのテキスト"
+          "label": "お気に入りカウンターのテキスト"
         },
         "font_size": {
           "label": "フォントサイズ"
@@ -1109,7 +1109,7 @@
           }
         },
         "wishlist_block": {
-          "name": "ウィッシュリスト",
+          "name": "お気に入りリスト",
           "settings": {
             "caption": {
               "label": "キャプション"
@@ -1181,25 +1181,25 @@
               "label": "LINE"
             },
             "line_caption": {
-              "label": "LINEキャプション"
+              "label": "キャプション"
             },
             "line_link": {
               "label": "LINEリンク",
               "info": "例: https://line.me/R/ti/p/your-id"
             },
-            "wishlist": "ウィッシュリスト",
+            "wishlist": "お気に入りリスト",
             "show_wishlist": {
-              "label": "ウィッシュリスト"
+              "label": "お気に入りリスト"
             },
             "wishlist_caption": {
-              "label": "ウィッシュリストキャプション"
+              "label": "キャプション"
             },
             "track_order": "注文追跡",
             "show_track": {
               "label": "注文追跡"
             },
             "track_caption": {
-              "label": "追跡キャプション"
+              "label": "キャプション"
             },
             "track_url": {
               "label": "追跡リンク"
@@ -1209,7 +1209,7 @@
               "label": "ヘルプ"
             },
             "help_caption": {
-              "label": "ヘルプキャプション"
+              "label": "キャプション"
             },
             "help_url": {
               "label": "ヘルプリンク"

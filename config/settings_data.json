@@ -103,7 +103,7 @@
           "mobile_product_card_size": "small",
           "product_grid_width": "centered",
           "columns_gap_horizontal": 15,
-          "color_scheme": ""
+          "color_scheme": "scheme-16"
         }
       },
       "newsletter-popup": {

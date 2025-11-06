@@ -300,11 +300,11 @@
   },
   "sections": {
     "sticky_atc": {
-      "name": "スティッキーATC",
+      "name": "追従カート",
       "settings": {
         "general": "一般設定",
         "enable_section": {
-          "label": "「スティッキーATC」を有効にする"
+          "label": "「追従カート」を有効にする"
         },
         "mobile_only": {
           "label": "モバイル画面のみ表示"

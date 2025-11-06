@@ -77,6 +77,11 @@
     "enable_wishlist_icon": true,
     "wishlist_heart_fill_color": "#ff0000",
     "wishlist_heart_background_color": "#00000003",
+    "intro_homepage_only": true,
+    "intro_desktop_video": "https://cdn.shopify.com/videos/c/o/v/425effc3e0a94a9eb3a59e32bd8d64db.mp4",
+    "intro_mobile_video": "https://cdn.shopify.com/videos/c/o/v/d878a3659b14400cb1ca9eddb0a7db6f.mp4",
+    "intro_audio_file": "",
+    "intro_skip": "スキップ",
     "product_corner_radius": 0,
     "card_corner_radius": 4,
     "show_variant_image": false,
@@ -86,10 +91,6 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 0,
     "variant_button_width": "equal-width-buttons",
-    "intro_audio_file": "",
-    "intro_desktop_video": "",
-    "intro_mobile_video": "",
-    "intro_skip": "スキップ",
     "sections": {
       "main-wishlist": {
         "type": "main-wishlist",

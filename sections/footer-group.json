@@ -16,13 +16,13 @@
       "name": "t:names.sticky_atc",
       "settings": {
         "enable_section": true,
-        "mobile_only": false,
-        "color_scheme": "",
-        "show_qty": true,
-        "show_variant_picker": true,
-        "show_img": true,
+        "mobile_only": true,
+        "color_scheme": "scheme-16",
+        "show_qty": false,
+        "show_variant_picker": false,
+        "show_img": false,
         "pt": 0.5,
-        "pb": 0.5
+        "pb": 5
       }
     },
     "bottom_nav_bar_9FENJe": {

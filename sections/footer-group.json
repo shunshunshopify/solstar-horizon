@@ -11,6 +11,20 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "sticky_add_to_cart_wtCryk": {
+      "type": "sticky-add-to-cart",
+      "name": "t:names.sticky_atc",
+      "settings": {
+        "enable_section": true,
+        "mobile_only": true,
+        "color_scheme": "scheme-16",
+        "show_qty": false,
+        "show_variant_picker": false,
+        "show_img": false,
+        "pt": 0.5,
+        "pb": 5
+      }
+    },
     "bottom_nav_bar_9FENJe": {
       "type": "bottom-nav-bar",
       "blocks": {
@@ -78,20 +92,6 @@
         "font_size": 10,
         "height": 70,
         "hide-border": true
-      }
-    },
-    "sticky_add_to_cart_6wHPQB": {
-      "type": "sticky-add-to-cart",
-      "name": "Sticky ATC",
-      "settings": {
-        "enable_section": true,
-        "mobile_only": false,
-        "color_scheme": "scheme-16",
-        "show_qty": false,
-        "show_variant_picker": false,
-        "show_img": false,
-        "pt": 0.5,
-        "pb": 5
       }
     },
     "footer_m9NzUG": {
@@ -288,8 +288,8 @@
     }
   },
   "order": [
+    "sticky_add_to_cart_wtCryk",
     "bottom_nav_bar_9FENJe",
-    "sticky_add_to_cart_6wHPQB",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

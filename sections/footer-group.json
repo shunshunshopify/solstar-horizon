@@ -85,11 +85,11 @@
       "name": "Sticky ATC",
       "settings": {
         "enable_section": true,
-        "mobile_only": false,
+        "mobile_only": true,
         "color_scheme": "scheme-16",
         "show_qty": false,
         "show_variant_picker": false,
-        "show_img": true,
+        "show_img": false,
         "pt": 0.5,
         "pb": 5
       }

@@ -25,73 +25,62 @@
         "pb": 5
       }
     },
-    "bottom_nav_bar_9FENJe": {
+    "bottom_nav_bar_iCJF4N": {
       "type": "bottom-nav-bar",
       "blocks": {
-        "home_block_zqJ9xR": {
+        "home_block_QgPG4Y": {
           "type": "home_block",
           "settings": {
-            "caption": "トップ"
+            "caption": "Home"
           }
         },
-        "cart_block_PXFept": {
+        "cart_block_t4VLDG": {
           "type": "cart_block",
           "settings": {
-            "caption": "カート"
+            "caption": "Cart"
           }
         },
-        "wishlist_block_LbM46V": {
-          "type": "wishlist_block",
+        "search_block_bbV78U": {
+          "type": "Search_block",
           "settings": {
-            "caption": "お気に入り"
+            "icon_url": "",
+            "caption": "Search",
+            "url": ""
           }
         },
-        "menu_block_hKpdGf": {
+        "menu_block_Eaw84P": {
           "type": "Menu_block",
           "settings": {
-            "caption": "友だち追加",
-            "line_link": "https://line.me/ti/p/XTASQnVzKv"
+            "caption": "Line",
+            "line_link": ""
           }
         },
-        "extended_menu_block_XQ6iN6": {
-          "type": "extended_menu_block",
+        "account_block_BbwQny": {
+          "type": "Account_block",
           "settings": {
-            "caption": "その他",
-            "show_search": true,
-            "search_caption": "検索",
-            "show_line": true,
-            "line_caption": "友だち追加",
-            "line_link": "https://line.me/ti/p/XTASQnVzKv",
-            "show_wishlist": true,
-            "wishlist_caption": "お気に入り",
-            "show_track": true,
-            "track_caption": "注文追跡",
-            "track_url": "shopify://policies/privacy-policy",
-            "show_help": true,
-            "help_caption": "お問い合わせ",
-            "help_url": "shopify://pages/contact"
+            "caption": "Account"
           }
         }
       },
       "block_order": [
-        "home_block_zqJ9xR",
-        "cart_block_PXFept",
-        "wishlist_block_LbM46V",
-        "menu_block_hKpdGf",
-        "extended_menu_block_XQ6iN6"
+        "home_block_QgPG4Y",
+        "cart_block_t4VLDG",
+        "search_block_bbV78U",
+        "menu_block_Eaw84P",
+        "account_block_BbwQny"
       ],
-      "name": "Sticky bottom menu",
+      "name": "t:names.sticky_bottom_menu",
       "settings": {
         "bg_color": "#ffffff",
-        "icon_color": "#000000",
-        "color": "#000000",
+        "icon_color": "#000",
+        "color": "#000",
         "cart_bubble_background": "#ff0000",
         "cart_bubble_text": "#ffffff",
         "wishlist_counter_background": "#ff0000",
         "wishlist_counter_text": "#ffffff",
         "font_size": 10,
         "height": 70,
-        "hide-border": true
+        "hide-border": false
       }
     },
     "footer_m9NzUG": {
@@ -289,7 +278,7 @@
   },
   "order": [
     "sticky_add_to_cart_wtCryk",
-    "bottom_nav_bar_9FENJe",
+    "bottom_nav_bar_iCJF4N",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

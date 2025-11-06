@@ -77,7 +77,7 @@
     "enable_wishlist_icon": true,
     "wishlist_heart_fill_color": "#ff0000",
     "wishlist_heart_background_color": "#00000003",
-    "intro_homepage_only": false,
+    "intro_homepage_only": true,
     "intro_autoplay": false,
     "intro_desktop_video": "https://cdn.shopify.com/videos/c/o/v/425effc3e0a94a9eb3a59e32bd8d64db.mp4",
     "intro_mobile_video": "https://cdn.shopify.com/videos/c/o/v/d878a3659b14400cb1ca9eddb0a7db6f.mp4",

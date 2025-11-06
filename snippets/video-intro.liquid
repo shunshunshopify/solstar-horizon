@@ -1,6 +1,18 @@
 {% comment %}theme-check-disable{% endcomment %}
-{% if settings.intro_desktop_video != blank or settings.intro_mobile_video != blank %}
-<div id="shopi_video_intro" style="position: relative;">
+{% if settings.enable_video_intro == true and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
+{%- liquid
+  assign is_homepage = false
+  if request.path == '/' or request.path == '/index'
+    assign is_homepage = true
+  endif
+  
+  assign should_show_intro = true
+  if settings.intro_homepage_only == true and is_homepage == false
+    assign should_show_intro = false
+  endif
+-%}
+{% if should_show_intro %}
+<div id="shopi_video_intro" style="position: relative;" data-homepage-only="{{ settings.intro_homepage_only | default: false }}" data-is-homepage="{{ is_homepage }}">
 <div id="just-black" style="display: none;"></div>
 {% if settings.intro_skip != blank and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
 <button type="button" class="skip-button" onclick="skipVideoIntro()" aria-label="{{ settings.intro_skip }}" {% if settings.intro_autoplay %}style="display: none;"{% endif %}>{{ settings.intro_skip }}</button>
@@ -190,13 +202,28 @@ const animationVideoContainer = document.querySelector(".vi-animation");
 const animationVideo = document.querySelectorAll(".vi-animation video");
 const skipButton = document.querySelector(".skip-button");
 const soundPopup = document.querySelector("#sound-popup");
+const videoIntroElement = document.querySelector("#shopi_video_intro");
 const volumeIntro = {{settings.volume_intro}};
 const autoplayEnabled = {{settings.intro_autoplay}};
+const homepageOnly = videoIntroElement ? videoIntroElement.getAttribute('data-homepage-only') === 'true' : false;
+const isHomepage = videoIntroElement ? videoIntroElement.getAttribute('data-is-homepage') === 'true' : false;
 let videoEnded = false;
 let videosLoaded = false;
 let hasSkipButton = !!skipButton;
 let hasAudio = !!enterSound;
 let isAudioEnabled = false;
+
+function shouldShowIntro() {
+  // If homepage-only mode is enabled and we're not on homepage, don't show
+  if (homepageOnly && !isHomepage) {
+    return false;
+  }
+  // If video has already been played in this session, don't show
+  if (sessionStorage.getItem("videoPlayed")) {
+    return false;
+  }
+  return true;
+}
 
 function hasVideoForCurrentDevice() {
   const isMobile = window.innerWidth <= 768;
@@ -252,7 +279,7 @@ function preloadVideos() {
 }
 
 function initializeVideoIntro() {
-  if (sessionStorage.getItem("videoPlayed") || !hasVideoForCurrentDevice()) {
+  if (!shouldShowIntro() || !hasVideoForCurrentDevice()) {
     if (hasSkipButton) {
       skipButton.classList.remove('show');
       skipButton.classList.add('hidden');
@@ -477,6 +504,7 @@ document.querySelectorAll('.vid').forEach(video => {
   });
 });
 </script>
+{% endif %}
 {% else %}
 <!-- In order for the video intro to work you need to add at least one video (desktop or mobile) -->
 {% endif %}

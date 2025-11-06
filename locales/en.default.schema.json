@@ -328,6 +328,7 @@
     "sticky_atc": "Sticky ATC",
     "sticky_bottom_menu": "Sticky bottom menu",
     "wishlist": "Wishlist",
+    "video_intro": "Video Intro",
     "multicolumn": "Multicolumn",
     "rich_text_section": "Rich text",
     "overlapping_blocks": "Overlapping blocks",
@@ -1120,7 +1121,67 @@
     "wrap": "Wrap",
     "z_index": "Z-index",
     "product_corner_radius": "Product corner radius",
-    "card_corner_radius": "Card corner radius"
+    "card_corner_radius": "Card corner radius",
+    "video_intro": {
+      "description": "Add a video intro that plays when users first visit your store. Upload videos to Files in Shopify admin and paste the URL here.",
+      "general_settings": "General Settings",
+      "enable_video_intro": {
+        "label": "Enable video intro",
+        "info": "Turn on to display video intro. Video intro will only show when at least one video (desktop or mobile) is uploaded."
+      },
+      "intro_homepage_only": {
+        "label": "Show only on homepage",
+        "info": "When enabled, video intro will only play when users land on the homepage. When disabled, it plays on the first page visit regardless of which page."
+      },
+      "intro_autoplay": {
+        "label": "Autoplay video",
+        "info": "When enabled, video starts automatically (muted). Users can click to enable sound. When disabled, users must click to start."
+      },
+      "videos": "Videos",
+      "intro_desktop_video": {
+        "label": "Desktop video URL",
+        "info": "Video shown on desktop devices. Recommended: MP4 format, 1920x1080px or higher."
+      },
+      "intro_mobile_video": {
+        "label": "Mobile video URL",
+        "info": "Video shown on mobile devices. Recommended: MP4 format, 1080x1920px (portrait) or 1920x1080px (landscape)."
+      },
+      "audio": "Audio",
+      "intro_audio_file": {
+        "label": "Audio file URL (optional)",
+        "info": "Optional: Add separate audio track. Must be synced with video duration."
+      },
+      "volume_intro": {
+        "label": "Audio volume"
+      },
+      "interface": "Interface",
+      "intro_skip": {
+        "label": "Skip button text",
+        "info": "Text shown on the skip button"
+      },
+      "skip_color": {
+        "label": "Skip button color"
+      },
+      "click_for_sound": {
+        "label": "Sound prompt text",
+        "info": "Shown when autoplay is enabled to prompt users they can click for audio"
+      }
+    },
+    "wishlist": {
+      "enable_wishlist_icon": {
+        "label": "Enable wishlist icon"
+      },
+      "colors": "Colors",
+      "wishlist_heart_outline_color": {
+        "label": "Wishlist icon outline"
+      },
+      "wishlist_heart_fill_color": {
+        "label": "Wishlist icon fill (added state)"
+      },
+      "wishlist_heart_background_color": {
+        "label": "Wishlist button background"
+      }
+    }
   },
   "sections": {
     "newsletter_popup": {

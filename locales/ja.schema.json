@@ -187,7 +187,8 @@
     "footer_password": "パスワードフッター",
     "sticky_atc": "追従カート",
     "sticky_bottom_menu": "追従メニュー",
-    "wishlist": "お気に入りリスト"
+    "wishlist": "お気に入りリスト",
+    "video_intro": "ビデオイントロ"
   },
   "settings": {
     "badge_new_color_scheme": "新着バッジ",
@@ -496,6 +497,66 @@
     "visibility": "公開/非公開",
     "product_corner_radius": "商品の角丸の半径",
     "card_corner_radius": "カードの角丸の半径",
+    "video_intro": {
+      "description": "ストアに初めて訪問したユーザーに再生されるビデオイントロを追加します。Shopify管理画面のファイルにビデオをアップロードし、URLをここに貼り付けてください。",
+      "general_settings": "一般設定",
+      "enable_video_intro": {
+        "label": "ビデオイントロを有効化",
+        "info": "オンにするとビデオイントロが表示されます。ビデオイントロは、デスクトップまたはモバイルのビデオが少なくとも1つアップロードされている場合にのみ表示されます。"
+      },
+      "intro_homepage_only": {
+        "label": "ホームページのみで表示",
+        "info": "有効にすると、ビデオイントロはホームページに訪問したときのみ再生されます。無効にすると、どのページに訪問しても最初の訪問時に再生されます。"
+      },
+      "intro_autoplay": {
+        "label": "ビデオを自動再生",
+        "info": "有効にすると、ビデオは自動的に開始されます（ミュート）。ユーザーはクリックして音声を有効にできます。無効にすると、ユーザーはクリックして開始する必要があります。"
+      },
+      "videos": "ビデオ",
+      "intro_desktop_video": {
+        "label": "デスクトップビデオURL",
+        "info": "デスクトップデバイスで表示されるビデオ。推奨：MP4形式、1920x1080px以上。"
+      },
+      "intro_mobile_video": {
+        "label": "モバイルビデオURL",
+        "info": "モバイルデバイスで表示されるビデオ。推奨：MP4形式、1080x1920px（縦向き）または1920x1080px（横向き）。"
+      },
+      "audio": "オーディオ",
+      "intro_audio_file": {
+        "label": "オーディオファイルURL（オプション）",
+        "info": "オプション：別のオーディオトラックを追加します。ビデオの長さと同期する必要があります。"
+      },
+      "volume_intro": {
+        "label": "オーディオ音量"
+      },
+      "interface": "インターフェース",
+      "intro_skip": {
+        "label": "スキップボタンテキスト",
+        "info": "スキップボタンに表示されるテキスト"
+      },
+      "skip_color": {
+        "label": "スキップボタンの色"
+      },
+      "click_for_sound": {
+        "label": "サウンドプロンプトテキスト",
+        "info": "自動再生が有効な場合に、ユーザーがオーディオを有効にするためにクリックできることを促すために表示されます"
+      }
+    },
+    "wishlist": {
+      "enable_wishlist_icon": {
+        "label": "お気に入りアイコンを有効化"
+      },
+      "colors": "カラー",
+      "wishlist_heart_outline_color": {
+        "label": "お気に入りアイコンのアウトライン"
+      },
+      "wishlist_heart_fill_color": {
+        "label": "お気に入りアイコンの塗りつぶし（追加済み状態）"
+      },
+      "wishlist_heart_background_color": {
+        "label": "お気に入りボタンの背景"
+      }
+    },
     "alignment_mobile": "モバイル配置",
     "animation_repeat": "繰り返しアニメーション",
     "blurred_reflection": "ぼやけた反射",

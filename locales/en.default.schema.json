@@ -324,6 +324,7 @@
     "menu": "Menu",
     "mobile_layout": "Mobile layout",
     "newsletter_popup": "Newsletter popup",
+    "sticky_atc": "Sticky ATC",
     "multicolumn": "Multicolumn",
     "rich_text_section": "Rich text",
     "overlapping_blocks": "Overlapping blocks",
@@ -1180,6 +1181,45 @@
         "text_form_btn_text": {
           "label": "Button text",
           "default": "Subscribe"
+        }
+      }
+    },
+    "sticky_atc": {
+      "name": "Sticky ATC",
+      "settings": {
+        "general": "General",
+        "enable_section": {
+          "label": "Enable \"Sticky ATC\""
+        },
+        "mobile_only": {
+          "label": "Show mobile screen only"
+        },
+        "color_scheme": {
+          "label": "Color scheme"
+        },
+        "note_bottom_menu": {
+          "content": "Note: When bottom menu is enabled in the header, the sticky add to cart will automatically position itself above the menu bar."
+        },
+        "controls": "Controls",
+        "show_qty": {
+          "label": "Show quantity picker"
+        },
+        "show_variant_picker": {
+          "label": "Show variant picker"
+        },
+        "show_img": {
+          "label": "Show product image, title and price"
+        },
+        "positioning": "Positioning",
+        "note_positioning": {
+          "content": "Note: When a bottom navigation bar is enabled, the sticky add to cart will automatically position itself above the navigation bar. The height can be adjusted in the bottom navigation bar section settings."
+        },
+        "spacing": "Spacing",
+        "pt": {
+          "label": "Padding top (rem)"
+        },
+        "pb": {
+          "label": "Padding bottom (rem)"
         }
       }
     }

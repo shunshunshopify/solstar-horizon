@@ -183,7 +183,8 @@
     "blog_posts_carousel": "ブログ記事：カルーセル",
     "blog_posts_editorial": "ブログ記事：編集",
     "excerpt": "抜粋",
-    "footer_password": "パスワードフッター"
+    "footer_password": "パスワードフッター",
+    "sticky_atc": "追従カート"
   },
   "settings": {
     "badge_new_color_scheme": "新着バッジ",
@@ -316,8 +317,6 @@
     "auto_rotate_slides": "スライドの自動切り替え",
     "badge_corner_radius": "角の半径",
     "badge_position": "カードでの位置",
-    "badge_sale_color_scheme": "セール",
-    "badge_sold_out_color_scheme": "売り切れ",
     "behavior": "挙動",
     "blur": "影のぼかし",
     "border": "罫線",

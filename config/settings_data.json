@@ -64,6 +64,7 @@
     "show_add_discount_code": true,
     "cart_thumbnail_border": "none",
     "cart_thumbnail_border_width": 0,
+    "drawer_color_scheme": "scheme-16",
     "drawer_drop_shadow": true,
     "icon_stroke": "default",
     "input_border_width": 1,
@@ -102,7 +103,7 @@
           "mobile_product_card_size": "small",
           "product_grid_width": "centered",
           "columns_gap_horizontal": 15,
-          "color_scheme": ""
+          "color_scheme": "scheme-16"
         }
       },
       "newsletter-popup": {
@@ -757,8 +758,8 @@
           "background": "#ffffff",
           "foreground_heading": "#000000",
           "foreground": "#1a1a1a",
-          "primary": "#ed1c24",
-          "primary_hover": "#b3202c",
+          "primary": "#000000",
+          "primary_hover": "#000000",
           "border": "#e5e5e5",
           "shadow": "#000000",
           "primary_button_background": "#ed1c24",

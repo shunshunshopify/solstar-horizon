@@ -187,7 +187,6 @@
                 "show_sale_price_first": true,
                 "show_installments": false,
                 "show_tax_info": false,
-                "show_wishlist_icon": false,
                 "type_preset": "h6",
                 "width": "100%",
                 "alignment": "left",
@@ -239,7 +238,7 @@
         "columns_gap_vertical": 24,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-16",
         "padding-block-start": 0,
         "padding-block-end": 32
       }

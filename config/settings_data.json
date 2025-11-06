@@ -64,6 +64,7 @@
     "show_add_discount_code": true,
     "cart_thumbnail_border": "none",
     "cart_thumbnail_border_width": 0,
+    "drawer_color_scheme": "scheme-16",
     "drawer_drop_shadow": true,
     "icon_stroke": "default",
     "input_border_width": 1,

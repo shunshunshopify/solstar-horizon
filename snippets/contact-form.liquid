@@ -134,7 +134,7 @@
   >
     お問い合わせの種類
   </label> 
-  {% assign options = settings.dropdown_options_list | split: ',' %}
+  {%- assign options = settings.dropdown_options_list | split: ',' -%}
   <div class="contact-form__input contact-form__select-wrapper">
     <select
       id="ContactForm-CustomDropdown"
@@ -144,14 +144,14 @@
     >
       <option value="" disabled selected>{{ settings.dropdown_placeholder | default: '選択してください' }}</option>
       
-      {% for option in options %}
+      {%- for option in options -%}
         {% assign trimmed_option = option | strip %}
         <option
           value="{{ trimmed_option | escape }}"
         >
           {{ trimmed_option | escape }}
         </option>
-      {% endfor %}
+      {%- endfor -%}
     </select>
   </div>
 {%- endif -%}

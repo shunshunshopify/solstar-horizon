@@ -186,7 +186,8 @@
     "excerpt": "抜粋",
     "footer_password": "パスワードフッター",
     "sticky_atc": "追従カート",
-    "sticky_bottom_menu": "追従メニュー"
+    "sticky_bottom_menu": "追従メニュー",
+    "wishlist": "ウィッシュリスト"
   },
   "settings": {
     "badge_new_color_scheme": "新着バッジ",
@@ -1272,6 +1273,34 @@
             "iphone_height": "iPhone高さ"
           }
         }
+      }
+    },
+    "wishlist": {
+      "name": "ウィッシュリスト",
+      "settings": {
+        "heading_text_size": {
+          "label": "見出しテキストサイズ"
+        },
+        "show_description": {
+          "label": "説明を表示"
+        },
+        "heading_padding_top": {
+          "label": "上部余白"
+        },
+        "heading_gap": {
+          "label": "下部余白"
+        },
+        "product_card_size": {
+          "label": "カードサイズ"
+        },
+        "mobile_product_card_size": {
+          "label": "モバイルカードサイズ"
+        },
+        "layout": "レイアウト",
+        "columns_gap_horizontal": {
+          "label": "水平方向の間隔"
+        },
+        "section_layout": "セクションレイアウト"
       }
     }
   },

@@ -327,6 +327,7 @@
     "newsletter_popup": "Newsletter popup",
     "sticky_atc": "Sticky ATC",
     "sticky_bottom_menu": "Sticky bottom menu",
+    "wishlist": "Wishlist",
     "multicolumn": "Multicolumn",
     "rich_text_section": "Rich text",
     "overlapping_blocks": "Overlapping blocks",
@@ -1457,6 +1458,34 @@
             "iphone_height": "iPhone Height"
           }
         }
+      }
+    },
+    "wishlist": {
+      "name": "Wishlist",
+      "settings": {
+        "heading_text_size": {
+          "label": "Heading text size"
+        },
+        "show_description": {
+          "label": "Show description"
+        },
+        "heading_padding_top": {
+          "label": "Top padding"
+        },
+        "heading_gap": {
+          "label": "Bottom gap"
+        },
+        "product_card_size": {
+          "label": "Card size"
+        },
+        "mobile_product_card_size": {
+          "label": "Mobile card size"
+        },
+        "layout": "Layout",
+        "columns_gap_horizontal": {
+          "label": "Horizontal gap"
+        },
+        "section_layout": "Section layout"
       }
     }
   },

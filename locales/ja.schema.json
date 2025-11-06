@@ -185,7 +185,7 @@
     "excerpt": "抜粋",
     "footer_password": "パスワードフッター",
     "sticky_atc": "追従カート",
-    "sticky_bottom_menu": "下部固定メニュー"
+    "sticky_bottom_menu": "追従メニュー"
   },
   "settings": {
     "badge_new_color_scheme": "新着バッジ",
@@ -1040,7 +1040,7 @@
       }
     },
     "sticky_bottom_menu": {
-      "name": "下部固定メニュー",
+      "name": "追従メニュー",
       "settings": {
         "general": "一般設定",
         "bg_color": {

@@ -187,7 +187,7 @@
     "footer_password": "パスワードフッター",
     "sticky_atc": "追従カート",
     "sticky_bottom_menu": "追従メニュー",
-    "wishlist": "ウィッシュリスト"
+    "wishlist": "お気に入りリスト"
   },
   "settings": {
     "badge_new_color_scheme": "新着バッジ",
@@ -1276,7 +1276,7 @@
       }
     },
     "wishlist": {
-      "name": "ウィッシュリスト",
+      "name": "お気に入りリスト",
       "settings": {
         "heading_text_size": {
           "label": "見出しテキストサイズ"

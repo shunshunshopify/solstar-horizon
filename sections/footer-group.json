@@ -1,4 +1,12 @@
-
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer",
@@ -63,13 +71,13 @@
         "bg_color": "#ffffff",
         "icon_color": "#000000",
         "color": "#000000",
-        "cart_bubble_background": "",
-        "cart_bubble_text": "",
-        "wishlist_counter_background": "",
-        "wishlist_counter_text": "",
+        "cart_bubble_background": "#ff0000",
+        "cart_bubble_text": "#ffffff",
+        "wishlist_counter_background": "#ff0000",
+        "wishlist_counter_text": "#ffffff",
         "font_size": 10,
         "height": 70,
-        "hide-border": false
+        "hide-border": true
       }
     },
     "sticky_add_to_cart_6wHPQB": {

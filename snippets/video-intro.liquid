@@ -7,12 +7,12 @@
   endif
   
   assign should_show_intro = true
-  if settings.intro_homepage_only == true and is_homepage == false
+  if settings.intro_homepage_only and is_homepage == false
     assign should_show_intro = false
   endif
 -%}
 {% if should_show_intro %}
-<div id="shopi_video_intro" style="position: relative;" data-homepage-only="{{ settings.intro_homepage_only | default: false }}" data-is-homepage="{{ is_homepage }}">
+<div id="shopi_video_intro" style="position: relative;" data-homepage-only="{{ settings.intro_homepage_only }}" data-is-homepage="{{ is_homepage }}">
 <div id="just-black" style="display: none;"></div>
 {% if settings.intro_skip != blank and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
 <button type="button" class="skip-button" onclick="skipVideoIntro()" aria-label="{{ settings.intro_skip }}" {% if settings.intro_autoplay %}style="display: none;"{% endif %}>{{ settings.intro_skip }}</button>

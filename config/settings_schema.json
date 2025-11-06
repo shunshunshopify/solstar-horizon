@@ -2161,6 +2161,13 @@
       },
       {
         "type": "checkbox",
+        "id": "enable_video_intro",
+        "label": "t:settings.video_intro.enable_video_intro.label",
+        "default": false,
+        "info": "t:settings.video_intro.enable_video_intro.info"
+      },
+      {
+        "type": "checkbox",
         "id": "intro_homepage_only",
         "label": "t:settings.video_intro.intro_homepage_only.label",
         "default": false,

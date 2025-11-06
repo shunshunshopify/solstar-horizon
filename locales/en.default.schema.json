@@ -1125,6 +1125,10 @@
     "video_intro": {
       "description": "Add a video intro that plays when users first visit your store. Upload videos to Files in Shopify admin and paste the URL here.",
       "general_settings": "General Settings",
+      "enable_video_intro": {
+        "label": "Enable video intro",
+        "info": "Turn on to display video intro. Video intro will only show when at least one video (desktop or mobile) is uploaded."
+      },
       "intro_homepage_only": {
         "label": "Show only on homepage",
         "info": "When enabled, video intro will only play when users land on the homepage. When disabled, it plays on the first page visit regardless of which page."

@@ -2116,34 +2116,34 @@
     ]
   },
   {
-    "name": "Wishlist",
+    "name": "t:names.wishlist",
     "settings": [
       {
         "type": "checkbox",
         "id": "enable_wishlist_icon",
-        "label": "Enable wishlist icon",
+        "label": "t:settings.wishlist.enable_wishlist_icon.label",
         "default": true
       },
       {
         "type": "header",
-        "content": "Wishlist"
+        "content": "t:settings.wishlist.colors"
       },
       {
         "type": "color",
         "id": "wishlist_heart_outline_color",
-        "label": "Wishlist icon outline",
+        "label": "t:settings.wishlist.wishlist_heart_outline_color.label",
         "default": "#111111"
       },
       {
         "type": "color",
         "id": "wishlist_heart_fill_color",
-        "label": "Wishlist icon fill (added state)",
+        "label": "t:settings.wishlist.wishlist_heart_fill_color.label",
         "default": "#111111"
       },
       {
         "type": "color",
         "id": "wishlist_heart_background_color",
-        "label": "Wishlist button background",
+        "label": "t:settings.wishlist.wishlist_heart_background_color.label",
         "default": "#ffffff"
       }
     ]

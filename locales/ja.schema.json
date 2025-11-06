@@ -542,6 +542,21 @@
         "info": "自動再生が有効な場合に、ユーザーがオーディオを有効にするためにクリックできることを促すために表示されます"
       }
     },
+    "wishlist": {
+      "enable_wishlist_icon": {
+        "label": "お気に入りアイコンを有効化"
+      },
+      "colors": "カラー",
+      "wishlist_heart_outline_color": {
+        "label": "お気に入りアイコンのアウトライン"
+      },
+      "wishlist_heart_fill_color": {
+        "label": "お気に入りアイコンの塗りつぶし（追加済み状態）"
+      },
+      "wishlist_heart_background_color": {
+        "label": "お気に入りボタンの背景"
+      }
+    },
     "alignment_mobile": "モバイル配置",
     "animation_repeat": "繰り返しアニメーション",
     "blurred_reflection": "ぼやけた反射",

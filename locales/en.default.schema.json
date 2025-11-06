@@ -1166,6 +1166,21 @@
         "label": "Sound prompt text",
         "info": "Shown when autoplay is enabled to prompt users they can click for audio"
       }
+    },
+    "wishlist": {
+      "enable_wishlist_icon": {
+        "label": "Enable wishlist icon"
+      },
+      "colors": "Colors",
+      "wishlist_heart_outline_color": {
+        "label": "Wishlist icon outline"
+      },
+      "wishlist_heart_fill_color": {
+        "label": "Wishlist icon fill (added state)"
+      },
+      "wishlist_heart_background_color": {
+        "label": "Wishlist button background"
+      }
     }
   },
   "sections": {

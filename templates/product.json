@@ -139,9 +139,6 @@
                     "show_sale_price_first": true,
                     "show_installments": false,
                     "show_tax_info": true,
-                    "show_wishlist_icon": true,
-                    "wishlist_heart_outline_color": "#000000",
-                    "wishlist_heart_fill_color": "#ff4545",
                     "type_preset": "paragraph",
                     "width": "100%",
                     "alignment": "left",
@@ -217,6 +214,7 @@
                 },
                 "accelerated-checkout": {
                   "type": "accelerated-checkout",
+                  "disabled": true,
                   "static": true,
                   "settings": {},
                   "blocks": {}
@@ -266,7 +264,7 @@
         "equal_columns": false,
         "limit_details_width": false,
         "gap": 48,
-        "color_scheme": "",
+        "color_scheme": "scheme-16",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
@@ -365,9 +363,6 @@
                 "show_sale_price_first": true,
                 "show_installments": false,
                 "show_tax_info": false,
-                "show_wishlist_icon": false,
-                "wishlist_heart_outline_color": "",
-                "wishlist_heart_fill_color": "",
                 "type_preset": "h6",
                 "width": "100%",
                 "alignment": "left",

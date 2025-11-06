@@ -83,11 +83,7 @@
         "content"
         "controls";
     }
-    /* Remove gap and padding when all optional elements are disabled */
-    #md-sticky-atc.no-variant.no-qty.no-product-info{
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-    }
+    /* Adjust padding when all optional elements are disabled - use section settings */
     #md-sticky-atc.no-variant.no-qty.no-product-info .page-width-inner{
       gap: 0;
     }
@@ -279,7 +275,22 @@
     }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
     
-    /* Quantity selector buttons - remove border styling */
+    /* Quantity selector - apply theme button settings */
+    #md-sticky-atc .quantity-selector {
+      border: {{ settings.primary_button_border_width }}px solid var(--color-input-border);
+      border-radius: {{ settings.button_border_radius_primary }}px;
+    }
+    
+    #md-sticky-atc .quantity-selector .quantity-minus {
+      border-start-start-radius: {{ settings.button_border_radius_primary }}px;
+      border-end-start-radius: {{ settings.button_border_radius_primary }}px;
+    }
+
+    #md-sticky-atc .quantity-selector .quantity-plus {
+      border-start-end-radius: {{ settings.button_border_radius_primary }}px;
+      border-end-end-radius: {{ settings.button_border_radius_primary }}px;
+    }
+    
     #md-sticky-atc .quantity__button {
       border: none;
     }

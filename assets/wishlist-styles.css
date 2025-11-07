@@ -389,23 +389,32 @@
   visibility: visible !important;
 }
 
-.header__icon--wishlist {
+.header__icon--wishlist-link {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--color-foreground);
+  --button-color: var(--color-foreground);
   --wishlist-counter-background: var(
     --color-primary-button-background,
     rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25))
   );
 }
 
-.header[transparent]:not([data-sticky-state='active']) .header__icon--wishlist,
-.header[transparent='always'][data-sticky-state='active'] .header__icon--wishlist {
+.header__icon--wishlist-link:hover,
+.header__icon--wishlist-link:focus-visible {
+  color: var(--color-foreground);
+  --button-color: var(--color-foreground);
+}
+
+.header[transparent]:not([data-sticky-state='active']) .header__icon--wishlist-link,
+.header[transparent='always'][data-sticky-state='active'] .header__icon--wishlist-link {
   --wishlist-counter-background: rgb(var(--color-foreground-rgb) / var(--opacity-30-60, 0.35));
 }
 
-.header__icon--wishlist-link {
-  display: flex;
-}
-.header__icon--wishlist .icon-wishlist{
+.header__icon--wishlist-link .icon-wishlist {
   height: 2.2rem;
   width: 2.2rem;
 }

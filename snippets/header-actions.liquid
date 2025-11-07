@@ -14,15 +14,13 @@
   {{- block.shopify_attributes -}}
 >
   {% if show_wishlist_icon %}
-    <div class="header-actions__action account-button header__icon--wishlist">
-      <a href="/pages/wishlist" class="header__icon--wishlist-link">
-        <span class="svg-wrapper icon-wishlist">
-          {{ 'icon-heart-line.svg' | inline_asset_content }}
-        </span>
-        <span class="visually-hidden">Wishlist</span>
-        <div class="wishlist-count-bubble is-hidden" data-wishlist-counter>0</div>
-      </a>
-    </div>
+    <a href="/pages/wishlist" class="header-actions__action header__icon--wishlist-link">
+      <span class="svg-wrapper icon-wishlist" aria-hidden="true">
+        {{ 'icon-heart-line.svg' | inline_asset_content }}
+      </span>
+      <span class="visually-hidden">Wishlist</span>
+      <div class="wishlist-count-bubble is-hidden" data-wishlist-counter>0</div>
+    </a>
   {% endif %}
 
   {% if shop.customer_accounts_enabled %}
@@ -239,7 +237,7 @@
     height: var(--icon-size-md);
   }
 
-  .header__icon--wishlist {
+  .header__icon--wishlist-link {
     @media screen and (max-width: 989px) {
       display: none;
     }

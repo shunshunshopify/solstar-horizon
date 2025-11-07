@@ -409,6 +409,15 @@
   height: 2.2rem;
   width: 2.2rem;
 }
+
+/* Force wishlist icon to inherit color from header */
+.header__icon--wishlist-link svg {
+  stroke: var(--color-foreground) !important;
+  fill: none;
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
 /* Notification Styles */
 .wishlist-notification {
   position: fixed;

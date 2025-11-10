@@ -698,13 +698,16 @@
 
   .header-menu__overlay-layer {
     position: fixed;
-    inset: 0;
-    background-color: rgb(var(--color-background-rgb) / var(--menu-overlay-opacity, 0.4));
+    top: var(--header-group-height, var(--header-height, 0px));
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0 0 0 / var(--menu-overlay-opacity, 0.4));
     backdrop-filter: blur(var(--menu-overlay-blur, 0px));
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--animation-speed) var(--animation-easing);
-    z-index: var(--layer-overlay);
+    z-index: var(--layer-heightened);
   }
 
   .header-menu--overlay:hover .header-menu__overlay-layer,

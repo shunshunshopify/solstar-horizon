@@ -116,9 +116,8 @@
     "open": "オープン"
   },
   "header_menu": {
-    "second_level_font_size": "第2階層の文字サイズ",
-    "third_level_font_size": "第3階層の文字サイズ",
-    "mobile_top_level_size": "最上位サイズ"
+    "second-level_font_size": "第2階層の文字サイズ",
+    "third-level_font_size": "第3階層の文字サイズ"
   },
   "content": {
     "reviews": "レビュー",

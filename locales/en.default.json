@@ -146,7 +146,11 @@
   },
   "header_menu": {
     "second_level_font_size": "Second-level font size",
-    "third_level_font_size": "Third-level font size"
+    "third_level_font_size": "Third-level font size",
+    "enable_link_hover_animation": "Enable link hover animation",
+    "enable_menu_overlay": "Enable menu overlay",
+    "menu_overlay_opacity": "Overlay opacity",
+    "menu_overlay_blur": "Overlay blur"
   },
   "content": {
     "discount": "Discount",

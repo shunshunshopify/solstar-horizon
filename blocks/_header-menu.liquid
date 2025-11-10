@@ -10,6 +10,23 @@
   assign animation_speed = 200
 %}
 
+{% capture header_menu_vars %}
+  --submenu-animation-speed: {{ animation_speed }}ms;
+{% endcapture %}
+
+{% capture header_menu_overlay_vars %}
+  {% if block_settings.enable_menu_overlay %}
+    --menu-overlay-opacity: {{ block_settings.menu_overlay_opacity | default: 40 | divided_by: 100.0 }};
+    --menu-overlay-blur: {{ block_settings.menu_overlay_blur | default: 8 }}px;
+  {% endif %}
+{% endcapture %}
+
+{% if block_settings.enable_link_hover_animation %}
+  {% assign header_menu_class = 'header-menu mobile:hidden header-menu--hover-animation' %}
+{% else %}
+  {% assign header_menu_class = 'header-menu mobile:hidden' %}
+{% endif %}
+
 {% case variant %}
   {% when 'mobile' %}
     <div
@@ -56,10 +73,10 @@
   {% else %}
     <header-menu
       ref="headerMenu"
-      class="header-menu mobile:hidden"
+      class="{{ header_menu_class }}"
       data-animation-delay="{{ animation_speed }}"
       {{ block.shopify_attributes }}
-      style="--submenu-animation-speed: {{ animation_speed }}ms;"
+      style="{{ header_menu_vars | strip }}"
     >
       <div class="header-menu__inner">
         {%- render 'header-menu' %}
@@ -71,6 +88,16 @@
         fetchpriority="low"
       ></script>
     </header-menu>
+
+    {% if block_settings.enable_menu_overlay %}
+      <div
+        class="header-menu__overlay-layer"
+        aria-hidden="true"
+        {% if header_menu_overlay_vars != blank %}
+          style="{{ header_menu_overlay_vars | strip }}"
+        {% endif %}
+      ></div>
+    {% endif %}
 {% endcase %}
 
 {% stylesheet %}
@@ -196,6 +223,45 @@
     }
   }
 
+  .header-menu--hover-animation .menu-list__link {
+    position: relative;
+    display: inline-block;
+    padding-block: var(--padding-3xs);
+    color: var(--menu-top-level-font-color);
+  }
+
+  .header-menu--hover-animation .menu-list__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .header-menu--hover-animation .menu-list__link {
+      transition: color var(--animation-speed) var(--animation-easing);
+    }
+
+    .header-menu--hover-animation .menu-list__link::after {
+      transition: transform var(--animation-speed) var(--animation-easing);
+    }
+
+    .header-menu--hover-animation .menu-list__link:hover,
+    .header-menu--hover-animation .menu-list__link:focus {
+      color: var(--menu-hover-highlight, var(--color-primary-button-background));
+    }
+
+    .header-menu--hover-animation .menu-list__link:hover::after,
+    .header-menu--hover-animation .menu-list__link:focus::after {
+      transform: scaleX(1);
+    }
+  }
+
   /*
       High specificity selectors to subdue non-hovered links without javascript.
       If the need for js-generated `hovered` and `focused` classes arises for another reason we can simplify these.
@@ -264,7 +330,7 @@
   .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu,
   .overflow-menu::part(overflow) {
     --submenu-content-opacity: 0;
-    --submenu-content-animation: opacity calc(var(--submenu-animation-speed) * 0.75) var(--animation-easing);
+    --submenu-content-animation: opacity 0.8s ease;
 
     box-shadow: var(--shadow-drawer);
     visibility: hidden;
@@ -641,6 +707,25 @@
     /* preserves the inherited grid layout when this submenu wrapper is used */
     display: contents;
   }
+
+  .header-menu__overlay-layer {
+    position: fixed;
+    top: var(--header-group-height, var(--header-height, 0px));
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0 0 0 / var(--menu-overlay-opacity, 0.4));
+    backdrop-filter: blur(var(--menu-overlay-blur, 0px));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+    z-index: var(--layer-heightened);
+  }
+
+  header-menu:hover + .header-menu__overlay-layer,
+  header-menu:focus-within + .header-menu__overlay-layer {
+    opacity: 1;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -799,6 +884,34 @@
     {
       "type": "header",
       "content": "t:content.submenu_feature"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_menu_overlay",
+      "label": "t:header_menu.enable_menu_overlay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "menu_overlay_opacity",
+      "label": "t:header_menu.menu_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%",
+      "visible_if": "{{ block.settings.enable_menu_overlay }}"
+    },
+    {
+      "type": "range",
+      "id": "menu_overlay_blur",
+      "label": "t:header_menu.menu_overlay_blur",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 8,
+      "unit": "px",
+      "visible_if": "{{ block.settings.enable_menu_overlay }}"
     },
     {
       "type": "select",

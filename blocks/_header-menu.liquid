@@ -545,6 +545,28 @@
     }
   }
 
+  .mega-menu__list--media-grid {
+    gap: clamp(var(--menu-vertical-gap), 1.8rem, var(--gap-3xl))
+      clamp(var(--menu-horizontal-gap), 1.8rem, var(--gap-3xl));
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .mega-menu__list--text-columns {
+      max-width: min(80rem, 100%);
+      width: 100%;
+      margin-inline: auto;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mega-menu__list--text-columns .mega-menu__column {
+      grid-column: span 1 !important;
+    }
+  }
+
   .mega-menu__content {
     grid-column: span var(--menu-content-columns-tablet) / -1;
 

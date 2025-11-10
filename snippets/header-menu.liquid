@@ -1,6 +1,9 @@
 {% liquid
   assign block_settings = block.settings
   assign menu_content_type = block_settings.menu_style | default: 'text'
+  if menu_content_type == 'featured_products' and block_settings.enable_featured_products_preview != true
+    assign menu_content_type = 'text'
+  endif
   assign image_border_radius = block_settings.image_border_radius
   assign color_scheme_classes = ''
   assign color_scheme_setting_id = 'color_scheme_' | append: section.settings.menu_row

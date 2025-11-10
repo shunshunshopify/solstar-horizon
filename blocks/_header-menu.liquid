@@ -21,15 +21,10 @@
   {% endif %}
 {% endcapture %}
 
-{% assign header_menu_wrapper_class = 'header-menu-wrapper' %}
 {% if block_settings.enable_link_hover_animation %}
   {% assign header_menu_class = 'header-menu mobile:hidden header-menu--hover-animation' %}
 {% else %}
   {% assign header_menu_class = 'header-menu mobile:hidden' %}
-{% endif %}
-
-{% if block_settings.enable_menu_overlay %}
-  {% assign header_menu_wrapper_class = header_menu_wrapper_class | append: ' header-menu-wrapper--overlay' %}
 {% endif %}
 
 {% case variant %}
@@ -76,34 +71,33 @@
       </div>
     {% endif %}
   {% else %}
-    <div
-      class="{{ header_menu_wrapper_class }}"
-      {% if header_menu_overlay_vars != blank %}
-        style="{{ header_menu_overlay_vars | strip }}"
-      {% endif %}
+    <header-menu
+      ref="headerMenu"
+      class="{{ header_menu_class }}"
+      data-animation-delay="{{ animation_speed }}"
+      {{ block.shopify_attributes }}
+      style="{{ header_menu_vars | strip }}"
     >
-      <header-menu
-        ref="headerMenu"
-        class="{{ header_menu_class }}"
-        data-animation-delay="{{ animation_speed }}"
-        {{ block.shopify_attributes }}
-        style="{{ header_menu_vars | strip }}"
-      >
-        <div class="header-menu__inner">
-          {%- render 'header-menu' %}
-        </div>
+      <div class="header-menu__inner">
+        {%- render 'header-menu' %}
+      </div>
 
-        <script
-          src="{{ 'header-menu.js' | asset_url }}"
-          type="module"
-          fetchpriority="low"
-        ></script>
-      </header-menu>
+      <script
+        src="{{ 'header-menu.js' | asset_url }}"
+        type="module"
+        fetchpriority="low"
+      ></script>
+    </header-menu>
 
-      {% if block_settings.enable_menu_overlay %}
-        <div class="header-menu__overlay-layer" aria-hidden="true"></div>
-      {% endif %}
-    </div>
+    {% if block_settings.enable_menu_overlay %}
+      <div
+        class="header-menu__overlay-layer"
+        aria-hidden="true"
+        {% if header_menu_overlay_vars != blank %}
+          style="{{ header_menu_overlay_vars | strip }}"
+        {% endif %}
+      ></div>
+    {% endif %}
 {% endcase %}
 
 {% stylesheet %}
@@ -714,10 +708,6 @@
     display: contents;
   }
 
-  .header-menu-wrapper--overlay {
-    position: relative;
-  }
-
   .header-menu__overlay-layer {
     position: fixed;
     top: var(--header-group-height, var(--header-height, 0px));
@@ -732,8 +722,8 @@
     z-index: var(--layer-heightened);
   }
 
-  .header-menu-wrapper--overlay:hover .header-menu__overlay-layer,
-  .header-menu-wrapper--overlay:focus-within .header-menu__overlay-layer {
+  header-menu:hover + .header-menu__overlay-layer,
+  header-menu:focus-within + .header-menu__overlay-layer {
     opacity: 1;
   }
 {% endstylesheet %}

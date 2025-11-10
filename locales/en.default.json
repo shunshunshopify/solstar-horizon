@@ -144,6 +144,10 @@
       "success": "Comment posted"
     }
   },
+  "header_menu": {
+    "second_level_font_size": "Second-level font size",
+    "third_level_font_size": "Third-level font size"
+  },
   "content": {
     "discount": "Discount",
     "account_title": "Account",

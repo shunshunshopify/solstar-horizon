@@ -71,9 +71,15 @@
     endif
   endif
 %}
+{% assign list_classes = 'mega-menu__list list-unstyled' %}
+{% if menu_content_type == 'text' %}
+  {% assign list_classes = list_classes | append: ' mega-menu__list--text-columns' %}
+{% else %}
+  {% assign list_classes = list_classes | append: ' mega-menu__list--media-grid' %}
+{% endif %}
 <ul
   data-menu-list-id="{{ id }}"
-  class="mega-menu__list list-unstyled"
+  class="{{ list_classes }}"
   style="--menu-image-border-radius: {{ image_border_radius }}px;"
 >
   {% for link in parent_link.links %}

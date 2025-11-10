@@ -756,6 +756,7 @@
       "type": "select",
       "id": "menu_style",
       "label": "t:settings.media_type",
+      "info": "t:info.media_type_info",
       "options": [
         {
           "value": "text",
@@ -775,18 +776,6 @@
         }
       ],
       "default": "collection_images"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_featured_products_preview",
-      "label": "Enable featured products display / おすすめ商品表示を有効にする",
-      "default": false,
-      "info": "Showcase products from the linked collection when 'Featured products' is selected. / 「おすすめ商品」を選択した際に、リンクされたコレクションの商品を表示します。"
-    },
-    {
-      "type": "paragraph",
-      "content": "Featured products show up to three items pulled from the collection assigned to each top-level link. 「おすすめ商品」を選択すると、各トップレベルメニューに紐づくコレクションから最大3商品が表示されます。",
-      "visible_if": "{{ block.settings.menu_style == 'featured_products' }}"
     },
     {
       "type": "select",

@@ -10,13 +10,27 @@
   assign animation_speed = 200
 %}
 
-{% capture header_menu_style %}
+{% capture header_menu_vars %}
   --submenu-animation-speed: {{ animation_speed }}ms;
+{% endcapture %}
+
+{% capture header_menu_overlay_vars %}
   {% if block_settings.enable_menu_overlay %}
     --menu-overlay-opacity: {{ block_settings.menu_overlay_opacity | default: 40 | divided_by: 100.0 }};
     --menu-overlay-blur: {{ block_settings.menu_overlay_blur | default: 8 }}px;
   {% endif %}
 {% endcapture %}
+
+{% assign header_menu_wrapper_class = 'header-menu-wrapper' %}
+{% if block_settings.enable_link_hover_animation %}
+  {% assign header_menu_class = 'header-menu mobile:hidden header-menu--hover-animation' %}
+{% else %}
+  {% assign header_menu_class = 'header-menu mobile:hidden' %}
+{% endif %}
+
+{% if block_settings.enable_menu_overlay %}
+  {% assign header_menu_wrapper_class = header_menu_wrapper_class | append: ' header-menu-wrapper--overlay' %}
+{% endif %}
 
 {% case variant %}
   {% when 'mobile' %}
@@ -62,26 +76,34 @@
       </div>
     {% endif %}
   {% else %}
-    <header-menu
-      ref="headerMenu"
-      class="header-menu mobile:hidden{% if block_settings.enable_link_hover_animation %} header-menu--hover-animation{% endif %}{% if block_settings.enable_menu_overlay %} header-menu--overlay{% endif %}"
-      data-animation-delay="{{ animation_speed }}"
-      {{ block.shopify_attributes }}
-      style="{{ header_menu_style | strip }}"
+    <div
+      class="{{ header_menu_wrapper_class }}"
+      {% if header_menu_overlay_vars != blank %}
+        style="{{ header_menu_overlay_vars | strip }}"
+      {% endif %}
     >
-      <div class="header-menu__inner">
-        {%- render 'header-menu' %}
-      </div>
+      <header-menu
+        ref="headerMenu"
+        class="{{ header_menu_class }}"
+        data-animation-delay="{{ animation_speed }}"
+        {{ block.shopify_attributes }}
+        style="{{ header_menu_vars | strip }}"
+      >
+        <div class="header-menu__inner">
+          {%- render 'header-menu' %}
+        </div>
+
+        <script
+          src="{{ 'header-menu.js' | asset_url }}"
+          type="module"
+          fetchpriority="low"
+        ></script>
+      </header-menu>
+
       {% if block_settings.enable_menu_overlay %}
         <div class="header-menu__overlay-layer" aria-hidden="true"></div>
       {% endif %}
-
-      <script
-        src="{{ 'header-menu.js' | asset_url }}"
-        type="module"
-        fetchpriority="low"
-      ></script>
-    </header-menu>
+    </div>
 {% endcase %}
 
 {% stylesheet %}
@@ -692,7 +714,7 @@
     display: contents;
   }
 
-  .header-menu--overlay {
+  .header-menu-wrapper--overlay {
     position: relative;
   }
 
@@ -710,8 +732,8 @@
     z-index: var(--layer-heightened);
   }
 
-  .header-menu--overlay:hover .header-menu__overlay-layer,
-  .header-menu--overlay:focus-within .header-menu__overlay-layer {
+  .header-menu-wrapper--overlay:hover .header-menu__overlay-layer,
+  .header-menu-wrapper--overlay:focus-within .header-menu__overlay-layer {
     opacity: 1;
   }
 {% endstylesheet %}

@@ -115,6 +115,11 @@
     "show_all_options": "すべてのオプションを表示する",
     "open": "オープン"
   },
+  "header_menu": {
+    "second_level_font_size": "第2階層の文字サイズ",
+    "third_level_font_size": "第3階層の文字サイズ",
+    "mobile_top_level_size": "最上位サイズ"
+  },
   "content": {
     "reviews": "レビュー",
     "language": "言語",

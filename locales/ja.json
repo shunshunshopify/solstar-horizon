@@ -117,7 +117,11 @@
   },
   "header_menu": {
     "second_level_font_size": "第2階層の文字サイズ",
-    "third_level_font_size": "第3階層の文字サイズ"
+    "third_level_font_size": "第3階層の文字サイズ",
+    "enable_link_hover_animation": "リンクホバーアニメーションを有効にする",
+    "enable_menu_overlay": "メニューのオーバーレイを有効にする",
+    "menu_overlay_opacity": "オーバーレイの不透明度",
+    "menu_overlay_blur": "オーバーレイのぼかし"
   },
   "content": {
     "reviews": "レビュー",

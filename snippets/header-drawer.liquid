@@ -649,6 +649,19 @@
     position: initial;
   }
 
+  .header-drawer {
+    --menu-parent-font-size: var(
+      --menu-parent-font-size-mobile,
+      var(--menu-parent-font-size-desktop, var(--menu-parent-font-size))
+    );
+  }
+
+  @media screen and (min-width: 990px) {
+    .header-drawer {
+      --menu-parent-font-size: var(--menu-parent-font-size-desktop, var(--menu-parent-font-size));
+    }
+  }
+
   @media screen and (min-width: 750px) {
     .header--desktop header-menu + .header__drawer header-drawer {
       display: none;

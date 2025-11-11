@@ -64,7 +64,11 @@
   <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;" aria-hidden="true">
 
     {% assign current_video_url = section.settings.video_url | strip %}
-    {% assign has_video_url = current_video_url != blank %}
+    {% if current_video_url != blank %}
+      {% assign has_video_url = true %}
+    {% else %}
+      {% assign has_video_url = false %}
+    {% endif %}
 
     {% if has_video_url %}
       {% assign extension = current_video_url | slice: -4, 4 %}

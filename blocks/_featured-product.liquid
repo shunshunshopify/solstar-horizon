@@ -1,16 +1,30 @@
+{% liquid
+  assign product = closest.product
+%}
+
 {% capture product_card_children %}
   <div class="featured-product-content-top">
     {% content_for 'block', type: 'product-title', id: 'featured-product-title' %}
 
     {% content_for 'block', type: '_featured-product-price', id: 'featured-product-price' %}
   </div>
-  {% content_for 'block', type: '_featured-product-gallery', id: 'featured-product-gallery' %}
+  <div class="featured-product-gallery-wrapper">
+    {% if settings.enable_wishlist_icon and product %}
+      {% render 'wishlist-button', product: product, location: 'collection' %}
+    {% endif %}
+    {% content_for 'block', type: '_featured-product-gallery', id: 'featured-product-gallery' %}
+  </div>
   <div class="featured-product-content-bottom">
     {%- content_for 'block', type: 'swatches', id: 'featured-product-swatches' -%}
   </div>
 {% endcapture %}
 
-{% render 'product-card', children: product_card_children, product: closest.product, product_card_gap: 8 %}
+{% render 'product-card',
+  children: product_card_children,
+  product: product,
+  product_card_gap: 8,
+  show_wishlist_button: false
+%}
 
 {% stylesheet %}
   .featured-product-content-top {
@@ -22,6 +36,19 @@
 
   .featured-product-content-bottom:not(:has(product-swatches)) {
     display: none;
+  }
+
+  .featured-product-gallery-wrapper {
+    position: relative;
+  }
+
+  .featured-product-gallery-wrapper .wishlist-button--collection {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: auto;
+    background: var(--wishlist-heart-background, #ffffff);
+    z-index: 2;
   }
 {% endstylesheet %}
 

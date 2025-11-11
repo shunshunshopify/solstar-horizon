@@ -31,10 +31,24 @@
   }
 {% endif %}
 
-{% comment %} Since we always have a video (either custom or default), text should always be white {% endcomment %}
+{% comment %} Since we always have a video (either custom or a placeholder), text should always be white {% endcomment %}
 .hero__title, .hero__subtitle{
   color: #fff;
   opacity: 1;
+}
+
+.hero--{{ section.id }} .hero-video__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero--{{ section.id }} .hero-video__placeholder-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 {% endstyle %}
@@ -48,16 +62,16 @@
 
   <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;" aria-hidden="true">
 
-    {% comment %} Set default video if no video URL is provided {% endcomment %}
-    {% assign default_video_url = 'https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH' %}
-    {% assign current_video_url = section.settings.video_url | default: default_video_url %}
-    
-    {% if current_video_url == blank %}
-      {% assign current_video_url = default_video_url %}
+    {% assign current_video_url = section.settings.video_url | strip %}
+    {% if current_video_url != blank %}
+      {% assign has_video_url = true %}
+    {% else %}
+      {% assign has_video_url = false %}
     {% endif %}
-    
-    {% assign extension = current_video_url | slice: -4, 4 %}
-    {% if extension == '.mp4' %}
+
+    {% if has_video_url %}
+      {% assign extension = current_video_url | slice: -4, 4 %}
+      {% if extension == '.mp4' %}
       <video
         id="Mp4Video-{{ section.id }}"
         class="video-div"
@@ -66,7 +80,7 @@
         aria-label="Background video"
         aria-hidden="true"
         autoplay loop muted playsinline></video>
-    {% else %}
+      {% else %}
 
       {% comment %} Improved YouTube video ID extraction with better edge case handling {% endcomment %}
       {% assign video_id = '' %}
@@ -179,7 +193,6 @@
             const videoId = '{{ video_id }}';
             const sectionId = '{{ section.id }}';
             const containerId = `youtube-player-${sectionId}`;
-            const isDefaultVideo = '{{ current_video_url }}' === '{{ default_video_url }}';
             
             // Check for reduced motion preference
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -187,7 +200,6 @@
             console.log('Loading video for section {{ section.id }}:', {
               videoId: videoId,
               videoUrl: '{{ current_video_url }}',
-              isDefaultVideo: isDefaultVideo,
               reducedMotion: prefersReducedMotion
             });
 
@@ -410,7 +422,13 @@
         role="img">
       </div>
 
-    {%- endif -%}</div>
+      {% endif %}
+    {% else %}
+      <div class="hero-video__placeholder" aria-hidden="true">
+        {{ 'hero-apparel-3' | placeholder_svg_tag: 'placeholder-svg hero-video__placeholder-svg' }}
+      </div>
+    {% endif %}
+  </div>
 
   <div class="hero__container spacing-style section section--full-width">
     <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
@@ -558,7 +576,6 @@
       "type": "text",
       "id": "video_url",
       "label": "t:sections.hero_video.settings.video_url.label",
-      "default": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
       "info": "t:sections.hero_video.settings.video_url.info"
     },
     {

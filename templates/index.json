@@ -125,10 +125,10 @@
         "color_scheme": "",
         "style_class": "button",
         "text_align": "vertical-center horizontal-center",
-        "video_url": "https://youtu.be/_9VUPq3SxOc?si=VS8L5ubdPp7rvEUH",
+        "video_url": "https://youtu.be/FFliJVuKe5Q?si=Db1nv36kuhtAMEmq",
         "overlay_opacity": 0,
-        "section_height": "650px",
-        "mobile_height": "auto",
+        "section_height": "16-9",
+        "mobile_height": "850px",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
@@ -860,6 +860,7 @@
           "name": "t:names.video",
           "settings": {
             "source": "uploaded",
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": true,
             "alt": "",

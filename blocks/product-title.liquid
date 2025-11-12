@@ -1,6 +1,6 @@
 {% liquid
   assign title_classes = 'product-card__title'
-  if section.settings.enable_product_title_line_clamp
+  if enable_product_title_line_clamp or section.settings.enable_product_title_line_clamp
     assign title_classes = title_classes | append: ' product-card__title--clamp'
   endif
 %}

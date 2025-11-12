@@ -97,8 +97,10 @@
 
 {% liquid
   assign clamp_titles = false
-  if settings.enable_product_title_line_clamp and (layout_type == 'grid' or layout_type == 'carousel')
-    assign clamp_titles = true
+  if settings.enable_product_title_line_clamp
+    if layout_type == 'grid' or layout_type == 'carousel'
+      assign clamp_titles = true
+    endif
   endif
 %}
 

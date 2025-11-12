@@ -1494,5 +1494,9 @@
     "enable_menu_overlay": "メニューのオーバーレイを有効にする",
     "menu_overlay_opacity": "オーバーレイの不透明度",
     "menu_overlay_blur": "オーバーレイのぼかし"
+  },
+  "product_title_block": {
+    "limit_lines_label": "タイトルを2行までに制限",
+    "limit_lines_info": "カード上の商品のタイトルを2行目以降で省略します。"
   }
 }

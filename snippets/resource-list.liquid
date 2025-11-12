@@ -95,6 +95,11 @@
   assign resource_list_styles = resource_list_styles | strip
 %}
 
+  assign clamp_titles = false
+  if settings.enable_product_title_line_clamp and (layout_type == 'grid' or layout_type == 'carousel')
+    assign clamp_titles = true
+  endif
+
 <div
   class="
     resource-list
@@ -105,6 +110,9 @@
       hidden--mobile
     {% endif %}
     {{ resource_list_classes }}
+    {% if clamp_titles %}
+      resource-list--clamp-titles
+    {% endif %}
   "
   style="{{ resource_list_styles }}"
   {% if test_id %}
@@ -154,6 +162,9 @@
       hidden--desktop
       resource-list__carousel
       force-full-width
+      {% if clamp_titles %}
+        resource-list--clamp-titles
+      {% endif %}
     "
     style="
       --resource-list-column-gap-desktop: {{ mobile_carousel_gap }}px;

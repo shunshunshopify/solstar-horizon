@@ -41,7 +41,6 @@
     %}
 
     {% assign products_per_page = 24 %}
-    {% assign enable_product_title_line_clamp = section.settings.enable_product_title_line_clamp %}
 
     {% if section.settings.enable_infinite_scroll == false %}
       {% assign products_per_page = section.settings.products_per_page %}
@@ -148,11 +147,7 @@
     }
   }
 
-  .product-card__title--clamp {
-    display: block;
-  }
-
-  .product-card__title--clamp > * {
+  .product-grid-container--title-clamp .product-card__title {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

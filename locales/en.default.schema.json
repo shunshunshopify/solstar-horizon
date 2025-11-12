@@ -1465,6 +1465,10 @@
     "menu_overlay_opacity": "Overlay opacity",
     "menu_overlay_blur": "Overlay blur"
   },
+  "product_title_block": {
+    "limit_lines_label": "Limit title to two lines",
+    "limit_lines_info": "Truncates the product title after the second line on cards."
+  },
   "text_defaults": {
     "accordion_heading": "Accordion heading",
     "are_purchases_final_sale": "Are any purchases final sale?",

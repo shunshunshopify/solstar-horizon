@@ -1,6 +1,12 @@
 {% liquid
   assign title_classes = 'product-card__title'
-  if block.settings.limit_product_title_lines
+  assign apply_line_clamp = false
+
+  if block.settings.limit_product_title_lines and template.name == 'collection'
+    assign apply_line_clamp = true
+  endif
+
+  if apply_line_clamp
     assign title_classes = title_classes | append: ' product-card__title--clamp'
   endif
 %}

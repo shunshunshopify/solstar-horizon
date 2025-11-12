@@ -147,12 +147,17 @@
     }
   }
 
-  .product-grid-container--title-clamp .product-card__title {
+  .product-card__title--clamp {
+    display: block;
+  }
+
+  .product-card__title--clamp > * {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     line-clamp: 2;
+    text-overflow: ellipsis;
   }
 {% endstylesheet %}
 

@@ -711,7 +711,7 @@
 
   .header-menu__overlay-layer {
     position: fixed;
-    top: var(--header-group-height, var(--header-height, 0px));
+    top: calc(var(--header-group-height, var(--header-height, 0px)) + (var(--header-height, 0px) * var(--transparent-header-offset-boolean, 0)));
     left: 0;
     right: 0;
     bottom: 0;
@@ -721,10 +721,6 @@
     pointer-events: none;
     transition: opacity 0.7s ease;
     z-index: var(--layer-heightened);
-  }
-
-  .header[transparent] .header-menu__overlay-layer {
-    top: calc(var(--header-group-height, 0px) + var(--header-height, 0px));
   }
 
   header-menu:hover + .header-menu__overlay-layer,

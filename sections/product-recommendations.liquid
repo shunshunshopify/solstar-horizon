@@ -22,6 +22,13 @@
     echo '--column-count: ' | append: section.settings.columns | append: ';'
     echo '--column-count-mobile: ' | append: section.settings.mobile_columns | append: ';'
   endcapture
+
+  assign clamp_titles = false
+  if section.settings.enable_product_title_line_clamp
+    if section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel'
+      assign clamp_titles = true
+    endif
+  endif
 %}
 
 <product-recommendations
@@ -110,6 +117,9 @@
             hidden--mobile
           {% endif %}
           {{ classes }}
+          {% if clamp_titles %}
+            resource-list--clamp-titles
+          {% endif %}
         "
         {% if section.settings.layout_type == 'grid' %}
           data-testid="resource-list-grid"
@@ -138,6 +148,9 @@
             resource-list
             hidden--desktop
             force-full-width
+            {% if clamp_titles %}
+              resource-list--clamp-titles
+            {% endif %}
           "
           style="
             --resource-list-gap: {{ mobile_carousel_gap }}px;
@@ -183,6 +196,19 @@
 
   product-recommendations:has([data-has-recommendations='false']) {
     display: none;
+  }
+
+  .resource-list--clamp-titles .product-card__title {
+    display: block;
+  }
+
+  .resource-list--clamp-titles .product-card__title > * {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
   }
 {% endstylesheet %}
 
@@ -333,6 +359,14 @@
       "unit": "px",
       "default": 16,
       "visible_if": "{{ section.settings.layout_type == 'grid' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_product_title_line_clamp",
+      "label": "t:product_title_block.limit_lines_label",
+      "info": "t:product_title_block.limit_lines_info",
+      "default": false,
+      "visible_if": "{{ section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel' }}"
     },
     {
       "type": "header",

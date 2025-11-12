@@ -1467,7 +1467,7 @@
   },
   "product_title_block": {
     "limit_lines_label": "Limit title to two lines",
-    "limit_lines_info": "Truncates the product title after the second line on cards."
+    "limit_lines_info": "Truncates the product title after the second line on collection cards."
   },
   "text_defaults": {
     "accordion_heading": "Accordion heading",

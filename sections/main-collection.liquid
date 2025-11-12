@@ -23,7 +23,7 @@
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <results-list
-  class="section product-grid-container color-{{ section.settings.color_scheme }}"
+  class="section product-grid-container color-{{ section.settings.color_scheme }}{% if section.settings.enable_product_title_line_clamp %} product-grid-container--title-clamp{% endif %}"
   style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
   section-id="{{ section.id }}"
   infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
@@ -145,6 +145,19 @@
       margin-inline-start: calc(-1 * max(var(--padding-xs), var(--padding-inline-start)));
       margin-inline-end: calc(-1 * max(var(--padding-xs), var(--padding-inline-end)));
     }
+  }
+
+  .product-grid-container--title-clamp .product-card__title {
+    display: block;
+  }
+
+  .product-grid-container--title-clamp .product-card__title > * {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
   }
 
 {% endstylesheet %}
@@ -275,6 +288,13 @@
       "step": 1,
       "unit": "px",
       "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_product_title_line_clamp",
+      "label": "t:product_title_block.limit_lines_label",
+      "info": "t:product_title_block.limit_lines_info",
+      "default": false
     },
     {
       "type": "range",

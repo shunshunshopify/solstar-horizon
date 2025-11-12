@@ -723,6 +723,10 @@
     z-index: var(--layer-heightened);
   }
 
+  .header[transparent] .header-menu__overlay-layer {
+    top: calc(var(--header-group-height, 0px) + var(--header-height, 0px));
+  }
+
   header-menu:hover + .header-menu__overlay-layer,
   header-menu:focus-within + .header-menu__overlay-layer {
     opacity: 1;

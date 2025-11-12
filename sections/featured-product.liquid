@@ -9,6 +9,7 @@
     section
     section--full-width
     color-{{ section.settings.color_scheme }}
+    {% if section.settings.enable_product_title_line_clamp %}featured-product-section--clamp-titles{% endif %}
   "
 >
   <div
@@ -76,6 +77,19 @@
       order: -1;
     }
   }
+
+  .featured-product-section--clamp-titles .product-card__title {
+    display: block;
+  }
+
+  .featured-product-section--clamp-titles .product-card__title > * {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -135,6 +149,13 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_product_title_line_clamp",
+      "label": "t:product_title_block.limit_lines_label",
+      "info": "t:product_title_block.limit_lines_info",
+      "default": false
     }
   ],
   "presets": [

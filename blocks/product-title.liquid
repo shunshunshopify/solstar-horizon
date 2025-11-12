@@ -22,6 +22,10 @@
 
 {% stylesheet %}
   .product-card__title--clamp {
+    display: block; /* override text-block default flex */
+  }
+
+  .product-card__title--clamp > * {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

@@ -83,6 +83,12 @@
                   endif
                   assign form_error_id = modal_id | append: '-form-error'
                   assign form_success_id = modal_id | append: '-form-success'
+                  assign success_message = section.settings.success_message
+                  if success_message == blank
+                    assign success_message = 'blocks.email_signup.success' | t
+                  endif
+                  assign success_discount_label = section.settings.success_discount_label
+                  assign success_discount_code = section.settings.success_discount_code | strip
                 %}
                 <div class="field">
                   <input
@@ -145,7 +151,19 @@
                     <span class="svg-wrapper icon-success">
                       {{ 'icon-checkmark.svg' | inline_asset_content }}
                     </span>
-                    <p class="email-signup__message-text">{{ 'blocks.email_signup.success' | t }}</p>
+                    <div class="newsletter-modal__success-details">
+                      {% if success_message != blank %}
+                        <p class="email-signup__message-text">{{ success_message }}</p>
+                      {% endif %}
+                      {% if success_discount_code != blank %}
+                        <p class="newsletter-modal__discount">
+                          {% if success_discount_label != blank %}
+                            <span class="newsletter-modal__discount-label">{{ success_discount_label }}</span>
+                          {% endif %}
+                          <span class="newsletter-modal__discount-code">{{ success_discount_code }}</span>
+                        </p>
+                      {% endif %}
+                    </div>
                   </div>
                 {% endif %}
               {% endform %}
@@ -357,6 +375,28 @@
       "id": "text_form_btn_text",
       "label": "t:sections.newsletter_popup.settings.text_form_btn_text.label",
       "default": "t:sections.newsletter_popup.settings.text_form_btn_text.default"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.newsletter_popup.settings.success_state"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "t:sections.newsletter_popup.settings.success_message.label",
+      "default": "t:sections.newsletter_popup.settings.success_message.default"
+    },
+    {
+      "type": "text",
+      "id": "success_discount_label",
+      "label": "t:sections.newsletter_popup.settings.success_discount_label.label",
+      "default": "t:sections.newsletter_popup.settings.success_discount_label.default"
+    },
+    {
+      "type": "text",
+      "id": "success_discount_code",
+      "label": "t:sections.newsletter_popup.settings.success_discount_code.label",
+      "default": "t:sections.newsletter_popup.settings.success_discount_code.default"
     }
   ]
 }

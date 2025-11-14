@@ -1060,6 +1060,19 @@
         "text_form_btn_text": {
           "label": "ボタンテキスト",
           "default": "購読する"
+        },
+        "success_state": "成功メッセージ",
+        "success_message": {
+          "label": "メッセージ",
+          "default": "ご登録ありがとうございます！"
+        },
+        "success_discount_label": {
+          "label": "割引コードのラベル",
+          "default": "クーポンコード："
+        },
+        "success_discount_code": {
+          "label": "割引コード",
+          "default": "SAVE10"
         }
       }
     },

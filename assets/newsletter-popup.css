@@ -41,7 +41,8 @@
 }
     
 .micromodal__container {
-    background-color: #fff;
+    background-color: var(--color-background, #fff);
+    color: var(--color-foreground, #111);
     padding: 1.5rem;
     margin: 1rem;
     max-width: 500px;

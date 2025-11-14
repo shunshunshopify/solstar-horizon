@@ -29,7 +29,7 @@
         "
       >
         <div
-          class="micromodal__container newsletter-modal__container"
+          class="micromodal__container newsletter-modal__container color-{{ section.settings.color_scheme }}"
           role="dialog"
           aria-modal="true"
           aria-labelledby="{{ label_id }}"
@@ -276,6 +276,12 @@
       "max": 20,
       "step": 1,
       "default": 10
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
     },
     {
       "type": "select",

@@ -67,8 +67,9 @@
     const form = modal.querySelector('.newsletter-modal__form');
     if (form instanceof HTMLFormElement) {
       const action = form.getAttribute('action');
-      if (typeof action === 'string' && action.includes('#')) {
-        form.setAttribute('action', action.split('#')[0]);
+      const sanitizedAction = typeof action === 'string' && action.includes('#') ? action.split('#')[0] : null;
+      if (sanitizedAction) {
+        form.setAttribute('action', sanitizedAction);
       }
     }
 

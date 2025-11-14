@@ -71,11 +71,18 @@
                   {{ section.settings.description }}
                 </div>
               {% endunless %}
-              {% form 'customer', id: modal_id %}
+              {% form 'customer', id: modal_id, class: 'newsletter-modal__form' %}
                 <input type="hidden" name="contact[tags]" value="newsletter">
-                {{ form.errors | default_errors }}
                 {% liquid
-                  assign email_label = section.settings.text_form_input_label | default: 'Email'
+                  if section.settings.text_form_input_label != blank
+                    assign email_label = section.settings.text_form_input_label
+                    assign email_placeholder = section.settings.text_form_input_label
+                  else
+                    assign email_label = 'blocks.email_signup.label' | t
+                    assign email_placeholder = 'blocks.email_signup.placeholder' | t
+                  endif
+                  assign form_error_id = modal_id | append: '-form-error'
+                  assign form_success_id = modal_id | append: '-form-success'
                 %}
                 <div class="field">
                   <input
@@ -84,12 +91,20 @@
                     name="contact[email]"
                     class="form-control field__input"
                     value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
-                    placeholder="{{ email_label }}"
+                    placeholder="{{ email_placeholder }}"
                     autocorrect="off"
                     autocapitalize="off"
+                    autocomplete="email"
                     required
+                    {% if form.errors %}
+                      autofocus
+                      aria-invalid="true"
+                      aria-describedby="{{ form_error_id }}"
+                    {% elsif form.posted_successfully? %}
+                      aria-describedby="{{ form_success_id }}"
+                    {% endif %}
                   >
-                  <label class="field__label" for="{{ modal_id }}-input">
+                  <label class="visually-hidden" for="{{ modal_id }}-input">
                     {{ email_label }}
                   </label>
                 </div>
@@ -100,6 +115,39 @@
                 >
                   {{ section.settings.text_form_btn_text }}
                 </button>
+                {% if form.errors %}
+                  <div
+                    id="{{ form_error_id }}"
+                    class="email-signup__message email-signup__message--error"
+                    tabindex="-1"
+                  >
+                    <svg
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                      focusable="false"
+                      aria-hidden="true"
+                      class="icon-error"
+                    >
+                      {%- render 'icon', icon: 'error' -%}
+                    </svg>
+                    {% if form.errors.translated_fields.email %}
+                      {{- form.errors.translated_fields.email | capitalize }}
+                    {% endif %}
+                    {{ form.errors.messages.email -}}
+                  </div>
+                {% endif %}
+                {% if form.posted_successfully? %}
+                  <div
+                    id="{{ form_success_id }}"
+                    class="email-signup__message email-signup__message--success"
+                    tabindex="-1"
+                  >
+                    <span class="svg-wrapper icon-success">
+                      {{ 'icon-checkmark.svg' | inline_asset_content }}
+                    </span>
+                    <p class="email-signup__message-text">{{ 'blocks.email_signup.success' | t }}</p>
+                  </div>
+                {% endif %}
               {% endform %}
               {% unless section.settings.img %}
                 <style>

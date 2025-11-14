@@ -29,7 +29,7 @@
         "
       >
         <div
-          class="micromodal__container newsletter-modal__container"
+          class="micromodal__container newsletter-modal__container color-{{ section.settings.color_scheme }}"
           role="dialog"
           aria-modal="true"
           aria-labelledby="{{ label_id }}"
@@ -57,20 +57,7 @@
           {% endif %}
 
           <div class="micromodal__container-inner newsletter-modal__content">
-            <header class="micromodal__header newsletter-modal__header">
-              <h2
-                id="{{ label_id }}"
-                class="micromodal__title newsletter-modal__title {{ section.settings.heading_preset }}"
-              >
-                {{ section.settings.title | escape }}
-              </h2>
-            </header>
             <main class="micromodal__content newsletter-modal__body">
-              {% unless section.settings.description == blank %}
-                <div class="newsletter-modal__description rte">
-                  {{ section.settings.description }}
-                </div>
-              {% endunless %}
               {% form 'customer', id: modal_id, class: 'newsletter-modal__form' %}
                 <input type="hidden" name="contact[tags]" value="newsletter">
                 {% liquid
@@ -83,43 +70,67 @@
                   endif
                   assign form_error_id = modal_id | append: '-form-error'
                   assign form_success_id = modal_id | append: '-form-success'
+                  assign success_message = section.settings.success_message
+                  if success_message == blank
+                    assign success_message = 'blocks.email_signup.success' | t
+                  endif
+                  assign success_discount_label = section.settings.success_discount_label
+                  assign success_discount_code = section.settings.success_discount_code | strip
                 %}
-                <div class="field">
-                  <input
-                    id="{{ modal_id }}-input"
-                    type="email"
-                    name="contact[email]"
-                    class="form-control field__input"
-                    value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
-                    placeholder="{{ email_placeholder }}"
-                    autocorrect="off"
-                    autocapitalize="off"
-                    autocomplete="email"
-                    required
-                    {% if form.errors %}
-                      autofocus
-                      aria-invalid="true"
-                      aria-describedby="{{ form_error_id }}"
-                    {% elsif form.posted_successfully? %}
-                      aria-describedby="{{ form_success_id }}"
-                    {% endif %}
+                {% unless form.posted_successfully? %}
+                  <header class="micromodal__header newsletter-modal__header">
+                    <h2
+                      id="{{ label_id }}"
+                      class="micromodal__title newsletter-modal__title {{ section.settings.heading_preset }}"
+                    >
+                      {{ section.settings.title | escape }}
+                    </h2>
+                  </header>
+                  {% unless section.settings.description == blank %}
+                    <div class="newsletter-modal__description rte">
+                      {{ section.settings.description }}
+                    </div>
+                  {% endunless %}
+                {% endunless %}
+                {% unless form.posted_successfully? %}
+                  <div class="field">
+                    <input
+                      id="{{ modal_id }}-input"
+                      type="email"
+                      name="contact[email]"
+                      class="form-control field__input"
+                      value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+                      placeholder="{{ email_placeholder }}"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      required
+                      {% if form.errors %}
+                        autofocus
+                        aria-invalid="true"
+                        aria-describedby="{{ form_error_id }}"
+                      {% elsif form.posted_successfully? %}
+                        aria-describedby="{{ form_success_id }}"
+                      {% endif %}
+                    >
+                    <label class="visually-hidden" for="{{ modal_id }}-input">
+                      {{ email_label }}
+                    </label>
+                  </div>
+                  <button
+                    class="btn button btn-primary button--primary newsletter-modal__submit"
+                    type="submit"
+                    name="commit"
                   >
-                  <label class="visually-hidden" for="{{ modal_id }}-input">
-                    {{ email_label }}
-                  </label>
-                </div>
-                <button
-                  class="btn button btn-primary button--primary newsletter-modal__submit"
-                  type="submit"
-                  name="commit"
-                >
-                  {{ section.settings.text_form_btn_text }}
-                </button>
+                    {{ section.settings.text_form_btn_text }}
+                  </button>
+                {% endunless %}
                 {% if form.errors %}
                   <div
                     id="{{ form_error_id }}"
                     class="email-signup__message email-signup__message--error"
                     tabindex="-1"
+                    data-newsletter-form-error
                   >
                     <svg
                       viewBox="0 0 20 20"
@@ -141,12 +152,27 @@
                     id="{{ form_success_id }}"
                     class="email-signup__message email-signup__message--success"
                     tabindex="-1"
+                    data-newsletter-form-success
                   >
-                    <span class="svg-wrapper icon-success">
-                      {{ 'icon-checkmark.svg' | inline_asset_content }}
-                    </span>
-                    <p class="email-signup__message-text">{{ 'blocks.email_signup.success' | t }}</p>
+                    <div class="newsletter-modal__success-details">
+                      {% if success_message != blank %}
+                        <p class="email-signup__message-text {{ section.settings.heading_preset }}">{{ success_message }}</p>
+                      {% endif %}
+                      {% if success_discount_code != blank %}
+                        <p class="newsletter-modal__discount">
+                          {% if success_discount_label != blank %}
+                            <span class="newsletter-modal__discount-label">{{ success_discount_label }}</span>
+                          {% endif %}
+                          <span class="newsletter-modal__discount-code">{{ success_discount_code }}</span>
+                        </p>
+                      {% endif %}
+                    </div>
                   </div>
+                  <style>
+                    #{{ modal_id }} .newsletter-modal__image {
+                      display: none !important;
+                    }
+                  </style>
                 {% endif %}
               {% endform %}
               {% unless section.settings.img %}
@@ -247,6 +273,12 @@
       "max": 20,
       "step": 1,
       "default": 10
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
     },
     {
       "type": "select",
@@ -357,6 +389,28 @@
       "id": "text_form_btn_text",
       "label": "t:sections.newsletter_popup.settings.text_form_btn_text.label",
       "default": "t:sections.newsletter_popup.settings.text_form_btn_text.default"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.newsletter_popup.settings.success_state"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "t:sections.newsletter_popup.settings.success_message.label",
+      "default": "t:sections.newsletter_popup.settings.success_message.default"
+    },
+    {
+      "type": "text",
+      "id": "success_discount_label",
+      "label": "t:sections.newsletter_popup.settings.success_discount_label.label",
+      "default": "t:sections.newsletter_popup.settings.success_discount_label.default"
+    },
+    {
+      "type": "text",
+      "id": "success_discount_code",
+      "label": "t:sections.newsletter_popup.settings.success_discount_code.label",
+      "default": "t:sections.newsletter_popup.settings.success_discount_code.default"
     }
   ]
 }

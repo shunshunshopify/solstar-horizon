@@ -41,7 +41,8 @@
 }
     
 .micromodal__container {
-    background-color: #fff;
+    background-color: var(--color-background, #fff);
+    color: var(--color-foreground, #111);
     padding: 1.5rem;
     margin: 1rem;
     max-width: 500px;
@@ -200,6 +201,16 @@
     margin-top: 16px;
     font-size: 14px;
     font-style: italic;
+}
+
+.newsletter-modal__body .email-signup__message--success {
+    padding: 32px 24px;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    text-align: center;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .newsletter-modal__image {

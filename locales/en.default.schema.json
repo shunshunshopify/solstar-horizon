@@ -1152,6 +1152,19 @@
         "text_form_btn_text": {
           "label": "Button text",
           "default": "Subscribe"
+        },
+        "success_state": "Success state",
+        "success_message": {
+          "label": "Message",
+          "default": "Thanks for subscribing!"
+        },
+        "success_discount_label": {
+          "label": "Discount label",
+          "default": "Your discount code:"
+        },
+        "success_discount_code": {
+          "label": "Discount code",
+          "default": "SAVE10"
         }
       }
     },

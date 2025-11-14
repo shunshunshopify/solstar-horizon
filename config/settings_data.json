@@ -118,15 +118,18 @@
           "days_to_wait": 1,
           "overlay_opacity": 50,
           "overlay_blur": 3,
+          "color_scheme": "scheme-16",
           "text_align": "center",
-          "img": "shopify://shop_images/Shun_6.jpg",
           "image_focal_point": 0,
           "disable_image_mobile": false,
           "title": "今すぐ10%オフを手に入れませんか？",
           "heading_preset": "h3",
           "description": "<p>最新のオファーをいち早く入手して、次回のご注文で<strong>10%オフ</strong>を受け取りましょう。</p>",
           "text_form_input_label": "メールアドレスを入力してください",
-          "text_form_btn_text": "購読する"
+          "text_form_btn_text": "購読する",
+          "success_message": "ご登録ありがとうございます！",
+          "success_discount_label": "クーポンコード：",
+          "success_discount_code": "SAVE10"
         }
       }
     },

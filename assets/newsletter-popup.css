@@ -215,11 +215,7 @@
 }
 
 .newsletter-modal__body .email-signup__message--success .icon-success {
-    width: 36px;
-    height: 36px;
-    padding: 8px;
-    border-radius: 50%;
-    background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.06);
+    display: none;
 }
 
 .newsletter-modal__body .email-signup__message-text {

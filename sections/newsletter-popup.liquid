@@ -159,7 +159,7 @@
                     </span>
                     <div class="newsletter-modal__success-details">
                       {% if success_message != blank %}
-                        <p class="email-signup__message-text">{{ success_message }}</p>
+                        <p class="email-signup__message-text {{ section.settings.heading_preset }}">{{ success_message }}</p>
                       {% endif %}
                       {% if success_discount_code != blank %}
                         <p class="newsletter-modal__discount">

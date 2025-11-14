@@ -64,6 +64,13 @@
     const shouldOpenOnLoad = Boolean(
       modal.querySelector('[data-newsletter-form-error], [data-newsletter-form-success]')
     );
+    const form = modal.querySelector('.newsletter-modal__form');
+    if (form instanceof HTMLFormElement) {
+      const action = form.getAttribute('action');
+      if (typeof action === 'string' && action.includes('#')) {
+        form.setAttribute('action', action.split('#')[0]);
+      }
+    }
 
     if (shouldForceOpen() || shouldOpenOnLoad) {
       showModal(modal, false);

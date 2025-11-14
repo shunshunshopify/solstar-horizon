@@ -38,7 +38,7 @@
           <button
             class="micromodal__close newsletter-modal__close"
             type="button"
-            aria-label="{{ 'general.close' | t }}"
+            aria-label="{{ 'actions.close' | t }}"
             data-micromodal-close
           >
             {{- 'icon-close.svg' | inline_asset_content -}}
@@ -74,6 +74,9 @@
               {% form 'customer', id: modal_id %}
                 <input type="hidden" name="contact[tags]" value="newsletter">
                 {{ form.errors | default_errors }}
+                {% liquid
+                  assign email_label = section.settings.text_form_input_label | default: 'Email'
+                %}
                 <div class="field">
                   <input
                     id="{{ modal_id }}-input"
@@ -81,13 +84,13 @@
                     name="contact[email]"
                     class="form-control field__input"
                     value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
-                    placeholder="{{ section.settings.text_form_input_label }}"
+                    placeholder="{{ email_label }}"
                     autocorrect="off"
                     autocapitalize="off"
                     required
                   >
                   <label class="field__label" for="{{ modal_id }}-input">
-                    {{ section.settings.text_form_input_label }}
+                    {{ email_label }}
                   </label>
                 </div>
                 <button

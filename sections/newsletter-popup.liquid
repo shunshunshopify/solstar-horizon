@@ -171,6 +171,11 @@
                       {% endif %}
                     </div>
                   </div>
+                  <style>
+                    #{{ modal_id }} .newsletter-modal__image {
+                      display: none !important;
+                    }
+                  </style>
                 {% endif %}
               {% endform %}
               {% unless section.settings.img %}

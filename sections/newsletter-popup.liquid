@@ -57,20 +57,7 @@
           {% endif %}
 
           <div class="micromodal__container-inner newsletter-modal__content">
-            <header class="micromodal__header newsletter-modal__header">
-              <h2
-                id="{{ label_id }}"
-                class="micromodal__title newsletter-modal__title {{ section.settings.heading_preset }}"
-              >
-                {{ section.settings.title | escape }}
-              </h2>
-            </header>
             <main class="micromodal__content newsletter-modal__body">
-              {% unless section.settings.description == blank %}
-                <div class="newsletter-modal__description rte">
-                  {{ section.settings.description }}
-                </div>
-              {% endunless %}
               {% form 'customer', id: modal_id, class: 'newsletter-modal__form' %}
                 <input type="hidden" name="contact[tags]" value="newsletter">
                 {% liquid
@@ -90,6 +77,21 @@
                   assign success_discount_label = section.settings.success_discount_label
                   assign success_discount_code = section.settings.success_discount_code | strip
                 %}
+                {% unless form.posted_successfully? %}
+                  <header class="micromodal__header newsletter-modal__header">
+                    <h2
+                      id="{{ label_id }}"
+                      class="micromodal__title newsletter-modal__title {{ section.settings.heading_preset }}"
+                    >
+                      {{ section.settings.title | escape }}
+                    </h2>
+                  </header>
+                  {% unless section.settings.description == blank %}
+                    <div class="newsletter-modal__description rte">
+                      {{ section.settings.description }}
+                    </div>
+                  {% endunless %}
+                {% endunless %}
                 {% unless form.posted_successfully? %}
                   <div class="field">
                     <input

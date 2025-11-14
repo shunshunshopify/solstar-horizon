@@ -61,8 +61,11 @@
     const delay = Number(modal.dataset.delay || DEFAULT_DELAY);
     const cookieKey = modal.dataset.cookieKey || `newsletter-popup-${modal.dataset.sectionId}`;
     modal.dataset.cookieKey = cookieKey;
+    const shouldOpenOnLoad = Boolean(
+      modal.querySelector('[data-newsletter-form-error], [data-newsletter-form-success]')
+    );
 
-    if (shouldForceOpen()) {
+    if (shouldForceOpen() || shouldOpenOnLoad) {
       showModal(modal, false);
       return;
     }

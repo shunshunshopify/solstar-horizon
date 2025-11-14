@@ -126,6 +126,7 @@
                     id="{{ form_error_id }}"
                     class="email-signup__message email-signup__message--error"
                     tabindex="-1"
+                    data-newsletter-form-error
                   >
                     <svg
                       viewBox="0 0 20 20"
@@ -147,6 +148,7 @@
                     id="{{ form_success_id }}"
                     class="email-signup__message email-signup__message--success"
                     tabindex="-1"
+                    data-newsletter-form-success
                   >
                     <span class="svg-wrapper icon-success">
                       {{ 'icon-checkmark.svg' | inline_asset_content }}

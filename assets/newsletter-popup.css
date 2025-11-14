@@ -203,37 +203,44 @@
 }
 
 .newsletter-modal__body .email-signup__message--success {
-    padding: 28px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.65));
-    color: #fff;
+    padding: 32px 28px;
+    border-radius: 24px;
+    border: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.12);
+    background: linear-gradient(135deg, rgb(var(--color-background-rgb, 255 255 255)), rgb(var(--color-background-rgb, 255 255 255)) 70%);
+    color: var(--color-foreground);
     text-align: center;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
 }
 
 .newsletter-modal__body .email-signup__message--success .icon-success {
-    display: none;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    border-radius: 50%;
+    background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.06);
 }
 
 .newsletter-modal__body .email-signup__message-text {
-    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
     font-weight: 600;
-    margin-bottom: 16px;
+    margin: 0;
 }
 
 .newsletter-modal__success-details {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     margin: 0;
     align-items: center;
 }
 
 .newsletter-modal__discount {
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     margin: 0;
     font-weight: 600;
     width: 100%;
@@ -241,44 +248,23 @@
 
 .newsletter-modal__discount-label {
     text-transform: uppercase;
-    font-size: 0.9em;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85em;
+    letter-spacing: 0.18em;
+    color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.6);
 }
 
 .newsletter-modal__discount-code {
     font-family: var(--font-heading-family, var(--font-body-family, inherit));
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    letter-spacing: 0.3em;
-    padding: 16px 24px;
-    border-radius: 16px;
-    background-color: #fff;
-    color: #111;
-    min-width: 220px;
+    font-size: clamp(1.6rem, 4vw, 2.1rem);
+    letter-spacing: 0.25em;
+    padding: 18px 28px;
+    border-radius: 18px;
+    background-color: rgb(var(--color-background-rgb, 255 255 255));
+    color: var(--color-foreground);
+    min-width: min(320px, 100%);
     text-align: center;
-    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.newsletter-modal__discount-code::after,
-.newsletter-modal__discount-code::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 14px;
-    height: 28px;
-    background: #fff;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    transform: translateY(-50%);
-}
-
-.newsletter-modal__discount-code::before {
-    left: -7px;
-}
-
-.newsletter-modal__discount-code::after {
-    right: -7px;
+    border: 2px dashed rgb(var(--color-foreground-rgb, 0 0 0) / 0.35);
+    box-shadow: inset 0 0 30px rgb(17 24 39 / 0.04);
 }
 
 .newsletter-modal__image {

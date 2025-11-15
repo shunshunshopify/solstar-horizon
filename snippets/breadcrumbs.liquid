@@ -11,7 +11,15 @@
           assign after_collections = path_parts[1]
           assign after_collection_parts = after_collections | split: '/'
           assign collection_handle = after_collection_parts[0]
-          assign breadcrumb_collection = collections[collection_handle]
+
+          if collection_handle != blank and product.collections.size > 0
+            for product_collection in product.collections
+              if product_collection.handle == collection_handle
+                assign breadcrumb_collection = product_collection
+                break
+              endif
+            endfor
+          endif
         endif
       endif
     endif

@@ -2422,24 +2422,24 @@
     ]
   },
   {
-    "name": "Splash Screen",
+    "name": "t:names.splash_screen",
     "settings": [
       {
         "type": "checkbox",
         "id": "enable_splash",
-        "label": "Enable splash screen",
+        "label": "t:settings.enable_splash_screen",
         "default": false
       },
       {
         "type": "image_picker",
         "id": "splash_logo",
-        "label": "Splash logo",
-        "info": "Optional logo shown while the page is loading."
+        "label": "t:settings.splash_logo",
+        "info": "t:settings.splash_logo_info"
       },
       {
         "type": "range",
         "id": "max_logo_width_mob",
-        "label": "Logo width on mobile",
+        "label": "t:settings.max_logo_width_mob",
         "min": 40,
         "max": 400,
         "step": 4,
@@ -2449,7 +2449,7 @@
       {
         "type": "range",
         "id": "max_logo_width_desk",
-        "label": "Logo width on desktop",
+        "label": "t:settings.max_logo_width_desk",
         "min": 40,
         "max": 600,
         "step": 10,
@@ -2459,7 +2459,7 @@
       {
         "type": "color",
         "id": "splash_bg_color",
-        "label": "Background color",
+        "label": "t:settings.splash_bg_color",
         "default": "#ffffff"
       }
     ]

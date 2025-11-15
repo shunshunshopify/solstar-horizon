@@ -356,5 +356,14 @@
   "product_title_block": {
     "limit_lines_label": "タイトルを2行までに制限",
     "limit_lines_info": "コレクションカード上の商品のタイトルを2行目以降で省略します。"
+  },
+  "splash_screen": {
+    "name": "スプラッシュスクリーン",
+    "enable_label": "スプラッシュスクリーンを有効にする",
+    "logo_label": "スプラッシュロゴ",
+    "logo_info": "ページ読み込み中に表示されるロゴを選択します。",
+    "mobile_width_label": "モバイルでのロゴ幅 (px)",
+    "desktop_width_label": "デスクトップでのロゴ幅 (px)",
+    "background_color_label": "背景色"
   }
 }

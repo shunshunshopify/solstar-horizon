@@ -354,6 +354,15 @@ p:empty {
   --page-width: calc(var(--page-content-width) + (var(--page-margin) * 2));
 }
 
+.page-width {
+  width: min(var(--page-width), 100%);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--page-margin);
+  padding-right: var(--page-margin);
+  box-sizing: border-box;
+}
+
 /* Section width full vs. page
    The reason we use a grid to contain the section is to allow for the section to have a
    full-width background image even if the section content is constrained by the page width. Do not try

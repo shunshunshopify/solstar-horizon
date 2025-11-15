@@ -109,9 +109,12 @@
   "blocks": {
     "contact_form": {
       "name": "Name",
+      "first_name": "First name",
+      "last_name": "Last name",
       "email": "Email",
       "phone": "Phone",
       "comment": "Comment",
+      "dropdown_label": "Inquiry type",
       "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
       "error_heading": "Please adjust the following:"
     },

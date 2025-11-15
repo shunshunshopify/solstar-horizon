@@ -2,7 +2,13 @@
   {% content_for 'block', type: 'contact-form-submit-button', id: 'submit-button' %}
 {% endcapture %}
 
-{% render 'contact-form', settings: block.settings, submit_button: submit_button %}
+{% render 'contact-form',
+  settings: block.settings,
+  submit_button: submit_button,
+  block_id: block.id,
+  block_shopify_attributes: block.shopify_attributes,
+  section_id: section.id
+%}
 
 {% schema %}
 {
@@ -145,7 +151,7 @@
       "id": "dropdown_options_list",
       "label": "プルダウンの項目一覧",
       "default": "サポート,見積もり,その他",
-      "info": "項目をカンマ (,) で区切って入力してください。",
+      "info": "項目をカンマ (,) で区切って入力してください。各項目内ではカンマを使用しないでください。",
       "visible_if": "{{ block.settings.show_dropdown }}" 
     }
   ],

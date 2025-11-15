@@ -2442,7 +2442,7 @@
         "label": "Logo width on mobile",
         "min": 40,
         "max": 400,
-        "step": 5,
+        "step": 1,
         "unit": "px",
         "default": 160
       },
@@ -2452,7 +2452,7 @@
         "label": "Logo width on desktop",
         "min": 40,
         "max": 600,
-        "step": 5,
+        "step": 1,
         "unit": "px",
         "default": 260
       },

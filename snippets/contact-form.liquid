@@ -142,16 +142,21 @@
     >
 
 {%- if settings.show_dropdown -%}
+  {%- liquid
+    assign dropdown_placeholder_text = settings.dropdown_placeholder | default: 'お問い合わせの種類を選択'
+    assign dropdown_label_text = 'blocks.contact_form.dropdown_label' | t | default: dropdown_placeholder_text
+    assign dropdown_field_name = dropdown_placeholder_text | strip_html | strip
+  -%}
   <label class="visually-hidden"
     for="ContactForm-CustomDropdown"
   >
-    {{- 'blocks.contact_form.dropdown_label' | t | default: 'Inquiry type' -}}
+    {{- dropdown_label_text -}}
   </label> 
   {%- assign options = settings.dropdown_options_list | split: ',' -%}
   <div class="contact-form__input contact-form__select-wrapper">
     <select
       id="ContactForm-CustomDropdown"
-      name="contact[subject]" 
+      name="contact[{{ dropdown_field_name | escape }}]" 
       class="contact-form__input--select"
       required
     >

@@ -3,10 +3,25 @@
 
   @param {object} settings - Block settings, required for the 'spacing-style' and 'size-style' snippets.
   @param {string} submit_button - HTML for the submit button, rendered via a `content_for` block.
+  @param {string} block_id - (Optional) Block identifier used to build a unique form id.
+  @param {string} block_shopify_attributes - (Optional) Attributes emitted via `shopify_attributes`.
+  @param {string} section_id - (Optional) Section identifier fallback for the form id.
 
   @example
-  {% render 'contact-form', settings: block.settings, submit_button: content_for_submit_button %}
+  {% render 'contact-form',
+    settings: block.settings,
+    submit_button: content_for_submit_button,
+    block_id: block.id,
+    block_shopify_attributes: block.shopify_attributes,
+    section_id: section.id
+  %}
 {%- enddoc -%}
+
+{%- liquid
+  assign form_id_base = block_id | default: section_id | default: 'Standalone'
+  assign form_id = form_id_base | prepend: 'ContactForm-'
+  assign block_attributes = block_shopify_attributes | default: ''
+-%}
 
 <div
   class="
@@ -18,10 +33,8 @@
     {% render 'spacing-style', settings: settings %}
     {% render 'size-style', settings: settings %}
   "
-  {{ block.shopify_attributes }}
+  {{ block_attributes }}
 >
-  {% assign form_id = block.id | default: section.id | prepend: 'ContactForm-' %}
-
   {%- form 'contact', id: form_id, class: 'contact-form__form' -%}
     {%- if form.errors -%}
       <div
@@ -53,7 +66,7 @@
           class="visually-hidden"
           for="ContactForm-first-name"
         >
-          {{- 'blocks.contact_form.first_name' | default: 'First name' | t -}}
+          {{- 'blocks.contact_form.first_name' | t | default: 'First name' -}}
         </label>
         <input
           type="text"
@@ -62,7 +75,7 @@
           autocomplete="given-name"
           name="contact[first_name]"
           value="{% if form.first_name %}{{ form.first_name }}{% elsif customer %}{{ customer.first_name }}{% endif %}"
-          placeholder="{{ 'blocks.contact_form.first_name' | default: 'First name' | t }}"
+          placeholder="{{ 'blocks.contact_form.first_name' | t | default: 'First name' }}"
         >
       </div>
 
@@ -71,7 +84,7 @@
           class="visually-hidden"
           for="ContactForm-last-name"
         >
-          {{- 'blocks.contact_form.last_name' | default: 'Last name' | t -}}
+          {{- 'blocks.contact_form.last_name' | t | default: 'Last name' -}}
         </label>
         <input
           type="text"
@@ -80,7 +93,7 @@
           autocomplete="family-name"
           name="contact[last_name]"
           value="{% if form.last_name %}{{ form.last_name }}{% elsif customer %}{{ customer.last_name }}{% endif %}"
-          placeholder="{{ 'blocks.contact_form.last_name' | default: 'Last name' | t }}"
+          placeholder="{{ 'blocks.contact_form.last_name' | t | default: 'Last name' }}"
         >
       </div>
     </div>
@@ -127,6 +140,39 @@
       value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
       placeholder="{{ 'blocks.contact_form.phone' | t }}"
     >
+
+{%- if settings.show_dropdown -%}
+  {%- liquid
+    assign dropdown_placeholder_text = settings.dropdown_placeholder | default: 'お問い合わせの種類を選択'
+    assign dropdown_label_text = 'blocks.contact_form.dropdown_label' | t | default: dropdown_placeholder_text
+    assign dropdown_field_name = dropdown_placeholder_text | strip_html | strip
+  -%}
+  <label class="visually-hidden"
+    for="ContactForm-CustomDropdown"
+  >
+    {{- dropdown_label_text -}}
+  </label> 
+  {%- assign options = settings.dropdown_options_list | split: ',' -%}
+  <div class="contact-form__input contact-form__select-wrapper">
+    <select
+      id="ContactForm-CustomDropdown"
+      name="contact[{{ dropdown_field_name | escape }}]" 
+      class="contact-form__input--select"
+      required
+    >
+      <option value="" disabled selected>{{ settings.dropdown_placeholder | default: '選択してください' }}</option>
+      
+      {%- for option in options -%}
+        {% assign trimmed_option = option | strip %}
+        <option
+          value="{{ trimmed_option | escape }}"
+        >
+          {{ trimmed_option | escape }}
+        </option>
+      {%- endfor -%}
+    </select>
+  </div>
+{%- endif -%}
 
     <label
       class="visually-hidden"

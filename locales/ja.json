@@ -26,6 +26,7 @@
       "email": "メールアドレス",
       "phone": "電話",
       "comment": "コメント",
+      "dropdown_label": "お問い合わせの種類",
       "post_success": "お問い合わせいただきありがとうございます。早急に返信いたします。",
       "error_heading": "以下を確認してください。"
     }

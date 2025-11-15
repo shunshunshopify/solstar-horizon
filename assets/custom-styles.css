@@ -1,0 +1,14 @@
+#ContactForm-CustomDropdown {
+    width: 100%;
+    text-overflow: ellipsis;
+    color: var(--color-input-text);
+    background-color: var(--color-input-background);
+    padding: var(--padding-lg) var(--padding-xl);
+    border-radius: var(--style-border-radius-inputs);
+    border: var(--style-border-width-inputs) solid var(--color-input-border);
+}
+
+.contact-form__input.contact-form__select-wrapper {
+    padding: 0;
+    border: none;
+}

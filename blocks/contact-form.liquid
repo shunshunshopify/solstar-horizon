@@ -2,7 +2,13 @@
   {% content_for 'block', type: 'contact-form-submit-button', id: 'submit-button' %}
 {% endcapture %}
 
-{% render 'contact-form', settings: block.settings, submit_button: submit_button %}
+{% render 'contact-form',
+  settings: block.settings,
+  submit_button: submit_button,
+  block_id: block.id,
+  block_shopify_attributes: block.shopify_attributes,
+  section_id: section.id
+%}
 
 {% schema %}
 {
@@ -119,6 +125,34 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "カスタム プルダウン設定"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_dropdown",
+      "label": "プルダウンメニューを表示する",
+      "default": true
+    },
+
+    {
+      "type": "text",
+      "id": "dropdown_placeholder",
+      "label": "プルダウン見出しのテキスト",
+      "default": "お問い合わせの種類を選択",
+      "info": "プルダウンのデフォルトで表示されるテキストです。",
+      "visible_if": "{{ block.settings.show_dropdown }}"
+    },
+    {
+      "type": "textarea", 
+      "id": "dropdown_options_list",
+      "label": "プルダウンの項目一覧",
+      "default": "サポート,見積もり,その他",
+      "info": "項目をカンマ (,) で区切って入力してください。各項目内ではカンマを使用しないでください。",
+      "visible_if": "{{ block.settings.show_dropdown }}" 
     }
   ],
   "presets": [

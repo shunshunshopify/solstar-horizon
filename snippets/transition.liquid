@@ -1,0 +1,96 @@
+{% if settings.enable_splash %}
+  <div id="splash_screen">
+    <div class="splash-screen__loader">
+      {% if settings.splash_logo %}
+        <img
+          class="loader-logo__img"
+          src="{{ settings.splash_logo | img_url: 'master' }}"
+          alt="{{ shop.name }}"
+          loading="eager"
+        >
+      {% else %}
+        <div class="loader-logo__img" style="background:black; opacity: 0.2; height: 40px;"></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <style>
+    #splash_screen {
+      box-sizing: border-box;
+      display: flex;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      background-color: {{ settings.splash_bg_color | default: '#ffffff' }};
+      z-index: 10001;
+    }
+
+    .splash-screen__loader {
+      width: 100%;
+      max-width: {{ settings.max_logo_width_mob | default: 160 }}px;
+    }
+
+    @media only screen and (min-width: 769px) {
+      .splash-screen__loader {
+        max-width: {{ settings.max_logo_width_desk | default: 260 }}px;
+      }
+    }
+
+    .splash-screen__loader .loader-logo__img {
+      display: block;
+      max-width: 100%;
+      border: 0 none;
+      animation: pulse-fade 0.4s infinite linear;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    body.loaded {
+      overflow: auto;
+    }
+
+    body.loaded #splash_screen {
+      display: none;
+    }
+
+    @-webkit-keyframes pulse-fade {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulse-fade {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        var body = document.querySelector('body');
+        if (body) {
+          body.classList.add('loaded');
+        }
+      }, 800);
+    });
+  </script>
+{% endif %}

@@ -12,6 +12,7 @@
       >
     {%- endif -%}
    
+    {% # theme-check-disable RemoteAsset %}
     {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
     <link
       rel="expect"
@@ -19,6 +20,7 @@
       blocking="render"
       id="view-transition-render-blocker"
     >
+    {% # theme-check-enable %}
 
     {{ 'custom-styles.css' | asset_url | stylesheet_tag }}
 
@@ -38,14 +40,17 @@
      <!-- Add this in the <head> section, after the main stylesheet -->
     {{ 'wishlist-styles.css' | asset_url | stylesheet_tag }}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <script src="{{ 'jquery-3.6.0.min.js' | asset_url }}" defer></script>
+    {{ 'remixicon.css' | asset_url | stylesheet_tag: preload: true }}
 
 
      {% render 'video-intro' %}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+    {% unless template contains 'index' %}
+      {% render 'transition' %}
+    {% endunless %}
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
@@ -80,7 +85,7 @@
     {% endif %}
 
      <!-- Add this before the closing </body> tag -->
-    {{ 'wishlist.js' | asset_url | script_tag }}
+    <script src="{{ 'wishlist.js' | asset_url }}" defer></script>
 
 
   </body>

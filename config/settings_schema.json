@@ -2420,5 +2420,48 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "Splash Screen",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_splash",
+        "label": "Enable splash screen",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "splash_logo",
+        "label": "Splash logo",
+        "info": "Optional logo shown while the page is loading."
+      },
+      {
+        "type": "range",
+        "id": "max_logo_width_mob",
+        "label": "Logo width on mobile",
+        "min": 40,
+        "max": 400,
+        "step": 5,
+        "unit": "px",
+        "default": 160
+      },
+      {
+        "type": "range",
+        "id": "max_logo_width_desk",
+        "label": "Logo width on desktop",
+        "min": 40,
+        "max": 600,
+        "step": 5,
+        "unit": "px",
+        "default": 260
+      },
+      {
+        "type": "color",
+        "id": "splash_bg_color",
+        "label": "Background color",
+        "default": "#ffffff"
+      }
+    ]
   }
 ]

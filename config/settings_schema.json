@@ -2,7 +2,7 @@
   {
     "name": "theme_info",
     "theme_name": "Horizon",
-    "theme_version": "3.0.0",
+    "theme_version": "3.0.1",
     "theme_author": "Shopify",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
@@ -1480,6 +1480,12 @@
         "default": "scheme-5"
       },
       {
+        "type": "color_scheme",
+        "id": "badge_new_color_scheme",
+        "label": "t:settings.badge_new_color_scheme",
+        "default": "scheme-3"
+      },
+      {
         "type": "header",
         "content": "t:names.typography"
       },
@@ -1568,6 +1574,7 @@
         ],
         "default": "body"
       },
+
       {
         "type": "select",
         "id": "button_text_case_primary",
@@ -1624,6 +1631,7 @@
         ],
         "default": "body"
       },
+
       {
         "type": "select",
         "id": "button_text_case_secondary",
@@ -1762,6 +1770,7 @@
         "info": "t:info.checkout_buttons",
         "default": true
       },
+
       {
         "type": "url",
         "id": "empty_cart_button_link",
@@ -2103,6 +2112,133 @@
         "id": "product_card_carousel",
         "label": "t:settings.product_card_carousel",
         "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:names.wishlist",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_wishlist_icon",
+        "label": "t:settings.wishlist.enable_wishlist_icon.label",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "t:settings.wishlist.colors"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_outline_color",
+        "label": "t:settings.wishlist.wishlist_heart_outline_color.label",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_fill_color",
+        "label": "t:settings.wishlist.wishlist_heart_fill_color.label",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "wishlist_heart_background_color",
+        "label": "t:settings.wishlist.wishlist_heart_background_color.label",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "t:names.video_intro",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings.video_intro.description"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.video_intro.general_settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_video_intro",
+        "label": "t:settings.video_intro.enable_video_intro.label",
+        "default": false,
+        "info": "t:settings.video_intro.enable_video_intro.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "intro_homepage_only",
+        "label": "t:settings.video_intro.intro_homepage_only.label",
+        "default": false,
+        "info": "t:settings.video_intro.intro_homepage_only.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "intro_autoplay",
+        "label": "t:settings.video_intro.intro_autoplay.label",
+        "default": true,
+        "info": "t:settings.video_intro.intro_autoplay.info"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.video_intro.videos"
+      },
+      {
+        "type": "url",
+        "id": "intro_desktop_video",
+        "label": "t:settings.video_intro.intro_desktop_video.label",
+        "info": "t:settings.video_intro.intro_desktop_video.info"
+      },
+      {
+        "type": "url",
+        "id": "intro_mobile_video",
+        "label": "t:settings.video_intro.intro_mobile_video.label",
+        "info": "t:settings.video_intro.intro_mobile_video.info"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.video_intro.audio"
+      },
+      {
+        "type": "url",
+        "id": "intro_audio_file",
+        "label": "t:settings.video_intro.intro_audio_file.label",
+        "info": "t:settings.video_intro.intro_audio_file.info"
+      },
+      {
+        "type": "range",
+        "id": "volume_intro",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings.video_intro.volume_intro.label",
+        "default": 80
+      },
+      {
+        "type": "header",
+        "content": "t:settings.video_intro.interface"
+      },
+      {
+        "type": "text",
+        "id": "intro_skip",
+        "label": "t:settings.video_intro.intro_skip.label",
+        "default": "Skip",
+        "info": "t:settings.video_intro.intro_skip.info"
+      },
+      {
+        "type": "color",
+        "id": "skip_color",
+        "label": "t:settings.video_intro.skip_color.label",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "click_for_sound",
+        "label": "t:settings.video_intro.click_for_sound.label",
+        "default": "Click for sound",
+        "info": "t:settings.video_intro.click_for_sound.info"
       }
     ]
   },

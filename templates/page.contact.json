@@ -16,7 +16,7 @@
           "type": "text",
           "name": "t:names.title",
           "settings": {
-            "text": "<h2>{{ closest.page.title }}</h2>",
+            "text": "<h1>{{ closest.page.title }}</h1>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -65,10 +65,7 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "title",
-        "content"
-      ],
+      "block_order": ["title", "content"],
       "settings": {
         "content_direction": "column",
         "gap": 32,
@@ -115,9 +112,7 @@
           "block_order": []
         }
       },
-      "block_order": [
-        "contact_form_UwiCkQ"
-      ],
+      "block_order": ["contact_form_UwiCkQ"],
       "name": "t:names.contact_form",
       "settings": {
         "content_direction": "column",
@@ -148,8 +143,5 @@
       }
     }
   },
-  "order": [
-    "main",
-    "form"
-  ]
+  "order": ["main", "form"]
 }

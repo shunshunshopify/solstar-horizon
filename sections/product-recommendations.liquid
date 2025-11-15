@@ -22,6 +22,13 @@
     echo '--column-count: ' | append: section.settings.columns | append: ';'
     echo '--column-count-mobile: ' | append: section.settings.mobile_columns | append: ';'
   endcapture
+
+  assign clamp_titles = false
+  if section.settings.enable_product_title_line_clamp
+    if section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel'
+      assign clamp_titles = true
+    endif
+  endif
 %}
 
 <product-recommendations
@@ -78,17 +85,11 @@
         endif
       %}
       {% capture list_items %}
-        {%- comment %}<locksmith:3405>{% endcomment -%}
-          {%- assign locksmith_9ee0_forloop__size = 0 %}{% for product in products limit: section.settings.max_products %}{% capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if var == 'true' %}{% assign locksmith_9ee0_forloop__size = locksmith_9ee0_forloop__size | plus: 1 %}{% endif %}{% endfor %}{% assign locksmith_9ee0_forloop__index = nil -%}
-        {%- comment %}</locksmith:3405>{% endcomment -%}
         {% for product in products limit: section.settings.max_products %}
-          {%- comment %}<locksmith:a6ff>{% endcomment -%}
-            {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% if locksmith_9ee0_forloop__index == nil %}{% assign locksmith_9ee0_forloop__index = 1 %}{% assign locksmith_9ee0_forloop__index0 = 0 %}{% else %}{% assign locksmith_9ee0_forloop__index = locksmith_9ee0_forloop__index | plus: 1 %}{% assign locksmith_9ee0_forloop__index0 = locksmith_9ee0_forloop__index0 | plus: 1 %}{% endif %}{% if locksmith_9ee0_forloop__index == 1 %}{% assign locksmith_9ee0_forloop__first = true %}{% else %}{% assign locksmith_9ee0_forloop__first = false %}{% endif %}{% if locksmith_9ee0_forloop__index == locksmith_9ee0_forloop__size %}{% assign locksmith_9ee0_forloop__last = true %}{% else %}{% assign locksmith_9ee0_forloop__last = false %}{% endif %}{% assign locksmith_9ee0_forloop__rindex = locksmith_9ee0_forloop__size | minus: locksmith_9ee0_forloop__index | minus: 1 %}{% assign locksmith_9ee0_forloop__rindex0 = locksmith_9ee0_forloop__size | minus: locksmith_9ee0_forloop__index0 | minus: 1 %}{% else %}{% continue %}{% endif -%}
-          {%- comment %}</locksmith:a6ff>{% endcomment -%}
           <div class="resource-list__item">
             {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
           </div>
-          {% unless locksmith_9ee0_forloop__last %}
+          {% unless forloop.last %}
             <!--@list/split-->
           {% endunless %}
         {% endfor %}
@@ -116,6 +117,9 @@
             hidden--mobile
           {% endif %}
           {{ classes }}
+          {% if clamp_titles %}
+            resource-list--clamp-titles
+          {% endif %}
         "
         {% if section.settings.layout_type == 'grid' %}
           data-testid="resource-list-grid"
@@ -144,6 +148,9 @@
             resource-list
             hidden--desktop
             force-full-width
+            {% if clamp_titles %}
+              resource-list--clamp-titles
+            {% endif %}
           "
           style="
             --resource-list-gap: {{ mobile_carousel_gap }}px;
@@ -189,6 +196,19 @@
 
   product-recommendations:has([data-has-recommendations='false']) {
     display: none;
+  }
+
+  .resource-list--clamp-titles .product-card__title {
+    display: block;
+  }
+
+  .resource-list--clamp-titles .product-card__title > * {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
   }
 {% endstylesheet %}
 
@@ -341,6 +361,14 @@
       "visible_if": "{{ section.settings.layout_type == 'grid' }}"
     },
     {
+      "type": "checkbox",
+      "id": "enable_product_title_line_clamp",
+      "label": "t:product_title_block.limit_lines_label",
+      "info": "t:product_title_block.limit_lines_info",
+      "default": false,
+      "visible_if": "{{ section.settings.layout_type == 'grid' or section.settings.layout_type == 'carousel' }}"
+    },
+    {
       "type": "header",
       "content": "t:content.carousel_navigation",
       "visible_if": "{{ section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
@@ -483,7 +511,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>Related products</h3>"
+            "text": "t:html_defaults.related_product"
           }
         },
         "static-product-card": {

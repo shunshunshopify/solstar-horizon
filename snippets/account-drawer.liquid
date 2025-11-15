@@ -16,12 +16,14 @@
     ref="dialog"
     class="color-{{ settings.popover_color_scheme }} dialog-modal dialog-drawer dialog-bottom-sheet account-drawer__dialog"
     scroll-lock
+    aria-labelledby="account-drawer-heading"
   >
     <button
       ref="closeButton"
       on:click="/closeDialog"
       class="button button-unstyled close-button account-drawer__close-button"
       aria-label="{{ 'actions.close_dialog' | t }}"
+      autofocus
     >
       <span
         class="svg-wrapper"
@@ -30,7 +32,7 @@
         {{- 'icon-close.svg' | inline_asset_content -}}
       </span>
     </button>
-    {% render 'account-actions', autofocus_enabled: true %}
+    {% render 'account-actions' %}
   </dialog>
 </dialog-component>
 

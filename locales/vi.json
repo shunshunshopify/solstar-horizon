@@ -41,7 +41,7 @@
       "one": "Đã áp dụng {{ count }} bộ lọc",
       "other": "Đã áp dụng {{ count }} bộ lọc"
     },
-    "account": "Mở menu tài khoản",
+    "account": "Tài khoản",
     "cart": "Giỏ hàng",
     "cart_count": "Tổng mặt hàng trong giỏ hàng",
     "menu": "Menu",
@@ -55,8 +55,7 @@
     "inventory_status": "Trạng thái hàng trong kho",
     "pause_video": "Tạm dừng video",
     "find_country": "Tìm quốc gia",
-    "localization_region_and_language": "Mở bộ chọn khu vực và ngôn ngữ",
-    "open_search_modal": "Mở công cụ tìm kiếm",
+    "localization_region_and_language": "Bộ chọn vùng và ngôn ngữ",
     "decrease_quantity": "Giảm số lượng",
     "increase_quantity": "Tăng số lượng",
     "rating": "Sản phẩm này được đánh giá {{ rating }}/5",
@@ -229,7 +228,13 @@
     "recipient_form_fields_hidden": "Các trường biểu mẫu cho người nhận hiện đã được ẩn",
     "recipient_form_error": "Đã xảy ra lỗi khi gửi biểu mẫu",
     "product_custom_property_character_count": "Đã sử dụng {{ used_chars }}/{{ max_chars }} ký tự",
-    "terms_and_policies": "Điều khoản và chính sách"
+    "terms_and_policies": "Điều khoản và chính sách",
+    "pagination": {
+      "nav_label": "Điều hướng phân trang",
+      "previous": "Trước",
+      "next": "Tiếp",
+      "page": "Trang {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

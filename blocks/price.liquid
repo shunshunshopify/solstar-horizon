@@ -5,6 +5,8 @@
 -%}
 
 {% liquid
+  assign wishlist_icon_enabled = settings.enable_wishlist_icon
+
   if block_settings.type_preset == 'rte' or block_settings.type_preset == 'paragraph'
     assign is_rte = true
   endif
@@ -45,11 +47,19 @@
   "
   {{ block.shopify_attributes }}
 >
-  {% render 'price',
-    show_unit_price: true,
-    product_resource: product_resource,
-    show_sale_price_first: block_settings.show_sale_price_first
-  %}
+  <div class="price-container{% if wishlist_icon_enabled and product_resource != blank and template.name == 'product' %} price-container--with-wishlist{% endif %}">
+    {% render 'price',
+      show_unit_price: true,
+      product_resource: product_resource,
+      show_sale_price_first: block_settings.show_sale_price_first
+    %}
+
+    {%- if wishlist_icon_enabled and product_resource != blank and template.name == 'product' -%}
+      <span class="price-wishlist-icon">
+        {% render 'wishlist-button', product: product_resource, location: 'product' %}
+      </span>
+    {%- endif -%}
+  </div>
 
   {% if block_settings.show_tax_info %}
     <div class="tax-note">
@@ -94,6 +104,49 @@
 
   .installments:not(:has(shopify-payment-terms)) {
     display: none;
+  }
+
+  .price-container--with-wishlist {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
+  }
+
+  .price-wishlist-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .price-wishlist-icon .wishlist-button {
+    padding: var(--padding-2xs);
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-button);
+    transition: all 0.2s ease;
+    background: transparent;
+    color: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
+    min-width: auto;
+    height: auto;
+  }
+
+  .price-wishlist-icon .wishlist-button:hover,
+  .price-wishlist-icon .wishlist-button:focus-visible {
+    background-color: transparent;
+  }
+
+  .price-wishlist-icon .wishlist-button .icon-heart {
+    width: 20px;
+    height: 20px;
+    fill: transparent;
+    stroke: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
+    stroke-width: 1.5;
+  }
+
+  .price-wishlist-icon .wishlist-button.is-added .icon-heart {
+    fill: var(--wishlist-heart-fill, rgb(var(--color-foreground-rgb, 17 17 17)));
+    stroke: var(--wishlist-heart-stroke, rgb(var(--color-foreground-rgb, 17 17 17)));
   }
 {% endstylesheet %}
 

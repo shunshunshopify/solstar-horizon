@@ -172,7 +172,8 @@
     "blog_posts_grid": "部落格貼文：網格",
     "blog_posts_carousel": "部落格貼文：輪播",
     "blog_posts_editorial": "部落格貼文：編輯",
-    "excerpt": "摘錄"
+    "excerpt": "摘錄",
+    "footer_password": "密碼頁尾"
   },
   "settings": {
     "alignment": "對齊方式",
@@ -487,7 +488,6 @@
     "blurred_reflection": "模糊反射",
     "card_hover_effect": "卡片懸停效果",
     "collection_title_case": "商品系列名稱案例",
-    "effects": "效果",
     "inventory_threshold": "上架庫存過低門檻",
     "page": "頁面",
     "product_and_card_title_case": "商品與卡片名稱案例",
@@ -531,9 +531,13 @@
     },
     "blog": "網誌",
     "post_count": "文章數量",
+    "animation": "動畫",
     "top_level_size": "頂級域尺寸",
     "submenu_text_style": "子選單文字樣式",
-    "empty_cart_button_link": "清空購物車按鈕連結"
+    "empty_cart_button_link": "清空購物車按鈕連結",
+    "auto_load_products": "捲動時自動載入產品",
+    "products_per_page": "每頁產品數",
+    "block_link": "區塊連結"
   },
   "options": {
     "adapt_to_image": "配合圖片",
@@ -917,7 +921,48 @@
     "email_signup": "電子郵件訂閱"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>和顧客分享品牌資訊、描述商品、進行公告，或歡迎顧客光臨您的商店。</p>"
+    "share_information_about_your": "<p>和顧客分享品牌資訊、描述商品、進行公告，或歡迎顧客光臨您的商店。</p>",
+    "bestseller_h2": "<h2>暢銷商品</h2>",
+    "bestseller_h3": "<h3>暢銷商品</h3>",
+    "bestseller": "<p>暢銷商品</p>",
+    "build_better": "<p>我們的信念是打造更優質的服務</p>",
+    "contact_us": "<h2>聯絡我們</h2>",
+    "discover_bestsellers": "<p>探索功能性與時尚完美結合、擄獲顧客芳心的暢銷商品。</p>",
+    "everythings_starts_with_why": "<p>我們所做的一切都以為什麼為出發點</p>",
+    "explore_latest_products": "<p>探索我們的最新商品。</p>",
+    "faq": "<h3>常見問題</h3>",
+    "first_to_know": "<p>搶先收到新商品系列和特別優惠的消息。</p>",
+    "free_returns": "<p>30 天內免費退貨</p>",
+    "free_shipping_over": "<p>滿 $50 美元免運費</p>",
+    "goal_for_every_customer": "<p>我們的目標是讓每位顧客都能完全滿意他們的購買。如果情況並非如此，請讓我們知道，我們會盡力與您合作，讓您滿意。</p>",
+    "home_to_shirts": "<p>首頁 → 襯衫</p>",
+    "intentional_design": "<h2>精心設計</h2>",
+    "introducing_h2": "<h2><em></em>簡介</h2>",
+    "latest_products": "<p>推出我們特別為本季製作的最新商品。在您最喜愛的商品售罄之前，請盡情選購！</p>",
+    "made_local_and_global": "<p>我們的商品在當地和全球製造。我們精心挑選製造合作夥伴，以確保商品的高品質和公平價值。</p>",
+    "made_with_care_h2": "<h2>用心製作</h2>",
+    "made_with_care_extended": "<p>用心製作，無條件深受顧客喜愛，這款經典暢銷商品表現超乎所有期望。</p>",
+    "made_with_care": "<p>用心製作，無條件深受顧客喜愛。</p>",
+    "make_things_better_extended": "<p>我們製作效果更好、更耐用的商品。我們的商品以簡約設計和實在的選材，解決實際問題。</p>",
+    "make_things_better": "<p>我們製作效果更好、更耐用的商品。</p>",
+    "may_also_like": "<h4>您也可能喜歡</h4>",
+    "new_arrivals_h1": "<h1>新品</h1>",
+    "new_arrivals_h2": "<h2>新品</h2>",
+    "new_arrivals_h3": "<h3>新品</h3>",
+    "product_launch": "<p>看看我們最新商品發表的幕後花絮。</p>",
+    "product_story": "<p>每件商品核心背後都有獨特的故事，源自我們對品質與創新的熱情。每件商品都能提升您的日常生活品質，為您帶來喜悅。</p>",
+    "real_people": "<p>真人製作的優質商品</p>",
+    "related_product": "<h3>相關商品</h3>",
+    "return_policy": "<h2>退貨政策為何？</h2>",
+    "reviews": "<p>★★★★★ 368 評價</p>",
+    "shipping_based_on_location": "<p>運費根據您的所在地和訂單中的品項計算。您總會在購買之前知道運費價格。</p>",
+    "shop_by_collection": "<h3>按商品系列購買</h3>",
+    "signature_products": "<h2>我們的經典商品</h2>",
+    "styled_with": "<h3>搭配造型</h3>",
+    "subscribe": "<h2>訂閱我們的電子郵件</h2>",
+    "team_with_goal": "<h2>目標一致的團隊</h2>",
+    "unable_to_accept_returns": "<p>部分商品恕不接受退貨。這些商品會在購買前仔細標示。</p>",
+    "work_quickly_to_ship": "<p>我們會盡速出貨您的訂單。一旦您的訂單出貨，您將收到含有進一步資訊的電子郵件。配送時間視您所在地點而定。</p>"
   },
   "text_defaults": {
     "button_label": "來去逛逛",
@@ -930,7 +975,26 @@
     "sign_up": "註冊",
     "welcome_to_our_store": "歡迎來到我們的商店",
     "be_bold": "粗體。",
-    "shop_our_latest_arrivals": "購買我們的最新到貨商品！"
+    "shop_our_latest_arrivals": "購買我們的最新到貨商品！",
+    "are_purchases_final_sale": "任何購買都是最終銷售嗎？",
+    "care_instructions": "保養說明",
+    "cart": "購物車",
+    "discover_collection": "探索商品系列",
+    "fit": "最適大小",
+    "how_much_for_shipping": "運送成本是多少？",
+    "learn_more": "瞭解詳情",
+    "manufacturing": "製造業",
+    "materials": "材質",
+    "return_policy": "退貨政策",
+    "shipping": "運送",
+    "shop_now_button_label": "來去逛逛",
+    "sign_up_button_label": "註冊",
+    "submit_button_label": "提交",
+    "up_the_ante": "返回上方\n\nAnte",
+    "view_all_button_label": "檢視全部",
+    "what_is_return_policy": "退貨政策為何？",
+    "when_will_order_arrive": "我何時會收到訂單？",
+    "where_are_products_made": "您的商品在哪裡製造？"
   },
   "info": {
     "link_info": "選用：使圖示可點按",
@@ -956,7 +1020,7 @@
     "hover_effects": "適用於商品及商品系列卡片",
     "hide_logo_on_home_page_help": "啟用固定式頁首時仍顯示標誌",
     "media_type_info": "自您的選單連結填入的功能",
-    "logo_height": "僅影響標題徽標"
+    "logo_height": "僅影響頁首標誌"
   },
   "categories": {
     "basic": "基礎",
@@ -975,6 +1039,7 @@
     "decorative": "裝飾性",
     "products": "產品",
     "other_sections": "其他",
-    "storytelling": "故事行銷"
+    "storytelling": "故事行銷",
+    "text": "文字"
   }
 }

@@ -10,6 +10,9 @@
 {%- enddoc -%}
 
 {% assign block_settings = block.settings %}
+{% if show_wishlist_button == nil %}
+  {% assign show_wishlist_button = true %}
+{% endif %}
 
 {% style %}
   {% if request.visual_preview_mode %}
@@ -145,6 +148,10 @@
       {% if block_settings.padding-block-end > 0 %}--zoom-out-padding-block-end: min(var(--padding-xs), {{ block_settings.padding-block-end | times: 0.7}}px);{% endif %}
     "
   >
+    {% if settings.enable_wishlist_icon and show_wishlist_button %}
+      {% render 'wishlist-button', product: closest.product, location: 'collection' %}
+    {% endif %}
+
     {{ children }}
   </div>
 </product-card>

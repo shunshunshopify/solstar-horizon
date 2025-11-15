@@ -11,18 +11,76 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
-    "sticky_add_to_cart_HzRUpz": {
+    "sticky_add_to_cart_wtCryk": {
       "type": "sticky-add-to-cart",
-      "name": "Sticky ATC",
+      "name": "t:names.sticky_atc",
       "settings": {
         "enable_section": true,
         "mobile_only": true,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-16",
         "show_qty": false,
         "show_variant_picker": false,
         "show_img": false,
         "pt": 0.5,
-        "pb": 0.5
+        "pb": 5
+      }
+    },
+    "bottom_nav_bar_iCJF4N": {
+      "type": "bottom-nav-bar",
+      "blocks": {
+        "home_block_QgPG4Y": {
+          "type": "home_block",
+          "settings": {
+            "caption": "Home"
+          }
+        },
+        "cart_block_t4VLDG": {
+          "type": "cart_block",
+          "settings": {
+            "caption": "Cart"
+          }
+        },
+        "search_block_bbV78U": {
+          "type": "Search_block",
+          "settings": {
+            "icon_url": "",
+            "caption": "Search",
+            "url": ""
+          }
+        },
+        "menu_block_Eaw84P": {
+          "type": "Menu_block",
+          "settings": {
+            "caption": "Line",
+            "line_link": ""
+          }
+        },
+        "account_block_BbwQny": {
+          "type": "Account_block",
+          "settings": {
+            "caption": "Account"
+          }
+        }
+      },
+      "block_order": [
+        "home_block_QgPG4Y",
+        "cart_block_t4VLDG",
+        "search_block_bbV78U",
+        "menu_block_Eaw84P",
+        "account_block_BbwQny"
+      ],
+      "name": "t:names.sticky_bottom_menu",
+      "settings": {
+        "bg_color": "#ffffff",
+        "icon_color": "#000",
+        "color": "#000",
+        "cart_bubble_background": "#ff0000",
+        "cart_bubble_text": "#ffffff",
+        "wishlist_counter_background": "#ff0000",
+        "wishlist_counter_text": "#ffffff",
+        "font_size": 10,
+        "height": 70,
+        "hide-border": false
       }
     },
     "footer_m9NzUG": {
@@ -219,7 +277,8 @@
     }
   },
   "order": [
-    "sticky_add_to_cart_HzRUpz",
+    "sticky_add_to_cart_wtCryk",
+    "bottom_nav_bar_iCJF4N",
     "footer_m9NzUG",
     "footer_utilities_jLGE8U"
   ]

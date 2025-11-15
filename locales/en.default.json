@@ -9,7 +9,7 @@
  */
 {
   "accessibility": {
-    "account": "Open account menu",
+    "account": "Account",
     "cart": "Cart",
     "cart_count": "Total items in cart",
     "close_dialog": "Close dialog",
@@ -26,16 +26,15 @@
     },
     "increase_quantity": "Increase quantity",
     "inventory_status": "Inventory status",
-    "localization_region_and_language": "Open region and language selector",
+    "localization_region_and_language": "Region and language selector",
     "menu": "Menu",
     "nested_product": "{{ product_title }} for {{ parent_title }}",
     "new_window": "Opens in a new window.",
-    "open_cart_drawer": "Open cart",
-    "open_search_modal": "Open search",
     "quantity": "Quantity",
     "pause_video": "Pause video",
     "play_model": "Play 3D model",
     "play_video": "Play video",
+    "open_cart_drawer": "Open cart drawer",
     "loading_product_recommendations": "Loading product recommendations",
     "rating": "Rating of this product is {{ rating }} out of 5",
     "remove_item": "Remove {{ title}}",
@@ -148,6 +147,14 @@
       "success": "Comment posted"
     }
   },
+  "header_menu": {
+    "second_level_font_size": "Second-level font size",
+    "third_level_font_size": "Third-level font size",
+    "enable_link_hover_animation": "Enable link hover animation",
+    "enable_menu_overlay": "Enable menu overlay",
+    "menu_overlay_opacity": "Overlay opacity",
+    "menu_overlay_blur": "Overlay blur"
+  },
   "content": {
     "discount": "Discount",
     "account_title": "Account",
@@ -201,6 +208,12 @@
     "no_results_found": "No results found",
     "page_placeholder_title": "Page title",
     "page_placeholder_content": "Select a page to display its content.",
+    "pagination": {
+      "nav_label": "Pagination navigation",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ page }}"
+    },
     "pickup_available_at_html": "Pickup available at <b>{{ location }}</b>",
     "pickup_available_in": "Pickup available, {{ pickup_time }}",
     "pickup_not_available": "Pickup currently not available",
@@ -217,6 +230,7 @@
     "product_total": "Product total",
     "product_badge_sold_out": "Sold out",
     "product_badge_sale": "Sale",
+    "product_badge_new": "New",
     "product_card_placeholder": "Product title",
     "placeholder_image": "Placeholder image",
     "quantity": "Quantity",
@@ -318,5 +332,9 @@
       "sold_out": "Sold out",
       "unavailable": "Unavailable"
     }
+  },
+  "product_title_block": {
+    "limit_lines_label": "Limit title to two lines",
+    "limit_lines_info": "Truncates the product title after the second line on collection cards."
   }
 }

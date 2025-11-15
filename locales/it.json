@@ -42,7 +42,7 @@
       "other": "{{ count }} filtri applicati",
       "many": "{{ count }} filtri applicati"
     },
-    "account": "Apri menu dell'account",
+    "account": "Account",
     "cart": "Carrello",
     "cart_count": "Totale articoli nel carrello",
     "menu": "Menu",
@@ -57,8 +57,7 @@
     "inventory_status": "Stato delle scorte",
     "pause_video": "Metti video in pausa",
     "find_country": "Trova paese",
-    "localization_region_and_language": "Apri selettore dell'area geografica e della lingua",
-    "open_search_modal": "Apri ricerca",
+    "localization_region_and_language": "Selettore dell'area geografica e della lingua",
     "decrease_quantity": "Diminuisci quantità",
     "increase_quantity": "Aumenta quantità",
     "quantity": "Quantità",
@@ -234,7 +233,13 @@
     "recipient_form_fields_hidden": "I campi del modulo destinatario sono ora nascosti",
     "recipient_form_error": "Si è verificato un errore durante l'invio del modulo",
     "product_custom_property_character_count": "{{ used_chars }}/{{ max_chars }} caratteri utilizzati",
-    "terms_and_policies": "Termini e informative"
+    "terms_and_policies": "Termini e informative",
+    "pagination": {
+      "nav_label": "Navigazione impaginazione",
+      "previous": "Indietro",
+      "next": "Avanti",
+      "page": "Pagina {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

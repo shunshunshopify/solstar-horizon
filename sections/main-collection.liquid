@@ -23,9 +23,10 @@
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <results-list
-  class="section product-grid-container color-{{ section.settings.color_scheme }}"
+  class="section product-grid-container color-{{ section.settings.color_scheme }}{% if section.settings.enable_product_title_line_clamp %} product-grid-container--title-clamp{% endif %}"
   style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
   section-id="{{ section.id }}"
+  infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
 >
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
@@ -39,18 +40,18 @@
       results_size: collection.products_count
     %}
 
-    {% paginate collection.products by 24 %}
+    {% assign products_per_page = 24 %}
+
+    {% if section.settings.enable_infinite_scroll == false %}
+      {% assign products_per_page = section.settings.products_per_page %}
+    {% endif %}
+
+    {% paginate collection.products by products_per_page %}
       {% capture children %}
-        {%- comment %}<locksmith:3001>{% endcomment -%}
-          {%- assign locksmith_4f16_forloop__size = 0 %}{% for product in collection.products %}{% capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture %}{% if var == 'true' %}{% assign locksmith_4f16_forloop__size = locksmith_4f16_forloop__size | plus: 1 %}{% endif %}{% endfor %}{% assign locksmith_4f16_forloop__index = nil -%}
-        {%- comment %}</locksmith:3001>{% endcomment -%}
         {% for product in collection.products %}
-          {%- comment %}<locksmith:9e11>{% endcomment -%}
-            {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% if locksmith_4f16_forloop__index == nil %}{% assign locksmith_4f16_forloop__index = 1 %}{% assign locksmith_4f16_forloop__index0 = 0 %}{% else %}{% assign locksmith_4f16_forloop__index = locksmith_4f16_forloop__index | plus: 1 %}{% assign locksmith_4f16_forloop__index0 = locksmith_4f16_forloop__index0 | plus: 1 %}{% endif %}{% if locksmith_4f16_forloop__index == 1 %}{% assign locksmith_4f16_forloop__first = true %}{% else %}{% assign locksmith_4f16_forloop__first = false %}{% endif %}{% if locksmith_4f16_forloop__index == locksmith_4f16_forloop__size %}{% assign locksmith_4f16_forloop__last = true %}{% else %}{% assign locksmith_4f16_forloop__last = false %}{% endif %}{% assign locksmith_4f16_forloop__rindex = locksmith_4f16_forloop__size | minus: locksmith_4f16_forloop__index | minus: 1 %}{% assign locksmith_4f16_forloop__rindex0 = locksmith_4f16_forloop__size | minus: locksmith_4f16_forloop__index0 | minus: 1 %}{% else %}{% continue %}{% endif -%}
-          {%- comment %}</locksmith:9e11>{% endcomment -%}
           <li
             id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ locksmith_4f16_forloop__index0 }}"
+            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
             data-page="{{ paginate.current_page }}"
             data-product-id="{{ product.id }}"
             ref="cards[]"
@@ -66,7 +67,8 @@
         section: section,
         children: children,
         products: collection.products,
-        paginate: paginate
+        paginate: paginate,
+        enable_infinite_scroll: section.settings.enable_infinite_scroll
       %}
     {% endpaginate %}
   </div>
@@ -144,6 +146,20 @@
       margin-inline-end: calc(-1 * max(var(--padding-xs), var(--padding-inline-end)));
     }
   }
+
+  .product-grid-container--title-clamp .product-card__title {
+    display: block;
+  }
+
+  .product-grid-container--title-clamp .product-card__title > * {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
+  }
+
 {% endstylesheet %}
 
 {% schema %}
@@ -211,6 +227,22 @@
       "default": "small"
     },
     {
+      "type": "checkbox",
+      "id": "enable_infinite_scroll",
+      "label": "t:settings.auto_load_products",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:settings.products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 24,
+      "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
+    },
+    {
       "type": "header",
       "content": "t:content.layout"
     },
@@ -256,6 +288,13 @@
       "step": 1,
       "unit": "px",
       "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_product_title_line_clamp",
+      "label": "t:product_title_block.limit_lines_label",
+      "info": "t:product_title_block.limit_lines_info",
+      "default": false
     },
     {
       "type": "range",

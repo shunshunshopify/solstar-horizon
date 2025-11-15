@@ -1,0 +1,683 @@
+{{ 'hero-video.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+
+#shopify-section-{{ section.id }} {
+  padding-block-start: {{ section.settings.padding-block-start }}px;
+  padding-block-end: {{ section.settings.padding-block-end }}px;
+  /* Set custom properties for dynamic text sizing */
+  --hero-title-size-mobile: {{ section.settings.title_size | times: 0.5 }}px;
+  --hero-title-size-desktop: {{ section.settings.title_size }}px;
+  --hero-subtitle-size-mobile: {{ section.settings.subheading_size | times: 0.7 }}px;
+  --hero-subtitle-size-desktop: {{ section.settings.subheading_size }}px;
+}
+ 
+.hero--{{ section.id }} .hero__media, .hero--{{ section.id }} .hero__media iframe{
+    width: 100%;
+    height: 100%;
+}
+
+{% if section.settings.overlay_opacity > 0 %}
+  .hero--{{ section.id }} .hero__text-wrap:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  z-index: -1;
+  }
+{% endif %}
+
+{% comment %} Since we always have a video (either custom or a placeholder), text should always be white {% endcomment %}
+.hero__title, .hero__subtitle{
+  color: #fff;
+  opacity: 1;
+}
+
+.hero--{{ section.id }} .hero-video__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero--{{ section.id }} .hero-video__placeholder-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+{% endstyle %}
+
+<div
+  data-section-id="{{ section.id }}"
+  class="video-parent-section hero--{{ section.id }} hero--{{ section.settings.section_height }} hero--mobile--{{ section.settings.mobile_height }}"
+  role="banner"
+  aria-label="Hero video section"
+  >
+
+  <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;" aria-hidden="true">
+
+    {% assign current_video_url = section.settings.video_url | strip %}
+    {% if current_video_url != blank %}
+      {% assign has_video_url = true %}
+    {% else %}
+      {% assign has_video_url = false %}
+    {% endif %}
+
+    {% if has_video_url %}
+      {% assign extension = current_video_url | slice: -4, 4 %}
+      {% if extension == '.mp4' %}
+      <video
+        id="Mp4Video-{{ section.id }}"
+        class="video-div"
+        src="{{ current_video_url }}"
+        data-type="mp4"
+        aria-label="Background video"
+        aria-hidden="true"
+        autoplay loop muted playsinline></video>
+      {% else %}
+
+      {% comment %} Improved YouTube video ID extraction with better edge case handling {% endcomment %}
+      {% assign video_id = '' %}
+      {% assign clean_url = current_video_url | strip %}
+
+      {% if clean_url contains 'youtu.be/' %}
+        {% comment %} Format: https://youtu.be/VIDEO_ID {% endcomment %}
+        {% assign url_parts = clean_url | split: 'youtu.be/' %}
+        {% if url_parts.size > 1 %}
+          {% assign id_part = url_parts[1] | split: '?' | first | split: '&' | first | split: '#' | first | split: '/' | first %}
+          {% assign id_part = id_part | strip %}
+          {% if id_part.size == 11 %}
+            {% assign video_id = id_part %}
+          {% endif %}
+        {% endif %}
+      {% elsif clean_url contains 'youtube.com' %}
+        {% if clean_url contains 'v=' %}
+          {% comment %} Format: https://www.youtube.com/watch?v=VIDEO_ID {% endcomment %}
+          {% assign url_parts = clean_url | split: 'v=' %}
+          {% if url_parts.size > 1 %}
+            {% assign id_part = url_parts[1] | split: '&' | first | split: '#' | first %}
+            {% assign id_part = id_part | strip %}
+            {% if id_part.size == 11 %}
+              {% assign video_id = id_part %}
+            {% endif %}
+          {% endif %}
+        {% elsif clean_url contains 'embed/' %}
+          {% comment %} Format: https://www.youtube.com/embed/VIDEO_ID {% endcomment %}
+          {% assign url_parts = clean_url | split: 'embed/' %}
+          {% if url_parts.size > 1 %}
+            {% assign id_part = url_parts[1] | split: '?' | first | split: '&' | first | split: '/' | first %}
+            {% assign id_part = id_part | strip %}
+            {% if id_part.size == 11 %}
+              {% assign video_id = id_part %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+
+
+      <style>
+        #shopify-section-{{ section.id }}{
+          position: relative !important;
+/*           padding-bottom: 56.25% !important;
+          height: 0 !important;
+          max-width: 1920px !important;
+          margin: 0 auto !important; */
+        }
+        .hero--{{ section.id }} .hero__media {
+          height: 100%;
+          width: 100%;
+        }
+        .hero--{{ section.id }} .hero__media iframe {
+          position: absolute !important;
+/*           top: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          max-height: 1080px !important; */
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      </style>
+
+      <script type="module">
+        // YouTube Video Implementation using Centralized Manager
+        import YouTubeManager from '@theme/youtube-manager';
+        
+        // Debounce utility function for performance optimization
+        function debounce(func, wait = 100) {
+          let timeout;
+          return function executedFunction(...args) {
+            const later = () => {
+              clearTimeout(timeout);
+              func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+          };
+        }
+        
+        // Mobile viewport height fix for better full-screen support
+        function setMobileViewportHeight() {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+          
+          // Debug logging for mobile height issues
+          if (window.innerWidth <= 589) {
+            console.log('Mobile viewport debug:', {
+              windowHeight: window.innerHeight,
+              vhValue: vh,
+              calculatedHeight: vh * 100,
+              sectionId: '{{ section.id }}',
+              mobileHeight: '{{ section.settings.mobile_height }}'
+            });
+          }
+        }
+        
+        // Set viewport height on load and resize with debounce
+        setMobileViewportHeight();
+        const debouncedSetViewportHeight = debounce(setMobileViewportHeight, 100);
+        window.addEventListener('resize', debouncedSetViewportHeight);
+        window.addEventListener('orientationchange', () => {
+          setTimeout(setMobileViewportHeight, 100);
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+          {% if video_id != blank %}
+            const videoId = '{{ video_id }}';
+            const sectionId = '{{ section.id }}';
+            const containerId = `youtube-player-${sectionId}`;
+            
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            console.log('Loading video for section {{ section.id }}:', {
+              videoId: videoId,
+              videoUrl: '{{ current_video_url }}',
+              reducedMotion: prefersReducedMotion
+            });
+
+            // Validate video ID length (YouTube IDs are 11 characters)
+            if (!videoId.trim() || videoId.trim().length !== 11) {
+              console.error('Invalid YouTube video ID extracted from URL: {{ current_video_url }}');
+              showVideoError('Invalid video URL provided');
+              return;
+            }
+            
+            // Show loading state
+            showLoadingState();
+            
+            // Initialize YouTube player using the centralized manager
+            YouTubeManager.createPlayer(containerId, videoId, {
+              playerVars: {
+                autoplay: prefersReducedMotion ? 0 : 1,  // Respect user preferences
+                mute: 1,
+                loop: 1,
+                playlist: videoId,
+                controls: 0,
+                showinfo: 0,
+                rel: 0,
+                modestbranding: 1,
+                playsinline: 1,
+                fs: 0,
+                iv_load_policy: 3 // Hide video annotations
+              },
+              events: {
+                onReady: function(event) {
+                  console.log(`YouTube player ready for section ${sectionId}`);
+                  hideLoadingState();
+                  
+                  try {
+                    event.target.mute();
+                    
+                    // Always autoplay unless user prefers reduced motion
+                    if (!prefersReducedMotion) {
+                      event.target.playVideo();
+                    }
+                    
+                    // Trigger resize after player is ready
+                    setTimeout(resizeVideo, 100);
+                    
+                    // Announce to screen readers when video is ready
+                    announceToScreenReader('Background video loaded');
+                  } catch (error) {
+                    console.error('Error in onReady handler:', error);
+                  }
+                },
+                onStateChange: function(event) {
+                  try {
+                    // Always loop the video unless reduced motion is preferred
+                    if (event.data === YT.PlayerState.ENDED && !prefersReducedMotion) {
+                      event.target.playVideo();
+                    }
+                  } catch (error) {
+                    console.error('Error in onStateChange handler:', error);
+                  }
+                },
+                onError: function(event) {
+                  const errorMessages = {
+                    2: 'Invalid video parameters',
+                    5: 'HTML5 player error',
+                    100: 'Video not found or is private',
+                    101: 'Video owner does not allow embedding',
+                    150: 'Video owner does not allow embedding'
+                  };
+                  
+                  const errorMessage = errorMessages[event.data] || 'Unknown playback error';
+                  console.error(`YouTube player error for section ${sectionId}:`, event.data, errorMessage);
+                  hideLoadingState();
+                  showVideoError(`${errorMessage} (Code: ${event.data})`);
+                }
+              }
+            }).catch(error => {
+              console.error(`Failed to initialize YouTube player for section ${sectionId}:`, error);
+              hideLoadingState();
+              showVideoError('Failed to load video player');
+            });
+            
+            // Loading state functions
+            function showLoadingState() {
+              const container = document.getElementById(containerId);
+              if (container) {
+                container.innerHTML = `
+                  <div class="video-loading" style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    background: #000;
+                    color: #fff;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  " aria-live="polite">
+                    <div style="text-align: center;">
+                      <div style="margin-bottom: 8px;">Loading video...</div>
+                      <div style="width: 20px; height: 20px; border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                    </div>
+                  </div>
+                `;
+              }
+            }
+            
+            function hideLoadingState() {
+              const loading = document.querySelector('.video-loading');
+              if (loading) {
+                loading.remove();
+              }
+            }
+            
+            function showVideoError(message) {
+              const container = document.getElementById(containerId);
+              if (container) {
+                container.innerHTML = `
+                  <div class="video-error" style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    background: #000;
+                    color: #fff;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  " role="alert" aria-live="assertive">
+                    <div style="text-align: center;">
+                      <p style="margin: 0 0 8px 0;">Video unavailable</p>
+                      <small style="opacity: 0.7;">${message}</small>
+                    </div>
+                  </div>
+                `;
+              }
+            }
+            
+            // Screen reader announcement function
+            function announceToScreenReader(message) {
+              const announcement = document.createElement('div');
+              announcement.setAttribute('aria-live', 'polite');
+              announcement.setAttribute('aria-atomic', 'true');
+              announcement.className = 'sr-only';
+              announcement.style.cssText = 'position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden;';
+              announcement.textContent = message;
+              document.body.appendChild(announcement);
+              
+              setTimeout(() => {
+                document.body.removeChild(announcement);
+              }, 1000);
+            }
+            
+            // Resize function for responsive behavior with error handling
+            function resizeVideo() {
+              try {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                const iframe = container.querySelector('iframe');
+                if (!iframe) return;
+                
+                const parentContainer = container.parentElement;
+                if (!parentContainer) return;
+                
+                const containerWidth = parentContainer.offsetWidth;
+                const containerHeight = parentContainer.offsetHeight;
+                const aspectRatio = 16 / 9;
+                
+                let newWidth, newHeight;
+                
+                if (containerWidth / containerHeight > aspectRatio) {
+                  newWidth = containerWidth;
+                  newHeight = containerWidth / aspectRatio;
+                } else {
+                  newWidth = containerHeight * aspectRatio;
+                  newHeight = containerHeight;
+                }
+                
+                iframe.style.width = newWidth + 'px';
+                iframe.style.height = newHeight + 'px';
+                iframe.style.position = 'absolute';
+                iframe.style.left = (containerWidth - newWidth) / 2 + 'px';
+                iframe.style.top = (containerHeight - newHeight) / 2 + 'px';
+              } catch (error) {
+                console.error('Error resizing video:', error);
+              }
+            }
+            
+            // Debounced resize event listener
+            const debouncedResize = debounce(resizeVideo, 150);
+            window.addEventListener('resize', debouncedResize);
+            
+            document.addEventListener('shopify:section:load', function() {
+              // Trigger resize when section loads in theme editor
+              setTimeout(resizeVideo, 100);
+            });
+            
+            // Cleanup on section unload (for theme editor)
+            if (window.Shopify && window.Shopify.designMode) {
+              document.addEventListener('shopify:section:unload', function(event) {
+                if (event.detail.sectionId === sectionId) {
+                  try {
+                    YouTubeManager.destroyPlayer(containerId);
+                    window.removeEventListener('resize', debouncedResize);
+                  } catch (error) {
+                    console.error('Error cleaning up player:', error);
+                  }
+                }
+              });
+            }
+            
+          {% else %}
+            console.error('No valid YouTube video ID found for URL: {{ current_video_url }}');
+            showVideoError('No valid video URL provided');
+          {% endif %}
+        });
+      </script>
+
+      <div 
+        id="youtube-player-{{ section.id }}" 
+        class="youtube-video-container"
+        aria-label="Background video player"
+        aria-hidden="true"
+        role="img">
+      </div>
+
+      {% endif %}
+    {% else %}
+      <div class="hero-video__placeholder" aria-hidden="true">
+        {{ 'hero-apparel-3' | placeholder_svg_tag: 'placeholder-svg hero-video__placeholder-svg' }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="hero__container spacing-style section section--full-width">
+    <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
+      <div class="hero__text-content {{ section.settings.text_align }}">
+        {%- unless section.settings.title == blank -%}
+          <h1 class="hero__title" id="hero-title-{{ section.id }}">
+            {{ section.settings.title | newline_to_br }}
+          </h1>
+        {%- endunless -%}
+        {%- unless section.settings.subheading == blank -%}
+          <div class="hero__subtitle" 
+               {%- unless section.settings.title == blank -%}aria-describedby="hero-title-{{ section.id }}"{%- endunless -%}>
+            {{ section.settings.subheading | escape }}
+          </div>
+        {%- endunless -%}
+        {%- if section.settings.link_text != blank -%}
+          <div class="hero__link color-{{ section.settings.color_scheme }}">
+            {%- if section.settings.link != blank -%}
+              <a href="{{ section.settings.link }}" 
+                 class="{{ section.settings.style_class }}"
+                 aria-label="{{ section.settings.link_text | escape }} - {{ section.settings.title | strip_html | escape }}">
+                {{ section.settings.link_text }}
+              </a>
+            {%- else -%}
+              <span class="{{ section.settings.style_class }}" 
+                    style="cursor: default;"
+                    role="text"
+                    aria-label="Text only: {{ section.settings.link_text | escape }}">
+                {{ section.settings.link_text }}
+              </span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+ 
+{% schema %}
+{
+  "name": "t:names.hero_video",
+  "tag": "section",
+  "class": "index-section--hero",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "t:sections.hero_video.settings.title.label",
+      "default": "This is heading"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "t:sections.hero_video.settings.title_size.label",
+      "default": 80,
+      "min": 40,
+      "max": 100,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.hero_video.settings.subheading.label",
+      "default": "This is subheading"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "t:sections.hero_video.settings.subheading_size.label",
+      "default": 40,
+      "min": 16,
+      "max": 60,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "t:sections.hero_video.settings.link_text.label",
+      "default": "Button"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:sections.hero_video.settings.link.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "style_class",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "button",
+          "label": "t:options.primary"
+        },
+        {
+          "value": "button-secondary",
+          "label": "t:options.secondary"
+        },
+        {
+          "value": "link",
+          "label": "t:options.link"
+        }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "t:sections.hero_video.settings.text_align.label",
+      "default": "vertical-center horizontal-center",
+      "options": [
+        {
+          "value": "vertical-center horizontal-left",
+          "label": "t:sections.hero_video.settings.text_align.options.center_left"
+        },
+        {
+          "value": "vertical-center horizontal-center",
+          "label": "t:sections.hero_video.settings.text_align.options.center"
+        },
+        {
+          "value": "vertical-center horizontal-right",
+          "label": "t:sections.hero_video.settings.text_align.options.center_right"
+        },
+        {
+          "value": "vertical-bottom horizontal-left",
+          "label": "t:sections.hero_video.settings.text_align.options.bottom_left"
+        },
+        {
+          "value": "vertical-bottom horizontal-center",
+          "label": "t:sections.hero_video.settings.text_align.options.bottom_center"
+        },
+        {
+          "value": "vertical-bottom horizontal-right",
+          "label": "t:sections.hero_video.settings.text_align.options.bottom_right"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "t:sections.hero_video.settings.video_url.label",
+      "info": "t:sections.hero_video.settings.video_url.info"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:sections.hero_video.settings.overlay_opacity.label",
+      "info": "t:sections.hero_video.settings.overlay_opacity.info",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "t:sections.hero_video.settings.section_height.label",
+      "default": "650px",
+      "options": [
+        {
+          "label": "16:9",
+          "value": "16-9"
+        },
+        {
+          "label": "450px",
+          "value": "450px"
+        },
+        {
+          "label": "550px",
+          "value": "550px"
+        },
+        {
+          "label": "650px",
+          "value": "650px"
+        },
+        {
+          "label": "750px",
+          "value": "750px"
+        },
+        {
+          "label": "t:sections.hero_video.settings.section_height.options.full_screen",
+          "value": "100vh"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_height",
+      "label": "t:sections.hero_video.settings.mobile_height.label",
+      "default": "auto",
+      "options": [
+        {
+          "label": "t:sections.hero_video.settings.mobile_height.options.auto",
+          "value": "auto"
+        },
+        {
+          "label": "250px",
+          "value": "250px"
+        },
+        {
+          "label": "300px",
+          "value": "300px"
+        },
+        {
+          "label": "400px",
+          "value": "400px"
+        },
+        {
+          "label": "500px",
+          "value": "500px"
+        },
+        {
+          "label": "t:sections.hero_video.settings.mobile_height.options.iphone_height",
+          "value": "850px"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.hero_video"
+    }
+  ]
+}
+{% endschema %}

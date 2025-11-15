@@ -1,3 +1,9 @@
+{% liquid
+  if show_wishlist_icon == nil
+    assign show_wishlist_icon = settings.enable_wishlist_icon
+  endif
+%}
+
 <script
   type="module"
   src="{{ 'cart-icon.js' | asset_url }}"
@@ -7,6 +13,16 @@
 <header-actions
   {{- block.shopify_attributes -}}
 >
+  {% if show_wishlist_icon %}
+    <a href="/pages/wishlist" class="header-actions__action header__icon--wishlist-link">
+      <span class="svg-wrapper icon-wishlist" aria-hidden="true">
+        {{ 'icon-heart-line.svg' | inline_asset_content }}
+      </span>
+      <span class="visually-hidden">Wishlist</span>
+      <div class="wishlist-count-bubble is-hidden" data-wishlist-counter>0</div>
+    </a>
+  {% endif %}
+
   {% if shop.customer_accounts_enabled %}
     {% render 'account-popover' %}
     {% render 'account-drawer' %}
@@ -18,7 +34,8 @@
     <a
       href="{{ routes.cart_url }}"
       class="header-actions__action action__cart"
-      aria-label="{{ 'accessibility.cart' | t }} {{ 'accessibility.cart_count' | t }}: {{ cart.item_count }}"
+      aria-label="{{ 'accessibility.cart' | t }}"
+      aria-describedby="cart-bubble-text"
     >
       {% render 'cart-icon-component' %}
     </a>
@@ -218,6 +235,12 @@
   .header-actions__action svg {
     width: var(--icon-size-md);
     height: var(--icon-size-md);
+  }
+
+  .header__icon--wishlist-link {
+    @media screen and (max-width: 989px) {
+      display: none;
+    }
   }
 
   .header-actions__cart-icon {

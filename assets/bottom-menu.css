@@ -1,0 +1,611 @@
+/* Bottom Menu Styles - Supporting bottom-nav-bar.liquid */
+
+/* Main container styles */
+.bottom-menu,
+.sticky-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--bottom-menu-bg, #fff);
+  color: var(--bottom-menu-color, #000);
+  height: var(--bottom-menu-height, 70px);
+  border-top: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  padding: 0 var(--padding-xs);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  overflow: visible;
+}
+
+/* Hide on desktop */
+@media only screen and (min-width: 768px) {
+  .bottom-menu--mobile-only,
+  .sticky-section {
+    display: none;
+  }
+}
+
+/* Item containers */
+.bottom-menu__item,
+.sticky-section-column {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-right: 1px solid #eee;
+  width: 20%;
+  overflow: visible;
+}
+
+.bottom-menu__item:last-child,
+.sticky-section-column:last-child {
+  border-right: none !important;
+}
+
+/* Link styles */
+.bottom-menu__link,
+.btm_link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--bottom-menu-font-size, 10px);
+  font-weight: 400;
+  line-height: 1.2;
+  padding: var(--padding-2xs, 4px);
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px; /* Minimum touch target */
+  position: relative;
+  margin: 20px;
+}
+
+.bottom-menu__link:hover,
+.bottom-menu__link:focus,
+.btm_link:hover,
+.btm_link:focus {
+  opacity: 0.7;
+  outline: none;
+}
+
+/* Icon styles */
+/* Icon styles */
+.bottom-menu__icon,
+.sticky-section i,
+.sticky-section .svg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--margin-2xs, 6px);
+  color: var(--bottom-menu-icon-color, #000);
+  position: relative;
+  width: 22px;
+  height: 22px;
+  font-size: 22px !important;
+}
+
+.sticky-section .sticky-section-menu-drawer .svg-wrapper {
+  width: var(--icon-size-xs, 0.85rem);
+  height: var(--icon-size-xs, 0.85rem);
+  font-size: var(--icon-size-xs, 0.85rem) !important;
+}
+
+.bottom-menu__icon.svg-wrapper,
+.sticky-section .svg-wrapper {
+  width: 22px;
+  height: 22px;
+}
+
+.sticky-section .sticky-section-menu-drawer .svg-wrapper svg {
+  width: var(--icon-size-xs, 0.85rem);
+  height: var(--icon-size-xs, 0.85rem);
+}
+
+/* SVG icon styling - Support both fill and stroke icons */
+.bottom-menu__icon.svg-wrapper svg,
+.sticky-section .svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: var(--bottom-menu-icon-color, #000);
+}
+
+/* Default handling - respect the original SVG design */
+.bottom-menu__icon.svg-wrapper svg,
+.sticky-section .svg-wrapper svg {
+  color: var(--bottom-menu-icon-color, #000);
+}
+
+/* For SVGs with fill="none" - render as stroke only */
+.bottom-menu__icon.svg-wrapper svg[fill="none"],
+.sticky-section .svg-wrapper svg[fill="none"] {
+  fill: none !important;
+  stroke: currentColor;
+  stroke-width: var(--icon-stroke-width, 1.5px);
+}
+
+/* For SVGs with fill="currentColor" - render as fill only */
+.bottom-menu__icon.svg-wrapper svg[fill="currentColor"],
+.sticky-section .svg-wrapper svg[fill="currentColor"] {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Ensure stroke elements don't get filled */
+.bottom-menu__icon.svg-wrapper svg path[stroke],
+.bottom-menu__icon.svg-wrapper svg circle[stroke],
+.sticky-section .svg-wrapper svg path[stroke],
+.sticky-section .svg-wrapper svg circle[stroke] {
+  fill: none !important;
+}
+
+/* Specific sizing for menu icon only - match header menu size */
+
+
+/* Cart Icon Specific Styles - Both naming conventions */
+.bottom-menu__cart-icon,
+.bottom-nav-cart-icon {
+  --cart-bubble-size: 20px;
+  --cart-bubble-top: 4.5px;
+  --cart-bubble-right: 2.5px;
+}
+
+cart-icon.bottom-menu__cart-icon,
+cart-icon.bottom-nav-cart-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  overflow: visible;
+}
+
+cart-icon.bottom-menu__cart-icon .svg-wrapper,
+cart-icon.bottom-nav-cart-icon .svg-wrapper {
+  position: relative;
+}
+
+.bottom-menu__cart-icon .cart-bubble,
+.bottom-nav-cart-icon .cart-bubble {
+  position: absolute;
+  top: var(--cart-bubble-top, 4.5px);
+  right: var(--cart-bubble-right, 2.5px);
+  z-index: 100;
+  margin: 0;
+  transform: translate(50%, -50%);
+  width: var(--cart-bubble-size);
+}
+
+/* Ensure cart bubble background and text colors are consistent */
+.bottom-nav-cart-icon,
+.bottom-menu__cart-icon {
+  --cart-bubble-background: var(
+    --bottom-menu-cart-bubble-background,
+    var(--color-primary-button-background, rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25)))
+  );
+  --cart-bubble-text: var(
+    --bottom-menu-cart-bubble-text,
+    var(--color-primary-button-text, var(--color-foreground))
+  );
+}
+
+.bottom-nav-cart-icon .cart-bubble__background,
+.bottom-menu__cart-icon .cart-bubble__background {
+  background-color: var(--cart-bubble-background);
+}
+
+.bottom-nav-cart-icon .cart-bubble__text,
+.bottom-menu__cart-icon .cart-bubble__text {
+  color: var(--cart-bubble-text);
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+}
+
+.header-actions__cart-icon--has-cart .svg-wrapper svg {
+  /* Create donut mask where the cart bubble sits */
+  mask: radial-gradient(
+    calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
+    transparent 45.45%,
+    #fff 45.45%,
+    #fff 100%
+  );
+}
+
+.bottom-nav-cart-icon.header-actions__cart-icon--has-cart .svg-wrapper svg {
+  mask: none;
+}
+
+/* Ensure cart-icon component integrates properly */
+cart-icon.bottom-menu__cart-icon,
+cart-icon.bottom-nav-cart-icon {
+  display: inline-flex;
+}
+
+cart-icon.bottom-menu__cart-icon .bottom-menu__link,
+cart-icon.bottom-nav-cart-icon .btm_link {
+  position: relative;
+}
+
+.bottom-nav-cart-trigger {
+  overflow: visible;
+}
+
+/* Wishlist Icon Specific Styles */
+.bottom-menu__wishlist-icon {
+  position: relative;
+}
+
+.bottom-menu__wishlist-icon--has-items .bottom-menu__icon {
+  /* Create donut mask where the wishlist bubble sits */
+  mask: radial-gradient(
+    calc(var(--cart-bubble-size, 20px) + 2px) at calc(100% - 8px) 6px,
+    transparent 45.45%,
+    #fff 45.45%,
+    #fff 100%
+  );
+}
+
+/* Legacy cart count styles (keeping for backward compatibility) */
+.cart-count {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  inset: auto;
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+  bottom: 35px;
+  right: -8px;
+}
+
+.bottom-icon-sticky .svg-wrapper {
+  position: relative;
+}
+
+.wishlist-total-count-bottom-menu {
+  --wishlist-bubble-size: 20px;
+  --wishlist-bubble-top: 4.5px;
+  --wishlist-bubble-right: 2.5px;
+  position: absolute;
+  top: var(--wishlist-bubble-top);
+  right: var(--wishlist-bubble-right);
+  width: var(--wishlist-bubble-size);
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(50%, -50%);
+  border-radius: var(--style-border-radius-lg, 999px);
+  color: var(
+    --bottom-menu-wishlist-counter-text,
+    var(--color-primary-button-text, var(--color-foreground))
+  );
+  font-size: var(--font-size--2xs);
+  font-weight: var(--font-paragraph--weight);
+  line-height: 1;
+  isolation: isolate;
+  pointer-events: none;
+  --wishlist-counter-background: var(
+    --bottom-menu-wishlist-counter-background,
+    var(
+      --color-primary-button-background,
+      rgb(var(--color-foreground-rgb) / var(--opacity-10-25, 0.25))
+    )
+  );
+}
+
+.wishlist-total-count-bottom-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--wishlist-counter-background);
+  z-index: -1;
+}
+
+.wishlist-total-count-bottom-menu__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size--2xs);
+}
+
+.wishlist-total-count-bottom-menu__number {
+  font-size: inherit;
+}
+
+.wishlist-total-count-bottom-menu.is-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.wishlist-total-count-bottom-menu.is-visible {
+  display: inline-flex !important;
+  visibility: visible !important;
+}
+
+/* Popup Styles - Both naming conventions */
+.bottom-menu__popup,
+.extended-menu,
+.collection-popup {
+  display: none;
+  justify-content: center;
+  position: fixed;
+  bottom: var(--bottom-menu-height, 70px);
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: var(--bottom-menu-bg, #fff);
+  border-bottom: 1px solid var(--bottom-menu-border-color, #e5e5e5);
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 20px 0 0 0;
+}
+
+/* Active popup states */
+.bottom-menu__popup--active {
+  display: block;
+}
+
+#popup:target,
+#collectionPopup:target {
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-menu__close,
+.close-popup {
+  position: absolute;
+  top: var(--padding-sm, 10px);
+  right: var(--padding-sm, 20px);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--padding-2xs);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  text-decoration: none;
+  color: #000;
+}
+
+.bottom-menu__close:hover,
+.close-popup:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Extended Menu Styles - Both naming conventions */
+.bottom-menu__extended,
+.extended-menu .container {
+  width: 80%;
+  padding: 40px 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-menu__extended-item,
+.extended-menu .container .item {
+  border-bottom: 1px solid #d3d3d3;
+  margin-bottom: 10px;
+}
+
+.extended-menu .container .item:last-child,
+.bottom-menu__extended-item:last-child {
+  border-bottom: none;
+}
+
+.bottom-menu__extended-link,
+.extended-menu .container a {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--font-size--xs, 16px);
+  transition: all 0.2s ease;
+  margin-bottom: 10px;
+}
+
+.bottom-menu__extended-link:hover,
+.extended-menu .container a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.bottom-menu__extended-icon,
+.extended-menu .container a i,
+.extended-menu .container a .svg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  color: var(--bottom-menu-icon-color, #000);
+}
+
+.bottom-menu__extended-icon.svg-wrapper,
+.extended-menu .container a .svg-wrapper {
+  width: 24px;
+  height: 24px;
+  --icon-stroke-width: 1.5px;
+}
+
+/* Extended menu SVG icons - Support both fill and stroke icons */
+.bottom-menu__extended-icon.svg-wrapper svg,
+.extended-menu .container a .svg-wrapper svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: currentColor;
+}
+
+/* For SVGs with fill="none" - render as stroke only */
+.bottom-menu__extended-icon.svg-wrapper svg[fill="none"],
+.extended-menu .container a .svg-wrapper svg[fill="none"] {
+  fill: none !important;
+}
+
+/* For SVGs with fill="currentColor" - render as fill only */
+.bottom-menu__extended-icon.svg-wrapper svg[fill="currentColor"],
+.extended-menu .container a .svg-wrapper svg[fill="currentColor"] {
+  stroke: none !important;
+}
+
+/* Ensure stroke elements don't get filled */
+.bottom-menu__extended-icon.svg-wrapper svg path[stroke],
+.bottom-menu__extended-icon.svg-wrapper svg circle[stroke],
+.extended-menu .container a .svg-wrapper svg path[stroke],
+.extended-menu .container a .svg-wrapper svg circle[stroke] {
+  fill: none !important;
+  stroke: currentColor;
+}
+
+/* Extended menu popup container */
+.extended-menu .ex-popup-container {
+  width: 100%;
+}
+
+/* Collections Popup Styles - Both naming conventions */
+.bottom-menu__collections,
+.collection-popup .ex-popup-container {
+  padding: var(--padding-md, 20px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0px 0px 20px 24px;
+}
+
+.bottom-menu__collection-grid,
+.custom-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--gap-md, 15px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 40px 15px;
+}
+
+.bottom-menu__collection-item,
+.custom-menu li,
+.collection-popup .ex-popup-container .item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  list-style: none;
+  width: auto;
+  padding-bottom: 10px;
+}
+
+.collection-popup .ex-popup-container .item:last-child {
+  border-bottom: none;
+}
+
+.bottom-menu__collection-image,
+.custom-menu-image,
+.collection-popup .ex-popup-container .item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: var(--margin-2xs);
+  margin-right: 15px;
+  background-color: var(--color-background-2);
+  display: flex;
+}
+
+.bottom-menu__collection-image img,
+.custom-menu-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bottom-menu__collection-link,
+.menu-link {
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--font-size--2xs, 12px);
+  line-height: 1.3;
+  display: block;
+  word-wrap: break-word;
+  word-break: break-word;
+  margin: 0px !important;
+}
+
+.bottom-menu__collection-link:hover,
+.menu-link:hover {
+  text-decoration: underline;
+}
+
+/* Border control for bottom-nav-bar.liquid hide-border setting */
+.sticky-section-column.no-borders,
+.bottom-menu__item.no-borders {
+  border-right: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 374px) {
+  .bottom-menu__link,
+  .btm_link {
+    font-size: calc(var(--bottom-menu-font-size, 10px) - 1px);
+  }
+  
+  .bottom-menu__icon.svg-wrapper,
+  .sticky-section .svg-wrapper {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 320px) {
+  .bottom-menu,
+  .sticky-section {
+    padding: 0 var(--padding-2xs);
+  }
+  
+  .bottom-menu__link,
+  .btm_link {
+    font-size: calc(var(--bottom-menu-font-size, 10px) - 2px);
+    padding: var(--padding-3xs, 2px);
+  }
+}
+
+/* Accessibility */
+.bottom-menu__link:focus-visible,
+.btm_link:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Ensure proper cart icon component integration - Both naming conventions */
+cart-icon.bottom-menu__cart-icon,
+cart-icon.bottom-nav-cart-icon {
+  display: inline-flex;
+}
+
+cart-icon.bottom-menu__cart-icon .bottom-menu__link,
+cart-icon.bottom-nav-cart-icon .btm_link {
+  position: relative;
+}

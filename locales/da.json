@@ -41,8 +41,8 @@
       "one": "{{ count }} filter anvendt",
       "other": "{{ count }} filtre anvendt"
     },
-    "account": "Åbn kontomenu",
-    "cart": "Indkøbskurv",
+    "account": "Konto",
+    "cart": "Kurv",
     "cart_count": "Varer i alt i indkøbskurven",
     "menu": "Menu",
     "country_region": "Land/område",
@@ -56,8 +56,7 @@
     "pause_video": "Sæt video på pause",
     "inventory_status": "Lagerstatus",
     "find_country": "Find land",
-    "localization_region_and_language": "Åbn område- og sprogvælger",
-    "open_search_modal": "Åbn søgning",
+    "localization_region_and_language": "Vælger til område og sprog",
     "decrease_quantity": "Reducer antal",
     "increase_quantity": "Øg antal",
     "quantity": "Antal",
@@ -229,7 +228,13 @@
     "recipient_form_fields_hidden": "Modtagerformularfelterne er nu skjulte",
     "recipient_form_error": "Der opstod en fejl ved indsendelsen af formularen",
     "product_custom_property_character_count": "{{ used_chars }}/{{ max_chars }} tegn brugt",
-    "terms_and_policies": "Vilkår og politikker"
+    "terms_and_policies": "Vilkår og politikker",
+    "pagination": {
+      "nav_label": "Navigation med sideinddeling",
+      "previous": "Forrige",
+      "next": "Næste",
+      "page": "Side {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

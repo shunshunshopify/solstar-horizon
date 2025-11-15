@@ -169,7 +169,14 @@
           ref="dialog"
           class="dialog-modal dialog-drawer pickup-location__dialog color-{{ settings.drawer_color_scheme }}"
           scroll-lock
+          aria-labelledby="pickup-dialog-heading"
         >
+          <h2
+            id="pickup-dialog-heading"
+            class="visually-hidden"
+          >
+            {{ 'actions.view_store_information' | t }}
+          </h2>
           <div class="pickup-availability__dialog-row pickup-availability__header-container">
             <div class="pickup-availability__column">
               <h4 class="pickup-location__h4">{{ closest.product.title }}</h4>

@@ -3,10 +3,6 @@
     assign current_variant = product.selected_or_first_available_variant
     assign product_form_id = 'product-form-' | append: section.id
     assign image = current_variant.image | default: product.featured_image
-    assign fly_to_cart_image = ''
-    if image
-      assign fly_to_cart_image = image | image_url: width: 120
-    endif
     assign variant_option_count = 0
     unless product.has_only_default_variant
       assign variant_option_count = product.options_with_values | size
@@ -20,7 +16,7 @@
     #md-sticky-atc{
       position: fixed;
       inset: auto 0 0 0;
-      z-index: 2;
+      z-index: 6; /* Higher than header overlay (16) to ensure it appears above bottom menu */
       border-top: 0.1rem solid rgba(var(--color-foreground), .08);
 
       padding-top: {{ section.settings.pt }}rem;
@@ -31,6 +27,11 @@
       transition: transform .15s ease-out, opacity .15s ease-out, visibility .15s ease-out;
       pointer-events: none;
       isolation: isolate;
+    }
+    
+    /* Adjust positioning when bottom navigation bar is enabled */
+    body:has(.bottom-menu) #md-sticky-atc {
+      bottom: var(--bottom-menu-height, 0px);
     }
     #md-sticky-atc.show{
       visibility: visible;
@@ -82,11 +83,7 @@
         "content"
         "controls";
     }
-    /* Remove gap and padding when all optional elements are disabled */
-    #md-sticky-atc.no-variant.no-qty.no-product-info{
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-    }
+    /* Adjust padding when all optional elements are disabled - use section settings */
     #md-sticky-atc.no-variant.no-qty.no-product-info .page-width-inner{
       gap: 0;
     }
@@ -159,7 +156,8 @@
     #md-sticky-atc .variant-option__select-wrapper{
       margin-top: 0;
       min-height: var(--height-buy-buttons);
-      border: var(--style-border-width) solid var(--color-variant-border);
+      border: {{ settings.variant_button_border_width }}px solid var(--color-variant-border);
+      border-radius: {{ settings.variant_button_radius }}px;
     }
     #md-sticky-atc .variant-option__select{
       padding-block: 0;
@@ -189,11 +187,23 @@
     }
 
     @media (max-width: 989px){
-      #md-sticky-atc .product-form__controls{
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: stretch;
-        gap: .5rem;
+      /* Keep other controls in a two-column layout */
+      #md-sticky-atc .product-form__controls {
+        grid-template-columns: repeat(2, 1fr);
       }
+
+      /* Make only the Add to Cart button span the full width */
+      #md-sticky-atc .product-form__submit.button {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+
+      /* Ensure add-to-cart-component displays properly in grid */
+      #md-sticky-atc add-to-cart-component {
+        display: contents;
+        grid-column: 1 / -1;
+      }
+
       #md-sticky-atc .product-form__controls[data-variant-count="0"]{
         grid-template-columns: 1fr;
         gap: 0;
@@ -202,16 +212,14 @@
         grid-template-columns: 1fr;
         gap: 0;
       }
-      #md-sticky-atc .product-form__submit.button{
-        grid-column: 1 / -1;
-        margin-top: .5rem;
-      }
+      
       #md-sticky-atc .product-form__controls[data-variant-count="0"] .product-form__submit.button{
         margin-top: 1rem;
       }
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .product-form__submit.button{
         margin-top: 0;
       }
+      
       /* Remove margin and gap when all optional elements are disabled on mobile */
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
         gap: 0;
@@ -219,10 +227,12 @@
       #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__submit.button{
         margin-top: 0;
       }
+      
       /* Add gap when only one variant option is available (no product info, no qty) */
       #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"] .product-form__submit.button{
         margin-top: .5rem;
       }
+      
       #md-sticky-atc .product-form__controls[data-variant-count="2"] .variant-controls,
       #md-sticky-atc .product-form__controls[data-variant-count="3"] .variant-controls,
       #md-sticky-atc.no-qty .product-form__controls[data-variant-count="1"] .variant-controls{
@@ -244,14 +254,57 @@
       #md-sticky-atc:not(.no-qty) .product-form__controls[data-variant-count="1"] .quantity-selector{
         grid-column: span 1;
       }
-      #md-sticky-atc.no-qty .product-form__submit.button{
-        grid-column: 1 / -1;
+    }
+      
+      /* Remove margin and gap when all optional elements are disabled on mobile */
+      #md-sticky-atc.no-variant.no-qty.no-product-info .product-form__controls{
+        gap: 0;
+      }
+      
+      /* Add gap when only one variant option is available (no product info, no qty) */
+      #md-sticky-atc.no-qty.no-product-info .product-form__controls[data-variant-count="1"]{
+        margin-bottom: .5rem;
       }
     }
 
     /* Add to cart – uses Horizon primary .button styles */
-    #md-sticky-atc .product-form__submit.button{ width: 100%; border-radius: var(--style-border-radius-buttons-primary); }
+    #md-sticky-atc .product-form__submit.button{ 
+      width: 100%; /* Full width base for mobile */
+      border: {{ settings.primary_button_border_width }}px solid;
+      border-radius: {{ settings.button_border_radius_primary }}px; 
+    }
     #md-sticky-atc .product-form__submit[disabled]{ opacity:.5; cursor:not-allowed; }
+    
+    /* Quantity selector - apply theme input and button settings */
+    #md-sticky-atc .quantity-selector {
+      border: var(--style-border-width-inputs) solid var(--color-input-border);
+      border-radius: {{ settings.button_border_radius_primary }}px;
+    }
+    
+    #md-sticky-atc .quantity-selector .quantity-minus {
+      border-start-start-radius: {{ settings.button_border_radius_primary }}px;
+      border-end-start-radius: {{ settings.button_border_radius_primary }}px;
+    }
+
+    #md-sticky-atc .quantity-selector .quantity-plus {
+      border-start-end-radius: {{ settings.button_border_radius_primary }}px;
+      border-end-end-radius: {{ settings.button_border_radius_primary }}px;
+    }
+    
+    #md-sticky-atc .quantity__button {
+      border: none;
+    }
+    
+    /* Fix span wrapper around add-to-cart button to allow grid-column to work */
+    #md-sticky-atc span[style*="--add-to-cart-font-case"] {
+      display: contents; /* Remove span from layout flow */
+    }
+    
+    /* Ensure proper add-to-cart button styling inheritance */
+    #md-sticky-atc .add-to-cart-button {
+      position: relative;
+      overflow: hidden;
+    }
 
     /* Desktop */
     @media (min-width: 990px){
@@ -274,11 +327,14 @@
       #md-sticky-atc .sticky-product-info{
         flex: 1;
       }
-      #md-sticky-atc .product-form{
+      #md-sticky-atc .product-form,
+      #md-sticky-atc product-form-component {
         flex: 1 1 auto;
         max-width: 60%;
         min-width: 0;
       }
+      
+      /* Use flexbox like your old code for reliable alignment */
       #md-sticky-atc .product-form__controls{
         display: flex;
         align-items: stretch;
@@ -287,10 +343,22 @@
         width: 100%;
         min-width: 0;
         justify-content: flex-end;
+        margin-bottom: 0;
       }
+      
       #md-sticky-atc.no-variant .product-form__controls{
         justify-content: flex-end;
       }
+      
+      /* Button gets constrained width like your old code */
+      #md-sticky-atc .product-form__submit.button{
+        flex: 0 0 auto;
+        width: clamp(140px, 185px, 185px);
+        min-width: 140px;
+        max-width: 185px;
+        height: var(--height-buy-buttons);
+      }
+      
       #md-sticky-atc .variant-controls{
         display: flex;
         flex: 1 1 auto;
@@ -316,13 +384,6 @@
         width: clamp(80px, var(--quantity-selector-width, 120px), 120px);
         align-self: stretch;
       }
-      #md-sticky-atc .product-form__submit.button{
-        flex: 0 0 auto;
-        width: clamp(140px, 185px, 185px);
-        min-width: 140px;
-        max-width: 185px;
-        height: var(--height-buy-buttons);
-      }
     }
   </style>
 
@@ -339,7 +400,8 @@
       const stickyOptionSelects = variantControls
         ? Array.from(variantControls.querySelectorAll('.variant-option__select'))
         : [];
-      const stickySelect = bar.querySelector('.select--variant-id select');
+      const stickySelect = bar.querySelector('.select--variant-id select[data-sticky]');
+      const stickyHiddenInput = bar.querySelector('input[ref="variantId"]');
       const variantsDataEl = bar.querySelector('[data-sticky-variants]');
       const variants = variantsDataEl ? JSON.parse(variantsDataEl.textContent) : [];
       if (variantsDataEl) variantsDataEl.remove();
@@ -350,6 +412,8 @@
       const minusBtn = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="minus"]') : null;
       const plusBtn  = qtyWrapper ? qtyWrapper.querySelector('.quantity__button[name="plus"]') : null;
       const stickyAddBtn = bar.querySelector('button[name="add"]');
+      
+      // The add-to-cart-component automatically handles click and animation
       const stickyFallbackMedia = stickyAddBtn ? stickyAddBtn.dataset.productVariantMedia : '';
       const cartIcon = document.querySelector('.header-actions__cart-icon');
 
@@ -420,14 +484,25 @@
       };
 
       const setStickyVariant = (variantId, { source = 'external', variantData = null } = {}) => {
-        if (!variantId || !stickySelect) return;
+        if (!variantId || !stickySelect || !stickyHiddenInput) return;
+        
+        // Find the option element with variant data
         const target = stickySelect.querySelector(`option[value="${variantId}"]`);
         if (!target) return;
+        
+        // Update both the select dropdown and hidden input
         if (stickySelect.value !== String(variantId)) {
           stickySelect.value = String(variantId);
         }
+        if (stickyHiddenInput.value !== String(variantId)) {
+          stickyHiddenInput.value = String(variantId);
+        }
         currentVariantId = String(variantId);
+        
+        // Update UI elements using option data attributes
         updateStickyFromOption(target);
+        
+        // Get variant data and update option selectors
         const variant = variantData || findVariantById(variantId);
         if (variant) {
           if (source !== 'options') {
@@ -435,6 +510,9 @@
           }
           setMediaFromVariant(variant);
         }
+        
+        // Sync with main product form
+        const mainVariantControl = document.querySelector('[name="id"]:not([data-sticky])');
         if (source !== 'external' && mainVariantControl) {
           if (mainVariantControl.tagName === 'SELECT' && mainVariantControl.value !== stickySelect.value) {
             mainVariantControl.value = stickySelect.value;
@@ -446,6 +524,22 @@
         }
       };
 
+      // Function to update sticky ATC position based on bottom navigation bar
+      const updateStickyPosition = () => {
+        const bottomNavElement = document.querySelector('.bottom-menu');
+        
+        if (bottomNavElement && bottomNavElement.offsetParent !== null) {
+          // Bottom navigation bar is visible, position sticky ATC above it
+          const bottomMenuHeight = getComputedStyle(document.documentElement).getPropertyValue('--bottom-menu-height') || '0px';
+          bar.style.bottom = bottomMenuHeight;
+          console.log('Sticky ATC positioned above bottom nav bar, height:', bottomMenuHeight);
+        } else {
+          // No bottom navigation bar, position at bottom
+          bar.style.bottom = '0px';
+          console.log('Sticky ATC positioned at viewport bottom, no bottom nav detected');
+        }
+      };
+
       // Show sticky only after default ATC disappears (on mobile, after it has been seen once)
       const isMobile = window.matchMedia('(max-width: 989px)').matches;
       let hasSeenDefaultATC = !isMobile;
@@ -453,7 +547,20 @@
       const setShown = (shown) => {
         bar.classList.toggle('show', shown);
         bar.setAttribute('aria-hidden', shown ? 'false' : 'true');
-        document.body.style.paddingBottom = shown ? `${bar.clientHeight}px` : '0';
+        
+        // Update position when showing
+        if (shown) {
+          updateStickyPosition();
+        }
+        
+        // Calculate bottom offset for body padding
+        // Check if there's a bottom navigation bar that would affect positioning
+        const hasBottomNav = document.querySelector('.bottom-menu');
+        
+        // If bottom nav is enabled, the sticky ATC is positioned above it, so no body padding needed
+        const bottomOffset = hasBottomNav ? 0 : bar.clientHeight;
+        
+        document.body.style.paddingBottom = shown ? `${bottomOffset}px` : '0';
       };
 
       const header = document.querySelector('sticky-header, header[is-sticky], .shopify-section-header-sticky');
@@ -477,8 +584,34 @@
       // Keep padding in sync on resize
       window.addEventListener('resize', () => {
         if (bar.classList.contains('show')) {
-          document.body.style.paddingBottom = `${bar.clientHeight}px`;
+          updateStickyPosition();
+          
+          const hasBottomNav = document.querySelector('.bottom-menu');
+          const bottomOffset = hasBottomNav ? 0 : bar.clientHeight;
+          document.body.style.paddingBottom = `${bottomOffset}px`;
         }
+      });
+      
+      // Watch for bottom navigation changes (in case it's added/removed dynamically)
+      const bottomNavElement = document.querySelector('.bottom-menu');
+      if (bottomNavElement) {
+        const bottomNavObserver = new MutationObserver(() => {
+          if (bar.classList.contains('show')) {
+            updateStickyPosition();
+          }
+        });
+        bottomNavObserver.observe(bottomNavElement, { childList: true, subtree: true });
+      }
+      
+      // Also listen for CSS custom property changes to --bottom-menu-height
+      const rootObserver = new MutationObserver(() => {
+        if (bar.classList.contains('show')) {
+          updateStickyPosition();
+        }
+      });
+      rootObserver.observe(document.documentElement, { 
+        attributes: true, 
+        attributeFilter: ['style'] 
       });
 
       // ---- Variant/price/button sync ----
@@ -494,9 +627,7 @@
 
         if (stickyAddBtn){
           stickyAddBtn.disabled = !available;
-          const addText = stickyAddBtn.getAttribute('data-add-text') || 'Add to cart';
-          const soldOutText = stickyAddBtn.getAttribute('data-sold-out-text') || 'Sold out';
-          stickyAddBtn.textContent = available ? addText : soldOutText;
+          // Don't manually update button text - let the add-to-cart-component handle it
           if (animationImg) {
             stickyAddBtn.dataset.productVariantMedia = animationImg;
           } else if (stickyFallbackMedia) {
@@ -529,19 +660,22 @@
         }
       }
 
-      if (stickySelect){
+      // Add event listener for variant dropdown changes
+      if (stickySelect) {
         stickySelect.addEventListener('change', () => {
           const selectedId = stickySelect.value;
           if (selectedId) {
             setStickyVariant(selectedId, { source: 'select', variantData: findVariantById(selectedId) });
           }
         });
-        if (stickySelect.value) {
-          setStickyVariant(stickySelect.value, {
-            source: 'external',
-            variantData: findVariantById(stickySelect.value),
-          });
-        }
+      }
+
+      // Initialize with current variant value
+      if (stickySelect && stickySelect.value) {
+        setStickyVariant(stickySelect.value, {
+          source: 'external',
+          variantData: findVariantById(stickySelect.value),
+        });
       } else if (variants.length) {
         const fallbackVariant = variants.find((variant) => variant.available) || variants[0];
         if (fallbackVariant) {
@@ -591,50 +725,8 @@
         });
       }
 
-      // Sticky ATC should behave EXACTLY like main PDP ATC
-      if (stickyAddBtn) {
-        stickyAddBtn.addEventListener('click', (e) => {
-          if (mainAddBtn) {
-            e.preventDefault();
-
-            // Sync variant to main select if needed
-            if (stickySelect && mainVariantControl && mainVariantControl.tagName === 'SELECT') {
-              if (mainVariantControl.value !== stickySelect.value) {
-                mainVariantControl.value = stickySelect.value;
-                mainVariantControl.dispatchEvent(new Event('change', { bubbles: true }));
-              }
-            }
-
-            // Sync quantity to main form if present
-            const mainQtyInput = mainForm && mainForm.querySelector('input[name="quantity"]');
-            if (mainQtyInput && qtyInput && mainQtyInput.value !== qtyInput.value) {
-              mainQtyInput.value = qtyInput.value || '1';
-              mainQtyInput.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-
-            const originalAnimationSetting =
-              mainAddComponent ? mainAddComponent.getAttribute('data-add-to-cart-animation') : null;
-            if (mainAddComponent && originalAnimationSetting === 'true') {
-              mainAddComponent.setAttribute('data-add-to-cart-animation', 'false');
-            }
-
-            animateFlyToCart();
-
-            // Delegate to theme logic (AJAX add, drawer, stay on PDP, etc.)
-            try {
-              mainAddBtn.click();
-            } finally {
-              if (mainAddComponent) {
-                if (originalAnimationSetting === null) {
-                  mainAddComponent.removeAttribute('data-add-to-cart-animation');
-                } else {
-                  mainAddComponent.setAttribute('data-add-to-cart-animation', originalAnimationSetting);
-                }
-              }
-            }
-          }
-        });
-      }
+      // The add-to-cart-component automatically handles click and animation
+      // No need for custom click handler - let the component work
 
       // ---- Layout optimization (no empty space when controls are hidden) ----
       function updateLayoutFlags(){
@@ -693,13 +785,32 @@
           </div>
 
           <!-- Controls -->
-          <product-form class="product-form">
-            {%- form 'product', product, id: product_form_id, class: 'form' -%}
+          <product-form-component
+            data-section-id="{{ section.id }}"
+            data-product-id="{{ product.id }}"
+            data-product-url="{{ product.url }}"
+            on:submit="/handleSubmit"
+            data-quantity-default="{% if product.selected_or_first_available_variant.quantity_rule.min %}{{ product.selected_or_first_available_variant.quantity_rule.min }}{% else %}1{% endif %}"
+          >
+            <div
+              class="visually-hidden"
+              aria-live="assertive"
+              role="status"
+              aria-atomic="true"
+              ref="liveRegion"
+            ></div>
+            {%- form 'product', product, id: product_form_id, class: 'form', data-type: 'add-to-cart-form' -%}
+              <input
+                type="hidden"
+                name="id"
+                ref="variantId"
+                value="{{ current_variant.id }}"
+              >
               {% assign controls_variant_count = 0 %}
               {% if variant_option_count > 0 and section.settings.show_variant_picker %}
                 {% assign controls_variant_count = variant_option_count %}
               {% endif %}
-              <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
+                            <div class="product-form__controls" data-variant-count="{{ controls_variant_count }}">
                 {% if variant_option_count > 0 and section.settings.show_variant_picker %}
                   <div class="variant-controls" data-option-count="{{ variant_option_count }}">
                     {% for option in product.options_with_values %}
@@ -734,28 +845,6 @@
                     {% endfor %}
                   </div>
                 {% endif %}
-
-                <!-- Variant id select kept for data + submission -->
-                <div class="select select--variant-id" style="display:none;">
-                  <select name="id" aria-label="Select variant">
-                    {% for variant in product.variants %}
-                      {% assign variant_image = variant.image | default: product.featured_image %}
-                      <option
-                        value="{{ variant.id }}"
-                        data-img="{% if variant_image %}{{ variant_image | image_url: width: 60, height: 60, crop: 'center' }}{% endif %}"
-                        data-price-html="{{ variant.price | money }}"
-                        data-animation-img="{% if variant_image %}{{ variant_image | image_url: width: 120 }}{% endif %}"
-                        data-available="{{ variant.available }}"
-                        {% if current_variant.id == variant.id %}selected{% endif %}
-                      >
-                        {{ variant.title }} - {{ variant.price | money }}
-                      </option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <script type="application/json" data-sticky-variants>
-                  {{ product.variants | json }}
-                </script>
 
                 <!-- Quantity (toggle via setting) -->
                 {% if section.settings.show_qty %}
@@ -794,21 +883,52 @@
                   </div>
                 {% endif %}
 
-                <!-- Add to cart -->
-                <button
-                  type="submit"
-                  name="add"
-                  class="product-form__submit button"
-                  data-add-text="{{ 'products.product.add_to_cart' | t | escape }}"
-                  data-sold-out-text="{{ 'products.product.sold_out' | t | escape }}"
-                  data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
-                  data-product-variant-media="{{ fly_to_cart_image }}"
-                >
-                  {{ 'products.product.add_to_cart' | t }}
-                </button>
+                <!-- Variant id select kept for data + switching functionality -->
+                <div class="select select--variant-id" style="display:none;">
+                  <select name="id" aria-label="Select variant" data-sticky>
+                    {% for variant in product.variants %}
+                      {% assign variant_image = variant.image | default: product.featured_image %}
+                      <option
+                        value="{{ variant.id }}"
+                        data-img="{% if variant_image %}{{ variant_image | image_url: width: 60, height: 60, crop: 'center' }}{% endif %}"
+                        data-price-html="{{ variant.price | money }}"
+                        data-animation-img="{% if variant_image %}{{ variant_image | image_url: width: 120 }}{% endif %}"
+                        data-available="{{ variant.available }}"
+                        {% if current_variant.id == variant.id %}selected{% endif %}
+                      >
+                        {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <script type="application/json" data-sticky-variants>
+                  {{ product.variants | json }}
+                </script>
+                <!-- Add to cart button - back in grid -->
+                {% liquid
+                  if current_variant and current_variant.available
+                    assign can_add_to_cart = true
+                    assign add_to_cart_text = 'products.product.add_to_cart' | t
+                  else
+                    assign can_add_to_cart = false
+                    assign add_to_cart_text = 'products.product.sold_out' | t
+                  endif
+                  assign sticky_button_id = 'BuyButtons-ProductSubmitButton-' | append: section.id
+                %}
+                
+                <span style="--add-to-cart-font-case: {{ settings.button_text_case }};">
+                  {% render 'add-to-cart-button',
+                    id: sticky_button_id,
+                    class: 'add-to-cart-button product-form__submit button',
+                    can_add_to_cart: can_add_to_cart,
+                    product: product,
+                    add_to_cart_text: add_to_cart_text
+                  %}
+                </span>
               </div>
             {%- endform -%}
-          </product-form>
+          </product-form-component>
         </div>
       </div>
     </div>
@@ -817,22 +937,26 @@
 
 {% schema %}
 {
-  "name": "Sticky ATC",
+  "name": "t:names.sticky_atc",
   "settings": [
-    { "type": "header", "content": "General" },
-    { "type": "checkbox", "id": "enable_section", "label": "Enable \"Sticky ATC\"", "default": true },
-    { "type": "checkbox", "id": "mobile_only", "label": "Show mobile screen only", "default": false },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "t:sections.sticky_atc.settings.general" },
+    { "type": "checkbox", "id": "enable_section", "label": "t:sections.sticky_atc.settings.enable_section.label", "default": true },
+    { "type": "checkbox", "id": "mobile_only", "label": "t:sections.sticky_atc.settings.mobile_only.label", "default": false },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.sticky_atc.settings.color_scheme.label", "default": "scheme-1" },
+    { "type": "paragraph", "content": "t:sections.sticky_atc.settings.note_bottom_menu.content" },
 
-    { "type": "header", "content": "Controls" },
-    { "type": "checkbox", "id": "show_qty", "label": "Show quantity picker", "default": true },
-    { "type": "checkbox", "id": "show_variant_picker", "label": "Show variant picker", "default": true },
-    { "type": "checkbox", "id": "show_img", "label": "Show product image, title and price", "default": true },
+    { "type": "header", "content": "t:sections.sticky_atc.settings.controls" },
+    { "type": "checkbox", "id": "show_qty", "label": "t:sections.sticky_atc.settings.show_qty.label", "default": true },
+    { "type": "checkbox", "id": "show_variant_picker", "label": "t:sections.sticky_atc.settings.show_variant_picker.label", "default": true },
+    { "type": "checkbox", "id": "show_img", "label": "t:sections.sticky_atc.settings.show_img.label", "default": true },
 
-    { "type": "header", "content": "Spacing" },
-    { "type": "range", "id": "pt", "label": "Padding top (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 },
-    { "type": "range", "id": "pb", "label": "Padding bottom (rem)", "min": 0, "max": 5, "step": 0.5, "default": 0.5 }
+    { "type": "header", "content": "t:sections.sticky_atc.settings.positioning" },
+    { "type": "paragraph", "content": "t:sections.sticky_atc.settings.note_positioning.content" },
+
+    { "type": "header", "content": "t:sections.sticky_atc.settings.spacing" },
+    { "type": "range", "id": "pt", "label": "t:sections.sticky_atc.settings.pt.label", "min": 0, "max": 5, "step": 0.5, "default": 0.5 },
+    { "type": "range", "id": "pb", "label": "t:sections.sticky_atc.settings.pb.label", "min": 0, "max": 5, "step": 0.5, "default": 0.5 }
   ],
-  "presets": [{ "name": "Sticky ATC" }]
+  "presets": [{ "name": "t:names.sticky_atc" }]
 }
 {% endschema %}

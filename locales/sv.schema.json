@@ -172,7 +172,8 @@
     "blog_posts_grid": "Bloggposter: rutnät",
     "blog_posts_carousel": "Bloggposter: karusell",
     "blog_posts_editorial": "Bloggposter: redaktionellt",
-    "excerpt": "Utdrag"
+    "excerpt": "Utdrag",
+    "footer_password": "Lösenord sidfot"
   },
   "settings": {
     "alignment": "Justering",
@@ -491,7 +492,6 @@
     "animation_repeat": "Upprepa animering",
     "blurred_reflection": "Suddig reflektion",
     "card_hover_effect": "Korthovringseffekt",
-    "effects": "Effekter",
     "inventory_threshold": "Tröskel för låg lagernivå",
     "reflection_opacity": "Reflektionens opacitet",
     "show_inventory_quantity": "Visa antal i lager vid låg lagernivå",
@@ -531,9 +531,13 @@
     },
     "blog": "Blogg",
     "post_count": "Postantal",
+    "animation": "Animering",
     "top_level_size": "Storlek högst upp",
     "submenu_text_style": "Textstil för undermeny",
-    "empty_cart_button_link": "Knapplänk för att tömma varukorg"
+    "empty_cart_button_link": "Knapplänk för att tömma varukorg",
+    "auto_load_products": "Ladda produkter automatiskt vid rullning",
+    "products_per_page": "Produkter per sida",
+    "block_link": "Blocklänk"
   },
   "options": {
     "adapt_to_image": "Anpassa till bild",
@@ -917,7 +921,48 @@
     "email_signup": "E-postregistrering"
   },
   "html_defaults": {
-    "share_information_about_your": "<p>Dela information om ditt varumärke med dina kunder. Beskriv en produkt, gör tillkännagivanden eller välkomna kunder till din butik.</p>"
+    "share_information_about_your": "<p>Dela information om ditt varumärke med dina kunder. Beskriv en produkt, gör tillkännagivanden eller välkomna kunder till din butik.</p>",
+    "bestseller_h2": "<h2>Bästsäljare</h2>",
+    "bestseller_h3": "<h3>Bästsäljare</h3>",
+    "bestseller": "<p>Bästsäljare</p>",
+    "build_better": "<p>Vi tror på att bygga bättre</p>",
+    "contact_us": "<h2>Kontakta oss</h2>",
+    "discover_bestsellers": "<p>Upptäck bästsäljarna som har fångat våra kunders hjärtan med en perfekt balans mellan funktion och stil.</p>",
+    "everythings_starts_with_why": "<p>Allt vi gör börjar med varför</p>",
+    "explore_latest_products": "<p>Utforska våra senaste produkter.</p>",
+    "faq": "<h3>Vanliga frågor</h3>",
+    "first_to_know": "<p>Var först med att få reda på nya produktserier och specialerbjudanden.</p>",
+    "free_returns": "<p>Fri retur i 30 dagar</p>",
+    "free_shipping_over": "<p>Fri frakt över 50 USD</p>",
+    "goal_for_every_customer": "<p>Vårt mål är att varje kund ska vara nöjd med sitt köp. Hör av dig om så inte är fallet så ska vi göra vårt bästa för att rätta till det.</p>",
+    "home_to_shirts": "<p>Startsida → Skjortor</p>",
+    "intentional_design": "<h2>Avsiktlig design</h2>",
+    "introducing_h2": "<h2><em>Vi introducerar</em></h2>",
+    "latest_products": "<p>Vi presenterar våra senaste produkter, specialgjorda för årstiden. Köp dina favoriter innan de försvinner!</p>",
+    "made_local_and_global": "<p>Våra produkter tillverkas både lokalt och globalt. Vi väljer noggrant ut våra tillverkningspartners för att se till att våra produkter alltid har hög kvalitet och är prisvärda.</p>",
+    "made_with_care_h2": "<h2>Tillverkat med omsorg</h2>",
+    "made_with_care_extended": "<p>Den här bästsäljaren överträffar alla förväntningar. Den är tillverkad med omsorg och våra kunder älskar den.</p>",
+    "made_with_care": "<p>Tillverkad med omsorg och våra kunder älskar den.</p>",
+    "make_things_better_extended": "<p>Vi tillverkar saker som fungerar bättre och varar längre. Våra produkter löser faktiska problem med en stilren design och genuina material.</p>",
+    "make_things_better": "<p>Vi tillverkar saker som fungerar bättre och varar längre.</p>",
+    "may_also_like": "<h4>Du kanske även gillar</h4>",
+    "new_arrivals_h1": "<h1>Nyheter</h1>",
+    "new_arrivals_h2": "<h2>Nyheter</h2>",
+    "new_arrivals_h3": "<h3>Nyheter</h3>",
+    "product_launch": "<p>Ta en titt på vad som händer bakom kulisserna för vår senaste produktlansering.</p>",
+    "product_story": "<p>I hjärtat av varje produkt ligger en unik berättelse som drivs av vår passion för kvalitet och innovation. Varje artikel förbättrar ditt liv och sprider glädje.</p>",
+    "real_people": "<p>Riktiga människor tillverkar bra produkter</p>",
+    "related_product": "<h3>Relaterade produkter</h3>",
+    "return_policy": "<h2>Vad är returpolicyn?</h2>",
+    "reviews": "<p>★★★★★ 368 omdömen</p>",
+    "shipping_based_on_location": "<p>Frakt beräknas baserat på din plats och artiklarna i ordern. Du vet alltid vad fraktkostnaden blir innan du gör inköpet.</p>",
+    "shop_by_collection": "<h3>Handla efter produktserie</h3>",
+    "signature_products": "<h2>Vår signaturprodukt</h2>",
+    "styled_with": "<h3>Utformad med</h3>",
+    "subscribe": "<h2>Prenumerera på e-post från oss</h2>",
+    "team_with_goal": "<h2>Ett team med ett mål</h2>",
+    "unable_to_accept_returns": "<p>Vi kan inte ta emot returer för vissa artiklar. De markeras noggrant innan köpet.</p>",
+    "work_quickly_to_ship": "<p>Vi kommer att arbeta snabbt för att skicka din order så fort som möjligt. När ordern har skickats får du ett e-postmeddelande med ytterligare information. Leveranstiderna varierar beroende på din plats.</p>"
   },
   "text_defaults": {
     "button_label": "Shoppa nu",
@@ -930,7 +975,26 @@
     "popup_link": "Popup-länk",
     "sign_up": "Registrera dig",
     "welcome_to_our_store": "Välkommen till vår butik",
-    "shop_our_latest_arrivals": "Handla våra senaste nyheter!"
+    "shop_our_latest_arrivals": "Handla våra senaste nyheter!",
+    "are_purchases_final_sale": "Är det några inköp som slutreas?",
+    "care_instructions": "Skötselråd",
+    "cart": "Varukorg",
+    "discover_collection": "Upptäck produktserien",
+    "fit": "passform",
+    "how_much_for_shipping": "Hur mycket kostar leveransen?",
+    "learn_more": "Mer information",
+    "manufacturing": "Tillverkning",
+    "materials": "Material",
+    "return_policy": "Returpolicy",
+    "shipping": "Leverans",
+    "shop_now_button_label": "Shoppa nu",
+    "sign_up_button_label": "Registrera dig",
+    "submit_button_label": "Skicka in",
+    "up_the_ante": "Höj\ninsatsen",
+    "view_all_button_label": "Visa alla",
+    "what_is_return_policy": "Vad är returpolicyn?",
+    "when_will_order_arrive": "När får jag min order?",
+    "where_are_products_made": "Var tillverkas era produkter?"
   },
   "info": {
     "video_alt_text": "Beskriv videon för användare av hjälpmedelsteknik",
@@ -956,7 +1020,7 @@
     "hover_effects": "Gäller produkt- och produktseriekort",
     "hide_logo_on_home_page_help": "Logotypen förblir synlig när fast sidhuvud är aktivt",
     "media_type_info": "Funktioner fylls i från dina menylänkar",
-    "logo_height": "Påverkar endast header logotyp"
+    "logo_height": "Påverkar endast logotyp i sidhuvud"
   },
   "categories": {
     "basic": "Basic",
@@ -975,6 +1039,7 @@
     "decorative": "Dekorativ",
     "products": "Produkter",
     "other_sections": "Övrigt",
-    "storytelling": "Berättande"
+    "storytelling": "Berättande",
+    "text": "Text"
   }
 }

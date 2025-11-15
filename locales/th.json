@@ -56,8 +56,7 @@
     "inventory_status": "สถานะสินค้าคงคลัง",
     "pause_video": "หยุดวิดีโอชั่วคราว",
     "find_country": "ค้นหาประเทศ",
-    "localization_region_and_language": "เปิดตัวเลือกภูมิภาคและภาษา",
-    "open_search_modal": "เปิดการค้นหา",
+    "localization_region_and_language": "ตัวเลือกภูมิภาคและภาษา",
     "decrease_quantity": "ลดจำนวน",
     "increase_quantity": "เพิ่มจำนวน",
     "quantity": "จำนวน",
@@ -229,7 +228,13 @@
     "recipient_form_fields_hidden": "ซ่อนช่องข้อมูลผู้รับในแบบฟอร์มแล้ว",
     "recipient_form_error": "เกิดข้อผิดพลาดในการส่งแบบฟอร์ม",
     "product_custom_property_character_count": "ใช้ไปแล้ว {{ used_chars }}/{{ max_chars }} อักขระ",
-    "terms_and_policies": "ข้อกำหนดและนโยบาย"
+    "terms_and_policies": "ข้อกำหนดและนโยบาย",
+    "pagination": {
+      "nav_label": "การนำทางไปที่การแบ่งหน้า",
+      "previous": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "page": "หน้า {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

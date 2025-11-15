@@ -37,7 +37,7 @@
     "search_results_count": "Znaleziono wyniki wyszukiwania ({{ count }}) dla „{{ query }}”",
     "search_results_no_results": "Nie znaleziono wyników dla „{{ query }}”",
     "filters": "Filtry",
-    "account": "Otwórz menu konta",
+    "account": "Konto",
     "cart": "Koszyk",
     "cart_count": "Łączna liczba pozycji w koszyku",
     "filter_count": {
@@ -58,8 +58,7 @@
     "pause_video": "Zatrzymaj film",
     "inventory_status": "Stan zapasów",
     "find_country": "Znajdź kraj",
-    "localization_region_and_language": "Otwórz region i selektor języka",
-    "open_search_modal": "Otwórz wyszukiwanie",
+    "localization_region_and_language": "Region i selektor języka",
     "decrease_quantity": "Zmniejsz ilość",
     "increase_quantity": "Zwiększ ilość",
     "rating": "Ocena tego produktu to: {{ rating }} na 5",
@@ -299,6 +298,15 @@
       "post": "Opublikuj komentarz",
       "success_moderated": "Komentarz został opublikowany i oczekuje na moderację",
       "success": "Opublikowano komentarz"
+    }
+  },
+  "general": {
+    "localization_region_and_language": "Wybór regionu i języka",
+    "pagination": {
+      "nav_label": "Nawigacja stronicowania",
+      "previous": "Poprzednia",
+      "next": "Następna",
+      "page": "Strona {{ page }}"
     }
   }
 }

@@ -1,0 +1,456 @@
+
+  
+
+  
+/* Base layout and positioning */
+:root {
+  --vh: 1vh; /* Can be updated via JavaScript for mobile viewport fixes */
+  /* Hero video text sizing defaults */
+  --hero-title-size-mobile: 40px;
+  --hero-title-size-desktop: 80px;
+  --hero-subtitle-size-mobile: 16px;
+  --hero-subtitle-size-desktop: 40px;
+}
+
+.video-parent-section{
+  overflow: hidden;
+  position: relative;
+}/* Hero media wrapper */
+.video-parent-section .hero__media {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-column: 1 / -1;
+  z-index: -1;
+}
+
+.hero__media .video-div{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Consolidated height system - Desktop first, mobile override */
+.hero--450px{ height: 450px; }
+.hero--550px{ height: 550px; }
+.hero--650px{ height: 650px; }
+.hero--750px{ height: 750px; }
+.hero--100vh{ 
+  height: 100vh; 
+  /* Use CSS custom property for accurate viewport calculations */
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+@supports (height: 100dvh) {
+  .hero--100vh {
+    height: 100dvh;
+  }
+}
+.hero--16-9{
+  position: relative;
+}
+
+@media only screen and (min-width: 590px) {
+  .hero--16-9{
+    min-height: 0;
+    height: auto;
+  }
+  .hero--16-9::before{
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: 56.25%;
+  }
+  @supports (aspect-ratio: 16 / 9) {
+    .hero--16-9{
+      aspect-ratio: 16 / 9;
+    }
+    .hero--16-9::before{
+      display: none;
+      padding-bottom: 0;
+    }
+  }
+  .hero--16-9 .hero__container{
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    height: 100%;
+  }
+  .hero--16-9 .hero__content-wrapper.page-width,
+  .hero--16-9 .hero__text-wrap{
+    height: 100%;
+    min-height: 0;
+  }
+}
+
+/* Mobile height overrides - Use !important to override desktop values */
+@media only screen and (max-width: 749px) {
+  /* Proportional mobile heights for desktop fixed heights */
+  .hero--450px{ height: 292.5px !important; }
+  .hero--550px{ height: 357.5px !important; }
+  .hero--650px{ height: 422.5px !important; }
+  .hero--750px{ height: 487.5px !important; }
+  .hero--100vh{ 
+    height: 100vh !important; 
+    /* Use CSS custom property for accurate mobile viewport */
+    height: calc(var(--vh, 1vh) * 100) !important;
+  }
+
+  @supports (height: 100dvh) {
+    .hero--100vh {
+      height: 100dvh !important;
+    }
+  }
+  
+  /* 16:9 aspect ratio on mobile when set to auto */
+  .hero--16-9.hero--mobile--auto{
+    min-height: 0 !important;
+    height: auto !important;
+  }
+  .hero--16-9.hero--mobile--auto::before{
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: 56.25%;
+  }
+  @supports (aspect-ratio: 16 / 9) {
+    .hero--16-9.hero--mobile--auto{
+      aspect-ratio: 16 / 9;
+    }
+    .hero--16-9.hero--mobile--auto::before{
+      display: none;
+      padding-bottom: 0;
+    }
+  }
+  .hero--16-9.hero--mobile--auto .hero__container{
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    height: 100%;
+  }
+  .hero--16-9.hero--mobile--auto .hero__content-wrapper.page-width,
+  .hero--16-9.hero--mobile--auto .hero__text-wrap{
+    height: 100%;
+    min-height: 0;
+  }
+  
+  /* Mobile-specific height settings - These override desktop heights */
+  .hero--mobile--250px{ height: 250px !important; }
+  .hero--mobile--300px{ height: 300px !important; }
+  .hero--mobile--400px{ height: 400px !important; }
+  .hero--mobile--500px{ height: 500px !important; }
+  .hero--mobile--850px{ height: 850px !important; } /* iPhone Height */
+  .hero--mobile--auto{ height: auto !important; min-height: 0; }
+
+  .hero--16-9:is(.hero--mobile--250px, .hero--mobile--300px, .hero--mobile--400px, .hero--mobile--500px, .hero--mobile--850px) {
+    aspect-ratio: auto;
+  }
+
+  .hero--16-9:is(.hero--mobile--250px, .hero--mobile--300px, .hero--mobile--400px, .hero--mobile--500px, .hero--mobile--850px)::before {
+    display: none;
+    padding-bottom: 0;
+  }
+
+  .hero--16-9:is(.hero--mobile--250px, .hero--mobile--300px, .hero--mobile--400px, .hero--mobile--500px, .hero--mobile--850px) .hero__container,
+  .hero--16-9:is(.hero--mobile--250px, .hero--mobile--300px, .hero--mobile--400px, .hero--mobile--500px, .hero--mobile--850px) .hero__content-wrapper.page-width,
+  .hero--16-9:is(.hero--mobile--250px, .hero--mobile--300px, .hero--mobile--400px, .hero--mobile--500px, .hero--mobile--850px) .hero__text-wrap {
+    position: relative;
+    min-height: 0;
+    height: 100%;
+  }
+}
+
+/* Hero container layout */
+.video-parent-section .hero__container {
+  position: relative;
+  overflow: hidden;
+  min-height: inherit;
+  height: 100%; /* Ensure full height for vertical alignment */
+  align-items: center;
+  justify-content: center;
+  z-index: var(--layer-base, 1);
+  display: grid;
+  grid-template-columns: 1fr min(var(--page-width), 100%) 1fr;
+  border: none;
+  box-shadow: none;
+}
+
+/* Keep grid layout for 16:9 - don't override it */
+
+/* Content wrapper with page-width constraint */
+.video-parent-section .hero__content-wrapper.page-width {
+  grid-column: 2 / 3;
+  position: relative;
+  inset: 0;
+  z-index: var(--layer-flat, 2);
+  min-height: inherit;
+  height: 100%; /* Ensure full height for vertical alignment */
+}
+
+/* Text content layout and positioning - Simplified approach */
+.hero__text-wrap{
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+
+.hero__text-content{
+  position: relative;
+  padding: 20px;
+  width: 100%;
+  display: table-cell;
+}
+
+@media only screen and (min-width: 590px){
+  .hero__text-content{
+    padding: 60px;
+  }
+}
+
+/* Text alignment classes - Back to original working approach */
+.hero__text-content.horizontal-left{ 
+  text-align: left; 
+}
+.hero__text-content.horizontal-center{ 
+  text-align: center; 
+}
+.hero__text-content.horizontal-right{ 
+  text-align: right; 
+}
+
+.hero__text-content.vertical-center{ 
+  vertical-align: middle; 
+}
+.hero__text-content.vertical-bottom{ 
+  vertical-align: bottom; 
+}
+
+.hero__text-content.vertical-center .hero__subtitle{ margin-right: 0; }
+.hero__text-content.vertical-center .hero__link,
+.hero__text-content.horizontal-left .hero__link,
+.hero__text-content.horizontal-center .hero__link,
+.hero__text-content.horizontal-right .hero__link{ 
+  display: inline-block; 
+}
+
+.hero__link{
+  position: relative;
+  background-color: transparent !important;
+  margin-top: 24px;
+}
+
+/* Video styling */
+.hero__media video{
+  object-fit: cover;
+}
+
+.hero__title, .hero__subtitle{
+  color: #fff;
+  opacity: 1;
+}
+
+/* Dynamic text sizing using CSS custom properties */
+.hero__title {
+  font-size: var(--hero-title-size-mobile, 40px);
+  margin: 30px 0 0 0;
+}
+
+.hero__subtitle {
+  overflow-wrap: anywhere;
+  font-size: var(--hero-subtitle-size-mobile, 16px);
+}
+
+@media only screen and (min-width: 769px) {
+  .hero__title {
+    font-size: var(--hero-title-size-desktop, 80px);
+  }
+  .hero__subtitle {
+    font-size: var(--hero-subtitle-size-desktop, 40px);
+  }
+}
+
+/* YouTube Video Container */
+.youtube-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.youtube-video-container iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+/* Accessibility - Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .hero__media video,
+  .youtube-video-container iframe {
+    animation: none;
+  }
+}
+
+/* Button styling - Ensure proper theme integration */
+.hero__link .button,
+.hero__link .button-secondary,
+.hero__link .link {
+  background-color: transparent !important;
+}
+
+.hero__link .button {
+  background-color: var(--color-primary-button-background) !important;
+  color: var(--color-primary-button-text) !important;
+  border-color: var(--color-primary-button-border) !important;
+}
+
+.hero__link .button:hover {
+  background-color: var(--color-primary-button-hover-background) !important;
+  color: var(--color-primary-button-hover-text) !important;
+  border-color: var(--color-primary-button-hover-border) !important;
+}
+
+.hero__link .button-secondary {
+  background-color: var(--color-secondary-button-background) !important;
+  color: var(--color-secondary-button-text) !important;
+  border-color: var(--color-secondary-button-border) !important;
+}
+
+.hero__link .button-secondary:hover {
+  background-color: var(--color-secondary-button-hover-background) !important;
+  color: var(--color-secondary-button-hover-text) !important;
+  border-color: var(--color-secondary-button-hover-border) !important;
+}
+
+.hero__link .link {
+  background-color: transparent !important;
+  color: var(--color-primary) !important;
+}
+
+.hero__link .link:hover {
+  color: var(--color-primary-hover) !important;
+}
+
+/* Non-clickable button states */
+.hero__link span.button,
+.hero__link span.button-secondary,
+.hero__link span.link {
+  display: inline-block;
+  text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.hero__link span.button {
+  background-color: var(--color-primary-button-background) !important;
+  color: var(--color-primary-button-text) !important;
+  border-color: var(--color-primary-button-border) !important;
+}
+
+.hero__link span.button-secondary {
+  background-color: var(--color-secondary-button-background) !important;
+  color: var(--color-secondary-button-text) !important;
+  border-color: var(--color-secondary-button-border) !important;
+}
+
+.hero__link span.link {
+  background-color: transparent !important;
+  color: var(--color-primary) !important;
+}
+
+/* YouTube Video Container */
+.youtube-video-container,
+[id^="youtube-player-"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.youtube-video-container iframe,
+[id^="youtube-player-"] iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Skip to content link for keyboard users */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+.skip-to-content:focus {
+  top: 6px;
+}
+
+/* Improved focus management for hero links */
+.hero__link a:focus-visible,
+.hero__link span:focus-visible {
+  outline: 2px solid var(--color-button-background);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .youtube-video-container iframe,
+  [id^="youtube-player-"] iframe {
+    transform: none !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}

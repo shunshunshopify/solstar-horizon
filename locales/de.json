@@ -37,7 +37,7 @@
     "search_results_count": "{{ count }} Suchergebnisse für „{{ query }}“ gefunden",
     "search_results_no_results": "Keine Ergebnisse für „{{ query }}“ gefunden",
     "filters": "Filter",
-    "account": "Kontomenü öffnen",
+    "account": "Konto",
     "cart": "Warenkorb",
     "cart_count": "Artikel im Warenkorb insgesamt",
     "filter_count": {
@@ -56,8 +56,7 @@
     "inventory_status": "Inventarstatus",
     "pause_video": "Video pausieren",
     "find_country": "Land finden",
-    "localization_region_and_language": "Region- und Sprachauswahl öffnen",
-    "open_search_modal": "Suche öffnen",
+    "localization_region_and_language": "Region- und Sprachwahl",
     "decrease_quantity": "Menge verringern",
     "increase_quantity": "Menge erhöhen",
     "quantity": "Anzahl",

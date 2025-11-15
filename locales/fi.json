@@ -56,8 +56,7 @@
     "inventory_status": "Varaston tila",
     "pause_video": "Keskeytä video",
     "find_country": "Etsi maa",
-    "localization_region_and_language": "Avaa alueen ja kielen valitsin",
-    "open_search_modal": "Avaa haku",
+    "localization_region_and_language": "Alue- ja kielivalitsin",
     "decrease_quantity": "Pienennä määrää",
     "increase_quantity": "Suurenna määrää",
     "quantity": "Määrä",
@@ -229,7 +228,13 @@
     "recipient_form_fields_hidden": "Vastaanottajalomakekentät ovat nyt piilotettuja",
     "recipient_form_error": "Lomakkeen lähettämisessä tapahtui virhe",
     "product_custom_property_character_count": "{{ used_chars }}/{{ max_chars }} merkkiä käytetty",
-    "terms_and_policies": "Ehdot ja käytännöt"
+    "terms_and_policies": "Ehdot ja käytännöt",
+    "pagination": {
+      "nav_label": "Sivunumerointinavigointi",
+      "previous": "Edellinen",
+      "next": "Seuraava",
+      "page": "Sivu {{ page }}"
+    }
   },
   "gift_cards": {
     "issued": {

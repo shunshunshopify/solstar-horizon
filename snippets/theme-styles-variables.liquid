@@ -3,6 +3,9 @@
     assign primary_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
     assign primary_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
     assign primary_font_bold_italic = primary_font_bold | font_modify: 'style', 'italic'
+    assign wishlist_outline_color = settings.wishlist_heart_outline_color | default: '#111111'
+    assign wishlist_fill_color = settings.wishlist_heart_fill_color | default: wishlist_outline_color
+    assign wishlist_background_color = settings.wishlist_heart_background_color | default: '#ffffff'
   %}
 
   {{ settings.type_body_font | font_face: font_display: 'swap' }}
@@ -73,7 +76,7 @@
     @media screen and (min-width: 60em) {
       --section-height-small: 50svh;
       --section-height-medium: 65svh;
-      --section-height-large: 80svh;
+    --section-height-large: 80svh;
     }
 
     /* Letter spacing */
@@ -93,6 +96,11 @@
     --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
     --font-accent--style: {{ settings.type_accent_font.style }};
     --font-accent--weight: {{ settings.type_accent_font.weight }};
+
+    /* Wishlist */
+    --wishlist-heart-stroke: {{ wishlist_outline_color }};
+    --wishlist-heart-fill: {{ wishlist_fill_color }};
+    --wishlist-heart-background: {{ wishlist_background_color }};
 
     /* Margin sizes */
     --font-h1--spacing: 0.25em;

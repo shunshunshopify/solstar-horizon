@@ -44,7 +44,6 @@
       on:click="/toggleSelector"
       style="{{ localization_font }} {{ localization_font_size }}"
     >
-      <span class="visually-hidden">{{ 'accessibility.localization_region_and_language' | t }}</span>
       {% if show_country %}
         {% if country_style == true %}
           <span
@@ -56,10 +55,19 @@
             "
           ></span>
         {% endif %}
-        <span class="currency-code">
+        <span
+          class="currency-code"
+          data-testid="localization-currency-code"
+        >
           {{- localization.country.currency.iso_code -}}
         </span>
       {% endif %}
+      <span
+        class="visually-hidden"
+        data-testid="localization-visually-hidden"
+      >
+        {{- 'accessibility.localization_region_and_language' | t -}}
+      </span>
 
       {%- if show_country and show_language -%}
         <span>/</span>

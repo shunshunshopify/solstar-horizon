@@ -1,0 +1,68 @@
+{% if settings.show_breadcrumbs %}
+<nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+  <div class="page-width">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{{ routes.root_url }}" itemprop="item">
+          <span itemprop="name">Home</span>
+        </a>
+        <meta itemprop="position" content="1" />
+      </li>
+
+      {% if template contains 'product' and product %}
+        {% if collection %}
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ collection.url }}" itemprop="item">
+              <span itemprop="name">{{ collection.title }}</span>
+            </a>
+            <meta itemprop="position" content="2" />
+          </li>
+        {% elsif product.collections.size > 0 %}
+          {% assign first_collection = product.collections | first %}
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ first_collection.url }}" itemprop="item">
+              <span itemprop="name">{{ first_collection.title }}</span>
+            </a>
+            <meta itemprop="position" content="2" />
+          </li>
+        {% endif %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name">{{ product.title }}</span>
+          <meta itemprop="position" content="3" />
+        </li>
+
+      {% elsif template contains 'collection' and collection %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name">{{ collection.title }}</span>
+          <meta itemprop="position" content="2" />
+        </li>
+
+      {% elsif template contains 'page' and page %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <span itemprop="name">{{ page.title }}</span>
+          <meta itemprop="position" content="2" />
+        </li>
+
+      {% elsif template contains 'blog' %}
+        {% if article %}
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ blog.url }}" itemprop="item">
+              <span itemprop="name">{{ blog.title }}</span>
+            </a>
+            <meta itemprop="position" content="2" />
+          </li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ article.title }}</span>
+            <meta itemprop="position" content="3" />
+          </li>
+        {% else %}
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{{ blog.title }}</span>
+            <meta itemprop="position" content="2" />
+          </li>
+        {% endif %}
+      {% endif %}
+    </ol>
+  </div>
+</nav>
+{% endif %}

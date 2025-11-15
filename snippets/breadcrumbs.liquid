@@ -1,4 +1,21 @@
 {% if settings.show_breadcrumbs %}
+  {%- liquid
+    assign breadcrumb_collection = collection
+
+    if breadcrumb_collection == blank and template contains 'product'
+      assign request_path = request.path | downcase
+
+      if request_path contains '/collections/'
+        assign path_parts = request_path | split: '/collections/'
+        if path_parts.size > 1
+          assign after_collections = path_parts[1]
+          assign after_collection_parts = after_collections | split: '/'
+          assign collection_handle = after_collection_parts[0]
+          assign breadcrumb_collection = collections[collection_handle]
+        endif
+      endif
+    endif
+  -%}
 <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
   <div class="page-width">
     <ol itemscope itemtype="https://schema.org/BreadcrumbList">
@@ -10,10 +27,10 @@
       </li>
 
       {% if template contains 'product' and product %}
-        {% if collection %}
+        {% if breadcrumb_collection %}
           <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ collection.url }}" itemprop="item">
-              <span itemprop="name">{{ collection.title }}</span>
+            <a href="{{ breadcrumb_collection.url }}" itemprop="item">
+              <span itemprop="name">{{ breadcrumb_collection.title }}</span>
             </a>
             <meta itemprop="position" content="2" />
           </li>

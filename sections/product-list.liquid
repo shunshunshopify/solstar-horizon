@@ -1,5 +1,6 @@
 {% liquid
   assign max_items = section.settings.max_products
+  assign list_collection = section.settings.collection
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -22,11 +23,16 @@
   </div>
 
   {% capture list_items %}
-    {% if section.settings.collection != blank and shop.products_count != 0 %}
-      {% paginate section.settings.collection.products by max_items %}
-        {% for product in section.settings.collection.products limit: max_items %}
+    {% if list_collection != blank and shop.products_count != 0 %}
+      {% paginate list_collection.products by max_items %}
+        {% for product in list_collection.products limit: max_items %}
           <div
             class="resource-list__item"
+            {% if list_collection != blank %}
+              data-origin-collection-handle="{{ list_collection.handle }}"
+              data-origin-collection-title="{{ list_collection.title | escape }}"
+              data-origin-collection-url="{{ list_collection.url | escape }}"
+            {% endif %}
           >
             {% # theme-check-disable UniqueStaticBlockId %}
               {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product %}
@@ -42,6 +48,11 @@
       {% for i in (1..max_items) %}
         <div
           class="resource-list__item"
+          {% if list_collection != blank %}
+            data-origin-collection-handle="{{ list_collection.handle }}"
+            data-origin-collection-title="{{ list_collection.title | escape }}"
+            data-origin-collection-url="{{ list_collection.url | escape }}"
+          {% endif %}
         >
           {% # theme-check-disable UniqueStaticBlockId %}
             {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: null %}

@@ -42,6 +42,7 @@
     "type_size_h6": "12",
     "type_line_height_h6": "display-loose",
     "page_width": "normal",
+    "show_breadcrumbs": true,
     "page_transition_enabled": true,
     "transition_to_main_product": false,
     "add_to_cart_animation": true,

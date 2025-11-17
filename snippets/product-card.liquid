@@ -101,6 +101,7 @@
 <product-card
   class="product-card"
   data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
   data-product-variants-size="{{ product.variants.size }}"
   id="product-card-{{ block.id }}"
   data-product-transition="{{ settings.transition_to_main_product }}"
@@ -116,6 +117,7 @@
     id="{{ product_card_id | md5 }}"
     {% unless onboarding %}
       href="{{ variant_to_link.url }}"
+      data-product-id="{{ product.id }}"
     {% endunless %}
     class="product-card__link"
     ref="productCardLink"

@@ -1379,6 +1379,12 @@
           }
         ],
         "default": "narrow"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_breadcrumbs",
+        "label": "t:settings.show_breadcrumbs",
+        "default": false
       }
     ]
   },

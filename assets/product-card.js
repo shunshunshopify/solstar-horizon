@@ -5,6 +5,8 @@ import { debounce, isDesktopBreakpoint, mediaQueryLarge, requestYieldCallback } 
 import { ThemeEvents, VariantSelectedEvent, VariantUpdateEvent, SlideshowSelectEvent } from '@theme/events';
 import { morph } from '@theme/morph';
 
+const COLLECTION_STORAGE_KEY = 'solstar:last_collection_for_product';
+
 /**
  * A custom element that displays a product card.
  *
@@ -421,12 +423,46 @@ export class ProductCard extends Component {
       });
     }
 
+    this.#persistCollectionContext();
+
     const targetLink = event.target.closest('a');
     // Let the native navigation handle the click if it was on a link.
     if (!targetLink) {
       this.#navigateToURL(event, linkURL);
     }
   };
+
+  #persistCollectionContext() {
+    if (typeof window === 'undefined' || !('localStorage' in window)) return;
+
+    const productHandle = this.dataset.productHandle;
+    const productId = this.dataset.productId || this.getAttribute('data-product-id');
+    if (!productHandle && !productId) return;
+
+    const collectionSource = this.closest('[data-origin-collection-handle]');
+    if (!collectionSource) return;
+
+    const collectionHandle = collectionSource.getAttribute('data-origin-collection-handle');
+    const collectionTitle = collectionSource.getAttribute('data-origin-collection-title');
+    const collectionUrl = collectionSource.getAttribute('data-origin-collection-url');
+
+    if (!collectionHandle || !collectionUrl) return;
+
+    const payload = {
+      collectionHandle,
+      collectionTitle,
+      collectionUrl,
+      productHandle: productHandle || null,
+      productId: productId || null,
+      timestamp: Date.now(),
+    };
+
+    try {
+      window.localStorage.setItem(COLLECTION_STORAGE_KEY, JSON.stringify(payload));
+    } catch (_error) {
+      // noop
+    }
+  }
 
   /**
    * Resets the variant.

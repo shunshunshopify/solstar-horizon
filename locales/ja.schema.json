@@ -1012,6 +1012,9 @@
         "text": {
           "label": "テキスト"
         },
+        "enable_scrolling": {
+          "label": "スクロールアニメーションを有効にする"
+        },
         "link": {
           "label": "リンク"
         },

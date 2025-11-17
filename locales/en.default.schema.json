@@ -1103,6 +1103,9 @@
         "text": {
           "label": "Text"
         },
+        "enable_scrolling": {
+          "label": "Enable scrolling animation"
+        },
         "link": {
           "label": "Link"
         },

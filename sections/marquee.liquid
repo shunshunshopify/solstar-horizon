@@ -71,7 +71,7 @@
     >
       <div class="marquee__container gradient color-{{ section.settings.color_scheme }}">
         <div class="marquee__text marquee__text--{{ direction_class }}">
-          {% for i in (1..4) %}
+          {% for i in (1..6) %}
             <div class="marquee__group"{% if i > 1 %} aria-hidden="true"{% endif %}>
               <div class="marquee__item">
                 {{ marquee_source }}

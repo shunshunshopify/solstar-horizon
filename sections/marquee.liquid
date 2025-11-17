@@ -7,7 +7,6 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 {% liquid
-  assign default_marquee_text = 'custom.marquee.default_text' | t
   assign text_size = section.settings.text_size | default: 70 | plus: 0
   assign mobile_font_size = text_size | times: 0.6 | round: 0
   assign speed_setting = section.settings.speed | default: 'normal'
@@ -41,7 +40,7 @@
   assign group_gap = desktop_padding
   assign text_input_stripped = text_input | strip
   assign block_markup_stripped = block_markup | strip
-  assign marquee_source = default_marquee_text
+  assign marquee_source = ''
   if text_input_stripped != blank
     assign marquee_source = text_input
   elsif block_markup_stripped != blank

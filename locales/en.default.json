@@ -333,6 +333,89 @@
       "unavailable": "Unavailable"
     }
   },
+  "sections": {
+    "marquee": {
+      "name": "Scrolling text",
+      "settings": {
+        "text": {
+          "label": "Text"
+        },
+        "link": {
+          "label": "Link"
+        },
+        "text_size": {
+          "label": "Text size"
+        },
+        "text_spacing": {
+          "label": "Add spacing"
+        },
+        "direction": {
+          "label": "Direction",
+          "options": {
+            "left": "Left",
+            "right": "Right"
+          }
+        },
+        "speed": {
+          "label": "Speed",
+          "options": {
+            "fast": "Fast",
+            "normal": "Normal",
+            "slow": "Slow"
+          }
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Scrolling text"
+        }
+      }
+    },
+    "sticky_atc": {
+      "name": "Sticky add to cart",
+      "settings": {
+        "general": "General",
+        "enable_section": {
+          "label": "Enable \"Sticky add to cart\""
+        },
+        "mobile_only": {
+          "label": "Show mobile screen only"
+        },
+        "color_scheme": {
+          "label": "Color scheme"
+        },
+        "note_bottom_menu": "Note: When the bottom menu in the header is enabled, the sticky add to cart will automatically position itself above the menu bar.",
+        "controls": "Controls",
+        "show_qty": {
+          "label": "Show quantity picker"
+        },
+        "show_variant_picker": {
+          "label": "Show variant picker"
+        },
+        "show_img": {
+          "label": "Show product image, title, and price"
+        },
+        "positioning": "Positioning",
+        "note_positioning": "Note: When the bottom navigation bar is enabled, the sticky add to cart will automatically position itself above the navigation bar. Adjust the height from the bottom navigation bar section settings.",
+        "spacing": "Spacing",
+        "pt": {
+          "label": "Padding top (rem)"
+        },
+        "pb": {
+          "label": "Padding bottom (rem)"
+        }
+      }
+    }
+  },
+  "splash_screen": {
+    "name": "Splash screen",
+    "enable_label": "Enable splash screen",
+    "logo_label": "Splash logo",
+    "logo_info": "Select the logo displayed while the page is loading.",
+    "mobile_width_label": "Logo width on mobile (px)",
+    "desktop_width_label": "Logo width on desktop (px)",
+    "background_color_label": "Background color"
+  },
   "product_title_block": {
     "limit_lines_label": "Limit title to two lines",
     "limit_lines_info": "Truncates the product title after the second line on collection cards."

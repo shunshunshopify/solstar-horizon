@@ -16,16 +16,16 @@
           "type": "_product-media-gallery",
           "static": true,
           "settings": {
-            "media_presentation": "grid",
-            "media_columns": "two",
+            "media_presentation": "carousel",
+            "media_columns": "one",
             "image_gap": 4,
             "large_first_image": false,
-            "icons_style": "none",
-            "slideshow_controls_style": "counter",
+            "icons_style": "arrow",
+            "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "right",
+            "thumbnail_position": "left",
             "thumbnail_width": 44,
-            "aspect_ratio": "adapt",
+            "aspect_ratio": "1/1.25",
             "constrain_to_viewport": true,
             "media_fit": "contain",
             "media_radius": 0,
@@ -222,33 +222,6 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "Product description",
-              "disabled": true,
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "accordion_BjFHbw": {
               "type": "accordion",
               "name": "t:names.accordion",
@@ -349,7 +322,7 @@
                 "accordion_row_7bBDXc": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "配送",
+                    "heading": "配送ポリシー",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -398,7 +371,6 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
-            "text_aEtTtq",
             "accordion_BjFHbw"
           ]
         }

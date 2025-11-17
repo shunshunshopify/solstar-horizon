@@ -1,96 +1,204 @@
-<script
-  src="{{ 'marquee.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
-{% assign gap_between_elements = section.settings.gap_between_elements %}
+{% capture text_input %}
+  {% if section.settings.text != blank %}
+    {{ section.settings.text }}
+  {% endif %}
+{% endcapture %}
+{% capture block_markup %}
+  {% content_for 'blocks' %}
+{% endcapture %}
+{% liquid
+  assign text_size = section.settings.text_size | default: 70 | plus: 0
+  assign mobile_font_size = text_size | times: 0.6 | round: 0
+  assign speed_setting = section.settings.speed | default: 'normal'
+  assign desktop_speed = 40
+  assign mobile_speed = 25
+  case speed_setting
+    when 'fast'
+      assign desktop_speed = 25
+      assign mobile_speed = 15
+    when 'slow'
+      assign desktop_speed = 60
+      assign mobile_speed = 40
+  endcase
+  assign legacy_direction = section.settings.movement_direction | default: 'left'
+  assign direction_setting = section.settings.direction | default: legacy_direction
+  case direction_setting
+    when 'reverse', 'right'
+      assign direction_class = 'right'
+    else
+      assign direction_class = 'left'
+  endcase
+  assign letter_spacing = '0'
+  assign desktop_padding = 15
+  assign mobile_padding = 20
+  if section.settings.text_spacing == false
+    assign desktop_padding = 0
+    assign mobile_padding = 0
+  else
+    assign letter_spacing = '0.3rem'
+  endif
+  assign group_gap = desktop_padding
+  assign text_input_stripped = text_input | strip
+  assign block_markup_stripped = block_markup | strip
+  assign marquee_source = ''
+  if text_input_stripped != blank
+    assign marquee_source = text_input
+  elsif block_markup_stripped != blank
+    assign marquee_source = block_markup
+  endif
+  assign repeat_count = 1
+  if section.settings.enable_scrolling
+    assign repeat_count = 6
+  endif
+%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<marquee-component
-  class="section spacing-style gap-style color-{{ section.settings.color_scheme }}"
-  style="
-    {%- render 'spacing-style', settings: section.settings %};
-    {% render 'gap-style', value: gap_between_elements, name: 'marquee-gap' %}
-    --marquee-direction: {{ section.settings.movement_direction }};
-  "
-  data-speed-factor="25"
-  data-movement-direction="{{ section.settings.movement_direction }}"
+<div
+  class="section spacing-style color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-style', settings: section.settings %}"
 >
-  <div
-    class="marquee__wrapper"
-    ref="wrapper"
-  >
+  {% if section.settings.link != blank %}
+    <a class="marquee-underline" href="{{ section.settings.link }}">
+  {% endif %}
     <div
-      class="marquee__content"
-      ref="content"
+      class="marquee marquee--{{ section.id }}"
+      style="
+        --marquee-duration-desktop: {{ desktop_speed }}s;
+        --marquee-duration-mobile: {{ mobile_speed }}s;
+        --marquee-font-size: {{ text_size }}px;
+        --marquee-font-size-mobile: {{ mobile_font_size }}px;
+        --marquee-item-padding: {{ desktop_padding }}px;
+        --marquee-item-padding-mobile: {{ mobile_padding }}px;
+        --marquee-letter-spacing: {{ letter_spacing }};
+        --marquee-gap: {{ group_gap }}px;
+      "
     >
-      <div
-        class="marquee__repeated-items"
-        ref="marqueeItems[]"
-      >
-        {% content_for 'blocks' %}
+      <div class="marquee__container gradient color-{{ section.settings.color_scheme }}">
+        <div class="marquee__text marquee__text--{{ direction_class }}">
+          {% for i in (1..repeat_count) %}
+            <div class="marquee__group"{% if i > 1 %} aria-hidden="true"{% endif %}>
+              <div class="marquee__item">
+                {{ marquee_source }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
-  </div>
-</marquee-component>
+  {% if section.settings.link != blank %}
+    </a>
+  {% endif %}
+</div>
 
 {% stylesheet %}
-  marquee-component {
-    display: block;
+  .marquee {
     width: 100%;
-    overflow: hidden;
   }
 
-  .marquee__wrapper {
+  .marquee__container {
     display: flex;
-    gap: var(--marquee-gap);
-    width: fit-content;
-    white-space: nowrap;
-  }
-
-  .marquee__content {
-    min-width: max-content;
-    display: flex;
-    gap: var(--marquee-gap);
-  }
-
-  .marquee__content :is(p, h1, h2, h3, h4, h5, h6) {
-    white-space: nowrap;
-  }
-
-  .marquee__content .marquee__repeated-items * {
-    max-width: none;
-  }
-
-  .marquee__repeated-items {
-    min-width: max-content;
-    display: flex;
-    gap: var(--marquee-gap);
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    color: inherit;
+    background: var(--gradient-background, transparent);
+    padding-block: max(0.25em, calc(var(--marquee-font-size, 3rem) * 0.1));
   }
 
-  .marquee__repeated-items > * {
-    align-content: center;
+  .marquee__text {
+    display: flex;
+    align-items: center;
+    gap: var(--marquee-gap, 1.5rem);
+    font-size: var(--marquee-font-size, 3rem);
+    line-height: 1;
+    min-width: max-content;
+    will-change: transform;
+    animation: marquee-left var(--marquee-duration-desktop, 20s) linear infinite;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    marquee-component:not([data-disabled]) .marquee__wrapper {
-      animation: marquee-motion var(--marquee-speed) linear infinite var(--marquee-direction);
+  .marquee__text--right {
+    animation-name: marquee-right;
+  }
+
+  .marquee__group {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .marquee__item {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--marquee-item-padding, 1rem);
+    letter-spacing: var(--marquee-letter-spacing, 0);
+    white-space: pre;
+  }
+
+  .marquee__item > * {
+    margin: 0;
+  }
+
+  .marquee-underline {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  @media (max-width: 749px) {
+    .marquee__text {
+      font-size: var(--marquee-font-size-mobile, 1.8rem);
+      animation-duration: var(--marquee-duration-mobile, 10s);
+    }
+
+    .marquee__item {
+      padding-inline: var(--marquee-item-padding-mobile, var(--marquee-item-padding, 0.75rem));
     }
   }
 
-  @keyframes marquee-motion {
-    to {
-      transform: translate3d(calc(-50% - (var(--marquee-gap) / 2)), 0, 0);
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__text {
+      animation: none;
     }
+  }
+
+  @keyframes marquee-left {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes marquee-right {
+    0% {
+      transform: translate3d(-50%, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .card__badge--framed.color-accent-2 {
+    position: absolute;
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+    font-size: 1.2rem;
+    left: 0.5rem;
+    top: 0.5rem;
+    padding: 0.6rem 1.3rem;
+    background: var(--gradient-background);
+    color: #000;
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:names.marquee",
+  "name": "t:sections.marquee.name",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
@@ -110,26 +218,79 @@
   ],
   "settings": [
     {
-      "type": "select",
-      "id": "movement_direction",
-      "label": "t:settings.motion_direction",
-      "options": [
-        {
-          "value": "reverse",
-          "label": "t:options.forward"
-        },
-        {
-          "value": "normal",
-          "label": "t:options.reverse"
-        }
-      ],
-      "default": "normal"
+      "type": "text",
+      "id": "text",
+      "label": "t:sections.marquee.settings.text.label",
+      "default": "t:custom.marquee.default_text"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scrolling",
+      "label": "t:sections.marquee.settings.enable_scrolling.label",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:sections.marquee.settings.link.label"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "t:sections.marquee.settings.text_size.label",
+      "default": 70,
+      "min": 20,
+      "max": 150,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_spacing",
+      "label": "t:sections.marquee.settings.text_spacing.label",
+      "default": true
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:settings.color_scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "t:sections.marquee.settings.direction.label",
+      "default": "left",
+      "options": [
+        {
+          "label": "t:sections.marquee.settings.direction.options.left",
+          "value": "left"
+        },
+        {
+          "label": "t:sections.marquee.settings.direction.options.right",
+          "value": "right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "speed",
+      "label": "t:sections.marquee.settings.speed.label",
+      "default": "normal",
+      "options": [
+        {
+          "label": "t:sections.marquee.settings.speed.options.fast",
+          "value": "fast"
+        },
+        {
+          "label": "t:sections.marquee.settings.speed.options.normal",
+          "value": "normal"
+        },
+        {
+          "label": "t:sections.marquee.settings.speed.options.slow",
+          "value": "slow"
+        }
+      ]
     },
     {
       "type": "header",
@@ -154,39 +315,15 @@
       "step": 1,
       "unit": "px",
       "default": 24
-    },
-    {
-      "type": "range",
-      "id": "gap_between_elements",
-      "label": "t:settings.gap",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 24
     }
   ],
   "presets": [
     {
-      "name": "t:names.marquee_section",
+      "name": "t:sections.marquee.presets.default.name",
       "category": "t:categories.text",
-      "blocks": {
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "t:html_defaults.make_things_better",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "var(--font-size--h2)",
-            "line_height": "tight",
-            "letter_spacing": "tight",
-            "case": "none",
-            "wrap": "nowrap",
-            "width": "fit-content"
-          }
-        }
-      },
-      "block_order": ["text"]
+      "settings": {
+        "text": "t:custom.marquee.default_text"
+      }
     }
   ]
 }

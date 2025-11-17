@@ -621,7 +621,7 @@
     "empty_cart_button_link": "空のカートボタンのリンク",
     "auto_load_products": "スクロール時の商品自動読み込み。",
     "products_per_page": "ページあたりの商品数",
-    "block_link": "ブロックリンク"
+    "show_breadcrumbs": "パンくずリストを表示"
   },
   "options": {
     "adapt_to_image": "画像に合わせる",
@@ -899,6 +899,7 @@
     "advanced": "高度",
     "background_image": "背景画像",
     "background_video": "背景ビデオ",
+    "block_link": "ブロックリンク",
     "block_size": "ブロックサイズ",
     "borders": "罫線",
     "describe_the_video_for": "スクリーンリーダーを使用しているお客様向けにビデオの説明を記入してください。[詳しくはこちら](https://help.shopify.com/manual/online-store/themes/theme-structure/theme-features#video-block)",
@@ -999,13 +1000,52 @@
     "gift_card_form_description": "お客様は受取人に、個人的なメッセージとともにギフトカードを添えて送ることができます。[詳しくはこちら](https://help.shopify.com/manual/products/gift-card-products)",
     "heading": "見出し",
     "resource_reference_product_custom_property": "カスタマイズ入力フィールドを追加することで、この注文の項目に追加される税関情報を徴収し、後で注文詳細で表示されます。",
-    "block_link": "リンクをブロックする",
     "submenu_feature": "サブメニュー機能",
     "cart_features": "カートの特徴",
     "email_signup": "メール登録者",
     "submissions_are_sent_to_store_email_address": "送信はストストアの [差出人メールアドレス](https://admin.shopify.com/settings/notifications) に送信されます。"
   },
   "sections": {
+    "marquee": {
+      "name": "スクロールテキスト",
+      "settings": {
+        "text": {
+          "label": "テキスト"
+        },
+        "enable_scrolling": {
+          "label": "スクロールアニメーションを有効にする"
+        },
+        "link": {
+          "label": "リンク"
+        },
+        "text_size": {
+          "label": "文字サイズ"
+        },
+        "text_spacing": {
+          "label": "文字間隔を追加"
+        },
+        "direction": {
+          "label": "方向",
+          "options": {
+            "left": "左",
+            "right": "右"
+          }
+        },
+        "speed": {
+          "label": "速度",
+          "options": {
+            "fast": "速い",
+            "normal": "標準",
+            "slow": "遅い"
+          }
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "スクロールテキスト"
+        }
+      }
+    },
     "newsletter_popup": {
       "name": "ニュースレターポップアップ",
       "settings": {
@@ -1518,5 +1558,10 @@
   "product_title_block": {
     "limit_lines_label": "タイトルを2行までに制限",
     "limit_lines_info": "コレクションカード上の商品のタイトルを2行目以降で省略します。"
+  },
+  "custom": {
+    "marquee": {
+      "default_text": "私たちは、より良く機能し、長持ちするものを作ります。"
+    }
   }
 }

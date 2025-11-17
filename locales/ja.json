@@ -317,6 +317,46 @@
     }
   },
   "sections": {
+    "marquee": {
+      "name": "スクロールテキスト",
+      "settings": {
+        "text": {
+          "label": "テキスト"
+        },
+        "link": {
+          "label": "リンク"
+        },
+        "text_size": {
+          "label": "文字サイズ"
+        },
+        "text_spacing": {
+          "label": "文字間隔を追加"
+        },
+        "direction": {
+          "label": "方向",
+          "options": {
+            "left": "左",
+            "right": "右"
+          }
+        },
+        "speed": {
+          "label": "速度",
+          "options": {
+            "fast": "速い",
+            "normal": "標準",
+            "slow": "遅い"
+          }
+        },
+        "enable_scrolling": {
+          "label": "スクロールアニメーションを有効にする"
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "スクロールテキスト"
+        }
+      }
+    },
     "sticky_atc": {
       "name": "追従カート",
       "settings": {
@@ -365,5 +405,10 @@
     "mobile_width_label": "モバイルでのロゴ幅 (px)",
     "desktop_width_label": "デスクトップでのロゴ幅 (px)",
     "background_color_label": "背景色"
+  },
+  "custom": {
+    "marquee": {
+      "default_text": "私たちは、より良く機能し、長持ちするものを作ります。"
+    }
   }
 }

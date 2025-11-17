@@ -695,8 +695,6 @@
     "badge_corner_radius": "Corner radius",
     "background_media": "Background media",
     "badge_position": "Position on cards",
-    "badge_sale_color_scheme": "Sale",
-    "badge_sold_out_color_scheme": "Sold out",
     "behavior": "Behavior",
     "blog": "Blog",
     "blur": "Shadow blur",
@@ -1099,6 +1097,46 @@
     }
   },
   "sections": {
+    "marquee": {
+      "name": "Scrolling text",
+      "settings": {
+        "text": {
+          "label": "Text"
+        },
+        "enable_scrolling": {
+          "label": "Enable scrolling animation"
+        },
+        "link": {
+          "label": "Link"
+        },
+        "text_size": {
+          "label": "Text size"
+        },
+        "text_spacing": {
+          "label": "Add spacing"
+        },
+        "direction": {
+          "label": "Direction",
+          "options": {
+            "left": "Left",
+            "right": "Right"
+          }
+        },
+        "speed": {
+          "label": "Speed",
+          "options": {
+            "fast": "Fast",
+            "normal": "Normal",
+            "slow": "Slow"
+          }
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Scrolling text"
+        }
+      }
+    },
     "newsletter_popup": {
       "name": "Newsletter popup",
       "settings": {
@@ -1521,5 +1559,10 @@
     "what_is_return_policy": "What is the return policy?",
     "when_will_order_arrive": "When will I get my order?",
     "where_are_products_made": "Where are your products manufactured?"
+  },
+  "custom": {
+    "marquee": {
+      "default_text": "We make things that work better and last longer."
+    }
   }
 }

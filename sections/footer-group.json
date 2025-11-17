@@ -51,7 +51,7 @@
         "menu_block_Eaw84P": {
           "type": "Menu_block",
           "settings": {
-            "caption": "Line",
+            "caption": "友達追加",
             "line_link": ""
           }
         },
@@ -72,8 +72,8 @@
       "name": "t:names.sticky_bottom_menu",
       "settings": {
         "bg_color": "#ffffff",
-        "icon_color": "#000",
-        "color": "#000",
+        "icon_color": "#000000",
+        "color": "#000000",
         "cart_bubble_background": "#ff0000",
         "cart_bubble_text": "#ffffff",
         "wishlist_counter_background": "#ff0000",

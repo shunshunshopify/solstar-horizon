@@ -346,6 +346,9 @@
             "normal": "標準",
             "slow": "遅い"
           }
+        },
+        "enable_scrolling": {
+          "label": "スクロールアニメーションを有効にする"
         }
       },
       "presets": {

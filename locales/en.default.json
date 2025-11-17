@@ -363,6 +363,9 @@
             "normal": "Normal",
             "slow": "Slow"
           }
+        },
+        "enable_scrolling": {
+          "label": "Enable scrolling animation"
         }
       },
       "presets": {

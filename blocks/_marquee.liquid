@@ -3,15 +3,15 @@
   assign text_size = block_settings.text_size | default: 64 | plus: 0
   assign mobile_font_size = text_size | times: 0.6 | round: 0
   assign speed_setting = block_settings.speed | default: 'normal'
-  assign desktop_speed = 20
-  assign mobile_speed = 10
+  assign desktop_speed = 40
+  assign mobile_speed = 25
   case speed_setting
     when 'fast'
-      assign desktop_speed = 10
-      assign mobile_speed = 5
+      assign desktop_speed = 25
+      assign mobile_speed = 15
     when 'slow'
-      assign desktop_speed = 30
-      assign mobile_speed = 20
+      assign desktop_speed = 60
+      assign mobile_speed = 40
   endcase
   assign movement_direction = block_settings.movement_direction | default: 'normal'
   case movement_direction

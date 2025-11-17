@@ -37,15 +37,7 @@
         "cart_block_t4VLDG": {
           "type": "cart_block",
           "settings": {
-            "caption": "Cart"
-          }
-        },
-        "search_block_bbV78U": {
-          "type": "Search_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Search",
-            "url": ""
+            "caption": "カート"
           }
         },
         "menu_block_Eaw84P": {
@@ -55,19 +47,26 @@
             "line_link": ""
           }
         },
-        "account_block_BbwQny": {
-          "type": "Account_block",
+        "wishlist_block_EKb9Cc": {
+          "type": "wishlist_block",
           "settings": {
-            "caption": "Account"
+            "caption": "お気に入り"
+          }
+        },
+        "cat_block_TbwVwR": {
+          "type": "cat_block",
+          "settings": {
+            "menu": "main-menu",
+            "caption": "Categories"
           }
         }
       },
       "block_order": [
         "home_block_QgPG4Y",
         "cart_block_t4VLDG",
-        "search_block_bbV78U",
         "menu_block_Eaw84P",
-        "account_block_BbwQny"
+        "wishlist_block_EKb9Cc",
+        "cat_block_TbwVwR"
       ],
       "name": "t:names.sticky_bottom_menu",
       "settings": {

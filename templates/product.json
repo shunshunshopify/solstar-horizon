@@ -310,7 +310,7 @@
                 "accordion_row_Mn6hXd": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "配送",
+                    "heading": "返品ポリシー",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -349,7 +349,7 @@
                 "accordion_row_7bBDXc": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "製造",
+                    "heading": "配送",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20

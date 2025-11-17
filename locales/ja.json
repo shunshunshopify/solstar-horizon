@@ -365,5 +365,10 @@
     "mobile_width_label": "モバイルでのロゴ幅 (px)",
     "desktop_width_label": "デスクトップでのロゴ幅 (px)",
     "background_color_label": "背景色"
+  },
+  "custom": {
+    "marquee": {
+      "default_text": "送料無料 & 返品無料"
+    }
   }
 }

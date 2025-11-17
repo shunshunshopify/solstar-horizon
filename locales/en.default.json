@@ -336,5 +336,10 @@
   "product_title_block": {
     "limit_lines_label": "Limit title to two lines",
     "limit_lines_info": "Truncates the product title after the second line on collection cards."
+  },
+  "custom": {
+    "marquee": {
+      "default_text": "Free shipping and returns"
+    }
   }
 }

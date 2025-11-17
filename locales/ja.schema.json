@@ -1006,6 +1006,43 @@
     "submissions_are_sent_to_store_email_address": "送信はストストアの [差出人メールアドレス](https://admin.shopify.com/settings/notifications) に送信されます。"
   },
   "sections": {
+    "marquee": {
+      "name": "スクロールテキスト",
+      "settings": {
+        "text": {
+          "label": "テキスト"
+        },
+        "link": {
+          "label": "リンク"
+        },
+        "text_size": {
+          "label": "文字サイズ"
+        },
+        "text_spacing": {
+          "label": "文字間隔を追加"
+        },
+        "direction": {
+          "label": "方向",
+          "options": {
+            "left": "左",
+            "right": "右"
+          }
+        },
+        "speed": {
+          "label": "速度",
+          "options": {
+            "fast": "速い",
+            "normal": "標準",
+            "slow": "遅い"
+          }
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "スクロールテキスト"
+        }
+      }
+    },
     "newsletter_popup": {
       "name": "ニュースレターポップアップ",
       "settings": {

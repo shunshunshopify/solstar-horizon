@@ -7,6 +7,7 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 {% liquid
+  assign default_marquee_text = 'custom.marquee.default_text' | t
   assign text_size = section.settings.text_size | default: 70 | plus: 0
   assign mobile_font_size = text_size | times: 0.6 | round: 0
   assign speed_setting = section.settings.speed | default: 'normal'
@@ -40,7 +41,7 @@
   assign group_gap = desktop_padding
   assign text_input_stripped = text_input | strip
   assign block_markup_stripped = block_markup | strip
-  assign marquee_source = 'Free shipping and returns'
+  assign marquee_source = default_marquee_text
   if text_input_stripped != blank
     assign marquee_source = text_input
   elsif block_markup_stripped != blank
@@ -194,7 +195,7 @@
 
 {% schema %}
 {
-  "name": "Scrolling text",
+  "name": "t:sections.marquee.name",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
@@ -216,18 +217,18 @@
     {
       "type": "text",
       "id": "text",
-      "label": "Text",
-      "default": "Free shipping and returns"
+      "label": "t:sections.marquee.settings.text.label",
+      "default": "t:custom.marquee.default_text"
     },
     {
       "type": "url",
       "id": "link",
-      "label": "Link"
+      "label": "t:sections.marquee.settings.link.label"
     },
     {
       "type": "range",
       "id": "text_size",
-      "label": "Text size",
+      "label": "t:sections.marquee.settings.text_size.label",
       "default": 70,
       "min": 20,
       "max": 150,
@@ -237,7 +238,7 @@
     {
       "type": "checkbox",
       "id": "text_spacing",
-      "label": "Add spacing",
+      "label": "t:sections.marquee.settings.text_spacing.label",
       "default": true
     },
     {
@@ -249,15 +250,15 @@
     {
       "type": "select",
       "id": "direction",
-      "label": "Direction",
+      "label": "t:sections.marquee.settings.direction.label",
       "default": "left",
       "options": [
         {
-          "label": "Left",
+          "label": "t:sections.marquee.settings.direction.options.left",
           "value": "left"
         },
         {
-          "label": "Right",
+          "label": "t:sections.marquee.settings.direction.options.right",
           "value": "right"
         }
       ]
@@ -265,19 +266,19 @@
     {
       "type": "select",
       "id": "speed",
-      "label": "Speed",
+      "label": "t:sections.marquee.settings.speed.label",
       "default": "normal",
       "options": [
         {
-          "label": "Fast",
+          "label": "t:sections.marquee.settings.speed.options.fast",
           "value": "fast"
         },
         {
-          "label": "Normal",
+          "label": "t:sections.marquee.settings.speed.options.normal",
           "value": "normal"
         },
         {
-          "label": "Slow",
+          "label": "t:sections.marquee.settings.speed.options.slow",
           "value": "slow"
         }
       ]
@@ -309,10 +310,10 @@
   ],
   "presets": [
     {
-      "name": "Scrolling text",
+      "name": "t:sections.marquee.presets.default.name",
       "category": "t:categories.text",
       "settings": {
-        "text": "Free shipping and returns"
+        "text": "t:custom.marquee.default_text"
       }
     }
   ]

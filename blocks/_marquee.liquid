@@ -20,9 +20,10 @@
     else
       assign direction_class = 'left'
   endcase
+  assign default_marquee_text = 'custom.marquee.default_text' | t
   assign marquee_source = block_settings.text
   if marquee_source == blank
-    assign marquee_source = 'Free shipping and returns'
+    assign marquee_source = default_marquee_text
   endif
   assign base_spacing = block_settings.gap_between_elements | default: 15 | plus: 0
   if block_settings.text_spacing == false

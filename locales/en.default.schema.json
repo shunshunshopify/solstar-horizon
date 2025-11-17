@@ -1099,6 +1099,43 @@
     }
   },
   "sections": {
+    "marquee": {
+      "name": "Scrolling text",
+      "settings": {
+        "text": {
+          "label": "Text"
+        },
+        "link": {
+          "label": "Link"
+        },
+        "text_size": {
+          "label": "Text size"
+        },
+        "text_spacing": {
+          "label": "Add spacing"
+        },
+        "direction": {
+          "label": "Direction",
+          "options": {
+            "left": "Left",
+            "right": "Right"
+          }
+        },
+        "speed": {
+          "label": "Speed",
+          "options": {
+            "fast": "Fast",
+            "normal": "Normal",
+            "slow": "Slow"
+          }
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Scrolling text"
+        }
+      }
+    },
     "newsletter_popup": {
       "name": "Newsletter popup",
       "settings": {

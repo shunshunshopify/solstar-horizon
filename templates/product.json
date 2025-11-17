@@ -437,7 +437,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "portrait",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -518,7 +518,7 @@
         "mobile_columns": "2",
         "columns_gap": 12,
         "rows_gap": 24,
-        "enable_product_title_line_clamp": false,
+        "enable_product_title_line_clamp": true,
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",

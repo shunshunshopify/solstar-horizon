@@ -246,7 +246,7 @@
                   "settings": {
                     "heading": "商品説明",
                     "open_by_default": false,
-                    "icon": "none",
+                    "icon": "eye",
                     "width": 20
                   },
                   "blocks": {
@@ -285,7 +285,7 @@
                   "settings": {
                     "heading": "返品ポリシー",
                     "open_by_default": false,
-                    "icon": "none",
+                    "icon": "return",
                     "width": 20
                   },
                   "blocks": {
@@ -324,7 +324,7 @@
                   "settings": {
                     "heading": "配送ポリシー",
                     "open_by_default": false,
-                    "icon": "none",
+                    "icon": "truck",
                     "width": 20
                   },
                   "blocks": {

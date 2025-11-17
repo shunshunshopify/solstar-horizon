@@ -46,6 +46,10 @@
   elsif block_markup_stripped != blank
     assign marquee_source = block_markup
   endif
+  assign repeat_count = 1
+  if section.settings.enable_scrolling
+    assign repeat_count = 6
+  endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -71,7 +75,7 @@
     >
       <div class="marquee__container gradient color-{{ section.settings.color_scheme }}">
         <div class="marquee__text marquee__text--{{ direction_class }}">
-          {% for i in (1..6) %}
+          {% for i in (1..repeat_count) %}
             <div class="marquee__group"{% if i > 1 %} aria-hidden="true"{% endif %}>
               <div class="marquee__item">
                 {{ marquee_source }}
@@ -281,6 +285,12 @@
           "value": "slow"
         }
       ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scrolling",
+      "label": "Enable scrolling animation",
+      "default": true
     },
     {
       "type": "header",

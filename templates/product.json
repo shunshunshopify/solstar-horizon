@@ -16,16 +16,16 @@
           "type": "_product-media-gallery",
           "static": true,
           "settings": {
-            "media_presentation": "grid",
-            "media_columns": "two",
+            "media_presentation": "carousel",
+            "media_columns": "one",
             "image_gap": 4,
             "large_first_image": false,
-            "icons_style": "none",
-            "slideshow_controls_style": "counter",
+            "icons_style": "chevron",
+            "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "right",
+            "thumbnail_position": "left",
             "thumbnail_width": 44,
-            "aspect_ratio": "adapt",
+            "aspect_ratio": "1/1.25",
             "constrain_to_viewport": true,
             "media_fit": "contain",
             "media_radius": 0,
@@ -115,8 +115,8 @@
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h4",
-                    "font": "var(--font-body--family)",
+                    "type_preset": "custom",
+                    "font": "var(--font-heading--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
@@ -177,7 +177,7 @@
               "type": "variant-picker",
               "settings": {
                 "variant_style": "buttons",
-                "show_swatches": false,
+                "show_swatches": true,
                 "alignment": "left",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -222,31 +222,148 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "Product description",
+            "accordion_BjFHbw": {
+              "type": "accordion",
+              "name": "t:names.accordion",
               "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
+                "icon": "caret",
+                "dividers": true,
+                "type_preset": "h6",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {}
+              "blocks": {
+                "accordion_row_M3afeQ": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "商品説明",
+                    "open_by_default": false,
+                    "icon": "eye",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_b43P68": {
+                      "type": "text",
+                      "settings": {
+                        "text": "{{ closest.product.description }}",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_b43P68"
+                  ]
+                },
+                "accordion_row_Mn6hXd": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "返品ポリシー",
+                    "open_by_default": false,
+                    "icon": "return",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_PnbHCh": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>ご注文いただいた商品をできるだけ早く発送できるよう、迅速に対応いたします。ご注文の商品が発送され次第、詳細情報が記載されたメールが届きます。配達所要時間はお住まいの地域によって異なります。</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_PnbHCh"
+                  ]
+                },
+                "accordion_row_7bBDXc": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "配送ポリシー",
+                    "open_by_default": false,
+                    "icon": "truck",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_CM9yxd": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>私たちの製品は、国内およびグローバルに製造されています。私たちは、商品が高品質で公正な価値であることを保証するために、製造パートナーを慎重に選択します。</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_CM9yxd"
+                  ]
+                }
+              },
+              "block_order": [
+                "accordion_row_M3afeQ",
+                "accordion_row_Mn6hXd",
+                "accordion_row_7bBDXc"
+              ]
             }
           },
           "block_order": [
@@ -254,7 +371,7 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
-            "text_aEtTtq"
+            "accordion_BjFHbw"
           ]
         }
       },
@@ -320,7 +437,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "portrait",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -401,6 +518,7 @@
         "mobile_columns": "2",
         "columns_gap": 12,
         "rows_gap": 24,
+        "enable_product_title_line_clamp": true,
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",

@@ -31,49 +31,47 @@
         "home_block_QgPG4Y": {
           "type": "home_block",
           "settings": {
-            "caption": "Home"
+            "caption": "トップ"
           }
         },
         "cart_block_t4VLDG": {
           "type": "cart_block",
           "settings": {
-            "caption": "Cart"
-          }
-        },
-        "search_block_bbV78U": {
-          "type": "Search_block",
-          "settings": {
-            "icon_url": "",
-            "caption": "Search",
-            "url": ""
+            "caption": "カート"
           }
         },
         "menu_block_Eaw84P": {
           "type": "Menu_block",
           "settings": {
-            "caption": "Line",
+            "caption": "友達追加",
             "line_link": ""
           }
         },
-        "account_block_BbwQny": {
+        "wishlist_block_EKb9Cc": {
+          "type": "wishlist_block",
+          "settings": {
+            "caption": "お気に入り"
+          }
+        },
+        "account_block_ELfnAq": {
           "type": "Account_block",
           "settings": {
-            "caption": "Account"
+            "caption": "ログイン"
           }
         }
       },
       "block_order": [
         "home_block_QgPG4Y",
         "cart_block_t4VLDG",
-        "search_block_bbV78U",
         "menu_block_Eaw84P",
-        "account_block_BbwQny"
+        "wishlist_block_EKb9Cc",
+        "account_block_ELfnAq"
       ],
       "name": "t:names.sticky_bottom_menu",
       "settings": {
         "bg_color": "#ffffff",
-        "icon_color": "#000",
-        "color": "#000",
+        "icon_color": "#000000",
+        "color": "#000000",
         "cart_bubble_background": "#ff0000",
         "cart_bubble_text": "#ffffff",
         "wishlist_counter_background": "#ff0000",

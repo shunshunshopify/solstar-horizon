@@ -1,6 +1,6 @@
 {% capture text_input %}
   {% if section.settings.text != blank %}
-    {{- section.settings.text | escape -}}
+    {{ section.settings.text }}
   {% endif %}
 {% endcapture %}
 {% capture block_markup %}
@@ -74,7 +74,7 @@
           {% for i in (1..4) %}
             <div class="marquee__group"{% if i > 1 %} aria-hidden="true"{% endif %}>
               <div class="marquee__item">
-                {{- marquee_source -}}
+                {{ marquee_source }}
               </div>
             </div>
           {% endfor %}

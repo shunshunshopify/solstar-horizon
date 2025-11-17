@@ -37,7 +37,7 @@
       {% if template contains 'product' and product %}
         {% if breadcrumb_collection %}
           <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ breadcrumb_collection.url }}" itemprop="item">
+            <a href="{{ breadcrumb_collection.url }}" itemprop="item" data-breadcrumb-collection-link="true">
               <span itemprop="name">{{ breadcrumb_collection.title }}</span>
             </a>
             <meta itemprop="position" content="2" />
@@ -45,7 +45,7 @@
         {% elsif product.collections.size > 0 %}
           {% assign first_collection = product.collections | first %}
           <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ first_collection.url }}" itemprop="item">
+            <a href="{{ first_collection.url }}" itemprop="item" data-breadcrumb-collection-link="true">
               <span itemprop="name">{{ first_collection.title }}</span>
             </a>
             <meta itemprop="position" content="2" />
@@ -90,4 +90,75 @@
     </ol>
   </div>
 </nav>
+  {% if template contains 'product' and product %}
+    <script>
+      (() => {
+        const storageKey = 'solstar:last_collection_for_product';
+        if (typeof window === 'undefined' || !('localStorage' in window)) return;
+
+        let rawPayload;
+        try {
+          rawPayload = window.localStorage.getItem(storageKey);
+        } catch (_error) {
+          return;
+        }
+
+        if (!rawPayload) return;
+
+        let payload;
+        try {
+          payload = JSON.parse(rawPayload);
+        } catch (_error) {
+          try {
+            window.localStorage.removeItem(storageKey);
+          } catch (_removeError) {
+            // noop
+          }
+          return;
+        }
+
+        if (!payload || typeof payload !== 'object') return;
+
+        const now = Date.now();
+        const maxAge = 1000 * 60 * 60 * 24;
+        if (payload.timestamp && now - payload.timestamp > maxAge) {
+          try {
+            window.localStorage.removeItem(storageKey);
+          } catch (_removeError) {
+            // noop
+          }
+          return;
+        }
+
+        const matchesHandle = payload.productHandle && payload.productHandle === {{ product.handle | json }};
+        const matchesId = payload.productId && Number(payload.productId) === Number({{ product.id | json }});
+        if (!matchesHandle && !matchesId) return;
+        if (!payload.collectionUrl || !payload.collectionTitle) return;
+
+        const updateBreadcrumb = () => {
+          const crumb = document.querySelector('[data-breadcrumb-collection-link]');
+          if (!crumb) return;
+          crumb.setAttribute('href', payload.collectionUrl);
+          const labelNode = crumb.querySelector('[itemprop="name"]') || crumb;
+          labelNode.textContent = payload.collectionTitle;
+
+          if (payload.collectionHandle) {
+            crumb.dataset.collectionHandle = payload.collectionHandle;
+          }
+
+          try {
+            window.localStorage.removeItem(storageKey);
+          } catch (_removeError) {
+            // noop
+          }
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', updateBreadcrumb, { once: true });
+        } else {
+          updateBreadcrumb();
+        }
+      })();
+    </script>
+  {% endif %}
 {% endif %}

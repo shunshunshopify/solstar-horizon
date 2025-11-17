@@ -4,7 +4,7 @@
   fetchpriority="low"
 ></script>
 
-{% javascript %}
+<script>
   const url = new URL(window.location.href);
   if (url.hash) {
     document.addEventListener(
@@ -18,7 +18,58 @@
       { once: true }
     );
   }
-{% endjavascript %}
+</script>
+
+<script>
+  (() => {
+    const storageKey = 'solstar:last_collection_for_product';
+    if (typeof window === 'undefined' || !('localStorage' in window)) return;
+
+    const collectionData = {
+      handle: {{ collection.handle | json }},
+      title: {{ collection.title | json }},
+      url: {{ collection.url | json }}
+    };
+
+    if (!collectionData.handle || !collectionData.url) return;
+
+    const persistSelection = (link) => {
+      if (!link || !link.dataset.productHandle) return;
+
+      const payload = {
+        collectionHandle: collectionData.handle,
+        collectionTitle: collectionData.title,
+        collectionUrl: collectionData.url,
+        productHandle: link.dataset.productHandle,
+        productId: link.dataset.productId || null,
+        timestamp: Date.now()
+      };
+
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(payload));
+      } catch (_error) {
+        // Swallow storage errors (private mode, etc.)
+      }
+    };
+
+    const delegateEvent = (event) => {
+      const link = event.target.closest('[data-collection-product-link]');
+      if (!link) return;
+      persistSelection(link);
+    };
+
+    document.addEventListener('click', delegateEvent, true);
+    document.addEventListener('auxclick', delegateEvent, true);
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        delegateEvent(event);
+      },
+      true
+    );
+  })();
+</script>
 
 {% render 'breadcrumbs' %}
 

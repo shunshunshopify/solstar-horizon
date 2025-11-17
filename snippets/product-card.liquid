@@ -116,6 +116,9 @@
     id="{{ product_card_id | md5 }}"
     {% unless onboarding %}
       href="{{ variant_to_link.url }}"
+      data-product-handle="{{ product.handle | escape }}"
+      data-product-id="{{ product.id }}"
+      data-collection-product-link="true"
     {% endunless %}
     class="product-card__link"
     ref="productCardLink"

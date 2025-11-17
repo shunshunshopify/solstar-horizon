@@ -1,3 +1,11 @@
+{% capture text_input %}
+  {% if section.settings.text != blank %}
+    {{- section.settings.text | escape -}}
+  {% endif %}
+{% endcapture %}
+{% capture block_markup %}
+  {% content_for 'blocks' %}
+{% endcapture %}
 {% liquid
   assign text_size = section.settings.text_size | default: 70 | plus: 0
   assign mobile_font_size = text_size | times: 0.6 | round: 0
@@ -30,14 +38,6 @@
     assign letter_spacing = '0.3rem'
   endif
   assign group_gap = desktop_padding
-  capture text_input
-    {% if section.settings.text != blank %}
-      {{- section.settings.text | escape -}}
-    {% endif %}
-  endcapture
-  capture block_markup
-    {% content_for 'blocks' %}
-  endcapture
   assign text_input_stripped = text_input | strip
   assign block_markup_stripped = block_markup | strip
   assign marquee_source = 'Free shipping and returns'

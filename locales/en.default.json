@@ -408,10 +408,6 @@
           "label": "Padding bottom (rem)"
         }
       }
-    },
-    "product_description": {
-      "read_more_button": "Read more",
-      "read_less_button": "Collapse"
     }
   },
   "splash_screen": {

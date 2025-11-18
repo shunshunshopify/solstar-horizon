@@ -100,7 +100,7 @@
         "settings": {
           "heading_type_preset": "h1",
           "heading_text_size": 28,
-          "show_description": true,
+          "show_description": false,
           "heading_padding_top": 30,
           "heading_gap": 30,
           "product_card_size": "small",

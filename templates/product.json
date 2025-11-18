@@ -222,6 +222,32 @@
               },
               "block_order": []
             },
+            "product_description_CcPHGi": {
+              "type": "product-description",
+              "name": "t:names.product_description",
+              "settings": {
+                "text": "<h2>{{ closest.product.description }}</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "accordion_BjFHbw": {
               "type": "accordion",
               "name": "t:names.accordion",
@@ -371,6 +397,7 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
+            "product_description_CcPHGi",
             "accordion_BjFHbw"
           ]
         }

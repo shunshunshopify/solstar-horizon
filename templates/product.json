@@ -279,11 +279,11 @@
                     "text_PnbHCh": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>ご注文いただいた商品をできるだけ早く発送できるよう、迅速に対応いたします。ご注文の商品が発送され次第、詳細情報が記載されたメールが届きます。配達所要時間はお住まいの地域によって異なります。</p>",
+                        "text": "<h2>ご注文いただいた商品をできるだけ早く発送できるよう、迅速に対応いたします。ご注文の商品が発送され次第、詳細情報が記載されたメールが届きます。配達所要時間はお住まいの地域によって異なります。</h2>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "rte",
+                        "type_preset": "paragraph",
                         "font": "var(--font-body--family)",
                         "font_size": "1rem",
                         "line_height": "normal",
@@ -318,11 +318,11 @@
                     "text_CM9yxd": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>私たちの製品は、国内およびグローバルに製造されています。私たちは、商品が高品質で公正な価値であることを保証するために、製造パートナーを慎重に選択します。</p>",
+                        "text": "<h2>私たちの製品は、国内およびグローバルに製造されています。私たちは、商品が高品質で公正な価値であることを保証するために、製造パートナーを慎重に選択します。</h2>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "rte",
+                        "type_preset": "paragraph",
                         "font": "var(--font-body--family)",
                         "font_size": "1rem",
                         "line_height": "normal",

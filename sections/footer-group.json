@@ -53,10 +53,10 @@
             "caption": "お気に入り"
           }
         },
-        "search_block_WBQJ7H": {
-          "type": "Search_block",
+        "account_block_pHJqJ3": {
+          "type": "Account_block",
           "settings": {
-            "caption": "Search"
+            "caption": "Account"
           }
         }
       },
@@ -65,7 +65,7 @@
         "cart_block_t4VLDG",
         "menu_block_Eaw84P",
         "wishlist_block_EKb9Cc",
-        "search_block_WBQJ7H"
+        "account_block_pHJqJ3"
       ],
       "name": "t:names.sticky_bottom_menu",
       "settings": {

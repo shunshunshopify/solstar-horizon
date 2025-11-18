@@ -1,6 +1,7 @@
 {% liquid
   assign preset = block.settings.type_preset | default: 'paragraph'
   assign tag = 'p'
+  assign heading_size = block.settings.heading_font_size
 
   case preset
     when 'h1'
@@ -20,15 +21,22 @@
   endcase
 %}
 
+{% capture heading_attributes %}
+  {% if heading_size != blank %}
+    style="font-size: {{ heading_size }}"
+  {% endif %}
+{% endcapture %}
+{% assign heading_attributes = heading_attributes | strip %}
+
 {% if closest.product == blank %}
   {% assign text = 'placeholders.product_title' | t %}
   {% capture product_title %}
-    <{{ tag }}>{{ text }}</{{ tag }}>
+    <{{ tag }}{% if heading_attributes != blank %} {{ heading_attributes }}{% endif %}>{{ text }}</{{ tag }}>
   {% endcapture %}
   {% render 'text', fallback_text: product_title, block: block, class: 'product-card__title' %}
 {% elsif closest.product != blank %}
   {% capture product_title %}
-    <{{ tag }}>{{ closest.product.title }}</{{ tag }}>
+    <{{ tag }}{% if heading_attributes != blank %} {{ heading_attributes }}{% endif %}>{{ closest.product.title }}</{{ tag }}>
   {% endcapture %}
   <a
     class="contents user-select-text"
@@ -139,6 +147,37 @@
       ],
       "default": "rte",
       "info": "t:info.edit_presets_in_theme_settings"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "t:settings.heading_size",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "0.75rem",
+          "label": "12px"
+        },
+        {
+          "value": "0.875rem",
+          "label": "14px"
+        },
+        {
+          "value": "1rem",
+          "label": "16px"
+        },
+        {
+          "value": "1.125rem",
+          "label": "18px"
+        },
+        {
+          "value": "1.25rem",
+          "label": "20px"
+        }
+      ]
     },
     {
       "type": "select",

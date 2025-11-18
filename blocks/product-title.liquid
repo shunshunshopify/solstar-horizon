@@ -180,70 +180,6 @@
         {
           "value": "1.5rem",
           "label": "24px"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "font",
-      "label": "t:settings.font",
-      "options": [
-        {
-          "value": "var(--font-body--family)",
-          "label": "t:options.body"
-        },
-        {
-          "value": "var(--font-subheading--family)",
-          "label": "t:options.subheading"
-        },
-        {
-          "value": "var(--font-heading--family)",
-          "label": "t:options.heading"
-        },
-        {
-          "value": "var(--font-accent--family)",
-          "label": "t:options.accent"
-        }
-      ],
-      "default": "var(--font-body--family)",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
-    },
-    {
-      "type": "select",
-      "id": "font_size",
-      "label": "t:settings.size",
-      "options": [
-        {
-          "value": "",
-          "label": "t:options.default"
-        },
-        {
-          "value": "0.625rem",
-          "label": "10px"
-        },
-        {
-          "value": "0.75rem",
-          "label": "12px"
-        },
-        {
-          "value": "0.875rem",
-          "label": "14px"
-        },
-        {
-          "value": "1rem",
-          "label": "16px"
-        },
-        {
-          "value": "1.125rem",
-          "label": "18px"
-        },
-        {
-          "value": "1.25rem",
-          "label": "20px"
-        },
-        {
-          "value": "1.5rem",
-          "label": "24px"
         },
         {
           "value": "2rem",
@@ -283,6 +219,31 @@
         }
       ],
       "default": "1rem",
+      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "t:settings.font",
+      "options": [
+        {
+          "value": "var(--font-body--family)",
+          "label": "t:options.body"
+        },
+        {
+          "value": "var(--font-subheading--family)",
+          "label": "t:options.subheading"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "t:options.heading"
+        },
+        {
+          "value": "var(--font-accent--family)",
+          "label": "t:options.accent"
+        }
+      ],
+      "default": "var(--font-body--family)",
       "visible_if": "{{ block.settings.type_preset == 'custom' }}"
     },
     {

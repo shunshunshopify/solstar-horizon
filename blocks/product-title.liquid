@@ -4,31 +4,41 @@
   assign heading_size = block.settings.heading_font_size
   assign heading_font = block.settings.font
   assign style_values = ''
+  assign typography_prefix = ''
 
   case preset
     when 'h1'
       assign tag = 'h1'
+      assign typography_prefix = '--font-h1--'
     when 'h2'
       assign tag = 'h2'
+      assign typography_prefix = '--font-h2--'
     when 'h3'
       assign tag = 'h3'
+      assign typography_prefix = '--font-h3--'
     when 'h4'
       assign tag = 'h4'
+      assign typography_prefix = '--font-h4--'
     when 'h5'
       assign tag = 'h5'
+      assign typography_prefix = '--font-h5--'
     when 'h6'
       assign tag = 'h6'
+      assign typography_prefix = '--font-h6--'
     when 'paragraph'
       assign tag = 'p'
+      assign typography_prefix = '--font-paragraph--'
   endcase
 
-  if heading_size != blank
-    assign style_values = style_values | append: 'font-size: ' | append: heading_size | append: ';'
+  if heading_size != blank and typography_prefix != ''
+    assign style_values = style_values | append: typography_prefix | append: 'size: ' | append: heading_size | append: ';'
   endif
-  if heading_font != blank
-    assign style_values = style_values | append: 'font-family: ' | append: heading_font | append: ';'
+  if heading_font != blank and typography_prefix != ''
+    assign style_values = style_values | append: typography_prefix | append: 'family: ' | append: heading_font | append: ';'
     assign font_weight_var = heading_font | replace: 'family', 'weight'
-    assign style_values = style_values | append: 'font-weight: ' | append: font_weight_var | append: ';'
+    assign style_values = style_values | append: typography_prefix | append: 'weight: ' | append: font_weight_var | append: ';'
+    assign font_style_var = heading_font | replace: 'family', 'style'
+    assign style_values = style_values | append: typography_prefix | append: 'style: ' | append: font_style_var | append: ';'
   endif
 %}
 

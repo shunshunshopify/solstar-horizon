@@ -267,45 +267,6 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "accordion_row_M3afeQ": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "商品説明",
-                    "open_by_default": false,
-                    "icon": "eye",
-                    "width": 20
-                  },
-                  "blocks": {
-                    "text_b43P68": {
-                      "type": "text",
-                      "settings": {
-                        "text": "{{ closest.product.description }}",
-                        "width": "100%",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "type_preset": "rte",
-                        "font": "var(--font-body--family)",
-                        "font_size": "1rem",
-                        "line_height": "normal",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "color": "var(--color-foreground)",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "text_b43P68"
-                  ]
-                },
                 "accordion_row_Mn6hXd": {
                   "type": "_accordion-row",
                   "settings": {
@@ -386,7 +347,6 @@
                 }
               },
               "block_order": [
-                "accordion_row_M3afeQ",
                 "accordion_row_Mn6hXd",
                 "accordion_row_7bBDXc"
               ]

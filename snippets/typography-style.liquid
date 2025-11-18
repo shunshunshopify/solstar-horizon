@@ -10,7 +10,7 @@
 {% assign preset = preset | default: settings.type_preset %}
 
 {%- capture variables -%}
-{%- if settings.color != "" -%}
+{%- if preset != 'rte' and settings.color != "" -%}
   --color: {{ settings.color }};
 {%- endif -%}
   {%- if preset == 'custom' -%}
@@ -73,18 +73,6 @@
   {%- elsif settings.font != blank -%}
     --font-family: {{ settings.font }};
     --font-weight: {{ settings.font | replace: 'family', 'weight' }};
-    {%- if settings.line_height != blank -%}
-      --line-height: var(--line-height--heading-{{ settings.line_height }});
-    {%- endif -%}
-    {%- if settings.letter_spacing != blank -%}
-      --letter-spacing: var(--letter-spacing--heading-{{ settings.letter_spacing }});
-    {%- endif -%}
-    {%- if settings.case != blank -%}
-      --text-transform: {{ settings.case }};
-    {%- endif -%}
-    {%- if settings.wrap != blank -%}
-      --text-wrap: {{ settings.wrap }};
-    {%- endif -%}
-{%- endif -%}
+  {%- endif -%}
 {%- endcapture -%}
 {{- variables | strip | strip_newlines -}}

@@ -2,6 +2,8 @@
   assign preset = block.settings.type_preset | default: 'paragraph'
   assign tag = 'p'
   assign heading_size = block.settings.heading_font_size
+  assign heading_font = block.settings.font
+  assign style_values = ''
 
   case preset
     when 'h1'
@@ -19,11 +21,20 @@
     when 'paragraph'
       assign tag = 'p'
   endcase
+
+  if heading_size != blank
+    assign style_values = style_values | append: 'font-size: ' | append: heading_size | append: ';'
+  endif
+  if heading_font != blank
+    assign style_values = style_values | append: 'font-family: ' | append: heading_font | append: ';'
+    assign font_weight_var = heading_font | replace: 'family', 'weight'
+    assign style_values = style_values | append: 'font-weight: ' | append: font_weight_var | append: ';'
+  endif
 %}
 
 {% capture heading_attributes %}
-  {% if heading_size != blank %}
-    style="font-size: {{ heading_size }}"
+  {% if style_values != blank %}
+    style="{{ style_values }}"
   {% endif %}
 {% endcapture %}
 {% assign heading_attributes = heading_attributes | strip %}
@@ -198,7 +209,7 @@
           "label": "t:options.accent"
         }
       ],
-      "default": "var(--font-body--family)"
+      "default": ""
     },
     {
       "type": "select",

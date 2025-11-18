@@ -70,8 +70,8 @@
       "name": "t:names.sticky_bottom_menu",
       "settings": {
         "bg_color": "#ffffff",
-        "icon_color": "#000000",
-        "color": "#000000",
+        "icon_color": "#003dff",
+        "color": "#08ff00",
         "cart_bubble_background": "#ff0000",
         "cart_bubble_text": "#ffffff",
         "wishlist_counter_background": "#ff0000",

@@ -69,12 +69,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: var(--bottom-menu-icon-size, 2.2rem);
-      height: var(--bottom-menu-icon-size, 2.2rem);
+      width: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+      height: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
       border-radius: 50%;
       overflow: hidden;
-      background-color: var(--color-primary-button-background, {{ section.settings.icon_color }});
-      color: var(--color-primary-button-text, {{ section.settings.color }});
+      background-color: {{ section.settings.icon_color }};
+      color: {{ section.settings.color }};
     }
     .account-block__avatar-wrapper img {
       width: 100%;

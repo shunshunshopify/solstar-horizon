@@ -29,8 +29,9 @@
       display: flex;
       justify-content: space-around;
       box-shadow: 0 0 10px rgba(0, 0, 0, .11);
-      --color-primary-button-background: {{ section.settings.icon_color }};
-      --color-primary-button-text: {{ section.settings.color }};
+      --bottom-menu-account-background: {{ section.settings.icon_color }};
+      --bottom-menu-account-text: {{ section.settings.color }};
+      --bottom-menu-account-size: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
       {% if section.settings.cart_bubble_background != blank %}
         --bottom-menu-cart-bubble-background: {{ section.settings.cart_bubble_background }};
       {% endif %}
@@ -68,16 +69,15 @@
       height: 100%;
     }
     .account-block__avatar-wrapper {
-      --account-button-size: 1.625rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: var(--account-button-size);
-      height: var(--account-button-size);
+      width: var(--bottom-menu-account-size, 1.625rem);
+      height: var(--bottom-menu-account-size, 1.625rem);
       border-radius: 50%;
       overflow: hidden;
-      background-color: var(--color-primary-button-background);
-      color: var(--color-primary-button-text);
+      background-color: var(--bottom-menu-account-background, {{ section.settings.icon_color }});
+      color: var(--bottom-menu-account-text, {{ section.settings.color }});
     }
     .account-block__avatar-wrapper img {
       width: 100%;
@@ -100,16 +100,24 @@
       fill: none;
       stroke-width: 1.5px;
     }
-    .account-block-link .account-button__avatar {
-      --avatar-size: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+    .account-block-link shop-user-avatar {
+      --shop-avatar-size: var(--bottom-menu-account-size, 1.625rem);
+      --shop-avatar-background: var(--bottom-menu-account-background, {{ section.settings.icon_color }});
+      --shop-avatar-color: var(--bottom-menu-account-text, {{ section.settings.color }});
+      --shop-avatar-text-color: var(--bottom-menu-account-text, {{ section.settings.color }});
+    }
+
+    .account-block-link .account-button__avatar,
+    .account-block-link .account-block__avatar-wrapper {
+      --avatar-size: var(--bottom-menu-account-size, 1.625rem);
       display: flex;
       align-items: center;
       justify-content: center;
       width: var(--avatar-size);
       height: var(--avatar-size);
       border-radius: 50%;
-      background-color: var(--color-primary-button-background, {{ section.settings.icon_color }});
-      color: var(--color-primary-button-text, {{ section.settings.color }});
+      background-color: var(--bottom-menu-account-background, {{ section.settings.icon_color }});
+      color: var(--bottom-menu-account-text, {{ section.settings.color }});
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;

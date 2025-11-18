@@ -98,8 +98,8 @@
       "main-wishlist": {
         "type": "main-wishlist",
         "settings": {
-          "heading_type_preset": "h2",
-          "heading_text_size": 30,
+          "heading_type_preset": "h1",
+          "heading_text_size": 28,
           "show_description": true,
           "heading_padding_top": 30,
           "heading_gap": 30,

@@ -93,6 +93,15 @@
       justify-content: center;
     }
     
+    /* Sync with original avatar styling from account-button.liquid */
+    .account-block-link shop-user-avatar {
+      pointer-events: none;
+      width: var(--account-button-size, 1.625rem);
+      height: var(--account-button-size, 1.625rem);
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
     .sticky-section svg {
       width: var(--bottom-menu-icon-size, 2.2rem);
       height: var(--bottom-menu-icon-size, 2.2rem);
@@ -295,9 +304,7 @@
           <a href="{{ routes.account_url }}" class="btm_link account-block-link">
             {% if customer %}
               {% if customer.has_avatar? %}
-                <span class="account-block__avatar-wrapper" aria-hidden="true">
-                  {{ customer | avatar }}
-                </span>
+                {{ customer | avatar }}
               {% elsif customer.first_name or customer.email %}
                 {% liquid
                   assign initial = customer.email | first

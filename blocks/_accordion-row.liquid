@@ -18,7 +18,9 @@
         width: block_settings.width,
         class_name: 'details__icon'
       %}
-      {{ block_settings.heading }}
+      <h2 class="details__heading">
+        {{ block_settings.heading }}
+      </h2>
       <span class="svg-wrapper icon-caret icon-animated">
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </span>
@@ -37,6 +39,10 @@
   .details__icon {
     height: auto;
     margin-inline-end: var(--margin-xs);
+  }
+  .details__heading {
+    margin: 0;
+    font: inherit;
   }
 {% endstylesheet %}
 

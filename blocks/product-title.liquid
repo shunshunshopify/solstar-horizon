@@ -1,9 +1,64 @@
+{% liquid
+  assign preset = block.settings.type_preset | default: 'paragraph'
+  assign tag = 'p'
+  assign heading_size = block.settings.heading_font_size
+  assign heading_font = block.settings.font
+  assign style_values = ''
+  assign typography_prefix = ''
+
+  case preset
+    when 'h1'
+      assign tag = 'h1'
+      assign typography_prefix = '--font-h1--'
+    when 'h2'
+      assign tag = 'h2'
+      assign typography_prefix = '--font-h2--'
+    when 'h3'
+      assign tag = 'h3'
+      assign typography_prefix = '--font-h3--'
+    when 'h4'
+      assign tag = 'h4'
+      assign typography_prefix = '--font-h4--'
+    when 'h5'
+      assign tag = 'h5'
+      assign typography_prefix = '--font-h5--'
+    when 'h6'
+      assign tag = 'h6'
+      assign typography_prefix = '--font-h6--'
+    when 'paragraph'
+      assign tag = 'p'
+      assign typography_prefix = '--font-paragraph--'
+  endcase
+
+  if heading_size != blank and typography_prefix != ''
+    assign style_values = style_values | append: typography_prefix | append: 'size: ' | append: heading_size | append: ';'
+  endif
+  if heading_font != blank and typography_prefix != ''
+    assign style_values = style_values | append: typography_prefix | append: 'family: ' | append: heading_font | append: ';'
+    assign font_weight_var = heading_font | replace: 'family', 'weight'
+    assign style_values = style_values | append: typography_prefix | append: 'weight: ' | append: font_weight_var | append: ';'
+    assign font_style_var = heading_font | replace: 'family', 'style'
+    assign style_values = style_values | append: typography_prefix | append: 'style: ' | append: font_style_var | append: ';'
+  endif
+%}
+
+{% capture heading_attributes %}
+  {% if style_values != blank %}
+    style="{{ style_values }}"
+  {% endif %}
+{% endcapture %}
+{% assign heading_attributes = heading_attributes | strip %}
+
 {% if closest.product == blank %}
   {% assign text = 'placeholders.product_title' | t %}
-  {% assign product_title = '<p>' | append: text | append: '</p>' %}
+  {% capture product_title %}
+    <{{ tag }}{% if heading_attributes != blank %} {{ heading_attributes }}{% endif %}>{{ text }}</{{ tag }}>
+  {% endcapture %}
   {% render 'text', fallback_text: product_title, block: block, class: 'product-card__title' %}
 {% elsif closest.product != blank %}
-  {% assign product_title = '<p>' | append: closest.product.title | append: '</p>' %}
+  {% capture product_title %}
+    <{{ tag }}{% if heading_attributes != blank %} {{ heading_attributes }}{% endif %}>{{ closest.product.title }}</{{ tag }}>
+  {% endcapture %}
   <a
     class="contents user-select-text"
     ref="productTitleLink"
@@ -70,10 +125,6 @@
       "visible_if": "{{ block.settings.width == '100%' }}"
     },
     {
-      "type": "header",
-      "content": "t:content.typography"
-    },
-    {
       "type": "select",
       "id": "type_preset",
       "label": "t:settings.preset",
@@ -109,14 +160,42 @@
         {
           "value": "h6",
           "label": "t:options.h6"
-        },
-        {
-          "value": "custom",
-          "label": "t:options.custom"
         }
       ],
       "default": "rte",
       "info": "t:info.edit_presets_in_theme_settings"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "t:settings.heading_size",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "0.75rem",
+          "label": "12px"
+        },
+        {
+          "value": "0.875rem",
+          "label": "14px"
+        },
+        {
+          "value": "1rem",
+          "label": "16px"
+        },
+        {
+          "value": "1.125rem",
+          "label": "18px"
+        },
+        {
+          "value": "1.25rem",
+          "label": "20px"
+        }
+      ],
+      "visible_if": "{{ block.settings.type_preset != 'rte' }}"
     },
     {
       "type": "select",
@@ -140,164 +219,7 @@
           "label": "t:options.accent"
         }
       ],
-      "default": "var(--font-body--family)",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
-    },
-    {
-      "type": "select",
-      "id": "font_size",
-      "label": "t:settings.size",
-      "options": [
-        {
-          "value": "",
-          "label": "t:options.default"
-        },
-        {
-          "value": "0.625rem",
-          "label": "10px"
-        },
-        {
-          "value": "0.75rem",
-          "label": "12px"
-        },
-        {
-          "value": "0.875rem",
-          "label": "14px"
-        },
-        {
-          "value": "1rem",
-          "label": "16px"
-        },
-        {
-          "value": "1.125rem",
-          "label": "18px"
-        },
-        {
-          "value": "1.25rem",
-          "label": "20px"
-        },
-        {
-          "value": "1.5rem",
-          "label": "24px"
-        },
-        {
-          "value": "2rem",
-          "label": "32px"
-        },
-        {
-          "value": "2.5rem",
-          "label": "40px"
-        },
-        {
-          "value": "3rem",
-          "label": "48px"
-        },
-        {
-          "value": "3.5rem",
-          "label": "56px"
-        },
-        {
-          "value": "4.5rem",
-          "label": "72px"
-        },
-        {
-          "value": "5.5rem",
-          "label": "88px"
-        },
-        {
-          "value": "7.5rem",
-          "label": "120px"
-        },
-        {
-          "value": "9.5rem",
-          "label": "152px"
-        },
-        {
-          "value": "11.5rem",
-          "label": "184px"
-        }
-      ],
-      "default": "1rem",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
-    },
-    {
-      "type": "select",
-      "id": "line_height",
-      "label": "t:settings.line_height",
-      "options": [
-        {
-          "value": "tight",
-          "label": "t:options.tight"
-        },
-        {
-          "value": "normal",
-          "label": "t:options.normal"
-        },
-        {
-          "value": "loose",
-          "label": "t:options.loose"
-        }
-      ],
-      "default": "normal",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
-    },
-    {
-      "type": "select",
-      "id": "letter_spacing",
-      "label": "t:settings.letter_spacing",
-      "options": [
-        {
-          "value": "tight",
-          "label": "t:options.tight"
-        },
-        {
-          "value": "normal",
-          "label": "t:options.normal"
-        },
-        {
-          "value": "loose",
-          "label": "t:options.loose"
-        }
-      ],
-      "default": "normal",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
-    },
-    {
-      "type": "select",
-      "id": "case",
-      "label": "t:settings.case",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:options.default"
-        },
-        {
-          "value": "uppercase",
-          "label": "t:options.uppercase"
-        }
-      ],
-      "default": "none",
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
-    },
-    {
-      "type": "select",
-      "id": "wrap",
-      "label": "t:settings.wrap",
-      "options": [
-        {
-          "value": "pretty",
-          "label": "t:options.pretty"
-        },
-        {
-          "value": "balance",
-          "label": "t:options.balance"
-        },
-        {
-          "value": "nowrap",
-          "label": "t:options.none"
-        }
-      ],
-      "visible_if": "{{ block.settings.type_preset == 'custom' }}"
+      "default": "var(--font-body--family)"
     },
     {
       "type": "select",

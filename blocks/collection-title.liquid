@@ -1,11 +1,36 @@
-{% if closest.collection == blank %}
-  {% assign text = 'placeholders.collection_title' | t %}
-  {% assign collection_title = '<p>' | append: text | append: '</p>' %}
-  {% render 'text', fallback_text: collection_title, block: block %}
-{% elsif closest.collection != blank %}
-  {% assign collection_title = '<p>' | append: closest.collection.title | append: '</p>' %}
-  {% render 'text', fallback_text: collection_title, block: block %}
-{% endif %}
+{% liquid
+  assign preset = block.settings.type_preset | default: 'paragraph'
+  assign tag = 'p'
+
+  case preset
+    when 'h1'
+      assign tag = 'h1'
+    when 'h2'
+      assign tag = 'h2'
+    when 'h3'
+      assign tag = 'h3'
+    when 'h4'
+      assign tag = 'h4'
+    when 'h5'
+      assign tag = 'h5'
+    when 'h6'
+      assign tag = 'h6'
+    when 'paragraph'
+      assign tag = 'p'
+  endcase
+
+  if closest.collection == blank
+    assign text = 'placeholders.collection_title' | t
+  else
+    assign text = closest.collection.title
+  endif
+
+  capture collection_title
+    echo '<' | append: tag | append: '>' | append: text | append: '</' | append: tag | append: '>'
+  endcapture
+%}
+
+{% render 'text', fallback_text: collection_title, block: block %}
 
 {% schema %}
 {

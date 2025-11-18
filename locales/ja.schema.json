@@ -550,17 +550,6 @@
         "info": "自動再生が有効な場合に、ユーザーがオーディオを有効にするためにクリックできることを促すために表示されます"
       }
     },
-    "product_description": {
-      "settings": {
-        "read_more": {
-          "heading": "続きを読むトグル",
-          "enable": "「続きを読む」トグルを有効にする",
-          "collapsed_height": "折りたたみ時の高さ",
-          "read_more_label": "「続きを読む」ラベル",
-          "read_less_label": "「折りたたむ」ラベル"
-        }
-      }
-    },
     "wishlist": {
       "enable_wishlist_icon": {
         "label": "お気に入りアイコンを有効化"
@@ -1132,6 +1121,17 @@
         "success_discount_code": {
           "label": "割引コード",
           "default": "SAVE10"
+        }
+      }
+    },
+    "product_description": {
+      "settings": {
+        "read_more": {
+          "heading": "続きを読むトグル",
+          "enable": "「続きを読む」トグルを有効にする",
+          "collapsed_height": "折りたたみ時の高さ",
+          "read_more_label": "「続きを読む」ラベル",
+          "read_less_label": "「折りたたむ」ラベル"
         }
       }
     },

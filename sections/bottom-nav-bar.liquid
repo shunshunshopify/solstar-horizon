@@ -67,6 +67,32 @@
       width: 100%;
       height: 100%;
     }
+    .account-block__avatar-wrapper {
+      --account-button-size: 1.625rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--account-button-size);
+      height: var(--account-button-size);
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: var(--color-primary-button-background);
+      color: var(--color-primary-button-text);
+    }
+    .account-block__avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .account-block__avatar-initials {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
     .sticky-section svg {
       width: var(--bottom-menu-icon-size, 2.2rem);
       height: var(--bottom-menu-icon-size, 2.2rem);
@@ -74,11 +100,20 @@
       fill: none;
       stroke-width: 1.5px;
     }
-    .account-button--bottom {
-      --button-size: var(--bottom-menu-icon-size, 2.2rem);
-      --color-primary-button-background: {{ section.settings.icon_color }};
-      --color-primary-button-text: {{ section.settings.color }};
-      color: {{ section.settings.icon_color }};
+    .account-block-link .account-button__avatar {
+      --avatar-size: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--avatar-size);
+      height: var(--avatar-size);
+      border-radius: 50%;
+      background-color: var(--color-primary-button-background, {{ section.settings.icon_color }});
+      color: var(--color-primary-button-text, {{ section.settings.color }});
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1;
     }
 
     .sticky-section .line-icon-wrapper {
@@ -258,31 +293,31 @@
         {%- when 'Account_block' -%}
         <div class="sticky-section-column">
           <a href="{{ routes.account_url }}" class="btm_link account-block-link">
-            <span class="account-button account-button--bottom" aria-hidden="true">
-              {% if customer %}
-                {% if customer.has_avatar? %}
+            {% if customer %}
+              {% if customer.has_avatar? %}
+                <span class="account-block__avatar-wrapper" aria-hidden="true">
                   {{ customer | avatar }}
-                {% elsif customer.first_name or customer.email %}
-                  {% liquid
-                    assign initial = customer.email | first
-                    if customer.first_name != blank
-                      assign initial = customer.first_name | first
-                    endif
-                  %}
-                  <span class="account-button__avatar">
-                    {{- initial -}}
-                  </span>
-                {% else %}
-                  <span class="account-button__icon">
-                    {{- 'icon-account.svg' | inline_asset_content -}}
-                  </span>
-                {% endif %}
+                </span>
+              {% elsif customer.first_name or customer.email %}
+                {% liquid
+                  assign initial = customer.email | first
+                  if customer.first_name != blank
+                    assign initial = customer.first_name | first
+                  endif
+                %}
+                <span class="account-block__avatar-wrapper account-block__avatar-initials" aria-hidden="true">
+                  {{- initial -}}
+                </span>
               {% else %}
-                <span class="account-button__icon">
-                  {{- 'icon-account.svg' | inline_asset_content -}}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-account.svg' | inline_asset_content }}
                 </span>
               {% endif %}
-            </span>
+            {% else %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-account.svg' | inline_asset_content }}
+              </span>
+            {% endif %}
             {{ block.settings.caption }}
           </a>
         </div>

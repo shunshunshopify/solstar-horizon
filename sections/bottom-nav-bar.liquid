@@ -155,13 +155,9 @@
         {%- when 'block' -%}
           <div class="sticky-section-column">
             <a href="{{ block.settings.url }}" class="btm_link">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-link-line.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-link-line.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </a>
           </div>
@@ -264,13 +260,9 @@
         {%- when 'Search_block' -%}
           <div class="sticky-section-column">
             <a href="{{ routes.search_url }}" class="btm_link">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-search.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-search.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </a>
           </div>
@@ -640,12 +632,6 @@ function openCartDrawer() {
             "limit": 5,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.icon_url.label",
-                    "info": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.icon_url.info"
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.caption.label",
@@ -734,13 +720,6 @@ function openCartDrawer() {
             "name": "t:sections.sticky_bottom_menu.blocks.search_block.name",
             "limit": 1,
             "settings": [
-                {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "t:sections.sticky_bottom_menu.blocks.search_block.settings.icon_url.label",
-                    "placeholder": "<i class=\"ri-search-line\"></i>",
-                    "info": "t:sections.sticky_bottom_menu.blocks.search_block.settings.icon_url.info"
-                },
                 {
                     "type": "text",
                     "id": "caption",

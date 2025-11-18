@@ -391,6 +391,10 @@
           "label": "下部の余白（rem）"
         }
       }
+    },
+    "product_description": {
+      "read_more_button": "続きを読む",
+      "read_less_button": "折りたたむ"
     }
   },
   "product_title_block": {

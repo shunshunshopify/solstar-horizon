@@ -5,8 +5,10 @@
     assign text = product.description
   endif
 
-  assign read_more_label = block.settings.read_more_label | default: 'READ MORE'
-  assign read_less_label = block.settings.read_less_label | default: 'COLLAPSE'
+  assign read_more_default = 'sections.product_description.read_more_button' | t
+  assign read_less_default = 'sections.product_description.read_less_button' | t
+  assign read_more_label = block.settings.read_more_label | default: read_more_default
+  assign read_less_label = block.settings.read_less_label | default: read_less_default
   assign arrow_variants = '▾|▿|▴|▵|▼|▽|▲|△'
   assign arrow_array = arrow_variants | split: '|'
   for arrow in arrow_array
@@ -16,10 +18,10 @@
   assign read_more_label = read_more_label | strip
   assign read_less_label = read_less_label | strip
   if read_more_label == blank
-    assign read_more_label = 'READ MORE'
+    assign read_more_label = read_more_default
   endif
   if read_less_label == blank
-    assign read_less_label = 'COLLAPSE'
+    assign read_less_label = read_less_default
   endif
 %}
 
@@ -145,6 +147,10 @@
   {% endstyle %}
   <script>
     window.ProductDescriptionReadMore = window.ProductDescriptionReadMore || (function () {
+      const FALLBACK_LABELS = {
+        readMore: {{ read_more_default | json }},
+        readLess: {{ read_less_default | json }}
+      };
       const selectors = {
         root: '[data-pdp-description-root]'
       };
@@ -174,8 +180,8 @@
             root.dataset.state = expanded ? 'expanded' : 'collapsed';
             toggle.setAttribute('aria-expanded', expanded);
             labelTarget.textContent = expanded
-              ? toggle.dataset.readLessLabel || 'COLLAPSE'
-              : toggle.dataset.readMoreLabel || 'READ MORE';
+              ? toggle.dataset.readLessLabel || FALLBACK_LABELS.readLess
+              : toggle.dataset.readMoreLabel || FALLBACK_LABELS.readMore;
           };
 
           const lockIfShort = () => {

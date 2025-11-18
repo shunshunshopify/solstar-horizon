@@ -66,6 +66,10 @@
       cursor: pointer;
       width: 100%;
       height: 100%;
+      gap: var(--bottom-menu-icon-gap, 0.35rem);
+    }
+    .btm_link__label {
+      display: block;
     }
     .account-block__avatar-wrapper {
       --account-button-size: 1.625rem;
@@ -209,7 +213,7 @@
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'icon-link-line.svg' | inline_asset_content }}
               </span>
-              {{ block.settings.caption }}
+              <span class="btm_link__label">{{ block.settings.caption }}</span>
             </a>
           </div>
         {%- when 'home_block' -%}
@@ -218,7 +222,7 @@
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'home-line.svg' | inline_asset_content }}
               </span>
-              {{ block.settings.caption }}
+              <span class="btm_link__label">{{ block.settings.caption }}</span>
             </a>
           </div>
         {%- when 'cart_block' -%}
@@ -246,7 +250,7 @@
                 </span>
                 {% render 'cart-bubble', limit: 100, live_region: true %}
               </cart-icon>
-              {{ block.settings.caption }}
+              <span class="btm_link__label">{{ block.settings.caption }}</span>
             </button>
           </div>
         {%- when 'wishlist_block' -%}
@@ -266,7 +270,7 @@
                 </span>
               </span>
             </span>
-            {{ block.settings.caption }}
+            <span class="btm_link__label">{{ block.settings.caption }}</span>
           </a>
         </div>
         {%- when 'Menu_block' -%}
@@ -296,7 +300,7 @@
               {% if line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
             >
               <span class="svg-wrapper line-icon-wrapper" aria-hidden="true"></span>
-              {{ line_caption | default: 'Line' }}
+              <span class="btm_link__label">{{ line_caption | default: 'Line' }}</span>
             </a>
           </div>
         {%- when 'Account_block' -%}
@@ -325,7 +329,7 @@
                 {{ 'icon-account.svg' | inline_asset_content }}
               </span>
             {% endif %}
-            {{ block.settings.caption }}
+            <span class="btm_link__label">{{ block.settings.caption }}</span>
           </a>
         </div>
         {%- when 'Search_block' -%}
@@ -334,7 +338,7 @@
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'icon-search.svg' | inline_asset_content }}
               </span>
-              {{ block.settings.caption }}
+              <span class="btm_link__label">{{ block.settings.caption }}</span>
             </a>
           </div>
         {%- when 'cat_block' -%}
@@ -343,7 +347,7 @@
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'icon-layout-grid-line.svg' | inline_asset_content }}
               </span>
-              {{ block.settings.caption }}
+              <span class="btm_link__label">{{ block.settings.caption }}</span>
             </a>
           </div>
           <div id="collectionPopup" class="collection-popup">
@@ -374,7 +378,7 @@
              {% else %}
                 {{ block.settings.icon_url }}
              {% endif %}
-              {{ block.settings.caption }}
+              <span class="btm_link__label">{{ block.settings.caption }}</span>
           </a>
         </div>
         <div id="popup" class="extended-menu">

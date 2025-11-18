@@ -1204,10 +1204,6 @@
         "custom_block": {
           "name": "カスタムブロック",
           "settings": {
-            "icon_url": {
-              "label": "アイコンを追加",
-              "info": "Remix Icon : [アイコンを取得](https://remixicon.com/)"
-            },
             "caption": {
               "label": "キャプション"
             },
@@ -1263,15 +1259,8 @@
         "search_block": {
           "name": "検索",
           "settings": {
-            "icon_url": {
-              "label": "アイコンを追加",
-              "info": "Remix Icon : [アイコンを取得](https://remixicon.com/)"
-            },
             "caption": {
               "label": "キャプション"
-            },
-            "url": {
-              "label": "リンク"
             }
           }
         },

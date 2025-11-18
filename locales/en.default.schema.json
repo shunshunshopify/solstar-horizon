@@ -1295,10 +1295,6 @@
         "custom_block": {
           "name": "Custom Block",
           "settings": {
-            "icon_url": {
-              "label": "Add Icon",
-              "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-            },
             "caption": {
               "label": "Caption"
             },
@@ -1354,15 +1350,8 @@
         "search_block": {
           "name": "Search",
           "settings": {
-            "icon_url": {
-              "label": "Add Icon",
-              "info": "Remix Icon : [Get Icon](https://remixicon.com/)"
-            },
             "caption": {
               "label": "Caption"
-            },
-            "url": {
-              "label": "Link"
             }
           }
         },

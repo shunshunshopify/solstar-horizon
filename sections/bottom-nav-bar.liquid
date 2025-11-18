@@ -29,6 +29,8 @@
       display: flex;
       justify-content: space-around;
       box-shadow: 0 0 10px rgba(0, 0, 0, .11);
+      --color-primary-button-background: {{ section.settings.icon_color }};
+      --color-primary-button-text: {{ section.settings.color }};
       {% if section.settings.cart_bubble_background != blank %}
         --bottom-menu-cart-bubble-background: {{ section.settings.cart_bubble_background }};
       {% endif %}
@@ -65,6 +67,43 @@
       width: 100%;
       height: 100%;
     }
+    .account-block__avatar-wrapper {
+      --account-button-size: 1.425rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--account-button-size);
+      height: var(--account-button-size);
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: var(--bottom-menu-wishlist-counter-background, var(--color-primary-button-background));
+      color: var(--bottom-menu-wishlist-counter-text, var(--color-primary-button-text));
+      margin-bottom: 0.2rem;
+      position: relative;
+      top: -3px;
+    }
+    .account-block__avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .account-block__avatar-initials {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Sync with original avatar styling from account-button.liquid */
+    .account-block-link shop-user-avatar {
+      pointer-events: none;
+      width: var(--account-button-size, 1.625rem);
+      height: var(--account-button-size, 1.625rem);
+      border-radius: 50%;
+      overflow: hidden;
+    }
     
     .sticky-section svg {
       width: var(--bottom-menu-icon-size, 2.2rem);
@@ -73,12 +112,28 @@
       fill: none;
       stroke-width: 1.5px;
     }
+    .account-block-link .account-button__avatar {
+      --avatar-size: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--avatar-size);
+      height: var(--avatar-size);
+      border-radius: 50%;
+      background-color: var(--color-primary-button-background, {{ section.settings.icon_color }});
+      color: var(--color-primary-button-text, {{ section.settings.color }});
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1;
+    }
 
     .sticky-section .line-icon-wrapper {
       width: 25px;
       height: 25px;
       margin-bottom: calc(var(--margin-2xs, 6px) - 3px);
       position: relative;
+      top: -3px;
     }
 
     .sticky-section .line-icon-wrapper::before {
@@ -155,13 +210,9 @@
         {%- when 'block' -%}
           <div class="sticky-section-column">
             <a href="{{ block.settings.url }}" class="btm_link">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-link-line.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-link-line.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </a>
           </div>
@@ -253,24 +304,40 @@
             </a>
           </div>
         {%- when 'Account_block' -%}
-          <div class="sticky-section-column">
-            <a href="{{ routes.account_url }}" class="btm_link">
+        <div class="sticky-section-column">
+          <a href="{{ routes.account_url }}" class="btm_link account-block-link">
+            {% if customer %}
+              {% if customer.has_avatar? %}
+                {{ customer | avatar }}
+              {% elsif customer.first_name or customer.email %}
+                {% liquid
+                  assign initial = customer.email | first
+                  if customer.first_name != blank
+                    assign initial = customer.first_name | first
+                  endif
+                %}
+                <span class="account-block__avatar-wrapper account-block__avatar-initials" aria-hidden="true">
+                  {{- initial -}}
+                </span>
+              {% else %}
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{ 'icon-account.svg' | inline_asset_content }}
+                </span>
+              {% endif %}
+            {% else %}
               <span class="svg-wrapper" aria-hidden="true">
                 {{ 'icon-account.svg' | inline_asset_content }}
               </span>
-              {{ block.settings.caption }}
-            </a>
-          </div>
+            {% endif %}
+            {{ block.settings.caption }}
+          </a>
+        </div>
         {%- when 'Search_block' -%}
           <div class="sticky-section-column">
             <a href="{{ routes.search_url }}" class="btm_link">
-              {% if block.settings.icon_url == blank %}
-                <span class="svg-wrapper" aria-hidden="true">
-                  {{ 'icon-search.svg' | inline_asset_content }}
-                </span>
-              {% else %}
-                {{ block.settings.icon_url }}
-              {% endif %}
+              <span class="svg-wrapper" aria-hidden="true">
+                {{ 'icon-search.svg' | inline_asset_content }}
+              </span>
               {{ block.settings.caption }}
             </a>
           </div>
@@ -640,12 +707,6 @@ function openCartDrawer() {
             "limit": 5,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.icon_url.label",
-                    "info": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.icon_url.info"
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "t:sections.sticky_bottom_menu.blocks.custom_block.settings.caption.label",
@@ -735,22 +796,10 @@ function openCartDrawer() {
             "limit": 1,
             "settings": [
                 {
-                    "type": "textarea",
-                    "id": "icon_url",
-                    "label": "t:sections.sticky_bottom_menu.blocks.search_block.settings.icon_url.label",
-                    "placeholder": "<i class=\"ri-search-line\"></i>",
-                    "info": "t:sections.sticky_bottom_menu.blocks.search_block.settings.icon_url.info"
-                },
-                {
                     "type": "text",
                     "id": "caption",
                     "label": "t:sections.sticky_bottom_menu.blocks.search_block.settings.caption.label",
                     "default": "Search"
-                },
-                {
-                    "type": "url",
-                    "id": "url",
-                    "label": "t:sections.sticky_bottom_menu.blocks.search_block.settings.url.label"
                 }
             ]
         },

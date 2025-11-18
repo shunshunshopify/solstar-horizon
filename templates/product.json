@@ -108,16 +108,13 @@
               },
               "blocks": {
                 "text_xpVMaM": {
-                  "type": "text",
+                  "type": "product-title",
                   "name": "t:names.title",
                   "settings": {
-                    "text": "<h1>{{ closest.product.title }}</h1>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "custom",
-                    "font": "var(--font-heading--family)",
-                    "font_size": "1rem",
+                    "type_preset": "h1",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",

@@ -20,7 +20,7 @@
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
-            "type_preset": "h2",
+            "type_preset": "h1",
             "font": "var(--font-primary--family)",
             "font_size": "",
             "line_height": "normal",
@@ -65,7 +65,10 @@
           "blocks": {}
         }
       },
-      "block_order": ["title", "content"],
+      "block_order": [
+        "title",
+        "content"
+      ],
       "settings": {
         "content_direction": "column",
         "gap": 32,
@@ -112,7 +115,9 @@
           "block_order": []
         }
       },
-      "block_order": ["contact_form_UwiCkQ"],
+      "block_order": [
+        "contact_form_UwiCkQ"
+      ],
       "name": "t:names.contact_form",
       "settings": {
         "content_direction": "column",
@@ -143,5 +148,8 @@
       }
     }
   },
-  "order": ["main", "form"]
+  "order": [
+    "main",
+    "form"
+  ]
 }

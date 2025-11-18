@@ -1,35 +1,9 @@
-{% liquid
-  assign preset = block.settings.type_preset | default: 'paragraph'
-  assign tag = 'p'
-
-  case preset
-    when 'h1'
-      assign tag = 'h1'
-    when 'h2'
-      assign tag = 'h2'
-    when 'h3'
-      assign tag = 'h3'
-    when 'h4'
-      assign tag = 'h4'
-    when 'h5'
-      assign tag = 'h5'
-    when 'h6'
-      assign tag = 'h6'
-    when 'paragraph'
-      assign tag = 'p'
-  endcase
-%}
-
 {% if closest.product == blank %}
   {% assign text = 'placeholders.product_title' | t %}
-  {% capture product_title %}
-    <{{ tag }}>{{ text }}</{{ tag }}>
-  {% endcapture %}
+  {% assign product_title = '<p>' | append: text | append: '</p>' %}
   {% render 'text', fallback_text: product_title, block: block, class: 'product-card__title' %}
 {% elsif closest.product != blank %}
-  {% capture product_title %}
-    <{{ tag }}>{{ closest.product.title }}</{{ tag }}>
-  {% endcapture %}
+  {% assign product_title = '<p>' | append: closest.product.title | append: '</p>' %}
   <a
     class="contents user-select-text"
     ref="productTitleLink"

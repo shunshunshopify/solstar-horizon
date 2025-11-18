@@ -1352,9 +1352,6 @@
           "settings": {
             "caption": {
               "label": "Caption"
-            },
-            "url": {
-              "label": "Link"
             }
           }
         },

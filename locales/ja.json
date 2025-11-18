@@ -391,6 +391,20 @@
           "label": "下部の余白（rem）"
         }
       }
+    },
+    "product_description": {
+      "name": "商品説明",
+      "settings": {
+        "read_more": {
+          "heading": "続きを読むトグル",
+          "enable": "「続きを読む」トグルを有効にする",
+          "collapsed_height": "折りたたみ時の高さ",
+          "read_more_label": "「続きを読む」ラベル",
+          "read_less_label": "「折りたたむ」ラベル"
+        }
+      },
+      "read_more_button": "続きを読む",
+      "read_less_button": "折りたたむ"
     }
   },
   "product_title_block": {

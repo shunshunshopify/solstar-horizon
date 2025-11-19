@@ -1,13 +1,25 @@
 {% liquid
-  assign active_product = block.settings.product | default: closest.product | default: product
-
-  if request.visual_preview_mode and active_product == blank
-    assign active_product = collections.all.products.first
+  assign product = block.settings.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+    assign text = product.description
   endif
 
-  assign text = block.settings.text
-  if text == blank and active_product != blank
-    assign text = active_product.description
+  assign read_more_label = block.settings.read_more_label | default: 'READ MORE'
+  assign read_less_label = block.settings.read_less_label | default: 'COLLAPSE'
+  assign arrow_variants = '▾|▿|▴|▵|▼|▽|▲|△'
+  assign arrow_array = arrow_variants | split: '|'
+  for arrow in arrow_array
+    assign read_more_label = read_more_label | replace: arrow, ''
+    assign read_less_label = read_less_label | replace: arrow, ''
+  endfor
+  assign read_more_label = read_more_label | strip
+  assign read_less_label = read_less_label | strip
+  if read_more_label == blank
+    assign read_more_label = 'READ MORE'
+  endif
+  if read_less_label == blank
+    assign read_less_label = 'COLLAPSE'
   endif
 %}
 
@@ -41,10 +53,10 @@
       aria-expanded="false"
       aria-controls="{{ content_id }}"
       data-pdp-description-toggle
-      data-read-more-label="{{ block.settings.read_more_label | default: 'READ MORE' }}"
-      data-read-less-label="{{ block.settings.read_less_label | default: 'COLLAPSE' }}"
+      data-read-more-label="{{ read_more_label }}"
+      data-read-less-label="{{ read_less_label }}"
     >
-      <span data-pdp-description-toggle-label>{{ block.settings.read_more_label | default: 'READ MORE' }}</span>
+      <span data-pdp-description-toggle-label>{{ read_more_label }}</span>
     </button>
   </div>
   {% style %}
@@ -154,7 +166,6 @@
           }
 
           root.dataset.enhanced = 'true';
-
           const setExpandedHeight = () => {
             root.style.setProperty('--pdp-description-expanded-height', `${content.scrollHeight}px`);
           };
@@ -242,12 +253,6 @@
       "type": "richtext",
       "id": "text",
       "label": "t:settings.text"
-    },
-    {
-      "type": "product",
-      "id": "product",
-      "label": "t:settings.product",
-      "info": "t:info.optional_product_reference"
     },
     {
       "type": "header",
@@ -469,8 +474,17 @@
         {
           "value": "7.5rem",
           "label": "120px"
+        },
+        {
+          "value": "9.5rem",
+          "label": "152px"
+        },
+        {
+          "value": "11.5rem",
+          "label": "184px"
         }
       ],
+      "default": "1rem",
       "visible_if": "{{ block.settings.type_preset == 'custom' }}"
     },
     {
@@ -479,19 +493,19 @@
       "label": "t:settings.line_height",
       "options": [
         {
-          "value": "display-tight",
+          "value": "tight",
           "label": "t:options.tight"
         },
         {
-          "value": "display-normal",
+          "value": "normal",
           "label": "t:options.normal"
         },
         {
-          "value": "display-loose",
+          "value": "loose",
           "label": "t:options.loose"
         }
       ],
-      "default": "display-normal",
+      "default": "normal",
       "visible_if": "{{ block.settings.type_preset == 'custom' }}"
     },
     {
@@ -500,19 +514,19 @@
       "label": "t:settings.letter_spacing",
       "options": [
         {
-          "value": "display-tight",
+          "value": "tight",
           "label": "t:options.tight"
         },
         {
-          "value": "display-normal",
+          "value": "normal",
           "label": "t:options.normal"
         },
         {
-          "value": "display-loose",
+          "value": "loose",
           "label": "t:options.loose"
         }
       ],
-      "default": "display-normal",
+      "default": "normal",
       "visible_if": "{{ block.settings.type_preset == 'custom' }}"
     },
     {
@@ -522,15 +536,11 @@
       "options": [
         {
           "value": "none",
-          "label": "t:options.normal"
+          "label": "t:options.default"
         },
         {
           "value": "uppercase",
-          "label": "t:options.upper"
-        },
-        {
-          "value": "lowercase",
-          "label": "t:options.lower"
+          "label": "t:options.uppercase"
         }
       ],
       "default": "none",
@@ -542,19 +552,18 @@
       "label": "t:settings.wrap",
       "options": [
         {
-          "value": "normal",
-          "label": "t:options.normal"
-        },
-        {
           "value": "pretty",
           "label": "t:options.pretty"
         },
         {
           "value": "balance",
           "label": "t:options.balance"
+        },
+        {
+          "value": "nowrap",
+          "label": "t:options.none"
         }
       ],
-      "default": "normal",
       "visible_if": "{{ block.settings.type_preset == 'custom' }}"
     },
     {
@@ -563,30 +572,36 @@
       "label": "t:settings.color",
       "options": [
         {
-          "value": "",
-          "label": "t:options.default"
-        },
-        {
           "value": "var(--color-foreground)",
-          "label": "t:options.primary"
+          "label": "t:options.text"
         },
         {
-          "value": "var(--color-foreground-secondary)",
-          "label": "t:options.secondary"
+          "value": "var(--color-foreground-heading)",
+          "label": "t:options.heading"
+        },
+        {
+          "value": "var(--color-primary)",
+          "label": "t:options.link"
         }
       ],
-      "default": ""
+      "default": "var(--color-foreground)",
+      "visible_if": "{{ block.settings.type_preset != 'rte' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
     },
     {
       "type": "checkbox",
       "id": "background",
-      "label": "t:settings.background_toggle",
+      "label": "t:settings.background",
       "default": false
     },
     {
       "type": "color",
       "id": "background_color",
       "label": "t:settings.background_color",
+      "alpha": true,
       "default": "#00000026",
       "visible_if": "{{ block.settings.background }}"
     },
@@ -594,10 +609,10 @@
       "type": "range",
       "id": "corner_radius",
       "label": "t:settings.corner_radius",
-      "min": 0,
-      "max": 32,
-      "step": 1,
       "default": 0,
+      "min": 0,
+      "max": 50,
+      "step": 1,
       "visible_if": "{{ block.settings.background }}"
     },
     {
@@ -645,6 +660,14 @@
       "default": 0
     }
   ],
-  "presets": []
+  "presets": [
+    {
+      "name": "t:names.product_description",
+      "category": "t:categories.product",
+      "settings": {
+        "text": "{{ closest.product.description }}"
+      }
+    }
+  ]
 }
 {% endschema %}

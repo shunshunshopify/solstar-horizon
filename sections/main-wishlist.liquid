@@ -14,6 +14,7 @@
   assign heading_padding_top = section.settings.heading_padding_top | default: 0 | plus: 0
   assign heading_gap = section.settings.heading_gap | default: 0 | plus: 0
   assign clamp_titles = section.settings.enable_product_title_line_clamp
+  assign enable_variant_picker = section.settings.enable_variant_picker
   assign media_aspect_ratio = section.settings.media_aspect_ratio | default: 'square'
   assign wishlist_media_ratio_value = '1 / 1'
 
@@ -204,6 +205,7 @@
           class="{{ wishlist_container_classes }}"
           style="--gallery-aspect-ratio: {{ wishlist_media_ratio_value }};"
           data-media-aspect-ratio="{{ media_aspect_ratio }}"
+          data-enable-variant-picker="{{ enable_variant_picker }}"
           data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
           data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
           data-mobile-columns="{{ mobile_columns }}"
@@ -262,7 +264,9 @@
         <a href="[[url]]">[[title]]</a>
       </h2>
       <div class="wishlist-item-price">[[price]]</div>
-      <div class="wishlist-item-options">[[variant_picker]]</div>
+      {% if enable_variant_picker %}
+        <div class="wishlist-item-options">[[variant_picker]]</div>
+      {% endif %}
       <div class="wishlist-item-actions">
         <product-form-component
           class="wishlist-product-form"
@@ -635,6 +639,12 @@
       "label": "t:product_title_block.limit_lines_label",
       "info": "t:product_title_block.limit_lines_info",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_variant_picker",
+      "label": "t:sections.sticky_atc.settings.show_variant_picker.label",
+      "default": true
     },
     {
       "type": "select",

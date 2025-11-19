@@ -205,6 +205,7 @@
     "alignment": "配置",
     "autoplay": "自動再生",
     "background": "背景",
+    "background_toggle": "背景を表示",
     "border_radius": "角の半径",
     "border_width": "罫線の太さ",
     "borders": "罫線",
@@ -1124,6 +1125,17 @@
         }
       }
     },
+    "product_description": {
+      "settings": {
+        "read_more": {
+          "heading": "「続きを読む」トグル",
+          "enable": "「続きを読む」ボタンを有効にする",
+          "collapsed_height": "折りたたみ時の高さ",
+          "read_more_label": "「続きを読む」ラベル",
+          "read_less_label": "「折りたたむ」ラベル"
+        }
+      }
+    },
     "sticky_atc": {
       "name": "追従カート",
       "settings": {
@@ -1515,7 +1527,8 @@
     "pills_usage": "適用されたフィルター、割引コード、検索候補に使用されます",
     "hide_logo_on_home_page_help": "スティッキーヘッダーがアクティブな場合、ロゴは表示されたままになります",
     "media_type_info": "Featuresはメニューリンクから入力されます",
-    "logo_height": "ヘッダーロゴにのみ影響します"
+    "logo_height": "ヘッダーロゴにのみ影響します",
+    "optional_product_reference": "プレビューや上書きに使用できる任意の商品参照です。"
   },
   "categories": {
     "product_list": "特集コレクション",

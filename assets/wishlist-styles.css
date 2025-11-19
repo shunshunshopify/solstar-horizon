@@ -601,7 +601,3 @@
   display: flex;
   align-items: center;
 }
-
-.product-recommendations .wishlist-button--collection{
-  display:none;
-}

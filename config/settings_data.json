@@ -105,6 +105,9 @@
           "heading_gap": 30,
           "product_card_size": "small",
           "mobile_product_card_size": "small",
+          "enable_product_title_line_clamp": true,
+          "enable_variant_picker": true,
+          "media_aspect_ratio": "portrait",
           "product_grid_width": "centered",
           "columns_gap_horizontal": 15,
           "color_scheme": "scheme-16"

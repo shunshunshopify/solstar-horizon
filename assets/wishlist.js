@@ -109,10 +109,15 @@
         soldOut: 'Sold out'
       };
 
+      this.variantPickerEnabled = true;
+
       const wishlistContainer = document.querySelector('.wishlist-container');
       if (wishlistContainer instanceof HTMLElement) {
         this.translations.addToCart = wishlistContainer.dataset.wishlistAddText || this.translations.addToCart;
         this.translations.soldOut = wishlistContainer.dataset.wishlistSoldOutText || this.translations.soldOut;
+        if (wishlistContainer.dataset.enableVariantPicker !== undefined) {
+          this.variantPickerEnabled = wishlistContainer.dataset.enableVariantPicker !== 'false';
+        }
       }
       
       this.handleCartUpdate = this.handleCartUpdate.bind(this);
@@ -1203,6 +1208,8 @@
         return;
       }
 
+      this.#setGalleryAspectRatio(galleryElement);
+
       const existing = this.galleryHoverHandlers.get(galleryElement);
       if (existing) {
         existing.detach();
@@ -1246,6 +1253,46 @@
           link.removeEventListener('blur', leave);
         }
       });
+    }
+
+    /**
+     * Apply dynamic aspect ratios for adapt mode galleries.
+     * @param {HTMLElement} galleryElement
+     */
+    #setGalleryAspectRatio(galleryElement) {
+      const container = galleryElement.closest('.wishlist-container');
+      if (!(container instanceof HTMLElement)) {
+        galleryElement.style.removeProperty('--gallery-aspect-ratio');
+        return;
+      }
+
+      const ratioSetting = container.dataset.mediaAspectRatio;
+      if (ratioSetting !== 'adapt') {
+        galleryElement.style.removeProperty('--gallery-aspect-ratio');
+        return;
+      }
+
+      const primaryImage =
+        galleryElement.querySelector('.wishlist-gallery__slide--primary img') ||
+        galleryElement.querySelector('.wishlist-gallery__slide img');
+
+      if (!(primaryImage instanceof HTMLImageElement)) {
+        return;
+      }
+
+      const applyRatio = () => {
+        const { naturalWidth, naturalHeight } = primaryImage;
+        if (!naturalWidth || !naturalHeight) {
+          return;
+        }
+        galleryElement.style.setProperty('--gallery-aspect-ratio', `${naturalWidth} / ${naturalHeight}`);
+      };
+
+      if (primaryImage.complete && primaryImage.naturalWidth && primaryImage.naturalHeight) {
+        applyRatio();
+      } else {
+        primaryImage.addEventListener('load', applyRatio, { once: true });
+      }
     }
 
     /**
@@ -1400,13 +1447,18 @@
       const price = selectedVariant ? this.formatMoney(selectedVariant.price) : item.price;
       const isAvailable = selectedVariant ? Boolean(selectedVariant.available) : item.available !== false;
 
+      const variantPickerEnabled = this.variantPickerEnabled !== false;
       let variantPickerHtml = '';
       let shouldInitVariantPicker = false;
 
       if (productData && selectedVariant) {
         if (isAvailable) {
-          variantPickerHtml = this.buildVariantPickerHtml(productData, item, selectedVariant);
-          shouldInitVariantPicker = variantPickerHtml.trim().length > 0;
+          if (variantPickerEnabled) {
+            variantPickerHtml = this.buildVariantPickerHtml(productData, item, selectedVariant);
+            shouldInitVariantPicker = variantPickerHtml.trim().length > 0;
+          } else {
+            variantPickerHtml = '';
+          }
         }
 
         const updates = {
@@ -1435,9 +1487,9 @@
         this.wishlistProductData.delete(String(item.id));
       }
 
-      renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, variantPickerHtml);
+      renderedItem = renderedItem.replace(/\[\[variant_picker\]\]/g, variantPickerEnabled ? variantPickerHtml : '');
       renderedItem = renderedItem.replace(/\[\[gallery\]\]/g, galleryMarkup.html);
-      result.shouldInitVariantPicker = shouldInitVariantPicker;
+      result.shouldInitVariantPicker = variantPickerEnabled && shouldInitVariantPicker;
 
       const safeId = this.escapeHtml(item.id);
       const safeTitle = this.escapeHtml(item.title);

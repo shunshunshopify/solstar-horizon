@@ -13,6 +13,7 @@
   assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
   assign heading_padding_top = section.settings.heading_padding_top | default: 0 | plus: 0
   assign heading_gap = section.settings.heading_gap | default: 0 | plus: 0
+  assign clamp_titles = section.settings.enable_product_title_line_clamp
   assign media_aspect_ratio = section.settings.media_aspect_ratio | default: 'square'
   assign wishlist_media_ratio_value = '1 / 1'
 
@@ -179,6 +180,14 @@
     assign color_class = ' color-' | append: color_scheme
   endif
 
+  assign wishlist_container_classes = 'wishlist-container'
+  if color_class != blank
+    assign wishlist_container_classes = wishlist_container_classes | append: color_class
+  endif
+  if clamp_titles
+    assign wishlist_container_classes = wishlist_container_classes | append: ' wishlist-container--clamp-titles'
+  endif
+
   assign has_header_content = false
   if page_title != blank
     assign has_header_content = true
@@ -192,7 +201,7 @@
     <div class="{{ grid_classes }}" style="{{ grid_style }}">
       <div style="{{ inner_style }}">
         <div
-          class="wishlist-container{{ color_class }}"
+          class="{{ wishlist_container_classes }}"
           style="--gallery-aspect-ratio: {{ wishlist_media_ratio_value }};"
           data-media-aspect-ratio="{{ media_aspect_ratio }}"
           data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
@@ -329,6 +338,21 @@
 
 <!-- Add to cart animation styles (same as PDP) -->
 <style>
+  .wishlist-item-title {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+
+  .wishlist-container--clamp-titles .wishlist-item-title a {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
+  }
+
   .wishlist-add-to-cart {
     position: relative;
     overflow: hidden;
@@ -604,6 +628,13 @@
         { "value": "small", "label": "t:options.small" },
         { "value": "large", "label": "t:options.large" }
       ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_product_title_line_clamp",
+      "label": "t:product_title_block.limit_lines_label",
+      "info": "t:product_title_block.limit_lines_info",
+      "default": false
     },
     {
       "type": "select",

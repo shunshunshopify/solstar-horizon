@@ -13,6 +13,19 @@
   assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
   assign heading_padding_top = section.settings.heading_padding_top | default: 0 | plus: 0
   assign heading_gap = section.settings.heading_gap | default: 0 | plus: 0
+  assign media_aspect_ratio = section.settings.media_aspect_ratio | default: 'square'
+  assign wishlist_media_ratio_value = '1 / 1'
+
+  case media_aspect_ratio
+    when 'portrait'
+      assign wishlist_media_ratio_value = '4 / 5'
+    when 'landscape'
+      assign wishlist_media_ratio_value = '16 / 9'
+    when 'adapt'
+      assign wishlist_media_ratio_value = 'auto'
+    when 'square'
+      assign wishlist_media_ratio_value = '1 / 1'
+  endcase
 
   assign has_description = false
   if show_description
@@ -180,6 +193,7 @@
       <div style="{{ inner_style }}">
         <div
           class="wishlist-container{{ color_class }}"
+          style="--gallery-aspect-ratio: {{ wishlist_media_ratio_value }};"
           data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
           data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
           data-mobile-columns="{{ mobile_columns }}"
@@ -588,6 +602,18 @@
       "options": [
         { "value": "small", "label": "t:options.small" },
         { "value": "large", "label": "t:options.large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "media_aspect_ratio",
+      "label": "t:settings.aspect_ratio",
+      "default": "square",
+      "options": [
+        { "value": "adapt", "label": "t:options.auto" },
+        { "value": "portrait", "label": "t:options.portrait" },
+        { "value": "square", "label": "t:options.square" },
+        { "value": "landscape", "label": "t:options.landscape" }
       ]
     },
     {

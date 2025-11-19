@@ -4,23 +4,6 @@
     assign product = collections.all.products.first
     assign text = product.description
   endif
-
-  assign read_more_label = block.settings.read_more_label | default: 'READ MORE'
-  assign read_less_label = block.settings.read_less_label | default: 'COLLAPSE'
-  assign arrow_variants = '▾|▿|▴|▵|▼|▽|▲|△'
-  assign arrow_array = arrow_variants | split: '|'
-  for arrow in arrow_array
-    assign read_more_label = read_more_label | replace: arrow, ''
-    assign read_less_label = read_less_label | replace: arrow, ''
-  endfor
-  assign read_more_label = read_more_label | strip
-  assign read_less_label = read_less_label | strip
-  if read_more_label == blank
-    assign read_more_label = 'READ MORE'
-  endif
-  if read_less_label == blank
-    assign read_less_label = 'COLLAPSE'
-  endif
 %}
 
 {% capture product_description_content %}
@@ -53,10 +36,10 @@
       aria-expanded="false"
       aria-controls="{{ content_id }}"
       data-pdp-description-toggle
-      data-read-more-label="{{ read_more_label }}"
-      data-read-less-label="{{ read_less_label }}"
+      data-read-more-label="{{ block.settings.read_more_label | default: 'READ MORE' }}"
+      data-read-less-label="{{ block.settings.read_less_label | default: 'COLLAPSE' }}"
     >
-      <span data-pdp-description-toggle-label>{{ read_more_label }}</span>
+      <span data-pdp-description-toggle-label>{{ block.settings.read_more_label | default: 'READ MORE' }}</span>
     </button>
   </div>
   {% style %}
@@ -256,18 +239,18 @@
     },
     {
       "type": "header",
-      "content": "t:sections.product_description.settings.read_more.heading"
+      "content": "Read more toggle"
     },
     {
       "type": "checkbox",
       "id": "enable_read_more",
-      "label": "t:sections.product_description.settings.read_more.enable",
+      "label": "Enable \"Read More\" toggle",
       "default": false
     },
     {
       "type": "range",
       "id": "collapsed_height",
-      "label": "t:sections.product_description.settings.read_more.collapsed_height",
+      "label": "Collapsed height",
       "min": 80,
       "max": 400,
       "step": 10,
@@ -278,14 +261,14 @@
     {
       "type": "text",
       "id": "read_more_label",
-      "label": "t:sections.product_description.settings.read_more.read_more_label",
+      "label": "\"Read more\" label",
       "default": "READ MORE",
       "visible_if": "{{ block.settings.enable_read_more }}"
     },
     {
       "type": "text",
       "id": "read_less_label",
-      "label": "t:sections.product_description.settings.read_more.read_less_label",
+      "label": "\"Collapse\" label",
       "default": "COLLAPSE",
       "visible_if": "{{ block.settings.enable_read_more }}"
     },

@@ -71,7 +71,7 @@
       left: 0;
       right: 0;
       height: clamp(48px, 22%, 120px);
-      bottom: 0;
+      bottom: 3.25rem;
       background: linear-gradient(180deg, rgb(var(--color-background-rgb, 255 255 255) / 0) 0%, rgb(var(--color-background-rgb, 255 255 255) / 0.95) 100%);
       pointer-events: none;
       opacity: 1;
@@ -84,9 +84,21 @@
     }
 
     .product-description-read-more__toggle {
+      appearance: none;
       background: transparent;
       border: none;
+      border-top: 1px solid rgb(var(--color-foreground-rgb, 18 18 18) / 0.16);
+      width: 100%;
+      margin-top: 1.5rem;
+      padding-top: 0.75rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
       display: inline-flex;
+      justify-content: center;
+      gap: 0.25em;
+      color: inherit;
       cursor: pointer;
     }
 

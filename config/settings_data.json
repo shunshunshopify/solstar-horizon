@@ -106,6 +106,7 @@
           "product_card_size": "small",
           "mobile_product_card_size": "small",
           "enable_product_title_line_clamp": true,
+          "enable_variant_picker": false,
           "media_aspect_ratio": "portrait",
           "product_grid_width": "centered",
           "columns_gap_horizontal": 15,

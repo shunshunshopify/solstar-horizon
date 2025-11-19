@@ -7,7 +7,6 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-
 {
   "blocks": {
     "load_video": "ビデオを読み込む: {{ description }}",
@@ -426,6 +425,11 @@
   "custom": {
     "marquee": {
       "default_text": "私たちは、より良く機能し、長持ちするものを作ります。"
+    }
+  },
+  "shopify": {
+    "links": {
+      "powered_by_shopify": " "
     }
   }
 }

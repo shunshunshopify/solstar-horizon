@@ -936,6 +936,17 @@
       "input_preset": "Input",
       "checkbox_preset": "Checkbox label"
     },
+    "product_description": {
+      "settings": {
+        "read_more": {
+          "heading": "Read more toggle",
+          "enable": "Enable \"Read More\" toggle",
+          "collapsed_height": "Collapsed height",
+          "read_more_label": "\"Read more\" label",
+          "read_less_label": "\"Collapse\" label"
+        }
+      }
+    },
     "quick_add": "Quick add",
     "quick_add_colors": "Quick add colors",
     "ratio": "Ratio",
@@ -1212,17 +1223,6 @@
         "success_discount_code": {
           "label": "Discount code",
           "default": "SAVE10"
-        }
-      }
-    },
-    "product_description": {
-      "settings": {
-        "read_more": {
-          "heading": "Read more toggle",
-          "enable": "Enable \"Read More\" toggle",
-          "collapsed_height": "Collapsed height",
-          "read_more_label": "\"Read more\" label",
-          "read_less_label": "\"Collapse\" label"
         }
       }
     },

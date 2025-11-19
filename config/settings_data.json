@@ -105,7 +105,7 @@
           "heading_gap": 30,
           "product_card_size": "small",
           "mobile_product_card_size": "small",
-          "media_aspect_ratio": "square",
+          "media_aspect_ratio": "portrait",
           "product_grid_width": "centered",
           "columns_gap_horizontal": 15,
           "color_scheme": "scheme-16"

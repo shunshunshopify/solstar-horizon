@@ -186,6 +186,40 @@
               },
               "blocks": {}
             },
+            "popup_link_hGmaCz": {
+              "type": "popup-link",
+              "name": "t:names.popup_link",
+              "settings": {
+                "behavior": "default",
+                "heading": "サイズチャートを見る",
+                "type_preset": "paragraph",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "page_GF8bC4": {
+                  "type": "page",
+                  "name": "t:names.page",
+                  "settings": {
+                    "page": "size_chart",
+                    "inherit_color_scheme": true,
+                    "color_scheme": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "page_GF8bC4"
+              ]
+            },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
               "settings": {
@@ -227,6 +261,10 @@
               "name": "t:names.product_description",
               "settings": {
                 "text": "{{ closest.product.description }}",
+                "enable_read_more": false,
+                "collapsed_height": 160,
+                "read_more_label": "詳細を読む",
+                "read_less_label": "詳細を閉じる",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -356,6 +394,7 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "popup_link_hGmaCz",
             "buy_buttons_eYQEYi",
             "product_description_CcPHGi",
             "accordion_BjFHbw"

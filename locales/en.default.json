@@ -408,7 +408,21 @@
           "label": "Padding bottom (rem)"
         }
       }
+    },
+    "product_description": {
+      "settings": {
+        "read_more": {
+          "heading": "Read more toggle",
+          "enable": "Enable \"Read more\" button",
+          "collapsed_height": "Collapsed height",
+          "read_more_label": "\"Read more\" label",
+          "read_less_label": "\"Collapse\" label"
+        }
+      }
     }
+  },
+  "info": {
+    "optional_product_reference": "Optional product reference used for previews or overrides."
   },
   "splash_screen": {
     "name": "Splash screen",

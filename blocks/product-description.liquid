@@ -1,12 +1,13 @@
 {% liquid
-  assign product = block.settings.product | default: closest.product
-  if request.visual_preview_mode and product == blank
-    assign product = collections.all.products.first
+  assign active_product = block.settings.product | default: closest.product | default: product
+
+  if request.visual_preview_mode and active_product == blank
+    assign active_product = collections.all.products.first
   endif
 
   assign text = block.settings.text
-  if text == blank and product != blank
-    assign text = product.description
+  if text == blank and active_product != blank
+    assign text = active_product.description
   endif
 %}
 

@@ -35,6 +35,7 @@
     "appearance": "Appearance",
     "arrows": "Arrows",
     "background": "Background",
+    "background_toggle": "Show background",
     "background_image": "Background image",
     "background_video": "Background video",
     "block_link": "Block link",
@@ -206,7 +207,8 @@
     "video_autoplay": "Videos will be muted by default",
     "video_external": "Use a YouTube or Vimeo URL",
     "pills_usage": "Used for applied filters, discount codes, and search suggestions",
-    "media_type_info": "Features are populated from your menu links"
+    "media_type_info": "Features are populated from your menu links",
+    "optional_product_reference": "Optional product reference used for previews or overrides."
   },
   "names": {
     "product_title": "Product title",
@@ -1212,6 +1214,17 @@
         "success_discount_code": {
           "label": "Discount code",
           "default": "SAVE10"
+        }
+      }
+    },
+    "product_description": {
+      "settings": {
+        "read_more": {
+          "heading": "Read more toggle",
+          "enable": "Enable \"Read more\" button",
+          "collapsed_height": "Collapsed height",
+          "read_more_label": "\"Read more\" label",
+          "read_less_label": "\"Collapse\" label"
         }
       }
     },

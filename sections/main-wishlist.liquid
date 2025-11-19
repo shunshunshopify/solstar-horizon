@@ -22,7 +22,7 @@
     when 'landscape'
       assign wishlist_media_ratio_value = '16 / 9'
     when 'adapt'
-      assign wishlist_media_ratio_value = 'auto'
+      assign wishlist_media_ratio_value = '1 / 1'
     when 'square'
       assign wishlist_media_ratio_value = '1 / 1'
   endcase
@@ -194,6 +194,7 @@
         <div
           class="wishlist-container{{ color_class }}"
           style="--gallery-aspect-ratio: {{ wishlist_media_ratio_value }};"
+          data-media-aspect-ratio="{{ media_aspect_ratio }}"
           data-wishlist-add-text="{{ 'products.product.add_to_cart' | t }}"
           data-wishlist-sold-out-text="{{ 'products.product.sold_out' | t }}"
           data-mobile-columns="{{ mobile_columns }}"

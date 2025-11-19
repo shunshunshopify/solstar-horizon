@@ -1203,6 +1203,8 @@
         return;
       }
 
+      this.#setGalleryAspectRatio(galleryElement);
+
       const existing = this.galleryHoverHandlers.get(galleryElement);
       if (existing) {
         existing.detach();
@@ -1246,6 +1248,46 @@
           link.removeEventListener('blur', leave);
         }
       });
+    }
+
+    /**
+     * Apply dynamic aspect ratios for adapt mode galleries.
+     * @param {HTMLElement} galleryElement
+     */
+    #setGalleryAspectRatio(galleryElement) {
+      const container = galleryElement.closest('.wishlist-container');
+      if (!(container instanceof HTMLElement)) {
+        galleryElement.style.removeProperty('--gallery-aspect-ratio');
+        return;
+      }
+
+      const ratioSetting = container.dataset.mediaAspectRatio;
+      if (ratioSetting !== 'adapt') {
+        galleryElement.style.removeProperty('--gallery-aspect-ratio');
+        return;
+      }
+
+      const primaryImage =
+        galleryElement.querySelector('.wishlist-gallery__slide--primary img') ||
+        galleryElement.querySelector('.wishlist-gallery__slide img');
+
+      if (!(primaryImage instanceof HTMLImageElement)) {
+        return;
+      }
+
+      const applyRatio = () => {
+        const { naturalWidth, naturalHeight } = primaryImage;
+        if (!naturalWidth || !naturalHeight) {
+          return;
+        }
+        galleryElement.style.setProperty('--gallery-aspect-ratio', `${naturalWidth} / ${naturalHeight}`);
+      };
+
+      if (primaryImage.complete && primaryImage.naturalWidth && primaryImage.naturalHeight) {
+        applyRatio();
+      } else {
+        primaryImage.addEventListener('load', applyRatio, { once: true });
+      }
     }
 
     /**

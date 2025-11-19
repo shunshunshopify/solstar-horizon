@@ -365,7 +365,7 @@
       }
     },
     "product_recommendations_section": {
-      "type": "product-recommendations",
+      "type": "pdp-product-recommendations",
       "blocks": {
         "product_recommendations_heading": {
           "type": "text",
@@ -503,7 +503,7 @@
       }
     },
     "featured_collection_grid": {
-      "type": "product-list",
+      "type": "pdp-featured-collection",
       "blocks": {
         "static-header": {
           "type": "_product-list-content",
@@ -696,7 +696,7 @@
       }
     },
     "featured_collection_carousel": {
-      "type": "product-list",
+      "type": "pdp-featured-collection",
       "blocks": {
         "static-header": {
           "type": "_product-list-content",
@@ -889,7 +889,7 @@
       }
     },
     "featured_collection_editorial": {
-      "type": "product-list",
+      "type": "pdp-featured-collection",
       "blocks": {
         "static-header": {
           "type": "_product-list-content",

@@ -178,7 +178,9 @@
       # Check conditions for closing the span at the end of each iteration, then close the span if needed
       assign next_linklist = parent_link.links[forloop.index]
 
-      if forloop.last
+      if menu_content_type == 'text'
+        assign open_column_span = false
+      elsif forloop.last
         assign open_column_span = false
       elsif menu_content_type == 'collection_images'
         assign open_column_span = false

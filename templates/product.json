@@ -413,7 +413,7 @@
       }
     },
     "product_recommendations_qggXJq": {
-      "type": "pdp-product-recommendations",
+      "type": "product-recommendations",
       "blocks": {
         "text_cbcgyb": {
           "type": "text",

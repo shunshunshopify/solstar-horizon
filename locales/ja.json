@@ -407,6 +407,9 @@
   "info": {
     "optional_product_reference": "プレビューや上書きに使用できる任意の商品参照です。"
   },
+  "settings": {
+    "background_toggle": "背景を表示"
+  },
   "product_title_block": {
     "limit_lines_label": "タイトルを2行までに制限",
     "limit_lines_info": "コレクションカード上の商品のタイトルを2行目以降で省略します。"

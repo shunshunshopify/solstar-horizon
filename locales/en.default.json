@@ -424,6 +424,9 @@
   "info": {
     "optional_product_reference": "Optional product reference used for previews or overrides."
   },
+  "settings": {
+    "background_toggle": "Show background"
+  },
   "splash_screen": {
     "name": "Splash screen",
     "enable_label": "Enable splash screen",

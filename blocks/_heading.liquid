@@ -4,7 +4,13 @@
   @param {string} text
 {%- enddoc -%}
 
-{% render 'text', width: '100%', block: block, fallback_text: text %}
+{% liquid
+  assign preset_font_size_override = ''
+  if block.settings.type_preset != 'custom'
+    assign preset_font_size_override = block.settings.preset_font_size
+  endif
+%}
+{% render 'text', width: '100%', block: block, fallback_text: text, preset_font_size_override: preset_font_size_override %}
 
 {% # theme-check-disable %}
 {% schema %}

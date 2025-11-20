@@ -6,7 +6,7 @@
 
 {% stylesheet %}
   .blog-post-content {
-    max-width: var(--normal-content-width);
+    max-width: min(var(--page-content-width, 100%), 100%);
     margin: 0 auto;
   }
 {% endstylesheet %}

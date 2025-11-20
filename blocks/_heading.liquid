@@ -9,8 +9,40 @@
   if block.settings.type_preset != 'custom'
     assign preset_font_size_override = block.settings.preset_font_size
   endif
+
+  assign heading_tag = ''
+  case block.settings.type_preset
+    when 'h1'
+      assign heading_tag = 'h1'
+    when 'h2'
+      assign heading_tag = 'h2'
+    when 'h3'
+      assign heading_tag = 'h3'
+    when 'h4'
+      assign heading_tag = 'h4'
+    when 'h5'
+      assign heading_tag = 'h5'
+    when 'h6'
+      assign heading_tag = 'h6'
+    when 'paragraph'
+      assign heading_tag = 'p'
+  endcase
 %}
-{% render 'text', width: '100%', block: block, fallback_text: text, preset_font_size_override: preset_font_size_override %}
+
+{% capture fallback_heading %}
+  {% if heading_tag != '' %}
+    <{{ heading_tag }}>{{ text }}</{{ heading_tag }}>
+  {% else %}
+    {{ text }}
+  {% endif %}
+{% endcapture %}
+
+{% render 'text',
+  width: '100%',
+  block: block,
+  fallback_text: fallback_heading,
+  preset_font_size_override: preset_font_size_override
+%}
 
 {% # theme-check-disable %}
 {% schema %}

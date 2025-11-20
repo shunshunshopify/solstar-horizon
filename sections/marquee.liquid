@@ -2,8 +2,6 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 {% liquid
-  assign text_size = 70
-  assign mobile_font_size = text_size | times: 0.6 | round: 0
   assign speed_setting = section.settings.speed | default: 'normal'
   assign desktop_speed = 40
   assign mobile_speed = 25
@@ -32,10 +30,7 @@
   if block_markup_stripped != blank
     assign marquee_source = block_markup
   endif
-  if marquee_source == blank
-    assign marquee_source = 'custom.marquee.default_text' | t
-  endif
-  assign repeat_count = 12
+  assign repeat_count = 18
   if section.settings.enable_scrolling == false
     assign repeat_count = 1
   endif
@@ -51,8 +46,6 @@
       style="
         --marquee-duration-desktop: {{ desktop_speed }}s;
         --marquee-duration-mobile: {{ mobile_speed }}s;
-        --marquee-font-size: {{ text_size }}px;
-        --marquee-font-size-mobile: {{ mobile_font_size }}px;
         --marquee-item-padding: {{ desktop_padding }}px;
         --marquee-item-padding-mobile: {{ mobile_padding }}px;
         --marquee-letter-spacing: {{ letter_spacing }};
@@ -276,7 +269,19 @@
   "presets": [
     {
       "name": "t:sections.marquee.presets.default.name",
-      "category": "t:categories.text"
+      "category": "t:categories.text",
+      "blocks": {
+        "text_default": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>New Arrival</strong></p>",
+            "type_preset": "h5"
+          }
+        }
+      },
+      "block_order": [
+        "text_default"
+      ]
     }
   ]
 }

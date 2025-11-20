@@ -258,10 +258,20 @@
   font-size: var(--hero-title-size-mobile, 40px);
   margin: 30px 0 0 0;
 }
+.hero__title > * {
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}
 
 .hero__subtitle {
   overflow-wrap: anywhere;
   font-size: var(--hero-subtitle-size-mobile, 16px);
+}
+.hero__subtitle > * {
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
 }
 
 @media only screen and (min-width: 769px) {

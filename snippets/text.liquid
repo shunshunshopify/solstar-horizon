@@ -56,6 +56,11 @@
   endcapture
 %}
 
+{% assign preset_font_override = '' %}
+{% if block_settings.type_preset != 'custom' and block_settings.preset_font_size != '' %}
+  {% assign preset_font_override = block_settings.preset_font_size %}
+{% endif %}
+
 {% capture attributes %}
   class="{{ class }} spacing-style text-block text-block--{{ block.id }} {{ block_settings.type_preset }}
     {{ text_block_classes }}
@@ -68,6 +73,13 @@
     --max-width: var(--max-width--{{ type }}-{{ block_settings.max_width }});
     {% if text_width == "100%" %}
       --text-align: {{ block_settings.alignment }};
+    {% endif %}
+    {% if preset_font_override != '' %}
+      --font-size: {{ preset_font_override }};
+      {% assign preset_var = block_settings.type_preset %}
+      {% if preset_var != blank and preset_var != 'rte' %}
+        --font-{{ preset_var }}--size: {{ preset_font_override }};
+      {% endif %}
     {% endif %}
     {% if block_settings.background %}
       --text-background-color: {{ block_settings.background_color | default: 'rgb(255 255 255 / 1.0)' }};

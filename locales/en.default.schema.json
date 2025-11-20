@@ -1107,7 +1107,8 @@
           "label": "Text"
         },
         "enable_scrolling": {
-          "label": "Enable scrolling animation"
+          "label": "Enable scrolling animation",
+          "info": "When enabled, the text repeats 12 times to create the marquee effect."
         },
         "link": {
           "label": "Link"

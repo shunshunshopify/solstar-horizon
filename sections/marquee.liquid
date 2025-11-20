@@ -35,7 +35,10 @@
   if marquee_source == blank
     assign marquee_source = 'custom.marquee.default_text' | t
   endif
-  assign repeat_count = 6
+  assign repeat_count = 12
+  if section.settings.enable_scrolling == false
+    assign repeat_count = 1
+  endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -196,6 +199,13 @@
     }
   ],
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_scrolling",
+      "label": "t:sections.marquee.settings.enable_scrolling.label",
+      "info": "t:sections.marquee.settings.enable_scrolling.info",
+      "default": true
+    },
     {
       "type": "color_scheme",
       "id": "color_scheme",

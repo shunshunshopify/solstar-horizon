@@ -1,6 +1,6 @@
-# Release Notes - Version 3.1.2
+# Release Notes - Version 3.1.3
 
-This release aligns page content layout controls with blog posts and adds missing translations for the new width options.
+This release aligns page content layout controls with blog posts, adds richer hero text controls, and fixes validation/size issues.
 
 ## What's Changed
 
@@ -8,12 +8,15 @@ This release aligns page content layout controls with blog posts and adds missin
 - [Pages] Width selector on the page content block (Standard / Wide 1200px)
 - [Pages] Section width control (page / full) so content width choices take effect
 - [Localization] Standard/Wide option labels translated (including Japanese)
+- [Hero video] Headline and subheadline now use rich text (with heading presets, bold/italic, etc.)
 
 ### Changed
 - [Blog posts] Width option labels clarified to match the new Standard/Wide naming
+- [Hero video] Text settings simplified to match text block editing
 
 ### Fixes and improvements
 - [Pages] Removed hardcoded page-width constraint so block width settings apply
+- [Hero video] Auto-wrap plain text in paragraphs to avoid validation errors and ensure size controls apply to nested tags
 
 # Release Notes - Version 3.0.1
 

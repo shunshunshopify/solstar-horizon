@@ -27,13 +27,7 @@
       assign base_min_rem = 3.0
       assign scaling_bonus_rem = scale_factor | minus: 1 | times: 0.25
       assign dynamic_min_rem = base_min_rem | plus: scaling_bonus_rem
-      assign computed_font_size = 'clamp('
-        | append: dynamic_min_rem
-        | append: 'rem, '
-        | append: vw_value
-        | append: 'vw, '
-        | append: effective_font_size
-        | append: ')'
+      assign computed_font_size = 'clamp(' | append: dynamic_min_rem | append: 'rem, ' | append: vw_value | append: 'vw, ' | append: effective_font_size | append: ')'
     else
       assign computed_font_size = effective_font_size
     endif

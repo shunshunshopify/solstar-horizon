@@ -1,4 +1,15 @@
-<div class="blog-post-content rte">
+<div
+  class="blog-post-content rte"
+  style="
+    --blog-post-content-max-width:
+      {% if block.settings.width_mode == 'page' %}
+        min(var(--normal-content-width), 100%)
+      {% else %}
+        min(1200px, 100%)
+      {% endif %}
+      ;
+  "
+>
   <rte-formatter>
     {{ article.content }}
   </rte-formatter>
@@ -6,7 +17,7 @@
 
 {% stylesheet %}
   .blog-post-content {
-    max-width: var(--normal-content-width);
+    max-width: var(--blog-post-content-max-width, var(--normal-content-width));
     margin: 0 auto;
   }
 {% endstylesheet %}
@@ -14,7 +25,24 @@
 {% schema %}
 {
   "name": "t:names.content",
-  "settings": [],
+  "settings": [
+    {
+      "type": "select",
+      "id": "width_mode",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page",
+          "label": "t:options.standard"
+        },
+        {
+          "value": "fixed",
+          "label": "t:options.wide"
+        }
+      ],
+      "default": "page"
+    }
+  ],
   "presets": [
     {
       "name": "t:names.content"

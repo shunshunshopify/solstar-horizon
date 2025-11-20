@@ -1,10 +1,48 @@
-<rte-formatter>
-  {{ page.content }}
-</rte-formatter>
+<div
+  class="page-content-block rte"
+  style="
+    --page-content-block-max-width:
+      {% if block.settings.width_mode == 'page' %}
+        min(var(--normal-content-width), 100%)
+      {% else %}
+        min(1200px, 100%)
+      {% endif %}
+      ;
+  "
+>
+  <rte-formatter>
+    {{ page.content }}
+  </rte-formatter>
+</div>
+
+{% stylesheet %}
+  .page-content-block {
+    max-width: var(--page-content-block-max-width, var(--normal-content-width));
+    margin: 0 auto;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:names.page_content",
-  "class": "rte"
+  "class": "rte",
+  "settings": [
+    {
+      "type": "select",
+      "id": "width_mode",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page",
+          "label": "t:options.standard"
+        },
+        {
+          "value": "fixed",
+          "label": "t:options.wide"
+        }
+      ],
+      "default": "page"
+    }
+  ]
 }
 {% endschema %}

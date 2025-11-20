@@ -427,6 +427,10 @@
   "settings": {
     "background_toggle": "Show background"
   },
+  "options": {
+    "standard": "Standard",
+    "wide": "Wide"
+  },
   "splash_screen": {
     "name": "Splash screen",
     "enable_label": "Enable splash screen",

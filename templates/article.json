@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "section": {
       "type": "main-blog-post",
@@ -79,7 +79,9 @@
         "blog-post-content": {
           "type": "_blog-post-content",
           "static": true,
-          "settings": {},
+          "settings": {
+            "width_mode": "fixed"
+          },
           "blocks": {}
         }
       },

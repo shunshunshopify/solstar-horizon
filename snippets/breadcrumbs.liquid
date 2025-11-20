@@ -68,7 +68,7 @@
           <meta itemprop="position" content="2" />
         </li>
 
-      {% elsif template contains 'blog' %}
+      {% elsif template contains 'blog' or template contains 'article' %}
         {% if article %}
           <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
             <a href="{{ blog.url }}" itemprop="item">

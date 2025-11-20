@@ -411,7 +411,9 @@
     "width": "幅"
   },
   "options": {
-    "page_width": "ページ幅"
+    "page_width": "ページ幅",
+    "standard": "標準",
+    "wide": "ワイド"
   },
   "product_title_block": {
     "limit_lines_label": "タイトルを2行までに制限",

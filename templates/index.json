@@ -116,10 +116,10 @@
       "type": "hero-video",
       "name": "t:names.hero_video",
       "settings": {
-        "title": "This is heading",
+        "title": "<p>This is heading</p>",
         "title_type_preset": "h1",
         "title_size": 70,
-        "subheading": "This is subheading",
+        "subheading": "<p>This is subheading</p>",
         "subheading_type_preset": "h3",
         "subheading_size": 40,
         "link_text": "Button",

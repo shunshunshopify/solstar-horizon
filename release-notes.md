@@ -1,3 +1,18 @@
+# Release Notes - Version 3.1.4
+
+This release adds configurable repeat counts to the scrolling text section and updates defaults/translations.
+
+## What's Changed
+
+### Added
+- [Scrolling text] Repeat count selector (6/12/18/24 or no repeat) with default text block (New Arrival, H5)
+
+### Changed
+- [Scrolling text] Default copy rendered via text block rather than fixed text size
+
+### Fixes and improvements
+- [Scrolling text] Fallback translation hooked to locale and repeat help text clarified
+
 # Release Notes - Version 3.1.3
 
 This release upgrades hero video text editing and addresses related validation and sizing issues.

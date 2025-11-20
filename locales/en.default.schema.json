@@ -1441,11 +1441,17 @@
         "title": {
           "label": "Heading"
         },
+        "title_type_preset": {
+          "label": "Heading style"
+        },
         "title_size": {
           "label": "Heading text size"
         },
         "subheading": {
           "label": "Subheading"
+        },
+        "subheading_type_preset": {
+          "label": "Subheading style"
         },
         "subheading_size": {
           "label": "Subheading text size"

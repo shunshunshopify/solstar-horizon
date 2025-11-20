@@ -433,16 +433,21 @@
   <div class="hero__container spacing-style section section--full-width">
     <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
       <div class="hero__text-content {{ section.settings.text_align }}">
+        {%- assign title_tag = section.settings.title_type_preset | default: 'h1' -%}
+        {%- assign subtitle_tag = section.settings.subheading_type_preset | default: 'p' -%}
+
         {%- unless section.settings.title == blank -%}
-          <h1 class="hero__title" id="hero-title-{{ section.id }}">
-            {{ section.settings.title | newline_to_br }}
-          </h1>
+          <{{ title_tag }} class="hero__title" id="hero-title-{{ section.id }}">
+            {{ section.settings.title }}
+          </{{ title_tag }}>
         {%- endunless -%}
         {%- unless section.settings.subheading == blank -%}
-          <div class="hero__subtitle" 
-               {%- unless section.settings.title == blank -%}aria-describedby="hero-title-{{ section.id }}"{%- endunless -%}>
-            {{ section.settings.subheading | escape }}
-          </div>
+          <{{ subtitle_tag }}
+            class="hero__subtitle"
+            {%- unless section.settings.title == blank -%}aria-describedby="hero-title-{{ section.id }}"{%- endunless -%}
+          >
+            {{ section.settings.subheading }}
+          </{{ subtitle_tag }}>
         {%- endunless -%}
         {%- if section.settings.link_text != blank -%}
           <div class="hero__link color-{{ section.settings.color_scheme }}">
@@ -474,10 +479,25 @@
   "class": "index-section--hero",
   "settings": [
     {
-      "type": "textarea",
+      "type": "inline_richtext",
       "id": "title",
       "label": "t:sections.hero_video.settings.title.label",
       "default": "This is heading"
+    },
+    {
+      "type": "select",
+      "id": "title_type_preset",
+      "label": "t:sections.hero_video.settings.title_type_preset.label",
+      "options": [
+        { "value": "h1", "label": "t:options.h1" },
+        { "value": "h2", "label": "t:options.h2" },
+        { "value": "h3", "label": "t:options.h3" },
+        { "value": "h4", "label": "t:options.h4" },
+        { "value": "h5", "label": "t:options.h5" },
+        { "value": "h6", "label": "t:options.h6" },
+        { "value": "p", "label": "t:options.paragraph" }
+      ],
+      "default": "h1"
     },
     {
       "type": "range",
@@ -489,10 +509,24 @@
       "unit": "px"
     },
     {
-      "type": "text",
+      "type": "inline_richtext",
       "id": "subheading",
       "label": "t:sections.hero_video.settings.subheading.label",
       "default": "This is subheading"
+    },
+    {
+      "type": "select",
+      "id": "subheading_type_preset",
+      "label": "t:sections.hero_video.settings.subheading_type_preset.label",
+      "options": [
+        { "value": "h2", "label": "t:options.h2" },
+        { "value": "h3", "label": "t:options.h3" },
+        { "value": "h4", "label": "t:options.h4" },
+        { "value": "h5", "label": "t:options.h5" },
+        { "value": "h6", "label": "t:options.h6" },
+        { "value": "p", "label": "t:options.paragraph" }
+      ],
+      "default": "h3"
     },
     {
       "type": "range",

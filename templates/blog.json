@@ -53,6 +53,7 @@
                 "type_preset": "h2",
                 "font": "var(--font-primary--family)",
                 "font_size": "",
+                "preset_font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",

@@ -8,9 +8,10 @@
 {%- endcomment -%}
 
 {% assign preset = preset | default: settings.type_preset %}
+{% assign preset_font_override = preset_font_size | default: settings.preset_font_size %}
 {% assign effective_font_size = settings.font_size %}
-{% if preset != 'custom' and settings.preset_font_size != blank %}
-  {% assign effective_font_size = settings.preset_font_size %}
+{% if preset != 'custom' and preset_font_override != blank %}
+  {% assign effective_font_size = preset_font_override %}
 {% endif %}
 {% assign computed_font_size = '' %}
 {% if effective_font_size != blank %}

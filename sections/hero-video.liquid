@@ -433,15 +433,34 @@
   <div class="hero__container spacing-style section section--full-width">
     <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
       <div class="hero__text-content {{ section.settings.text_align }}">
-        {%- unless section.settings.title == blank -%}
-          <h1 class="hero__title" id="hero-title-{{ section.id }}">
-            {{ section.settings.title | newline_to_br }}
-          </h1>
+        {%- liquid
+          assign title_html = section.settings.title
+          assign subheading_html = section.settings.subheading
+
+          if title_html != blank
+            unless title_html contains '<'
+              assign title_html = '<p>' | append: title_html | append: '</p>'
+            endunless
+          endif
+
+          if subheading_html != blank
+            unless subheading_html contains '<'
+              assign subheading_html = '<p>' | append: subheading_html | append: '</p>'
+            endunless
+          endif
+        -%}
+
+        {%- unless title_html == blank -%}
+          <div class="hero__title" id="hero-title-{{ section.id }}">
+            {{ title_html }}
+          </div>
         {%- endunless -%}
-        {%- unless section.settings.subheading == blank -%}
-          <div class="hero__subtitle" 
-               {%- unless section.settings.title == blank -%}aria-describedby="hero-title-{{ section.id }}"{%- endunless -%}>
-            {{ section.settings.subheading | escape }}
+        {%- unless subheading_html == blank -%}
+          <div
+            class="hero__subtitle"
+            {%- unless section.settings.title == blank -%}aria-describedby="hero-title-{{ section.id }}"{%- endunless -%}
+          >
+            {{ subheading_html }}
           </div>
         {%- endunless -%}
         {%- if section.settings.link_text != blank -%}
@@ -474,10 +493,10 @@
   "class": "index-section--hero",
   "settings": [
     {
-      "type": "textarea",
+      "type": "richtext",
       "id": "title",
       "label": "t:sections.hero_video.settings.title.label",
-      "default": "This is heading"
+      "default": "<p>This is heading</p>"
     },
     {
       "type": "range",
@@ -489,10 +508,10 @@
       "unit": "px"
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "subheading",
       "label": "t:sections.hero_video.settings.subheading.label",
-      "default": "This is subheading"
+      "default": "<p>This is subheading</p>"
     },
     {
       "type": "range",

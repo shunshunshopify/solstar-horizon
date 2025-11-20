@@ -1349,11 +1349,17 @@
         "title": {
           "label": "見出し"
         },
+        "title_type_preset": {
+          "label": "見出しスタイル"
+        },
         "title_size": {
           "label": "見出しテキストサイズ"
         },
         "subheading": {
           "label": "サブ見出し"
+        },
+        "subheading_type_preset": {
+          "label": "サブ見出しスタイル"
         },
         "subheading_size": {
           "label": "サブ見出しテキストサイズ"

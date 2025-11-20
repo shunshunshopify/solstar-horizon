@@ -1,3 +1,19 @@
+# Release Notes - Version 3.1.3
+
+This release upgrades hero video text editing and addresses related validation and sizing issues.
+
+## What's Changed
+
+### Added
+- [Hero video] Heading and subheading now use rich text (with heading presets, bold/italic, etc.)
+
+### Changed
+- [Hero video] Text settings simplified to match the text block experience
+
+### Fixes and improvements
+- [Hero video] Auto-wrap plain text in paragraphs to avoid validation errors and ensure size controls apply to nested tags
+- [Hero video] Nested heading/subheading elements inherit the section font-size controls
+
 # Release Notes - Version 3.1.2
 
 This release aligns page content layout controls with blog posts and adds missing translations for the new width options.

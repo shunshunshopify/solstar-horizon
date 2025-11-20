@@ -30,10 +30,19 @@
   if block_markup_stripped != blank
     assign marquee_source = block_markup
   endif
-  assign repeat_count = 25
-  if section.settings.enable_scrolling == false
-    assign repeat_count = 1
-  endif
+  assign repeat_mode = section.settings.repeat_mode | default: '12'
+  case repeat_mode
+    when '6'
+      assign repeat_count = 6
+    when '12'
+      assign repeat_count = 12
+    when '18'
+      assign repeat_count = 18
+    when '24'
+      assign repeat_count = 24
+    else
+      assign repeat_count = 1
+  endcase
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -198,6 +207,19 @@
       "label": "t:sections.marquee.settings.enable_scrolling.label",
       "info": "t:sections.marquee.settings.enable_scrolling.info",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "repeat_mode",
+      "label": "t:sections.marquee.settings.repeat_mode.label",
+      "default": "12",
+      "options": [
+        { "value": "6", "label": "t:sections.marquee.settings.repeat_mode.options.repeat_6" },
+        { "value": "12", "label": "t:sections.marquee.settings.repeat_mode.options.repeat_12" },
+        { "value": "18", "label": "t:sections.marquee.settings.repeat_mode.options.repeat_18" },
+        { "value": "24", "label": "t:sections.marquee.settings.repeat_mode.options.repeat_24" },
+        { "value": "none", "label": "t:sections.marquee.settings.repeat_mode.options.repeat_none" }
+      ]
     },
     {
       "type": "color_scheme",

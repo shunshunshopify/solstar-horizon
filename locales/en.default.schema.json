@@ -1110,6 +1110,16 @@
           "label": "Enable scrolling animation",
           "info": "When enabled, the text repeats to create the marquee effect."
         },
+        "repeat_mode": {
+          "label": "Repeat",
+          "options": {
+            "repeat_6": "Repeat text 6 times",
+            "repeat_12": "Repeat text 12 times",
+            "repeat_18": "Repeat text 18 times",
+            "repeat_24": "Repeat text 24 times",
+            "repeat_none": "No repeat"
+          }
+        },
         "link": {
           "label": "Link"
         },

@@ -1014,10 +1014,6 @@
         "text": {
           "label": "テキスト"
         },
-        "enable_scrolling": {
-          "label": "スクロールアニメーションを有効にする",
-          "info": "有効にすると、テキストが繰り返されます。"
-        },
         "repeat_mode": {
           "label": "繰り返し",
           "options": {

@@ -33,7 +33,7 @@
     assign marquee_source = block_markup
   endif
   if marquee_source == blank
-    assign marquee_source = 't:custom.marquee.default_text'
+    assign marquee_source = 'custom.marquee.default_text' | t
   endif
   assign repeat_count = 6
 %}

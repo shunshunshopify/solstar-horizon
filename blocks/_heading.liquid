@@ -29,19 +29,12 @@
   endcase
 %}
 
-{% capture fallback_heading %}
-  {% if heading_tag != '' %}
-    <{{ heading_tag }}>{{ text }}</{{ heading_tag }}>
-  {% else %}
-    {{ text }}
-  {% endif %}
-{% endcapture %}
-
 {% render 'text',
   width: '100%',
   block: block,
-  fallback_text: fallback_heading,
-  preset_font_size_override: preset_font_size_override
+  fallback_text: text,
+  preset_font_size_override: preset_font_size_override,
+  element_override: heading_tag
 %}
 
 {% # theme-check-disable %}

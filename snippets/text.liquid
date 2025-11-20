@@ -12,6 +12,7 @@
   assign plain_text = block_settings.text | strip_newlines | strip_html | strip
   assign text_width = width | default: block_settings.width
   assign preset_font_override = preset_font_size_override | default: ''
+  assign element_override = element_override | default: ''
   assign font_size_setting = block_settings.font_size
 
   if block_settings.type_preset != 'custom' and preset_font_override != blank
@@ -94,6 +95,11 @@
   assign element = 'div'
   if is_rte
     assign element = 'rte-formatter'
+  endif
+
+  if element_override != ''
+    assign element = element_override
+    assign is_rte = false
   endif
 %}
 

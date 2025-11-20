@@ -25,9 +25,7 @@
     assign text = closest.collection.title
   endif
 
-  capture collection_title
-    echo '<' | append: tag | append: '>' | append: text | append: '</' | append: tag | append: '>'
-  endcapture
+  assign collection_title = text
 %}
 
 {% liquid
@@ -40,7 +38,8 @@
 {% render 'text',
   fallback_text: collection_title,
   block: block,
-  preset_font_size_override: preset_font_size_override
+  preset_font_size_override: preset_font_size_override,
+  element_override: tag
 %}
 
 {% schema %}

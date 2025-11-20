@@ -437,12 +437,16 @@
           assign title_html = section.settings.title
           assign subheading_html = section.settings.subheading
 
-          if title_html != blank and title_html contains '<' == false
-            assign title_html = '<p>' | append: title_html | append: '</p>'
+          if title_html != blank
+            unless title_html contains '<'
+              assign title_html = '<p>' | append: title_html | append: '</p>'
+            endunless
           endif
 
-          if subheading_html != blank and subheading_html contains '<' == false
-            assign subheading_html = '<p>' | append: subheading_html | append: '</p>'
+          if subheading_html != blank
+            unless subheading_html contains '<'
+              assign subheading_html = '<p>' | append: subheading_html | append: '</p>'
+            endunless
           endif
         -%}
 

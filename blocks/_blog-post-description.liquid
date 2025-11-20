@@ -62,9 +62,15 @@
   %}
 
   <{{ element }} {{ attributes }}>
-    {{ content | strip_html | truncatewords: truncatewords }}
+    <span
+      class="blog-post-card__excerpt{% if show_read_more %} blog-post-card__excerpt--clamp{% endif %}"
+    >
+      {{ content | strip_html | truncatewords: truncatewords }}
+    </span>
     {% if show_read_more %}
-      <a href="{{ article.url }}">{{- 'content.read_more' | t -}}</a>
+      <a href="{{ article.url }}" class="blog-post-card__read-more-link">
+        {{- 'content.read_more' | t -}}
+      </a>
     {% endif %}
   </{{ element }}>
 {% endif %}
@@ -72,6 +78,24 @@
 {% stylesheet %}
   .blog-post-card__content-text a {
     color: var(--color-primary);
+  }
+
+  .blog-post-card__excerpt {
+    display: block;
+  }
+
+  .blog-post-card__excerpt--clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .blog-post-card__read-more-link {
+    display: inline-flex;
+    margin-top: var(--margin-xs);
   }
 
   .custom-color,

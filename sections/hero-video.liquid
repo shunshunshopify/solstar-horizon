@@ -433,17 +433,30 @@
   <div class="hero__container spacing-style section section--full-width">
     <div class="hero__text-wrap hero__content-wrapper page-width" role="main">
       <div class="hero__text-content {{ section.settings.text_align }}">
-        {%- unless section.settings.title == blank -%}
+        {%- liquid
+          assign title_html = section.settings.title
+          assign subheading_html = section.settings.subheading
+
+          if title_html != blank and title_html contains '<' == false
+            assign title_html = '<p>' | append: title_html | append: '</p>'
+          endif
+
+          if subheading_html != blank and subheading_html contains '<' == false
+            assign subheading_html = '<p>' | append: subheading_html | append: '</p>'
+          endif
+        -%}
+
+        {%- unless title_html == blank -%}
           <div class="hero__title" id="hero-title-{{ section.id }}">
-            {{ section.settings.title }}
+            {{ title_html }}
           </div>
         {%- endunless -%}
-        {%- unless section.settings.subheading == blank -%}
+        {%- unless subheading_html == blank -%}
           <div
             class="hero__subtitle"
             {%- unless section.settings.title == blank -%}aria-describedby="hero-title-{{ section.id }}"{%- endunless -%}
           >
-            {{ section.settings.subheading }}
+            {{ subheading_html }}
           </div>
         {%- endunless -%}
         {%- if section.settings.link_text != blank -%}

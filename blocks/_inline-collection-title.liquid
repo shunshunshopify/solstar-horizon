@@ -2,30 +2,48 @@
   @param {string} [suffix] - The suffix to add to the collection title
 {%- enddoc -%}
 
-{%- assign block_settings = block.settings -%}
-{% if closest.collection == blank %}
-  {% assign collection_title = 'placeholders.collection_title' | t %}
-{% elsif closest.collection != blank %}
-  {% assign collection_title = closest.collection.title %}
-{% endif %}
+{% liquid
+  assign block_settings = block.settings
+  if closest.collection == blank
+    assign collection_title = 'placeholders.collection_title' | t
+  else
+    assign collection_title = closest.collection.title
+  endif
 
-{% assign plain_text = collection_title | strip_newlines | strip_html | strip %}
+  assign preset = block_settings.type_preset | default: 'paragraph'
+  assign heading_tag = ''
 
-{% # We need to make sure the wrapper is rendered even if the text element is empty in the theme editor to allow live text editing %}
-{%- if plain_text != '' or request.design_mode -%}
-  <span
-    class="
-      text-block
-      custom-typography
-      {% if block_settings.weight != blank %}custom-font-weight{% endif %}
-      {% if block_settings.font_size != blank %}custom-font-size{% endif %}
-    "
-    style="{% render 'typography-style', preset: 'custom', settings: block_settings, type: 'heading' %}"
-    {{ block.shopify_attributes }}
-  >
-    <span>{{ collection_title }}</span>{{ suffix }}
-  </span>
-{%- endif -%}
+  case preset
+    when 'h1'
+      assign heading_tag = 'h1'
+    when 'h2'
+      assign heading_tag = 'h2'
+    when 'h3'
+      assign heading_tag = 'h3'
+    when 'h4'
+      assign heading_tag = 'h4'
+    when 'h5'
+      assign heading_tag = 'h5'
+    when 'h6'
+      assign heading_tag = 'h6'
+    when 'paragraph'
+      assign heading_tag = 'p'
+  endcase
+
+  assign preset_font_size_override = ''
+  if block_settings.type_preset != 'custom'
+    assign preset_font_size_override = block_settings.preset_font_size
+  endif
+%}
+
+{% assign fallback_copy = collection_title | append: suffix %}
+
+{% render 'text',
+  block: block,
+  fallback_text: fallback_copy,
+  preset_font_size_override: preset_font_size_override,
+  element_override: heading_tag
+%}
 
 {% schema %}
 {
@@ -39,6 +57,46 @@
     {
       "type": "header",
       "content": "t:content.typography"
+    },
+    {
+      "type": "select",
+      "id": "type_preset",
+      "label": "t:settings.preset",
+      "options": [
+        {
+          "value": "rte",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "paragraph"
     },
     {
       "type": "select",
@@ -159,6 +217,82 @@
         }
       ],
       "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "preset_font_size",
+      "label": "t:settings.size",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "0.625rem",
+          "label": "10px"
+        },
+        {
+          "value": "0.75rem",
+          "label": "12px"
+        },
+        {
+          "value": "0.875rem",
+          "label": "14px"
+        },
+        {
+          "value": "1rem",
+          "label": "16px"
+        },
+        {
+          "value": "1.125rem",
+          "label": "18px"
+        },
+        {
+          "value": "1.25rem",
+          "label": "20px"
+        },
+        {
+          "value": "1.5rem",
+          "label": "24px"
+        },
+        {
+          "value": "2rem",
+          "label": "32px"
+        },
+        {
+          "value": "2.5rem",
+          "label": "40px"
+        },
+        {
+          "value": "3rem",
+          "label": "48px"
+        },
+        {
+          "value": "3.5rem",
+          "label": "56px"
+        },
+        {
+          "value": "4.5rem",
+          "label": "72px"
+        },
+        {
+          "value": "5.5rem",
+          "label": "88px"
+        },
+        {
+          "value": "7.5rem",
+          "label": "120px"
+        },
+        {
+          "value": "9.5rem",
+          "label": "152px"
+        },
+        {
+          "value": "11.5rem",
+          "label": "184px"
+        }
+      ],
+      "default": ""
     }
   ]
 }

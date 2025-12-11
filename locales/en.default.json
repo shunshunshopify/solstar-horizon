@@ -349,7 +349,10 @@
     "raw_content_4": "Content Four",
     "title_5": "Heading Five",
     "raw_content_5": "Content Five",
-    "padding_bottom": "Bottom padding"
+    "padding_bottom": "Bottom padding",
+    "collapsed_height": "Collapsed height",
+    "read_more_label": "\"Read more\" label",
+    "read_less_label": "\"Read less\" label"
   },
   "sections": {
     "marquee": {

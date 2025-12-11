@@ -3,7 +3,10 @@
   assign show_read_more = block.settings.show_read_more
   assign description_html = product.description
   assign description_text = description_html | replace: '<!---->', '' | strip_html | strip
-  assign has_description = show_description and description_html != blank and description_text != ''
+  assign has_description = false
+  if show_description and description_html != blank and description_text != ''
+    assign has_description = true
+  endif
 
   assign tab_count = 0
   if has_description

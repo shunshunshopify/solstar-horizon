@@ -293,6 +293,22 @@
       "unavailable": "利用できません"
     }
   },
+  "tabs_block": {
+    "name": "タブ",
+    "show_description": "商品説明タブを表示",
+    "show_read_more": "続きを読むを有効にする",
+    "title_1": "見出し1",
+    "raw_content_1": "コンテンツ1",
+    "title_2": "見出し2",
+    "raw_content_2": "コンテンツ2",
+    "title_3": "見出し3",
+    "raw_content_3": "コンテンツ3",
+    "title_4": "見出し4",
+    "raw_content_4": "コンテンツ4",
+    "title_5": "見出し5",
+    "raw_content_5": "コンテンツ5",
+    "padding_bottom": "下部余白"
+  },
   "fields": {
     "separator": "～"
   },

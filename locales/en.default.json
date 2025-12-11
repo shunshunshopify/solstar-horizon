@@ -334,6 +334,22 @@
       "unavailable": "Unavailable"
     }
   },
+  "tabs_block": {
+    "name": "Tabs",
+    "show_description": "Show product description tab",
+    "show_read_more": "Enable read more toggle",
+    "title_1": "Heading One",
+    "raw_content_1": "Content One",
+    "title_2": "Heading Two",
+    "raw_content_2": "Content Two",
+    "title_3": "Heading Three",
+    "raw_content_3": "Content Three",
+    "title_4": "Heading Four",
+    "raw_content_4": "Content Four",
+    "title_5": "Heading Five",
+    "raw_content_5": "Content Five",
+    "padding_bottom": "Bottom padding"
+  },
   "sections": {
     "marquee": {
       "name": "Scrolling text",

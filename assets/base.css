@@ -4343,3 +4343,144 @@ text-component {
     font-size: 0.8125rem;
   }
 }
+
+/* Product tabs */
+.product__block--tabs {
+  width: 100%;
+}
+
+.product-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 100%;
+}
+
+.product-tabs native-scrollbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.product-tabs__head {
+  padding-bottom: 16px;
+  margin-bottom: -13px;
+  position: relative;
+}
+
+.product-tabs-title {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.product-tabs-title::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.product-tabs-title > li {
+  padding-bottom: 0;
+  border-bottom: 1px solid rgb(var(--color-border-rgb, 0 0 0) / 0.12);
+  white-space: normal;
+}
+
+.product-tabs-title .tab-link {
+  background: none;
+  border: none;
+  padding: 8px 4px;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+  border-bottom: 2px solid transparent;
+  white-space: normal;
+}
+
+.product-tabs-title .tab-link.current {
+  opacity: 1;
+  border-bottom-color: currentColor;
+}
+
+.product-tabs__arrows {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tabs__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--color-border-rgb, 0 0 0) / 0.15);
+  background: transparent;
+  cursor: pointer;
+}
+
+.tabs__arrow.is-hidden {
+  display: none;
+}
+
+.tabs__body {
+  display: block;
+}
+
+.tab-content {
+  display: block;
+}
+
+.tab-content:not(.current) {
+  display: none;
+}
+
+.toggle-ellipsis {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toggle-ellipsis__content {
+  max-height: 220px;
+  overflow: hidden;
+  transition: max-height 220ms ease;
+}
+
+.toggle-ellipsis__fade {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 48px;
+  height: 96px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgb(var(--color-background-rgb, 255 255 255) / 0) 0%,
+    rgb(var(--color-background-rgb, 255 255 255) / 0.6) 45%,
+    rgb(var(--color-background-rgb, 255 255 255) / 1) 100%
+  );
+}
+
+.toggle-ellipsis__fade.is-hidden {
+  display: none;
+}
+
+.toggle-ellipsis__toggle {
+  align-self: flex-start;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

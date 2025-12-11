@@ -1,0 +1,159 @@
+{% liquid
+  assign show_description = block.settings.show_description
+  assign show_read_more = block.settings.show_read_more
+  assign description_html = product.description
+  assign description_text = description_html | replace: '<!---->', '' | strip_html | strip
+  assign has_description = show_description and description_html != blank and description_text != ''
+
+  assign tab_count = 0
+  if has_description
+    assign tab_count = tab_count | plus: 1
+  endif
+
+  for i in (1..5)
+    assign title_key = 'title_' | append: i
+    assign content_key = 'raw_content_' | append: i
+    assign title = block.settings[title_key]
+    assign content = block.settings[content_key]
+    assign content_text = content | replace: '<!---->', '' | strip_html | strip
+
+    if title != blank and content_text != ''
+      assign tab_count = tab_count | plus: 1
+    endif
+  endfor
+%}
+
+{% if tab_count > 0 %}
+  {% liquid
+    assign tab_index = 0
+    assign first_tab_id = ''
+    assign description_label = 'products.product.description' | t | default: 'Description'
+  %}
+
+  <tabs-component class="product-tabs" data-read-more="{{ show_read_more }}">
+    <native-scrollbar class="tabs__head product-tabs__head">
+      <ul
+        class="tabs product-tabs-title"
+        data-scrollbar
+        data-scrollbar-slider
+        role="tablist"
+      >
+        {% if has_description %}
+          {% assign tab_index = tab_index | plus: 1 %}
+          {% assign tab_id = 'tab-' | append: block.id | append: '-' | append: tab_index %}
+          {% assign first_tab_id = tab_id %}
+          <li class="tabs__item">
+            <button
+              class="tab-link current"
+              data-tab="{{ tab_id }}"
+              id="{{ tab_id }}-label"
+              role="tab"
+              aria-selected="true"
+              aria-controls="{{ tab_id }}-panel"
+              tabindex="0"
+              type="button"
+            >
+              {{ description_label }}
+            </button>
+          </li>
+        {% endif %}
+
+        {% for i in (1..5) %}
+          {% liquid
+            assign title_key = 'title_' | append: i
+            assign content_key = 'raw_content_' | append: i
+            assign title = block.settings[title_key]
+            assign content = block.settings[content_key]
+            assign content_text = content | replace: '<!---->', '' | strip_html | strip
+          %}
+
+          {% if title != blank and content_text != '' %}
+            {% assign tab_index = tab_index | plus: 1 %}
+            {% assign tab_id = 'tab-' | append: block.id | append: '-' | append: tab_index %}
+            {% if first_tab_id == '' %}
+              {% assign first_tab_id = tab_id %}
+            {% endif %}
+
+            <li class="tabs__item">
+              <button
+                class="tab-link{% if tab_id == first_tab_id %} current{% endif %}"
+                data-tab="{{ tab_id }}"
+                id="{{ tab_id }}-label"
+                role="tab"
+                aria-selected="{% if tab_id == first_tab_id %}true{% else %}false{% endif %}"
+                aria-controls="{{ tab_id }}-panel"
+                tabindex="{% if tab_id == first_tab_id %}0{% else %}-1{% endif %}"
+                type="button"
+              >
+                {{- title -}}
+              </button>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <div class="product-tabs__arrows">
+        <button
+          class="tabs__arrow tabs__arrow--prev"
+          type="button"
+          aria-label="Previous tab"
+          data-tabs-prev
+        >
+          {{- 'icon-chevron-left.svg' | inline_asset_content -}}
+        </button>
+        <button
+          class="tabs__arrow tabs__arrow--next"
+          type="button"
+          aria-label="Next tab"
+          data-tabs-next
+        >
+          {{- 'icon-chevron-right.svg' | inline_asset_content -}}
+        </button>
+      </div>
+    </native-scrollbar>
+
+    <div class="tabs__body product-tabs__body">
+      {% assign tab_index = 0 %}
+
+      {% if has_description %}
+        {% assign tab_index = tab_index | plus: 1 %}
+        {% assign tab_id = 'tab-' | append: block.id | append: '-' | append: tab_index %}
+        <div
+          class="tab-content{% if tab_id == first_tab_id %} current{% endif %}"
+          id="{{ tab_id }}-panel"
+          role="tabpanel"
+          aria-labelledby="{{ tab_id }}-label"
+          {% if tab_id != first_tab_id %}hidden{% endif %}
+          data-tab-content="{{ tab_id }}"
+        >
+          {% render 'toggle-ellipsis', content: description_html, show_read_more: show_read_more %}
+        </div>
+      {% endif %}
+
+      {% for i in (1..5) %}
+        {% liquid
+          assign title_key = 'title_' | append: i
+          assign content_key = 'raw_content_' | append: i
+          assign title = block.settings[title_key]
+          assign content = block.settings[content_key]
+          assign content_text = content | replace: '<!---->', '' | strip_html | strip
+        %}
+
+        {% if title != blank and content_text != '' %}
+          {% assign tab_index = tab_index | plus: 1 %}
+          {% assign tab_id = 'tab-' | append: block.id | append: '-' | append: tab_index %}
+          <div
+            class="tab-content{% if tab_id == first_tab_id %} current{% endif %}"
+            id="{{ tab_id }}-panel"
+            role="tabpanel"
+            aria-labelledby="{{ tab_id }}-label"
+            {% if tab_id != first_tab_id %}hidden{% endif %}
+            data-tab-content="{{ tab_id }}"
+          >
+            {% render 'toggle-ellipsis', content: content, show_read_more: show_read_more %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </tabs-component>
+{% endif %}

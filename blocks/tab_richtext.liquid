@@ -1,0 +1,103 @@
+{% liquid
+  assign product = closest.product
+
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign padding_bottom = block.settings.padding_bottom | default: 0
+%}
+
+<div
+  class="product__block product__block--tabs tabs-wrapper block-padding"
+  style="padding-bottom: {{ padding_bottom }}px;"
+  {{ block.shopify_attributes }}
+>
+  {% render 'product-tabs', product: product, block: block %}
+</div>
+
+{% schema %}
+{
+  "name": "Tabs",
+  "tag": null,
+  "limit": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show product description tab",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_more",
+      "label": "Enable read more toggle",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Tab 1 title"
+    },
+    {
+      "type": "richtext",
+      "id": "raw_content_1",
+      "label": "Tab 1 content"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Tab 2 title"
+    },
+    {
+      "type": "richtext",
+      "id": "raw_content_2",
+      "label": "Tab 2 content"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Tab 3 title"
+    },
+    {
+      "type": "richtext",
+      "id": "raw_content_3",
+      "label": "Tab 3 content"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "Tab 4 title"
+    },
+    {
+      "type": "richtext",
+      "id": "raw_content_4",
+      "label": "Tab 4 content"
+    },
+    {
+      "type": "text",
+      "id": "title_5",
+      "label": "Tab 5 title"
+    },
+    {
+      "type": "richtext",
+      "id": "raw_content_5",
+      "label": "Tab 5 content"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

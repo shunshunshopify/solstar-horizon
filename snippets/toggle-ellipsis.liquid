@@ -1,0 +1,28 @@
+{% liquid
+  assign show_read_more = show_read_more | default: false
+  assign collapsed_height = collapsed_height | default: 220
+%}
+
+{% if show_read_more %}
+  <div
+    class="toggle-ellipsis"
+    data-ellipsis-root
+    data-collapsed-height="{{ collapsed_height }}"
+  >
+    <div class="toggle-ellipsis__content" data-ellipsis-content>
+      {{- content -}}
+    </div>
+    <div class="toggle-ellipsis__fade" aria-hidden="true"></div>
+    <button
+      class="toggle-ellipsis__toggle"
+      type="button"
+      data-ellipsis-toggle
+      aria-expanded="false"
+    >
+      <span data-ellipsis-label="more">Read more</span>
+      <span data-ellipsis-label="less" class="hidden">Read less</span>
+    </button>
+  </div>
+{% else %}
+  {{ content }}
+{% endif %}

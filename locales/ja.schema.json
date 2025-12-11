@@ -1578,10 +1578,6 @@
   "tabs_block": {
     "name": "タブ",
     "show_description": "商品説明タブを表示",
-    "show_read_more": "「続きを読む」トグルを有効にする",
-    "collapsed_height": "折りたたみ時の高さ",
-    "read_more_label": "「続きを読む」ラベル",
-    "read_less_label": "「折りたたむ」ラベル",
     "title_1": "見出し1",
     "raw_content_1": "コンテンツ1",
     "title_2": "見出し2",

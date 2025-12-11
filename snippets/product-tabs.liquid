@@ -1,6 +1,5 @@
 {% liquid
   assign show_description = block.settings.show_description
-  assign show_read_more = block.settings.show_read_more
   assign description_html = product.description
   assign description_text = description_html | replace: '<!---->', '' | strip_html | strip
   assign has_description = false
@@ -133,13 +132,7 @@
           {% if tab_id != first_tab_id %}hidden{% endif %}
           data-tab-content="{{ tab_id }}"
         >
-          {% render 'toggle-ellipsis',
-            content: description_html,
-            show_read_more: show_read_more,
-            collapsed_height: block.settings.collapsed_height,
-            read_more_label: block.settings.read_more_label,
-            read_less_label: block.settings.read_less_label
-          %}
+            {{- description_html -}}
         </div>
       {% endif %}
 
@@ -163,13 +156,7 @@
             {% if tab_id != first_tab_id %}hidden{% endif %}
             data-tab-content="{{ tab_id }}"
           >
-            {% render 'toggle-ellipsis',
-              content: content,
-              show_read_more: show_read_more,
-              collapsed_height: block.settings.collapsed_height,
-              read_more_label: block.settings.read_more_label,
-              read_less_label: block.settings.read_less_label
-            %}
+            {{- content -}}
           </div>
         {% endif %}
       {% endfor %}

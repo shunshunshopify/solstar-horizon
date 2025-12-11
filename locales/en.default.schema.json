@@ -1579,10 +1579,6 @@
   "tabs_block": {
     "name": "Tabs",
     "show_description": "Show product description tab",
-    "show_read_more": "Enable read more toggle",
-    "collapsed_height": "Collapsed height",
-    "read_more_label": "\"Read more\" label",
-    "read_less_label": "\"Read less\" label",
     "title_1": "Heading One",
     "raw_content_1": "Content One",
     "title_2": "Heading Two",

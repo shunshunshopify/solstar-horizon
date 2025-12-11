@@ -95,65 +95,9 @@ class TabsComponent extends HTMLElement {
   };
 
   refreshEllipsis(scope = this) {
-    const ellipsisBlocks = scope.querySelectorAll('[data-tabs-ellipsis-root]');
-    ellipsisBlocks.forEach((root) => {
-      if (root.dataset.tabsEllipsisEnhanced === 'true') return;
-
-      const content = root.querySelector('[data-tabs-ellipsis-content]');
-      const fade = root.querySelector('[data-tabs-ellipsis-fade]');
-      const toggle = root.querySelector('[data-tabs-ellipsis-toggle]');
-      const labelTarget = root.querySelector('[data-tabs-ellipsis-label]') || toggle;
-      const collapsed = Number(root.dataset.collapsedHeight) || 160;
-      const readMore = root.dataset.readMoreLabel || 'READ MORE';
-      const readLess = root.dataset.readLessLabel || 'COLLAPSE';
-
-      if (!content || !toggle) return;
-
-      const setExpandedHeight = () => {
-        root.style.setProperty('--pdp-description-expanded-height', `${content.scrollHeight}px`);
-      };
-
-      const updateState = (expanded) => {
-        root.dataset.state = expanded ? 'expanded' : 'collapsed';
-        toggle.setAttribute('aria-expanded', expanded);
-        labelTarget.textContent = expanded ? readLess : readMore;
-        if (expanded) {
-          content.style.maxHeight = `${content.scrollHeight}px`;
-          fade?.setAttribute('hidden', 'true');
-        } else {
-          content.style.maxHeight = `${collapsed}px`;
-          fade?.removeAttribute('hidden');
-        }
-      };
-
-      const lockIfShort = () => {
-        const isShort = content.scrollHeight <= collapsed + 10;
-        if (isShort) {
-          root.dataset.state = 'static';
-          toggle.hidden = true;
-          fade?.setAttribute('hidden', 'true');
-          content.style.maxHeight = 'none';
-        } else {
-          content.style.removeProperty('max-height');
-          toggle.hidden = false;
-          fade?.removeAttribute('hidden');
-          setExpandedHeight();
-          updateState(false);
-        }
-      };
-
-      lockIfShort();
-      toggle.addEventListener('click', () => {
-        const isExpanded = root.dataset.state === 'expanded';
-        if (!isExpanded) setExpandedHeight();
-        updateState(!isExpanded);
-      });
-
-      const resizeObserver = new ResizeObserver(lockIfShort);
-      resizeObserver.observe(content);
-
-      root.dataset.tabsEllipsisEnhanced = 'true';
-    });
+    if (typeof window !== 'undefined' && typeof window.ProductDescriptionReadMore === 'function') {
+      window.ProductDescriptionReadMore(scope);
+    }
   }
 }
 

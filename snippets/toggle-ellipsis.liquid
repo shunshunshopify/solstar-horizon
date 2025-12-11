@@ -28,22 +28,20 @@
 {% if show_read_more %}
   <div
     class="product-description-read-more"
-    data-tabs-ellipsis-root
+    data-pdp-description-root
     data-collapsed-height="{{ collapsed_height }}"
-    data-read-more-label="{{ read_more_label }}"
-    data-read-less-label="{{ read_less_label }}"
     style="--pdp-description-collapsed-height: {{ collapsed_height }}px;"
   >
     <div
       class="product-description-read-more__content"
       id="{{ content_id }}"
-      data-tabs-ellipsis-content
+      data-pdp-description-content
     >
       {{- content -}}
     </div>
     <div
       class="product-description-read-more__fade"
-      data-tabs-ellipsis-fade
+      data-pdp-description-fade
       aria-hidden="true"
     ></div>
     <button
@@ -51,11 +49,86 @@
       type="button"
       aria-expanded="false"
       aria-controls="{{ content_id }}"
-      data-tabs-ellipsis-toggle
+      data-pdp-description-toggle
+      data-read-more-label="{{ read_more_label }}"
+      data-read-less-label="{{ read_less_label }}"
     >
-      <span data-tabs-ellipsis-label>{{ read_more_label }}</span>
+      <span data-pdp-description-toggle-label>{{ read_more_label }}</span>
     </button>
   </div>
+  <script>
+    window.ProductDescriptionReadMore = window.ProductDescriptionReadMore || (function () {
+      const selectors = {
+        root: '[data-pdp-description-root]'
+      };
+
+      const enhance = (scope = document) => {
+        scope.querySelectorAll(selectors.root).forEach((root) => {
+          if (root.dataset.enhanced === 'true') {
+            return;
+          }
+
+          const content = root.querySelector('[data-pdp-description-content]');
+          const fade = root.querySelector('[data-pdp-description-fade]');
+          const toggle = root.querySelector('[data-pdp-description-toggle]');
+          const labelTarget = toggle.querySelector('[data-pdp-description-toggle-label]') || toggle;
+          const collapsed = Number(root.dataset.collapsedHeight) || 160;
+
+          if (!content || !toggle) {
+            return;
+          }
+
+          root.dataset.enhanced = 'true';
+          const setExpandedHeight = () => {
+            root.style.setProperty('--pdp-description-expanded-height', `${content.scrollHeight}px`);
+          };
+
+          const updateState = (expanded) => {
+            root.dataset.state = expanded ? 'expanded' : 'collapsed';
+            toggle.setAttribute('aria-expanded', expanded);
+            labelTarget.textContent = expanded
+              ? toggle.dataset.readLessLabel || 'COLLAPSE'
+              : toggle.dataset.readMoreLabel || 'READ MORE';
+          };
+
+          const lockIfShort = () => {
+            const isShort = content.scrollHeight <= collapsed + 10;
+            if (isShort) {
+              root.dataset.state = 'static';
+              toggle.hidden = true;
+              if (fade) {
+                fade.hidden = true;
+              }
+              content.style.maxHeight = 'none';
+            } else {
+              content.style.removeProperty('max-height');
+              toggle.hidden = false;
+              if (fade) {
+                fade.hidden = false;
+              }
+              setExpandedHeight();
+              updateState(false);
+            }
+          };
+
+          lockIfShort();
+          toggle.addEventListener('click', () => {
+            const isExpanded = root.dataset.state === 'expanded';
+            if (!isExpanded) {
+              setExpandedHeight();
+            }
+            updateState(!isExpanded);
+          });
+
+          const resizeObserver = new ResizeObserver(lockIfShort);
+          resizeObserver.observe(content);
+        });
+      };
+
+      return enhance;
+    })();
+    window.ProductDescriptionReadMore(document);
+  </script>
 {% else %}
   {{ content }}
 {% endif %}

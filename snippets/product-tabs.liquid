@@ -31,7 +31,8 @@
     assign tab_index = 0
     assign first_tab_id = ''
     assign description_label = 'products.product.description' | t
-    if description_label contains 'translation missing'
+    assign description_label_check = description_label | downcase
+    if description_label_check contains 'translation missing'
       assign description_label = 'Description'
     endif
   %}

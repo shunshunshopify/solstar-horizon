@@ -70,7 +70,7 @@ class TabsComponent extends HTMLElement {
       panel.toggleAttribute('hidden', !isActive);
 
       if (isActive) {
-        this.refreshEllipsis(panel);
+        this.refreshEllipsis(panel, true);
       }
     });
   };
@@ -94,8 +94,13 @@ class TabsComponent extends HTMLElement {
     this.nextButton?.classList.toggle('is-hidden', !overflow || atEnd);
   };
 
-  refreshEllipsis(scope = this) {
+  refreshEllipsis(scope = this, force = false) {
     if (typeof window !== 'undefined' && typeof window.ProductDescriptionReadMore === 'function') {
+      if (force) {
+        scope.querySelectorAll('[data-pdp-description-root]').forEach((root) => {
+          root.dataset.enhanced = 'false';
+        });
+      }
       window.ProductDescriptionReadMore(scope);
     }
   }

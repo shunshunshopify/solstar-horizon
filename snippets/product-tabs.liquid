@@ -20,7 +20,7 @@
     assign content = block.settings[content_key]
     assign content_text = content | replace: '<!---->', '' | strip_html | strip
 
-    if title != blank and content_text != ''
+    if title != blank
       assign tab_count = tab_count | plus: 1
     endif
   endfor
@@ -74,7 +74,7 @@
             assign content_text = content | replace: '<!---->', '' | strip_html | strip
           %}
 
-          {% if title != blank and content_text != '' %}
+          {% if title != blank %}
             {% assign tab_index = tab_index | plus: 1 %}
             {% assign tab_id = 'tab-' | append: block.id | append: '-' | append: tab_index %}
             {% if first_tab_id == '' %}
@@ -146,7 +146,7 @@
           assign content_text = content | replace: '<!---->', '' | strip_html | strip
         %}
 
-        {% if title != blank and content_text != '' %}
+        {% if title != blank %}
           {% assign tab_index = tab_index | plus: 1 %}
           {% assign tab_id = 'tab-' | append: block.id | append: '-' | append: tab_index %}
           <div

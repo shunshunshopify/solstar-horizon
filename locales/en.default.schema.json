@@ -1576,6 +1576,22 @@
     "when_will_order_arrive": "When will I get my order?",
     "where_are_products_made": "Where are your products manufactured?"
   },
+  "tabs_block": {
+    "name": "Tabs",
+    "show_description": "Show product description tab",
+    "show_read_more": "Enable read more toggle",
+    "title_1": "Heading One",
+    "raw_content_1": "Content One",
+    "title_2": "Heading Two",
+    "raw_content_2": "Content Two",
+    "title_3": "Heading Three",
+    "raw_content_3": "Content Three",
+    "title_4": "Heading Four",
+    "raw_content_4": "Content Four",
+    "title_5": "Heading Five",
+    "raw_content_5": "Content Five",
+    "padding_bottom": "Bottom padding"
+  },
   "custom": {
     "marquee": {
       "default_text": "We make things that work better and last longer."

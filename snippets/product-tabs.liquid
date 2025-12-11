@@ -30,7 +30,10 @@
   {% liquid
     assign tab_index = 0
     assign first_tab_id = ''
-    assign description_label = 'products.product.description' | t | default: 'Description'
+    assign description_label = 'products.product.description' | t
+    if description_label contains 'translation missing'
+      assign description_label = 'Description'
+    endif
   %}
 
   <tabs-component class="product-tabs" data-read-more="{{ show_read_more }}">

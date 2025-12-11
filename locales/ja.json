@@ -288,6 +288,7 @@
       "added_to_cart": "カートに追加済み",
       "adding_to_cart": "追加中...",
       "add_to_cart_error": "カートに追加する際にエラーが発生しました",
+      "description": "商品説明",
       "sold_out": "売り切れ",
       "unavailable": "利用できません"
     }

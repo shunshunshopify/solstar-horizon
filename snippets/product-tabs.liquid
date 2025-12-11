@@ -133,7 +133,13 @@
           {% if tab_id != first_tab_id %}hidden{% endif %}
           data-tab-content="{{ tab_id }}"
         >
-          {% render 'toggle-ellipsis', content: description_html, show_read_more: show_read_more %}
+          {% render 'toggle-ellipsis',
+            content: description_html,
+            show_read_more: show_read_more,
+            collapsed_height: block.settings.collapsed_height,
+            read_more_label: block.settings.read_more_label,
+            read_less_label: block.settings.read_less_label
+          %}
         </div>
       {% endif %}
 
@@ -157,7 +163,13 @@
             {% if tab_id != first_tab_id %}hidden{% endif %}
             data-tab-content="{{ tab_id }}"
           >
-            {% render 'toggle-ellipsis', content: content, show_read_more: show_read_more %}
+            {% render 'toggle-ellipsis',
+              content: content,
+              show_read_more: show_read_more,
+              collapsed_height: block.settings.collapsed_height,
+              read_more_label: block.settings.read_more_label,
+              read_less_label: block.settings.read_less_label
+            %}
           </div>
         {% endif %}
       {% endfor %}

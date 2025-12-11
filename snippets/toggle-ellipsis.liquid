@@ -1,14 +1,24 @@
 {% liquid
   assign show_read_more = show_read_more | default: false
   assign collapsed_height = collapsed_height | default: 160
-  assign read_more_label = 'read_more' | t
-  assign read_less_label = 'read_less' | t
-  if read_more_label contains 'translation missing'
-    assign read_more_label = 'Read more'
+  assign read_more_label = read_more_label | default: 'read_more' | t
+  assign read_less_label = read_less_label | default: 'read_less' | t
+
+  assign arrow_variants = '▾|▿|▴|▵|▼|▽|▲|△'
+  assign arrow_array = arrow_variants | split: '|'
+  for arrow in arrow_array
+    assign read_more_label = read_more_label | replace: arrow, ''
+    assign read_less_label = read_less_label | replace: arrow, ''
+  endfor
+  assign read_more_label = read_more_label | strip
+  assign read_less_label = read_less_label | strip
+  if read_more_label == blank
+    assign read_more_label = 'READ MORE'
   endif
-  if read_less_label contains 'translation missing'
-    assign read_less_label = 'Read less'
+  if read_less_label == blank
+    assign read_less_label = 'COLLAPSE'
   endif
+
   assign content_id = 'ToggleEllipsis-' | append: block.id
   if forloop and forloop.index
     assign content_id = content_id | append: '-' | append: forloop.index

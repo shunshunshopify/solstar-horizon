@@ -30,8 +30,33 @@
     {
       "type": "checkbox",
       "id": "show_read_more",
-      "label": "t:tabs_block.show_read_more",
+      "label": "t:sections.product_description.settings.read_more.enable",
       "default": false
+    },
+    {
+      "type": "range",
+      "id": "collapsed_height",
+      "label": "t:sections.product_description.settings.read_more.collapsed_height",
+      "min": 80,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 160,
+      "visible_if": "{{ block.settings.show_read_more }}"
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "t:sections.product_description.settings.read_more.read_more_label",
+      "default": "READ MORE",
+      "visible_if": "{{ block.settings.show_read_more }}"
+    },
+    {
+      "type": "text",
+      "id": "read_less_label",
+      "label": "t:sections.product_description.settings.read_more.read_less_label",
+      "default": "COLLAPSE",
+      "visible_if": "{{ block.settings.show_read_more }}"
     },
     {
       "type": "text",

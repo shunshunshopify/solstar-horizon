@@ -283,6 +283,9 @@
               "settings": {
                 "show_description": true,
                 "show_read_more": false,
+                "collapsed_height": 160,
+                "read_more_label": "READ MORE",
+                "read_less_label": "COLLAPSE",
                 "title_1": "製品仕様",
                 "raw_content_1": "",
                 "title_2": "配送",

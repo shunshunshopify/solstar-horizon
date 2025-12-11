@@ -297,7 +297,7 @@
   "tabs_block": {
     "name": "タブ",
     "show_description": "商品説明タブを表示",
-    "show_read_more": "続きを読むを有効にする",
+    "show_read_more": "「続きを読む」トグルを有効にする",
     "title_1": "見出し1",
     "raw_content_1": "コンテンツ1",
     "title_2": "見出し2",

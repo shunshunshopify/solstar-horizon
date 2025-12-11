@@ -4486,3 +4486,82 @@ text-component {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+
+/* Tabs read more (shares product description styling) */
+.product-description-read-more {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-description-read-more__content {
+  max-height: var(--pdp-description-collapsed-height, 160px);
+  overflow: hidden;
+  transition: max-height 320ms ease;
+  position: relative;
+  z-index: 1;
+}
+
+.product-description-read-more[data-state='expanded'] .product-description-read-more__content {
+  max-height: var(--pdp-description-expanded-height, 999vh);
+}
+
+.product-description-read-more[data-state='collapsed'] .product-description-read-more__content {
+  max-height: var(--pdp-description-collapsed-height, 160px);
+}
+
+.product-description-read-more[data-state='static'] .product-description-read-more__content {
+  max-height: none;
+}
+
+.product-description-read-more__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(48px, 22%, 120px);
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(var(--color-background-rgb, 255 255 255) / 0) 0%,
+    rgb(var(--color-background-rgb, 255 255 255) / 0.6) 45%,
+    rgb(var(--color-background-rgb, 255 255 255) / 1) 100%
+  );
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 160ms ease;
+  z-index: 2;
+}
+
+.product-description-read-more[data-state='expanded'] .product-description-read-more__fade,
+.product-description-read-more[data-state='static'] .product-description-read-more__fade {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.product-description-read-more__toggle {
+  align-self: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 0;
+  padding-top: 10px;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  color: inherit;
+  text-align: center;
+  width: auto;
+  position: relative;
+  z-index: 3;
+}
+
+.product-description-read-more__toggle:focus-visible {
+  outline: none;
+  border-color: rgb(var(--color-foreground-rgb, 18 18 18) / 0.4);
+}

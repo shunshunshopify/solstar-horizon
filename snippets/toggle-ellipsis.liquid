@@ -1,8 +1,8 @@
 {% liquid
   assign show_read_more = show_read_more | default: false
   assign collapsed_height = collapsed_height | default: 160
-  assign read_more_label = read_more_label | default: 'read_more' | t
-  assign read_less_label = read_less_label | default: 'read_less' | t
+  assign read_more_label = read_more_label | default: 'content.read_more' | t
+  assign read_less_label = read_less_label | default: 'content.read_less' | t
 
   assign arrow_variants = '▾|▿|▴|▵|▼|▽|▲|△'
   assign arrow_array = arrow_variants | split: '|'
@@ -32,6 +32,7 @@
     data-collapsed-height="{{ collapsed_height }}"
     data-read-more-label="{{ read_more_label }}"
     data-read-less-label="{{ read_less_label }}"
+    style="--pdp-description-collapsed-height: {{ collapsed_height }}px;"
   >
     <div
       class="product-description-read-more__content"

@@ -202,6 +202,7 @@
     "price_filter_html": "最高価格は{{ price }}です",
     "blog_details_separator": "|",
     "read_more": "続きを読む...",
+    "read_less": "閉じる",
     "account_title": "アカウント",
     "account_title_personalized": "こんにちは、{{ first_name }}さん",
     "account_orders": "注文",

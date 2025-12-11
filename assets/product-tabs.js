@@ -95,74 +95,9 @@ class TabsComponent extends HTMLElement {
   };
 
   refreshEllipsis(scope = this) {
-    const { signal } = this.controller;
-    const ellipsisBlocks = scope.querySelectorAll('[data-ellipsis-root]');
-
-    ellipsisBlocks.forEach((root) => {
-      const content = root.querySelector('[data-ellipsis-content]');
-      const toggle = root.querySelector('[data-ellipsis-toggle]');
-      const fade = root.querySelector('.toggle-ellipsis__fade');
-
-      if (!content || !toggle) return;
-
-      const collapsed = Number(root.dataset.collapsedHeight) || 220;
-      const contentHeight = content.scrollHeight;
-      const isExpandable = contentHeight > collapsed + 8;
-
-      toggle.removeAttribute('hidden');
-      fade?.classList.remove('is-hidden');
-
-      if (!isExpandable) {
-        root.dataset.state = 'static';
-        toggle.hidden = true;
-        fade?.classList.add('is-hidden');
-        content.style.removeProperty('max-height');
-        toggle.setAttribute('aria-expanded', 'false');
-        return;
-      }
-
-      const expanded = root.dataset.state === 'expanded';
-      root.dataset.state = expanded ? 'expanded' : 'collapsed';
-
-      if (expanded) {
-        content.style.maxHeight = `${contentHeight}px`;
-        toggle.setAttribute('aria-expanded', 'true');
-        fade?.classList.add('is-hidden');
-      } else {
-        content.style.maxHeight = `${collapsed}px`;
-        toggle.setAttribute('aria-expanded', 'false');
-      }
-
-      if (root.dataset.ellipsisEnhanced !== 'true') {
-        toggle.addEventListener(
-          'click',
-          () => {
-            const isCurrentlyExpanded = root.dataset.state === 'expanded';
-            const nextState = !isCurrentlyExpanded;
-
-            root.dataset.state = nextState ? 'expanded' : 'collapsed';
-            if (nextState) {
-              content.style.maxHeight = `${content.scrollHeight}px`;
-              toggle.setAttribute('aria-expanded', 'true');
-              fade?.classList.add('is-hidden');
-            } else {
-              content.style.maxHeight = `${collapsed}px`;
-              toggle.setAttribute('aria-expanded', 'false');
-              fade?.classList.remove('is-hidden');
-            }
-
-            const readMoreLabel = toggle.querySelector('[data-ellipsis-label="more"]');
-            const readLessLabel = toggle.querySelector('[data-ellipsis-label="less"]');
-
-            readMoreLabel?.classList.toggle('hidden', nextState);
-            readLessLabel?.classList.toggle('hidden', !nextState);
-          },
-          { signal }
-        );
-
-        root.dataset.ellipsisEnhanced = 'true';
-      }
-    });
+    if (typeof window !== 'undefined' && typeof window.ProductDescriptionReadMore === 'function') {
+      window.ProductDescriptionReadMore(scope);
+    }
   }
 }
 

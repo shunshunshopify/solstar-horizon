@@ -5,7 +5,7 @@ This release aligns the product detail variant picker with the Broadcast styling
 ## What's Changed
 
 ### Changed
-- [Product detail] Applied Broadcast-style variant picker visuals (buttons/swatch states, spacing, legends)
+- [Product detail] Applied new style variant picker visuals (buttons/swatch states, spacing, legends)
 - [Sticky add to cart] Matched variant name/value typography to the product page specs across mobile and desktop
 
 # Release Notes - Version 3.1.5

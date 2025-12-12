@@ -61,72 +61,108 @@
             ref="fieldsets[]"
             {{ option_id_attribute }}
           >
-            <legend>
+            <legend class="visually-hidden">
               {{ product_option.name | escape -}}
-              {%- if variant_style == 'swatch' -%}
-                <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-              {%- endif %}
             </legend>
-            {%- for product_option_value in product_option.values -%}
-              {% if product_option_value.size > longest_value and option_id_attribute %}
-                {% assign longest_value = product_option_value.size %}
-              {% endif %}
-              <label
-                class="variant-option__button-label{% if variant_style == 'swatch' %} variant-option__button-label--has-swatch{% endif %}"
-              >
-                <input
-                  type="radio"
-                  name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
-                  value="{{ product_option_value | escape }}"
-                  aria-label="{{ product_option_value.name }}"
-                  {% if product_option_value.available == false %}
-                    aria-disabled="true"
-                  {% endif %}
-                  data-previous-checked="false"
-                  data-fieldset-index="{{ fieldset_index }}"
-                  data-input-index="{{ forloop.index0 }}"
-                  data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
-                  data-option-value-id="{{ product_option_value.id }}"
-                  data-option-available="{{ product_option_value.available }}"
-                  data-connected-product-url="{{ product_option_value.product_url }}"
-                  {% if product_option_value.variant.id %}
-                    data-variant-id="{{ product_option_value.variant.id }}"
-                  {% endif %}
-                  {% if product_option_value.selected %}
-                    data-current-checked="true"
-                    checked
-                  {% else %}
-                    data-current-checked="false"
-                  {% endif %}
-                >
-                {% if variant_style == 'swatch' %}
-                  {% liquid
-                    assign featured_media = product_option_value.variant.featured_media
+            <div class="variant-option__layout">
+              <div class="variant-option__meta">
+                <span class="variant-option__name">{{ product_option.name | escape }}</span>
+                <span class="variant-option__value">{{ product_option.selected_value }}</span>
+              </div>
+              <div class="variant-option__buttons">
+                {%- if variant_style == 'swatch' -%}
+                  {%- for product_option_value in product_option.values -%}
+                    {% if product_option_value.size > longest_value and option_id_attribute %}
+                      {% assign longest_value = product_option_value.size %}
+                    {% endif %}
+                    {% liquid
+                      assign featured_media = product_option_value.variant.featured_media
 
-                    # If the variant has no featured media, and we have a combined listing product, then fall back to
-                    # using the featured media of the child product that is linked to this option value.
-                    if featured_media == blank and product_option_value.product_url
-                      assign featured_media = product_option_value.variant.product.featured_media
-                    endif
-                  %}
-
-                  {% render 'swatch',
-                    swatch: product_option_value.swatch,
-                    variant_image: featured_media,
-                    mode: 'unscaled'
-                  %}
-                {% else %}
-                  {% if product_option_value.available == true %}
-                    <span class="variant-option__button-label__pill"></span>
-                  {% endif %}
-                  <span class="variant-option__button-label__text">
-                    <span class="variant-option__button-label__name">{{ product_option.name | escape }}:</span>
-                    <span class="variant-option__button-label__value">{{ product_option_value | escape }}</span>
-                  </span>
-                {% endif %}
-                {% render 'strikethrough-variant', product_option: product_option_value %}
-              </label>
-            {%- endfor -%}
+                      if featured_media == blank and product_option_value.product_url
+                        assign featured_media = product_option_value.variant.product.featured_media
+                      endif
+                    %}
+                    <label
+                      data-media-id="{{ featured_media.id }}"
+                      class="variant-option__button-label variant-option__button-label--has-swatch swatch-rounded"
+                      on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
+                      on:pointerleave="product-card/resetVariant"
+                    >
+                      <input
+                        type="radio"
+                        name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
+                        value="{{ product_option_value | escape }}"
+                        aria-label="{{ product_option_value.name }}"
+                        {% if product_option_value.available == false %}
+                          aria-disabled="true"
+                        {% endif %}
+                        data-previous-checked="false"
+                        data-fieldset-index="{{ fieldset_index }}"
+                        data-input-index="{{ forloop.index0 }}"
+                        data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+                        data-option-media-id="{{ featured_media.id }}"
+                        data-option-value-id="{{ product_option_value.id }}"
+                        data-option-available="{{ product_option_value.available }}"
+                        data-connected-product-url="{{ product_option_value.product_url }}"
+                        {% if product_option_value.variant.id %}
+                          data-variant-id="{{ product_option_value.variant.id }}"
+                        {% endif %}
+                        {% if product_option_value.selected %}
+                          data-current-checked="true"
+                          checked
+                        {% else %}
+                          data-current-checked="false"
+                        {% endif %}
+                      >
+                      {% render 'swatch',
+                        swatch: product_option_value.swatch,
+                        variant_image: featured_media,
+                        mode: 'unscaled'
+                      %}
+                      {% render 'strikethrough-variant', product_option: product_option_value %}
+                    </label>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for product_option_value in product_option.values -%}
+                    {% if product_option_value.size > longest_value and option_id_attribute %}
+                      {% assign longest_value = product_option_value.size %}
+                    {% endif %}
+                    <label class="variant-option__button-label">
+                      <input
+                        type="radio"
+                        name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
+                        value="{{ product_option_value | escape }}"
+                        aria-label="{{ product_option_value.name }}"
+                        {% if product_option_value.available == false %}
+                          aria-disabled="true"
+                        {% endif %}
+                        data-previous-checked="false"
+                        data-fieldset-index="{{ fieldset_index }}"
+                        data-input-index="{{ forloop.index0 }}"
+                        data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+                        data-option-value-id="{{ product_option_value.id }}"
+                        data-option-available="{{ product_option_value.available }}"
+                        data-connected-product-url="{{ product_option_value.product_url }}"
+                        {% if product_option_value.variant.id %}
+                          data-variant-id="{{ product_option_value.variant.id }}"
+                        {% endif %}
+                        {% if product_option_value.selected %}
+                          data-current-checked="true"
+                          checked
+                        {% else %}
+                          data-current-checked="false"
+                        {% endif %}
+                      >
+                      {% if product_option_value.available == true %}
+                        <span class="variant-option__button-label__pill"></span>
+                      {% endif %}
+                      <span class="variant-option__button-label__text">{{ product_option_value | escape }}</span>
+                      {% render 'strikethrough-variant', product_option: product_option_value %}
+                    </label>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+            </div>
             {% if option_id_attribute %}
               {% style %}
                 [data-option-id="{{ fieldset_id }}"] {
@@ -247,22 +283,38 @@
   }
 
   .variant-option--buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--gap-sm);
+    display: block;
     margin: 0;
     padding: 0;
     border: none;
   }
 
-  .variant-option--buttons legend {
-    padding: 0;
-    margin-block-end: var(--margin-xs);
+  .variant-option__layout {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
   }
 
-  .variant-option__swatch-value {
-    padding-inline-start: var(--padding-xs);
-    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+  .variant-option__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: max-content;
+  }
+
+  .variant-option__buttons {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    gap: var(--gap-sm);
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .variant-option--swatches .variant-option__buttons {
+    gap: 4px;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -428,20 +480,10 @@
 
   .variant-option__button-label__text {
     pointer-events: none;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--padding-2xs);
+    display: block;
     text-align: start;
     text-wrap: auto;
     z-index: 2;
-  }
-
-  .variant-option__button-label__name {
-    font-weight: var(--FONT-WEIGHT-BODY-BOLD, 700);
-  }
-
-  .variant-option__button-label__value {
-    font-weight: var(--FONT-WEIGHT-BODY, 400);
   }
 
   .variant-option--equal-width-buttons {

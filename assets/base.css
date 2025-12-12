@@ -2095,6 +2095,29 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   border-radius: var(--variant-picker-swatch-radius);
 }
 
+.product-details variant-picker .variant-option legend {
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.product-details .variant-option__button-label__text,
+.product-details .variant-option__select,
+.product-details .variant-option__swatch-value {
+  font-size: 11.2px;
+}
+
+@media screen and (min-width: 750px) {
+  .product-details variant-picker .variant-option legend {
+    font-size: 14px;
+  }
+
+  .product-details .variant-option__button-label__text,
+  .product-details .variant-option__select,
+  .product-details .variant-option__swatch-value {
+    font-size: 10.5px;
+  }
+}
+
 .sticky-content {
   position: sticky;
   top: var(--sticky-header-offset, 0);

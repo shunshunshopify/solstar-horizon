@@ -256,42 +256,15 @@
               },
               "block_order": []
             },
-            "product_description_CcPHGi": {
-              "type": "product-description",
-              "name": "t:names.product_description",
-              "disabled": true,
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "enable_read_more": false,
-                "collapsed_height": 160,
-                "read_more_label": "詳細を読む",
-                "read_less_label": "詳細を閉じる",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-subheading--family)",
-                "font_size": "0.875rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "tabs_richtext_YyJz5t": {
               "type": "tab_richtext",
               "name": "Tabs",
               "settings": {
                 "show_description": true,
+                "show_read_more": true,
+                "collapsed_height": 160,
+                "read_more_label": "詳細を読む",
+                "read_less_label": "詳細を閉じる",
                 "title_1": "製品仕様",
                 "raw_content_1": "",
                 "title_2": "配送",
@@ -416,7 +389,6 @@
             "variant_picker_R3rGDr",
             "popup_link_hGmaCz",
             "buy_buttons_eYQEYi",
-            "product_description_CcPHGi",
             "tabs_richtext_YyJz5t",
             "accordion_BjFHbw"
           ]

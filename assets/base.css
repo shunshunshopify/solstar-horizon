@@ -2100,6 +2100,12 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   font-size: 12.5px;
 }
 
+.product-details .variant-option__meta .variant-option__name {
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.product-details .variant-option__meta .variant-option__value,
 .product-details .variant-option__button-label__text,
 .product-details .variant-option__select,
 .product-details .variant-option__swatch-value {
@@ -2111,6 +2117,11 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     font-size: 14px;
   }
 
+  .product-details .variant-option__meta .variant-option__name {
+    font-size: 14px;
+  }
+
+  .product-details .variant-option__meta .variant-option__value,
   .product-details .variant-option__button-label__text,
   .product-details .variant-option__select,
   .product-details .variant-option__swatch-value {

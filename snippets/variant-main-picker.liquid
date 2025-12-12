@@ -305,6 +305,11 @@
     min-height: 16px;
   }
 
+  /* Bold variant name for non-swatch (button) style */
+  .variant-option:not(.variant-option--swatches) .variant-option__name {
+    font-weight: var(--FONT-WEIGHT-BODY-BOLD, 700);
+  }
+
   .variant-option__buttons {
     display: flex;
     flex: 1 1 auto;
@@ -720,6 +725,11 @@
   .variant-picker--right .variant-option {
     text-align: right;
     justify-content: right;
+  }
+
+  /* Bold dropdown labels */
+  .variant-option--dropdowns > label {
+    font-weight: var(--FONT-WEIGHT-BODY-BOLD, 700);
   }
 
   @media screen and (min-width: 750px) {

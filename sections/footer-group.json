@@ -17,10 +17,10 @@
       "settings": {
         "enable_section": true,
         "mobile_only": true,
-        "color_scheme": "scheme-16",
+        "color_scheme": "scheme-2",
         "show_qty": false,
-        "show_variant_picker": false,
-        "show_img": false,
+        "show_variant_picker": true,
+        "show_img": true,
         "pt": 0.5,
         "pb": 5
       }

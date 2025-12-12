@@ -17,10 +17,10 @@
       "settings": {
         "enable_section": true,
         "mobile_only": true,
-        "color_scheme": "scheme-16",
+        "color_scheme": "scheme-2",
         "show_qty": false,
-        "show_variant_picker": false,
-        "show_img": false,
+        "show_variant_picker": true,
+        "show_img": true,
         "pt": 0.5,
         "pb": 5
       }
@@ -72,9 +72,9 @@
         "bg_color": "#ffffff",
         "icon_color": "#000000",
         "color": "#000000",
-        "cart_bubble_background": "#ff0000",
+        "cart_bubble_background": "#000000",
         "cart_bubble_text": "#ffffff",
-        "wishlist_counter_background": "#ff0000",
+        "wishlist_counter_background": "#000000",
         "wishlist_counter_text": "#ffffff",
         "font_size": 10,
         "height": 70,

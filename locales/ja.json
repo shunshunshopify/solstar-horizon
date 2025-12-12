@@ -202,6 +202,8 @@
     "price_filter_html": "最高価格は{{ price }}です",
     "blog_details_separator": "|",
     "read_more": "続きを読む...",
+    "read_less": "閉じる",
+    "read_less": "閉じる",
     "account_title": "アカウント",
     "account_title_personalized": "こんにちは、{{ first_name }}さん",
     "account_orders": "注文",
@@ -288,9 +290,33 @@
       "added_to_cart": "カートに追加済み",
       "adding_to_cart": "追加中...",
       "add_to_cart_error": "カートに追加する際にエラーが発生しました",
+      "description": "商品説明",
       "sold_out": "売り切れ",
       "unavailable": "利用できません"
     }
+  },
+  "tabs_block": {
+    "name": "タブ",
+    "show_description": "商品説明タブを表示",
+    "show_read_more": "「続きを読む」トグルを有効にする",
+    "read_more": {
+      "heading": "「続きを読む」トグル",
+      "enable": "「続きを読む」トグルを有効にする",
+      "collapsed_height": "折りたたみ時の高さ",
+      "read_more_label": "「続きを読む」ラベル",
+      "read_less_label": "「折りたたむ」ラベル"
+    },
+    "title_1": "見出し1",
+    "raw_content_1": "コンテンツ1",
+    "title_2": "見出し2",
+    "raw_content_2": "コンテンツ2",
+    "title_3": "見出し3",
+    "raw_content_3": "コンテンツ3",
+    "title_4": "見出し4",
+    "raw_content_4": "コンテンツ4",
+    "title_5": "見出し5",
+    "raw_content_5": "コンテンツ5",
+    "padding_bottom": "下部余白"
   },
   "fields": {
     "separator": "～"

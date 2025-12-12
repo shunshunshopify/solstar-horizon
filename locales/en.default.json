@@ -237,6 +237,8 @@
     "recently_viewed_products": "Recently viewed",
     "reviews": "reviews",
     "read_more": "Read more...",
+    "read_less": "Read less",
+    "read_less": "Read less",
     "search_input_label": "Search",
     "search_input_placeholder": "Search",
     "search": "Search",
@@ -329,9 +331,33 @@
       "adding_to_cart": "Adding...",
       "added_to_cart": "Added to cart",
       "add_to_cart_error": "Error adding to cart",
+      "description": "Description",
       "sold_out": "Sold out",
       "unavailable": "Unavailable"
     }
+  },
+  "tabs_block": {
+    "name": "Tabs",
+    "show_description": "Show product description tab",
+    "show_read_more": "Enable read more toggle",
+    "read_more": {
+      "heading": "Read more toggle",
+      "enable": "Enable read more toggle",
+      "collapsed_height": "Collapsed height",
+      "read_more_label": "Read more label",
+      "read_less_label": "Read less label"
+    },
+    "title_1": "Heading One",
+    "raw_content_1": "Content One",
+    "title_2": "Heading Two",
+    "raw_content_2": "Content Two",
+    "title_3": "Heading Three",
+    "raw_content_3": "Content Three",
+    "title_4": "Heading Four",
+    "raw_content_4": "Content Four",
+    "title_5": "Heading Five",
+    "raw_content_5": "Content Five",
+    "padding_bottom": "Bottom padding"
   },
   "sections": {
     "marquee": {

@@ -1575,6 +1575,28 @@
     "limit_lines_label": "タイトルを2行までに制限",
     "limit_lines_info": "コレクションカード上の商品のタイトルを2行目以降で省略します。"
   },
+  "tabs_block": {
+    "name": "タブ",
+    "show_description": "商品説明タブを表示",
+    "read_more": {
+      "heading": "「続きを読む」トグル",
+      "enable": "「続きを読む」トグルを有効にする",
+      "collapsed_height": "折りたたみ時の高さ",
+      "read_more_label": "「続きを読む」ラベル",
+      "read_less_label": "「折りたたむ」ラベル"
+    },
+    "title_1": "見出し1",
+    "raw_content_1": "コンテンツ1",
+    "title_2": "見出し2",
+    "raw_content_2": "コンテンツ2",
+    "title_3": "見出し3",
+    "raw_content_3": "コンテンツ3",
+    "title_4": "見出し4",
+    "raw_content_4": "コンテンツ4",
+    "title_5": "見出し5",
+    "raw_content_5": "コンテンツ5",
+    "padding_bottom": "下部余白"
+  },
   "custom": {
     "marquee": {
       "default_text": "私たちは、より良く機能し、長持ちするものを作ります。"

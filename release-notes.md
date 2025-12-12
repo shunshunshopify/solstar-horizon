@@ -1,3 +1,16 @@
+# Release Notes - Version 3.1.5
+
+This release adds an independent “Read more” toggle for the product description tab and widens the fade overlay for description content.
+
+## What's Changed
+
+### Added
+- [Product tabs] Optional “Read more” toggle for the product description tab with its own collapsed height and customizable labels
+- [Localization] New tab toggle settings translated in English and Japanese
+
+### Changed
+- [Product description] Fade-out overlay made taller for the collapsed state
+
 # Release Notes - Version 3.1.4
 
 This release adds configurable repeat counts to the scrolling text section and updates defaults/translations.

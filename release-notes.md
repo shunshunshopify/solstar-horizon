@@ -1,3 +1,13 @@
+# Release Notes - Version 3.1.7
+
+This release refines variant picker UX by separating the option name/value from the buttons, fixing label weight, and ensuring consistent layout spacing.
+
+## What's Changed
+
+### Changed
+- [Variant picker] Inline name/value block on the left with buttons aligned beside it
+- [Variant picker] Bold labels for button and dropdown styles to improve readability
+
 # Release Notes - Version 3.1.6
 
 This release aligns the product detail variant picker with the Broadcast styling and harmonizes typography in the sticky add-to-cart bar.

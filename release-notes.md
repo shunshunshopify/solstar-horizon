@@ -1,3 +1,13 @@
+# Release Notes - Version 3.1.6
+
+This release aligns the product detail variant picker with the Broadcast styling and harmonizes typography in the sticky add-to-cart bar.
+
+## What's Changed
+
+### Changed
+- [Product detail] Applied Broadcast-style variant picker visuals (buttons/swatch states, spacing, legends)
+- [Sticky add to cart] Matched variant name/value typography to the product page specs across mobile and desktop
+
 # Release Notes - Version 3.1.5
 
 This release adds an independent “Read more” toggle for the product description tab and widens the fade overlay for description content.

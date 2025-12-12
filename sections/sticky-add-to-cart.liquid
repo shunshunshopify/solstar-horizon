@@ -159,10 +159,20 @@
       border: {{ settings.variant_button_border_width }}px solid var(--color-variant-border);
       border-radius: {{ settings.variant_button_radius }}px;
     }
+    #md-sticky-atc .variant-option__select-wrapper label{
+      font-size: 12.5px;
+      font-weight: 700;
+    }
     #md-sticky-atc .variant-option__select{
       padding-block: 0;
       outline: none;
       box-shadow: none;
+      font-size: 11.2px;
+      font-weight: 400;
+    }
+    #md-sticky-atc .variant-option__select option{
+      font-size: 11.2px;
+      font-weight: 400;
     }
     #md-sticky-atc .variant-option__select:focus,
     #md-sticky-atc .variant-option__select:active,
@@ -332,6 +342,14 @@
         flex: 1 1 auto;
         max-width: 60%;
         min-width: 0;
+      }
+
+      #md-sticky-atc .variant-option__select-wrapper label{
+        font-size: 14px;
+      }
+      #md-sticky-atc .variant-option__select,
+      #md-sticky-atc .variant-option__select option{
+        font-size: 10.5px;
       }
       
       /* Use flexbox like your old code for reliable alignment */

@@ -119,7 +119,10 @@
                   {% if product_option_value.available == true %}
                     <span class="variant-option__button-label__pill"></span>
                   {% endif %}
-                  <span class="variant-option__button-label__text">{{ product_option_value | escape }}</span>
+                  <span class="variant-option__button-label__text">
+                    <span class="variant-option__button-label__name">{{ product_option.name | escape }}:</span>
+                    <span class="variant-option__button-label__value">{{ product_option_value | escape }}</span>
+                  </span>
                 {% endif %}
                 {% render 'strikethrough-variant', product_option: product_option_value %}
               </label>
@@ -425,9 +428,20 @@
 
   .variant-option__button-label__text {
     pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--padding-2xs);
     text-align: start;
     text-wrap: auto;
     z-index: 2;
+  }
+
+  .variant-option__button-label__name {
+    font-weight: var(--FONT-WEIGHT-BODY-BOLD, 700);
+  }
+
+  .variant-option__button-label__value {
+    font-weight: var(--FONT-WEIGHT-BODY, 400);
   }
 
   .variant-option--equal-width-buttons {

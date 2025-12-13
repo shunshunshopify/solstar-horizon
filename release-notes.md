@@ -1,3 +1,13 @@
+# Release Notes - Version 3.1.8
+
+This release moves the product page breadcrumb to the footer area and standardizes its typography across devices.
+
+## What's Changed
+
+### Changed
+- [Product detail] Breadcrumb now appears above the footer instead of below the header
+- [Breadcrumbs] Font size unified to 12.8px on desktop and mobile
+
 # Release Notes - Version 3.1.7
 
 This release refines variant picker UX by separating the option name/value from the buttons, fixing label weight, and ensuring consistent layout spacing.

@@ -74,6 +74,10 @@
       {{ content_for_layout }}
     </main>
 
+    {% if template contains 'product' %}
+      {% render 'breadcrumbs' %}
+    {% endif %}
+
     {% sections 'footer-group' %}
 
     {% section 'newsletter-popup' %}

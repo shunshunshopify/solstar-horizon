@@ -1,0 +1,255 @@
+{%- liquid
+  assign display_map = section.settings.api_key != blank and section.settings.map_address != blank
+  assign desktop_height = section.settings.desktop_height | default: 'image-height'
+  assign mobile_height = section.settings.mobile_height | default: 'image-height--mobile'
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style map-section"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="map__columns">
+    <div class="map__column map__column--content">
+      <div class="map__content">
+        {%- if section.settings.heading != blank -%}
+          <{{ heading_tag }} class="map__heading">
+            {{ section.settings.heading }}
+          </{{ heading_tag }}>
+        {%- endif -%}
+
+        {%- if section.settings.address_content != blank -%}
+          <div class="map__rte rte">
+            {{ section.settings.address_content }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="map__button {{ section.settings.button_style }}"
+            href="https://maps.google.com?daddr={{ section.settings.map_address | url_encode }}"
+          >
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="map__column map__column--map">
+      <div class="map__visual {{ desktop_height }} {{ mobile_height }}">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 2400
+            | image_tag:
+              widths: '800, 1200, 1600, 2000, 2400',
+              sizes: '(min-width: 990px) 66vw, 100vw',
+              loading: 'lazy',
+              class: 'map__image'
+          }}
+        {%- else -%}
+          {{ 'hero-apparel-2' | placeholder_svg_tag: 'map__image placeholder-svg placeholder-svg--map' }}
+        {%- endif -%}
+
+        {%- if display_map -%}
+          <map-component
+            class="{{ desktop_height }} {{ mobile_height }}"
+            data-zoom="{{ section.settings.zoom }}"
+            data-style="{{ section.settings.style }}"
+            data-address="{{ section.settings.map_address | escape }}"
+            data-latlong-correction="{{ section.settings.enable_latlong }}"
+            data-lat="{{ section.settings.lat }}"
+            data-long="{{ section.settings.long }}"
+            data-api-key="{{ section.settings.api_key }}"
+          ></map-component>
+          <script src="{{ 'map.js' | asset_url }}" defer></script>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Map",
+  "class": "shopify-section--map",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Map"
+    },
+    {
+      "type": "text",
+      "id": "api_key",
+      "label": "Google Maps API key"
+    },
+    {
+      "type": "text",
+      "id": "map_address",
+      "label": "Map address",
+      "default": "1600 Amphitheatre Parkway, Mountain View, CA"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_latlong",
+      "label": "Location correction (latitude and longitude)",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "lat",
+      "label": "Latitude",
+      "info": "Optional override when Google pins the address incorrectly."
+    },
+    {
+      "type": "text",
+      "id": "long",
+      "label": "Longitude",
+      "info": "Optional override when Google pins the address incorrectly."
+    },
+    {
+      "type": "range",
+      "id": "zoom",
+      "label": "Zoom",
+      "default": 14,
+      "min": 1,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Map style",
+      "default": "basic",
+      "options": [
+        { "value": "basic", "label": "Default" },
+        { "value": "light", "label": "Light" },
+        { "value": "white_label", "label": "White label" },
+        { "value": "dark_label", "label": "Dark label" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Visit our studio"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "default": "h2",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "address_content",
+      "label": "Address and hours",
+      "default": "<p>123 Main Street<br>City, State</p><p>Mon–Fri: 10am–6pm</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Get directions"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "button",
+      "options": [
+        { "value": "button", "label": "Primary" },
+        { "value": "button-secondary", "label": "Secondary" },
+        { "value": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback image"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "default": "image-height",
+      "options": [
+        { "value": "image-height", "label": "Image height" },
+        { "value": "screen-height-one-half", "label": "Half screen" },
+        { "value": "screen-height-three-quarters", "label": "Three quarters screen" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "default": "image-height--mobile",
+      "options": [
+        { "value": "image-height--mobile", "label": "Image height" },
+        { "value": "screen-height-one-half--mobile", "label": "Half screen" },
+        { "value": "screen-height-three-quarters--mobile", "label": "Three quarters screen" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "full-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Map"
+    }
+  ]
+}
+{% endschema %}

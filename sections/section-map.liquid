@@ -1,9 +1,10 @@
-{%- liquid
-  assign display_map = section.settings.api_key != blank and section.settings.map_address != blank
-  assign desktop_height = section.settings.desktop_height | default: 'image-height'
-  assign mobile_height = section.settings.mobile_height | default: 'image-height--mobile'
-  assign heading_tag = section.settings.heading_tag | default: 'h2'
--%}
+{%- assign display_map = false -%}
+{%- if section.settings.api_key != blank and section.settings.map_address != blank -%}
+  {%- assign display_map = true -%}
+{%- endif -%}
+{%- assign desktop_height = section.settings.desktop_height | default: 'image-height' -%}
+{%- assign mobile_height = section.settings.mobile_height | default: 'image-height--mobile' -%}
+{%- assign heading_tag = section.settings.heading_tag | default: 'h2' -%}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section

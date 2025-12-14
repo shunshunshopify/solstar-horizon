@@ -4697,7 +4697,7 @@ text-component {
 .map-section .map__visual {
   position: relative;
   width: 100%;
-  height: var(--map-visual-min-height);
+  height: auto;
   overflow: hidden;
   --map-visual-min-height: 18rem;
   min-height: var(--map-visual-min-height);

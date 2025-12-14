@@ -4667,6 +4667,7 @@ text-component {
   align-items: var(--alignment-align-items);
   justify-content: var(--alignment-justify-content);
   text-align: var(--alignment-text-align);
+  align-self: center;
 }
 
 @media screen and (min-width: 990px) {
@@ -4695,7 +4696,7 @@ text-component {
 .map-section .map__visual {
   position: relative;
   width: 100%;
-  height: auto;
+  height: var(--map-visual-min-height);
   overflow: hidden;
   --map-visual-min-height: 18rem;
   min-height: var(--map-visual-min-height);

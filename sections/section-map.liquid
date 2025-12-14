@@ -30,6 +30,8 @@
           <a
             class="map__button {{ section.settings.button_style }}"
             href="https://maps.google.com?daddr={{ section.settings.map_address | url_encode }}"
+            target="_blank"
+            rel="noopener"
           >
             {{ section.settings.button_label }}
           </a>

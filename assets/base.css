@@ -4654,6 +4654,13 @@ text-component {
 
 .map-section .map__button {
   margin-top: 4px;
+  --alignment-align-items: center;
+  --alignment-justify-content: center;
+  --alignment-text-align: center;
+  display: inline-flex;
+  align-items: var(--alignment-align-items);
+  justify-content: var(--alignment-justify-content);
+  text-align: var(--alignment-text-align);
 }
 
 @media screen and (min-width: 990px) {

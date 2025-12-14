@@ -1,3 +1,13 @@
+# Release Notes - Version 3.1.9
+
+This release improves the Map section layout and interaction parity with Broadcast, ensuring consistent heights and centered CTAs.
+
+## What's Changed
+
+### Changed
+- [Map] Aligns layout spacing and height handling with Broadcast so desktop/mobile height options render correctly
+- [Map] Centers all button styles and opens the directions link in a new tab for better UX
+
 # Release Notes - Version 3.1.8
 
 This release moves the product page breadcrumb to the footer area and standardizes its typography across devices.

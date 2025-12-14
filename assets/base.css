@@ -4664,6 +4664,7 @@ text-component {
   --alignment-justify-content: center;
   --alignment-text-align: center;
   display: inline-flex;
+  justify-self: center;
   align-items: var(--alignment-align-items);
   justify-content: var(--alignment-justify-content);
   text-align: var(--alignment-text-align);

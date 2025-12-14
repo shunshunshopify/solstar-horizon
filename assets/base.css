@@ -4674,11 +4674,6 @@ text-component {
   flex: 1 0 50%;
 }
 
-@media screen and (min-width: 990px) {
-  .map-section .map__column--map {
-    flex: 1 0 66.66%;
-  }
-}
 
 @media screen and (max-width: 749px) {
   .map-section .map__column--map {

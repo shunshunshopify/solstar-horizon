@@ -4609,7 +4609,7 @@ text-component {
 
 @media screen and (max-width: 749px) {
   .map-section .map__columns {
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: clamp(16px, 4vw, 24px);
   }
 

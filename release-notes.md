@@ -1,12 +1,12 @@
 # Release Notes - Version 3.1.9
 
-This release improves the Map section layout and interaction parity with Broadcast, ensuring consistent heights and centered CTAs.
+This release introduces a newly built Map section with improved layout, height controls, and CTA behavior.
 
 ## What's Changed
 
-### Changed
-- [Map] Aligns layout spacing and height handling with Broadcast so desktop/mobile height options render correctly
-- [Map] Centers all button styles and opens the directions link in a new tab for better UX
+### Added
+- [Map] Brand new Map section built from scratch with consistent spacing and height options across desktop and mobile
+- [Map] Centered CTA buttons and directions link opens in a new tab
 
 # Release Notes - Version 3.1.8
 

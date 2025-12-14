@@ -137,7 +137,7 @@
       "type": "section-map",
       "name": "Map",
       "settings": {
-        "api_key": "",
+        "api_key": "AIzaSyDk-6e6y3v9TRWWACjkw_gKbTks5fp5PQM",
         "map_address": "1600 Amphitheatre Parkway, Mountain View, CA",
         "enable_latlong": false,
         "lat": "",
@@ -146,7 +146,7 @@
         "style": "basic",
         "heading": "Visit our studio",
         "heading_tag": "h2",
-        "address_content": "<p>123 Main Street<br>City, State</p><p>Mon–Fri: 10am–6pm</p>",
+        "address_content": "<p>123 Main Street<br/>City, State</p><p>Mon–Fri: 10am–6pm</p>",
         "button_label": "Get directions",
         "button_style": "button",
         "desktop_height": "image-height",

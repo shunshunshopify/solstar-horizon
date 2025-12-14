@@ -427,6 +427,108 @@
           "read_less_label": "「折りたたむ」ラベル"
         }
       }
+    },
+    "map": {
+      "name": "地図",
+      "settings": {
+        "api_key": {
+          "label": "Google マップ API キー"
+        },
+        "map_address": {
+          "label": "地図の住所",
+          "info": "Google マップが緯度・経度を取得するために使用します。"
+        },
+        "enable_latlong": {
+          "label": "位置補正（緯度・経度）"
+        },
+        "lat": {
+          "label": "緯度",
+          "info": "住所のピンが間違っている場合の任意の上書き。"
+        },
+        "long": {
+          "label": "経度",
+          "info": "住所のピンが間違っている場合の任意の上書き。"
+        },
+        "zoom": {
+          "label": "ズーム",
+          "info": "低い数値は広域、高い数値は詳細表示。"
+        },
+        "style": {
+          "label": "マップスタイル",
+          "options": {
+            "basic": "デフォルト",
+            "light": "ライト",
+            "white_label": "ホワイトラベル",
+            "dark_label": "ダーク"
+          }
+        },
+        "heading": {
+          "label": "見出し"
+        },
+        "heading_tag": {
+          "label": "見出しタグ",
+          "options": {
+            "h1": "H1",
+            "h2": "H2",
+            "h3": "H3",
+            "h4": "H4"
+          }
+        },
+        "address_content": {
+          "label": "住所と営業時間"
+        },
+        "button_label": {
+          "label": "ボタンラベル"
+        },
+        "button_style": {
+          "label": "ボタンスタイル",
+          "options": {
+            "button": "プライマリ",
+            "button-secondary": "セカンダリ",
+            "link": "リンク"
+          }
+        },
+        "image": {
+          "label": "フォールバック画像"
+        },
+        "desktop_height": {
+          "label": "デスクトップの高さ",
+          "options": {
+            "image-height": "画像の高さ",
+            "screen-height-one-half": "画面の半分",
+            "screen-height-three-quarters": "画面の3/4"
+          }
+        },
+        "mobile_height": {
+          "label": "モバイルの高さ",
+          "options": {
+            "image-height--mobile": "画像の高さ",
+            "screen-height-one-half--mobile": "画面の半分",
+            "screen-height-three-quarters--mobile": "画面の3/4"
+          }
+        },
+        "section_width": {
+          "label": "セクション幅",
+          "options": {
+            "page-width": "ページ幅",
+            "full-width": "全幅"
+          }
+        },
+        "color_scheme": {
+          "label": "カラースキーム"
+        },
+        "padding-block-start": {
+          "label": "上の余白"
+        },
+        "padding-block-end": {
+          "label": "下の余白"
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "地図"
+        }
+      }
     }
   },
   "info": {

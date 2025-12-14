@@ -4603,6 +4603,10 @@ text-component {
 /* Map section */
 .map-section .map__content {
   padding: 0;
+  display: grid;
+  gap: clamp(12px, 1vw + 8px, 24px);
+  width: 100%;
+  max-width: 36rem;
 }
 
 .map-section map-component {
@@ -4617,11 +4621,13 @@ text-component {
 .map-section .map__columns {
   display: flex;
   align-items: stretch;
+  gap: clamp(16px, 4vw, 24px);
 }
 
 @media screen and (max-width: 749px) {
   .map-section .map__columns {
     flex-direction: column-reverse;
+    gap: clamp(16px, 4vw, 24px);
   }
 }
 
@@ -4675,12 +4681,38 @@ text-component {
   }
 }
 
+.map-section .map__column--map {
+  min-height: auto;
+}
+
+@media screen and (max-width: 749px) {
+  .map-section .map__column--map {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
 .map-section .map__visual {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: hidden;
-  min-height: 18rem;
+  --map-visual-min-height: 18rem;
+  min-height: var(--map-visual-min-height);
+}
+
+.map-section .map__visual.image-height {
+  --map-visual-min-height: 24rem;
+}
+
+.map-section .map__visual.screen-height-one-half {
+  --map-visual-min-height: 50vh;
+  --map-visual-min-height: 50svh;
+}
+
+.map-section .map__visual.screen-height-three-quarters {
+  --map-visual-min-height: 75vh;
+  --map-visual-min-height: 75svh;
 }
 
 .map-section .map__image {
@@ -4694,32 +4726,22 @@ text-component {
   height: 100%;
 }
 
-.map-section .image-height {
-  min-height: 24rem;
-}
-
-.map-section .screen-height-one-half {
-  min-height: 50vh;
-  min-height: 50svh;
-}
-
-.map-section .screen-height-three-quarters {
-  min-height: 75vh;
-  min-height: 75svh;
-}
-
 @media screen and (max-width: 749px) {
-  .map-section .image-height--mobile {
-    min-height: 18rem;
+  .map-section .map__visual {
+    --map-visual-min-height: 18rem;
   }
 
-  .map-section .screen-height-one-half--mobile {
-    min-height: 50vh;
-    min-height: 50svh;
+  .map-section .map__visual.image-height--mobile {
+    --map-visual-min-height: 18rem;
   }
 
-  .map-section .screen-height-three-quarters--mobile {
-    min-height: 75vh;
-    min-height: 75svh;
+  .map-section .map__visual.screen-height-one-half--mobile {
+    --map-visual-min-height: 50vh;
+    --map-visual-min-height: 50svh;
+  }
+
+  .map-section .map__visual.screen-height-three-quarters--mobile {
+    --map-visual-min-height: 75vh;
+    --map-visual-min-height: 75svh;
   }
 }

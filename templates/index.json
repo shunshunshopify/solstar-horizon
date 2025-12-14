@@ -132,36 +132,10 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
-    },
-    "section_map_gC7CqA": {
-      "type": "section-map",
-      "name": "Map",
-      "settings": {
-        "api_key": "AIzaSyDk-6e6y3v9TRWWACjkw_gKbTks5fp5PQM",
-        "map_address": "〒901-2227 沖縄県宜野湾市宇地泊１丁目１−２",
-        "enable_latlong": false,
-        "lat": "",
-        "long": "",
-        "zoom": 14,
-        "style": "basic",
-        "heading": "Starbucks",
-        "heading_tag": "h2",
-        "address_content": "<p>〒901-2227 沖縄県宜野湾市宇地泊１丁目１−２</p><p>Mon–Fri: 10am–6pm</p>",
-        "button_label": "Get directions",
-        "button_style": "button",
-        "image": "shopify://shop_images/20_e21fb444-9338-4add-a0b4-74db1c72b1f9.png",
-        "desktop_height": "screen-height-one-half",
-        "mobile_height": "screen-height-one-half--mobile",
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 24,
-        "padding-block-end": 24
-      }
     }
   },
   "order": [
     "hero_A9LURP",
-    "hero_video_fw9PNT",
-    "section_map_gC7CqA"
+    "hero_video_fw9PNT"
   ]
 }

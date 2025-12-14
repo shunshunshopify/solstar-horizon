@@ -75,46 +75,48 @@
 
 {% schema %}
 {
-  "name": "Map",
+  "name": "t:sections.map.name",
   "class": "shopify-section--map",
   "settings": [
     {
       "type": "header",
-      "content": "Map"
+      "content": "t:sections.map.name"
     },
     {
       "type": "text",
       "id": "api_key",
-      "label": "Google Maps API key"
+      "label": "t:sections.map.settings.api_key.label"
     },
     {
       "type": "text",
       "id": "map_address",
-      "label": "Map address",
+      "label": "t:sections.map.settings.map_address.label",
+      "info": "t:sections.map.settings.map_address.info",
       "default": "1600 Amphitheatre Parkway, Mountain View, CA"
     },
     {
       "type": "checkbox",
       "id": "enable_latlong",
-      "label": "Location correction (latitude and longitude)",
+      "label": "t:sections.map.settings.enable_latlong.label",
       "default": false
     },
     {
       "type": "text",
       "id": "lat",
-      "label": "Latitude",
-      "info": "Optional override when Google pins the address incorrectly."
+      "label": "t:sections.map.settings.lat.label",
+      "info": "t:sections.map.settings.lat.info"
     },
     {
       "type": "text",
       "id": "long",
-      "label": "Longitude",
-      "info": "Optional override when Google pins the address incorrectly."
+      "label": "t:sections.map.settings.long.label",
+      "info": "t:sections.map.settings.long.info"
     },
     {
       "type": "range",
       "id": "zoom",
-      "label": "Zoom",
+      "label": "t:sections.map.settings.zoom.label",
+      "info": "t:sections.map.settings.zoom.info",
       "default": 14,
       "min": 1,
       "max": 20,
@@ -123,115 +125,115 @@
     {
       "type": "select",
       "id": "style",
-      "label": "Map style",
+      "label": "t:sections.map.settings.style.label",
       "default": "basic",
       "options": [
-        { "value": "basic", "label": "Default" },
-        { "value": "light", "label": "Light" },
-        { "value": "white_label", "label": "White label" },
-        { "value": "dark_label", "label": "Dark label" }
+        { "value": "basic", "label": "t:sections.map.settings.style.options.basic" },
+        { "value": "light", "label": "t:sections.map.settings.style.options.light" },
+        { "value": "white_label", "label": "t:sections.map.settings.style.options.white_label" },
+        { "value": "dark_label", "label": "t:sections.map.settings.style.options.dark_label" }
       ]
     },
     {
       "type": "header",
-      "content": "Content"
+      "content": "t:sections.map.name"
     },
     {
       "type": "inline_richtext",
       "id": "heading",
-      "label": "Heading",
+      "label": "t:sections.map.settings.heading.label",
       "default": "Visit our studio"
     },
     {
       "type": "select",
       "id": "heading_tag",
-      "label": "Heading tag",
+      "label": "t:sections.map.settings.heading_tag.label",
       "default": "h2",
       "options": [
-        { "value": "h1", "label": "H1" },
-        { "value": "h2", "label": "H2" },
-        { "value": "h3", "label": "H3" },
-        { "value": "h4", "label": "H4" }
+        { "value": "h1", "label": "t:sections.map.settings.heading_tag.options.h1" },
+        { "value": "h2", "label": "t:sections.map.settings.heading_tag.options.h2" },
+        { "value": "h3", "label": "t:sections.map.settings.heading_tag.options.h3" },
+        { "value": "h4", "label": "t:sections.map.settings.heading_tag.options.h4" }
       ]
     },
     {
       "type": "richtext",
       "id": "address_content",
-      "label": "Address and hours",
+      "label": "t:sections.map.settings.address_content.label",
       "default": "<p>123 Main Street<br>City, State</p><p>Mon–Fri: 10am–6pm</p>"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Button label",
+      "label": "t:sections.map.settings.button_label.label",
       "default": "Get directions"
     },
     {
       "type": "select",
       "id": "button_style",
-      "label": "Button style",
+      "label": "t:sections.map.settings.button_style.label",
       "default": "button",
       "options": [
-        { "value": "button", "label": "Primary" },
-        { "value": "button-secondary", "label": "Secondary" },
-        { "value": "link", "label": "Link" }
+        { "value": "button", "label": "t:sections.map.settings.button_style.options.button" },
+        { "value": "button-secondary", "label": "t:sections.map.settings.button_style.options.button-secondary" },
+        { "value": "link", "label": "t:sections.map.settings.button_style.options.link" }
       ]
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Fallback image"
+      "label": "t:sections.map.settings.image.label"
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "t:sections.map.settings.section_width.label"
     },
     {
       "type": "select",
       "id": "desktop_height",
-      "label": "Desktop height",
+      "label": "t:sections.map.settings.desktop_height.label",
       "default": "image-height",
       "options": [
-        { "value": "image-height", "label": "Image height" },
-        { "value": "screen-height-one-half", "label": "Half screen" },
-        { "value": "screen-height-three-quarters", "label": "Three quarters screen" }
+        { "value": "image-height", "label": "t:sections.map.settings.desktop_height.options.image-height" },
+        { "value": "screen-height-one-half", "label": "t:sections.map.settings.desktop_height.options.screen-height-one-half" },
+        { "value": "screen-height-three-quarters", "label": "t:sections.map.settings.desktop_height.options.screen-height-three-quarters" }
       ]
     },
     {
       "type": "select",
       "id": "mobile_height",
-      "label": "Mobile height",
+      "label": "t:sections.map.settings.mobile_height.label",
       "default": "image-height--mobile",
       "options": [
-        { "value": "image-height--mobile", "label": "Image height" },
-        { "value": "screen-height-one-half--mobile", "label": "Half screen" },
-        { "value": "screen-height-three-quarters--mobile", "label": "Three quarters screen" }
+        { "value": "image-height--mobile", "label": "t:sections.map.settings.mobile_height.options.image-height--mobile" },
+        { "value": "screen-height-one-half--mobile", "label": "t:sections.map.settings.mobile_height.options.screen-height-one-half--mobile" },
+        { "value": "screen-height-three-quarters--mobile", "label": "t:sections.map.settings.mobile_height.options.screen-height-three-quarters--mobile" }
       ]
     },
     {
       "type": "select",
       "id": "section_width",
-      "label": "Section width",
+      "label": "t:sections.map.settings.section_width.label",
       "default": "full-width",
       "options": [
-        { "value": "page-width", "label": "Page width" },
-        { "value": "full-width", "label": "Full width" }
+        { "value": "page-width", "label": "t:sections.map.settings.section_width.options.page-width" },
+        { "value": "full-width", "label": "t:sections.map.settings.section_width.options.full-width" }
       ]
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.map.settings.color_scheme.label",
       "default": "scheme-1"
     },
     {
       "type": "header",
-      "content": "Padding"
+      "content": "t:sections.map.settings.padding-block-start.label"
     },
     {
       "type": "range",
       "id": "padding-block-start",
-      "label": "Top padding",
+      "label": "t:sections.map.settings.padding-block-start.label",
       "min": 0,
       "max": 100,
       "step": 4,
@@ -241,7 +243,7 @@
     {
       "type": "range",
       "id": "padding-block-end",
-      "label": "Bottom padding",
+      "label": "t:sections.map.settings.padding-block-end.label",
       "min": 0,
       "max": 100,
       "step": 4,
@@ -251,7 +253,7 @@
   ],
   "presets": [
     {
-      "name": "Map"
+      "name": "t:sections.map.presets.default.name"
     }
   ]
 }

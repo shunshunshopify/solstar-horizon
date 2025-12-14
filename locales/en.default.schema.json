@@ -1235,6 +1235,108 @@
         }
       }
     },
+    "map": {
+      "name": "Map",
+      "settings": {
+        "api_key": {
+          "label": "Google Maps API key"
+        },
+        "map_address": {
+          "label": "Map address",
+          "info": "Google Maps will use this address to get latitude and longitude"
+        },
+        "enable_latlong": {
+          "label": "Location correction (latitude and longitude)"
+        },
+        "lat": {
+          "label": "Latitude",
+          "info": "Optional override when Google pins the address incorrectly."
+        },
+        "long": {
+          "label": "Longitude",
+          "info": "Optional override when Google pins the address incorrectly."
+        },
+        "zoom": {
+          "label": "Zoom",
+          "info": "Low levels cover a wide area, while higher levels cover a smaller area."
+        },
+        "style": {
+          "label": "Map style",
+          "options": {
+            "basic": "Default",
+            "light": "Light",
+            "white_label": "White label",
+            "dark_label": "Dark label"
+          }
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "heading_tag": {
+          "label": "Heading tag",
+          "options": {
+            "h1": "H1",
+            "h2": "H2",
+            "h3": "H3",
+            "h4": "H4"
+          }
+        },
+        "address_content": {
+          "label": "Address and hours"
+        },
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_style": {
+          "label": "Button style",
+          "options": {
+            "button": "Primary",
+            "button-secondary": "Secondary",
+            "link": "Link"
+          }
+        },
+        "image": {
+          "label": "Fallback image"
+        },
+        "desktop_height": {
+          "label": "Desktop height",
+          "options": {
+            "image-height": "Image height",
+            "screen-height-one-half": "Half screen",
+            "screen-height-three-quarters": "Three quarters screen"
+          }
+        },
+        "mobile_height": {
+          "label": "Mobile height",
+          "options": {
+            "image-height--mobile": "Image height",
+            "screen-height-one-half--mobile": "Half screen",
+            "screen-height-three-quarters--mobile": "Three quarters screen"
+          }
+        },
+        "section_width": {
+          "label": "Section width",
+          "options": {
+            "page-width": "Page width",
+            "full-width": "Full width"
+          }
+        },
+        "color_scheme": {
+          "label": "Color scheme"
+        },
+        "padding-block-start": {
+          "label": "Top padding"
+        },
+        "padding-block-end": {
+          "label": "Bottom padding"
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Map"
+        }
+      }
+    },
     "sticky_atc": {
       "name": "Sticky ATC",
       "settings": {

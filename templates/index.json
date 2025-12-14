@@ -149,6 +149,7 @@
         "address_content": "<p>〒901-2227 沖縄県宜野湾市宇地泊１丁目１−２</p><p>Mon–Fri: 10am–6pm</p>",
         "button_label": "Get directions",
         "button_style": "button",
+        "image": "shopify://shop_images/20_e21fb444-9338-4add-a0b4-74db1c72b1f9.png",
         "desktop_height": "image-height",
         "mobile_height": "image-height--mobile",
         "section_width": "page-width",

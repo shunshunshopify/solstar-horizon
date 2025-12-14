@@ -4627,7 +4627,6 @@ text-component {
 @media screen and (max-width: 749px) {
   .map-section .map__columns {
     flex-direction: column-reverse;
-    gap: clamp(16px, 4vw, 24px);
   }
 }
 
@@ -4671,20 +4670,14 @@ text-component {
   align-self: center;
 }
 
+.map-section .map__column--map {
+  flex: 1 0 50%;
+}
+
 @media screen and (min-width: 990px) {
   .map-section .map__column--map {
-    flex: 1 0 50%;
+    flex: 1 0 66.66%;
   }
-}
-
-@media screen and (max-width: 989px) {
-  .map-section .map__column--map {
-    flex: 1 0 50%;
-  }
-}
-
-.map-section .map__column--map {
-  min-height: auto;
 }
 
 @media screen and (max-width: 749px) {
@@ -4697,7 +4690,7 @@ text-component {
 .map-section .map__visual {
   position: relative;
   width: 100%;
-  height: var(--map-visual-min-height);
+  height: auto;
   overflow: hidden;
   --map-visual-min-height: 18rem;
   min-height: var(--map-visual-min-height);

@@ -4636,6 +4636,12 @@ text-component {
   display: flex;
   flex: 1;
   padding: var(--outer);
+  --alignment-align-items: center;
+  --alignment-justify-content: center;
+  --alignment-text-align: center;
+  align-items: var(--alignment-align-items);
+  justify-content: var(--alignment-justify-content);
+  text-align: var(--alignment-text-align);
 }
 
 .map-section .map__heading {

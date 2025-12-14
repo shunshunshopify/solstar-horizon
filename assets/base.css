@@ -4611,6 +4611,15 @@ text-component {
   .map-section .map__columns {
     flex-direction: column-reverse;
   }
+
+  .map-section .map__column {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .map-section .map__visual {
+    height: auto;
+  }
 }
 
 .map-section .map__column {
@@ -4682,10 +4691,12 @@ text-component {
 }
 
 .map-section .screen-height-one-half {
+  min-height: 50vh;
   min-height: 50svh;
 }
 
 .map-section .screen-height-three-quarters {
+  min-height: 75vh;
   min-height: 75svh;
 }
 
@@ -4695,10 +4706,12 @@ text-component {
   }
 
   .map-section .screen-height-one-half--mobile {
+    min-height: 50vh;
     min-height: 50svh;
   }
 
   .map-section .screen-height-three-quarters--mobile {
+    min-height: 75vh;
     min-height: 75svh;
   }
 }

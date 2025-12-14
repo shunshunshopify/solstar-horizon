@@ -150,7 +150,7 @@
         "button_label": "Get directions",
         "button_style": "button",
         "image": "shopify://shop_images/20_e21fb444-9338-4add-a0b4-74db1c72b1f9.png",
-        "desktop_height": "image-height",
+        "desktop_height": "screen-height-one-half",
         "mobile_height": "image-height--mobile",
         "section_width": "page-width",
         "color_scheme": "scheme-1",

@@ -144,7 +144,10 @@
     style="
       {%- render 'spacing-style', settings: block_settings -%}
       {%- render 'border-override', settings: block_settings -%}
-      {%- if block_settings.image_ratio == 'circle' or (block_settings.circle_image and block_settings.image_ratio == 'square') -%}
+      {%- if block_settings.image_ratio == 'circle' -%}
+        --border-radius: 50%;
+        overflow: hidden;
+      {%- elsif block_settings.image_ratio == 'square' and block_settings.circle_image -%}
         --border-radius: 50%;
         overflow: hidden;
       {%- endif -%}
@@ -177,7 +180,10 @@
     style="
       {%- render 'spacing-style', settings: block_settings -%}
       {%- render 'border-override', settings: block_settings -%}
-      {%- if block_settings.image_ratio == 'circle' or (block_settings.circle_image and block_settings.image_ratio == 'square') -%}
+      {%- if block_settings.image_ratio == 'circle' -%}
+        --border-radius: 50%;
+        overflow: hidden;
+      {%- elsif block_settings.image_ratio == 'square' and block_settings.circle_image -%}
         --border-radius: 50%;
         overflow: hidden;
       {%- endif -%}

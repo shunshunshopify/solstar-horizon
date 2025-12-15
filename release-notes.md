@@ -1,3 +1,15 @@
+# Release Notes - Version 3.1.10
+
+This release adds a circle aspect ratio option for collection cards and fixes collection list schema defaults.
+
+## What's Changed
+
+### Added
+- [Collection cards] Circle aspect ratio option to render images as true circles
+
+### Fixes and improvements
+- [Collection list] Schema defaults corrected (grid default restored, carousel preset available) to avoid validation errors
+
 # Release Notes - Version 3.1.9
 
 This release introduces a newly built Map section with improved layout, height controls, and CTA behavior.

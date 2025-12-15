@@ -101,7 +101,7 @@ This release aligns page content layout controls with blog posts and adds missin
 
 # Release Notes - Version 3.1.0
 
-This release introduces wishlist support, a sticky add-to-cart bar, and a new bottom menu, plus an expanded mega menu structure.
+This release introduces wishlist support, a sticky add-to-cart bar, a new bottom menu, and a video intro experience, plus an expanded mega menu structure.
 
 ## What's Changed
 
@@ -109,6 +109,7 @@ This release introduces wishlist support, a sticky add-to-cart bar, and a new bo
 - [Wishlist] New wishlist feature
 - [Product detail] Sticky add to cart option
 - [Navigation] Bottom menu feature
+- [Media] Video intro component to highlight brand/story content on landing pages
 
 ### Fixes and improvements
 - [Navigation] Mega menu updated to support three levels

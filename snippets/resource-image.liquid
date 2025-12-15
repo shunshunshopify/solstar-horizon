@@ -142,6 +142,10 @@
     style="
       {%- render 'spacing-style', settings: block_settings -%}
       {%- render 'border-override', settings: block_settings -%}
+      {%- if block_settings.circle_image and block_settings.image_ratio == 'square' -%}
+        --border-radius: 50%;
+        overflow: hidden;
+      {%- endif -%}
     "
     {{ block_attributes }}
   >
@@ -171,6 +175,10 @@
     style="
       {%- render 'spacing-style', settings: block_settings -%}
       {%- render 'border-override', settings: block_settings -%}
+      {%- if block_settings.circle_image and block_settings.image_ratio == 'square' -%}
+        --border-radius: 50%;
+        overflow: hidden;
+      {%- endif -%}
     "
     {{ block_attributes }}
   >

@@ -55,6 +55,13 @@
     },
     {
       "type": "checkbox",
+      "id": "circle_image",
+      "label": "t:options.circle",
+      "default": false,
+      "visible_if": "{{ block.settings.image_ratio == 'square' }}"
+    },
+    {
+      "type": "checkbox",
       "id": "toggle_overlay",
       "label": "t:settings.media_overlay"
     },
@@ -150,7 +157,8 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 0
+      "default": 0,
+      "visible_if": "{{ block.settings.circle_image != true }}"
     }
   ]
 }

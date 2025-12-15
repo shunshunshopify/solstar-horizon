@@ -99,6 +99,20 @@ This release aligns page content layout controls with blog posts and adds missin
 ### Fixes and improvements
 - [Pages] Removed hardcoded page-width constraint so block width settings apply
 
+# Release Notes - Version 3.1.0
+
+This release introduces wishlist support, a sticky add-to-cart bar, and a new bottom menu, plus an expanded mega menu structure.
+
+## What's Changed
+
+### Added
+- [Wishlist] New wishlist feature
+- [Product detail] Sticky add to cart option
+- [Navigation] Bottom menu feature
+
+### Fixes and improvements
+- [Navigation] Mega menu updated to support three levels
+
 # Release Notes - Version 3.0.1
 
 This release focuses on accessibility improvements across the theme, adds infinite scroll for product grids, and fixes several bugs related to product selection and display.

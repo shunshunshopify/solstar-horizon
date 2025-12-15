@@ -47,18 +47,15 @@
           "label": "t:options.square"
         },
         {
+          "value": "circle",
+          "label": "t:options.circle"
+        },
+        {
           "value": "landscape",
           "label": "t:options.landscape"
         }
       ],
       "default": "portrait"
-    },
-    {
-      "type": "checkbox",
-      "id": "circle_image",
-      "label": "t:options.circle",
-      "default": false,
-      "visible_if": "{{ block.settings.image_ratio == 'square' }}"
     },
     {
       "type": "checkbox",
@@ -158,7 +155,7 @@
       "step": 1,
       "unit": "px",
       "default": 0,
-      "visible_if": "{{ block.settings.circle_image != true }}"
+      "visible_if": "{{ block.settings.image_ratio != 'circle' }}"
     }
   ]
 }

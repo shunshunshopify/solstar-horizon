@@ -67,6 +67,8 @@
       assign ratio = '4 / 5'
     when 'square'
       assign ratio = '1 / 1'
+    when 'circle'
+      assign ratio = '1 / 1'
     when 'adapt'
       assign ratio = image_resource.aspect_ratio
   endcase
@@ -142,7 +144,7 @@
     style="
       {%- render 'spacing-style', settings: block_settings -%}
       {%- render 'border-override', settings: block_settings -%}
-      {%- if block_settings.circle_image and block_settings.image_ratio == 'square' -%}
+      {%- if block_settings.image_ratio == 'circle' or (block_settings.circle_image and block_settings.image_ratio == 'square') -%}
         --border-radius: 50%;
         overflow: hidden;
       {%- endif -%}
@@ -175,7 +177,7 @@
     style="
       {%- render 'spacing-style', settings: block_settings -%}
       {%- render 'border-override', settings: block_settings -%}
-      {%- if block_settings.circle_image and block_settings.image_ratio == 'square' -%}
+      {%- if block_settings.image_ratio == 'circle' or (block_settings.circle_image and block_settings.image_ratio == 'square') -%}
         --border-radius: 50%;
         overflow: hidden;
       {%- endif -%}

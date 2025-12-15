@@ -1,4 +1,4 @@
-# Release Notes - Version 3.1.10
+# Release Notes - Version 3.2.0
 
 This release adds a circle aspect ratio option for collection cards and fixes collection list schema defaults.
 

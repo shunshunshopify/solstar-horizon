@@ -1,3 +1,12 @@
+# Release Notes - Version 3.2.1
+
+This release fixes the cart drawer layout regression where product page styles added borders and centering to cart items when opened from the product page.
+
+## What's Changed
+
+### Fixes and improvements
+- [Cart drawer] Reset table cell styles so borders and centered alignment from product pages no longer bleed into the drawer
+
 # Release Notes - Version 3.2.0
 
 This release adds a circle aspect ratio option for collection cards and fixes collection list schema defaults.

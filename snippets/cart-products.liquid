@@ -345,15 +345,24 @@
 
   .cart-items__table {
     width: 100%;
+    border-collapse: collapse;
   }
 
   .cart-items__table * {
     margin: 0;
   }
 
+  /* Reset table defaults so product page styles don't leak into the drawer */
+  .cart-items__table :is(tbody, tr, th, td) {
+    border: none;
+    padding: 0;
+    background: transparent;
+  }
+
   .cart-items__table-row {
     --cart-item-price-width: 6rem;
 
+    text-align: start;
     display: grid;
     grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr) minmax(var(--cart-item-price-width), auto);
     grid-template-areas:
@@ -364,6 +373,12 @@
     align-items: start;
     padding-bottom: var(--cart-items-gap);
     margin-bottom: var(--margin-lg);
+  }
+
+  .cart-items__details,
+  .cart-items__quantity,
+  .cart-items__media {
+    text-align: start;
   }
 
   .cart-items__table-row.cart-items__nested-line td:first-child {

@@ -1,3 +1,17 @@
+# Release Notes - Version 3.2.2
+
+This release adds configurable badge labels, per-badge corner radius, a Bestseller badge, and a sale discount toggle/format option. Badges now adopt primary button colors.
+
+## What's Changed
+
+### Added
+- [Badges] Custom labels for Sale, Sold out, New, and Bestseller badges with per-badge corner radius controls
+- [Badges] New Bestseller badge driven by the `bestseller` product tag
+- [Badges] Optional sale discount value display (percent or amount) appended as “OFF”
+
+### Changed
+- [Badges] Badge styling now uses primary button colors for text, background, and border
+
 # Release Notes - Version 3.2.1
 
 This release fixes the cart drawer layout regression where product page styles added borders and centering to cart items when opened from the product page.

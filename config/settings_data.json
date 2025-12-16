@@ -48,7 +48,7 @@
     "add_to_cart_animation": true,
     "card_hover_effect": "subtle-zoom",
     "badge_position": "top-right",
-    "badge_sale_color_scheme": "scheme-1",
+    "badge_sale_color_scheme": "scheme-16",
     "badge_sale_label": "Sale -",
     "badge_sale_show_discount": true,
     "badge_sale_discount_format": "percent",

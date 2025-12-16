@@ -46,7 +46,7 @@
       {%- assign discount_text = discount_percent | append: '%' -%}
     {%- endif -%}
     {%- if discount_text != blank -%}
-      {%- assign badge_text = badge_text | append: ' ' | append: discount_text -%}
+      {%- assign badge_text = discount_text | append: ' OFF' -%}
     {%- endif -%}
   {%- endif -%}
 {%- elsif has_new_tag -%}
@@ -108,8 +108,9 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--color-foreground);
-    background: var(--color-background);
+    color: var(--color-primary-button-text, var(--color-foreground));
+    background: var(--color-primary-button-background, var(--color-background));
+    border: var(--style-border-width-primary, 0px) solid var(--color-primary-button-border, transparent);
     font-size: var(--badge-font-size);
     font-family: var(--badge-font-family);
     font-weight: var(--badge-font-weight);

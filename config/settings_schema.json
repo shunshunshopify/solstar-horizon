@@ -1460,8 +1460,40 @@
         "label": "t:settings.badge_position"
       },
       {
+        "type": "header",
+        "content": "Sale badge"
+      },
+      {
         "type": "range",
-        "id": "badge_corner_radius",
+        "id": "badge_sale_corner_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings.badge_corner_radius",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "Sold out badge"
+      },
+      {
+        "type": "range",
+        "id": "badge_sold_out_corner_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings.badge_corner_radius",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "New badge"
+      },
+      {
+        "type": "range",
+        "id": "badge_new_corner_radius",
         "min": 0,
         "max": 100,
         "step": 2,

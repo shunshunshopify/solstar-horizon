@@ -50,6 +50,8 @@
     "badge_position": "top-right",
     "badge_sale_color_scheme": "scheme-1",
     "badge_sale_label": "Sale",
+    "badge_sale_show_discount": false,
+    "badge_sale_discount_format": "percent",
     "badge_sale_corner_radius": 0,
     "badge_sold_out_color_scheme": "scheme-17",
     "badge_sold_out_label": "Sold out",

@@ -21,28 +21,42 @@
     {%- endif -%}
   {%- endfor -%}
 
-  {%- if product.available == false -%}
-    {%- assign badge_text = settings.badge_sold_out_label | default: '' -%}
-    {%- if badge_text == blank -%}
-      {%- assign badge_text = 'content.product_badge_sold_out' | t -%}
-    {%- endif -%}
-    {%- assign badge_color_scheme = settings.badge_sold_out_color_scheme -%}
-    {%- assign badge_radius = settings.badge_sold_out_corner_radius | default: settings.badge_corner_radius -%}
-  {%- elsif product.compare_at_price > product.price and product.available -%}
-    {%- assign badge_text = settings.badge_sale_label | default: '' -%}
-    {%- if badge_text == blank -%}
-      {%- assign badge_text = 'content.product_badge_sale' | t -%}
-    {%- endif -%}
-    {%- assign badge_color_scheme = settings.badge_sale_color_scheme -%}
-    {%- assign badge_radius = settings.badge_sale_corner_radius | default: settings.badge_corner_radius -%}
-  {%- elsif has_new_tag -%}
-    {%- assign badge_text = settings.badge_new_label | default: '' -%}
-    {%- if badge_text == blank -%}
-      {%- assign badge_text = 'content.product_badge_new' | t -%}
-    {%- endif -%}
-    {%- assign badge_color_scheme = settings.badge_new_color_scheme -%}
-    {%- assign badge_radius = settings.badge_new_corner_radius | default: settings.badge_corner_radius -%}
+{%- if product.available == false -%}
+  {%- assign badge_text = settings.badge_sold_out_label | default: '' -%}
+  {%- if badge_text == blank -%}
+    {%- assign badge_text = 'content.product_badge_sold_out' | t -%}
   {%- endif -%}
+  {%- assign badge_color_scheme = settings.badge_sold_out_color_scheme -%}
+  {%- assign badge_radius = settings.badge_sold_out_corner_radius | default: settings.badge_corner_radius -%}
+{%- elsif product.compare_at_price > product.price and product.available -%}
+  {%- assign badge_text = settings.badge_sale_label | default: '' -%}
+  {%- if badge_text == blank -%}
+    {%- assign badge_text = 'content.product_badge_sale' | t -%}
+  {%- endif -%}
+  {%- assign badge_color_scheme = settings.badge_sale_color_scheme -%}
+  {%- assign badge_radius = settings.badge_sale_corner_radius | default: settings.badge_corner_radius -%}
+  {%- if settings.badge_sale_show_discount and product.compare_at_price > 0 -%}
+    {%- assign compare_price = product.compare_at_price -%}
+    {%- assign current_price = product.price -%}
+    {%- assign discount_amount = compare_price | minus: current_price -%}
+    {%- if settings.badge_sale_discount_format == 'amount' -%}
+      {%- assign discount_text = discount_amount | money -%}
+    {%- else -%}
+      {%- assign discount_percent = discount_amount | times: 100 | divided_by: compare_price | round -%}
+      {%- assign discount_text = discount_percent | append: '%' -%}
+    {%- endif -%}
+    {%- if discount_text != blank -%}
+      {%- assign badge_text = badge_text | append: ' ' | append: discount_text -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- elsif has_new_tag -%}
+  {%- assign badge_text = settings.badge_new_label | default: '' -%}
+  {%- if badge_text == blank -%}
+    {%- assign badge_text = 'content.product_badge_new' | t -%}
+  {%- endif -%}
+  {%- assign badge_color_scheme = settings.badge_new_color_scheme -%}
+  {%- assign badge_radius = settings.badge_new_corner_radius | default: settings.badge_corner_radius -%}
+{%- endif -%}
 
 <div
   class="product-badges product-badges--{{ settings.badge_position }}"

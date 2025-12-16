@@ -1476,6 +1476,28 @@
         "default": "Sale"
       },
       {
+        "type": "checkbox",
+        "id": "badge_sale_show_discount",
+        "label": "Show discount value",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "badge_sale_discount_format",
+        "label": "Discount format",
+        "options": [
+          {
+            "value": "percent",
+            "label": "Percent"
+          },
+          {
+            "value": "amount",
+            "label": "Amount"
+          }
+        ],
+        "default": "percent"
+      },
+      {
         "type": "range",
         "id": "badge_sale_corner_radius",
         "min": 0,

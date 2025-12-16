@@ -2,7 +2,7 @@
   {
     "name": "theme_info",
     "theme_name": "Cream",
-    "theme_version": "3.2.1",
+    "theme_version": "3.2.2",
     "theme_author": "Solstar",
     "theme_documentation_url": "https://www.solstar.co.jp/",
     "theme_support_url": "https://www.solstar.co.jp/"
@@ -1461,12 +1461,12 @@
       },
       {
         "type": "header",
-        "content": "Sale badge"
+        "content": "Sale"
       },
       {
         "type": "color_scheme",
         "id": "badge_sale_color_scheme",
-        "label": "t:settings.badge_sale_color_scheme",
+        "label": "Color",
         "default": "scheme-4"
       },
       {
@@ -1474,6 +1474,28 @@
         "id": "badge_sale_label",
         "label": "Sale label",
         "default": "Sale"
+      },
+      {
+        "type": "checkbox",
+        "id": "badge_sale_show_discount",
+        "label": "Show discount value",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "badge_sale_discount_format",
+        "label": "Discount format",
+        "options": [
+          {
+            "value": "percent",
+            "label": "Percent"
+          },
+          {
+            "value": "amount",
+            "label": "Amount"
+          }
+        ],
+        "default": "percent"
       },
       {
         "type": "range",
@@ -1487,12 +1509,12 @@
       },
       {
         "type": "header",
-        "content": "Sold out badge"
+        "content": "Sold out"
       },
       {
         "type": "color_scheme",
         "id": "badge_sold_out_color_scheme",
-        "label": "t:settings.badge_sold_out_color_scheme",
+        "label": "Color",
         "default": "scheme-5"
       },
       {
@@ -1513,12 +1535,12 @@
       },
       {
         "type": "header",
-        "content": "New badge"
+        "content": "New"
       },
       {
         "type": "color_scheme",
         "id": "badge_new_color_scheme",
-        "label": "t:settings.badge_new_color_scheme",
+        "label": "Color",
         "default": "scheme-3"
       },
       {
@@ -1530,6 +1552,32 @@
       {
         "type": "range",
         "id": "badge_new_corner_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings.badge_corner_radius",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "Bestseller"
+      },
+      {
+        "type": "color_scheme",
+        "id": "badge_bestseller_color_scheme",
+        "label": "Color",
+        "default": "scheme-3"
+      },
+      {
+        "type": "text",
+        "id": "badge_bestseller_label",
+        "label": "Bestseller label",
+        "default": "Bestseller"
+      },
+      {
+        "type": "range",
+        "id": "badge_bestseller_corner_radius",
         "min": 0,
         "max": 100,
         "step": 2,

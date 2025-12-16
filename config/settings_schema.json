@@ -1466,7 +1466,7 @@
       {
         "type": "color_scheme",
         "id": "badge_sale_color_scheme",
-        "label": "t:settings.badge_sale_color_scheme",
+        "label": "Color",
         "default": "scheme-4"
       },
       {
@@ -1492,7 +1492,7 @@
       {
         "type": "color_scheme",
         "id": "badge_sold_out_color_scheme",
-        "label": "t:settings.badge_sold_out_color_scheme",
+        "label": "Color",
         "default": "scheme-5"
       },
       {
@@ -1518,7 +1518,7 @@
       {
         "type": "color_scheme",
         "id": "badge_new_color_scheme",
-        "label": "t:settings.badge_new_color_scheme",
+        "label": "Color",
         "default": "scheme-3"
       },
       {

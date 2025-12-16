@@ -1472,7 +1472,7 @@
       {
         "type": "text",
         "id": "badge_sale_label",
-        "label": "t:settings.badge_sale_label",
+        "label": "Sale label",
         "default": ""
       },
       {
@@ -1498,7 +1498,7 @@
       {
         "type": "text",
         "id": "badge_sold_out_label",
-        "label": "t:settings.badge_sold_out_label",
+        "label": "Sold out label",
         "default": ""
       },
       {
@@ -1524,7 +1524,7 @@
       {
         "type": "text",
         "id": "badge_new_label",
-        "label": "t:settings.badge_new_label",
+        "label": "New label",
         "default": ""
       },
       {

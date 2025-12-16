@@ -1461,7 +1461,7 @@
       },
       {
         "type": "header",
-        "content": "Sale badge"
+        "content": "Sale"
       },
       {
         "type": "color_scheme",
@@ -1487,7 +1487,7 @@
       },
       {
         "type": "header",
-        "content": "Sold out badge"
+        "content": "Sold out"
       },
       {
         "type": "color_scheme",
@@ -1513,7 +1513,7 @@
       },
       {
         "type": "header",
-        "content": "New badge"
+        "content": "New"
       },
       {
         "type": "color_scheme",

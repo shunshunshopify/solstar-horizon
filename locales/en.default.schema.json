@@ -667,8 +667,11 @@
   },
   "settings": {
     "badge_new_color_scheme": "New",
+    "badge_new_label": "New label",
     "badge_sale_color_scheme": "Sale",
+    "badge_sale_label": "Sale label",
     "badge_sold_out_color_scheme": "Sold out",
+    "badge_sold_out_label": "Sold out label",
     "enable_splash_screen": "Enable splash screen",
     "splash_logo": "Splash logo",
     "splash_logo_info": "Optional logo shown while the page is loading.",

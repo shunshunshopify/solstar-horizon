@@ -1460,8 +1460,24 @@
         "label": "t:settings.badge_position"
       },
       {
+        "type": "header",
+        "content": "Sale badge"
+      },
+      {
+        "type": "color_scheme",
+        "id": "badge_sale_color_scheme",
+        "label": "t:settings.badge_sale_color_scheme",
+        "default": "scheme-4"
+      },
+      {
+        "type": "text",
+        "id": "badge_sale_label",
+        "label": "Sale label",
+        "default": "Sale"
+      },
+      {
         "type": "range",
-        "id": "badge_corner_radius",
+        "id": "badge_sale_corner_radius",
         "min": 0,
         "max": 100,
         "step": 2,
@@ -1471,13 +1487,7 @@
       },
       {
         "type": "header",
-        "content": "t:settings.colors"
-      },
-      {
-        "type": "color_scheme",
-        "id": "badge_sale_color_scheme",
-        "label": "t:settings.badge_sale_color_scheme",
-        "default": "scheme-4"
+        "content": "Sold out badge"
       },
       {
         "type": "color_scheme",
@@ -1486,10 +1496,46 @@
         "default": "scheme-5"
       },
       {
+        "type": "text",
+        "id": "badge_sold_out_label",
+        "label": "Sold out label",
+        "default": "Sold out"
+      },
+      {
+        "type": "range",
+        "id": "badge_sold_out_corner_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings.badge_corner_radius",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "New badge"
+      },
+      {
         "type": "color_scheme",
         "id": "badge_new_color_scheme",
         "label": "t:settings.badge_new_color_scheme",
         "default": "scheme-3"
+      },
+      {
+        "type": "text",
+        "id": "badge_new_label",
+        "label": "New label",
+        "default": "New"
+      },
+      {
+        "type": "range",
+        "id": "badge_new_corner_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings.badge_corner_radius",
+        "default": 40
       },
       {
         "type": "header",

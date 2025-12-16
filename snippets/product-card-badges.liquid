@@ -8,16 +8,10 @@
   {% render 'product-card-badges', product: product, settings: settings %}
 {%- enddoc -%}
 
-<div
-  class="product-badges product-badges--{{ settings.badge_position }}"
-  style="
-    --badge-border-radius: {{ settings.button_border_radius_primary }}px;
-    --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
-  "
->
-  {%- assign badge_text = '' -%}
-  {%- assign badge_color_scheme = '' -%}
-  {%- assign has_new_tag = false -%}
+{%- assign badge_text = '' -%}
+{%- assign badge_color_scheme = '' -%}
+{%- assign badge_radius = '' -%}
+{%- assign has_new_tag = false -%}
 
   {%- for tag in product.tags -%}
     {%- assign normalized_tag = tag | strip | handle -%}
@@ -28,16 +22,35 @@
   {%- endfor -%}
 
   {%- if product.available == false -%}
-    {%- assign badge_text = 'content.product_badge_sold_out' | t -%}
+    {%- assign badge_text = settings.badge_sold_out_label | default: '' -%}
+    {%- if badge_text == blank -%}
+      {%- assign badge_text = 'content.product_badge_sold_out' | t -%}
+    {%- endif -%}
     {%- assign badge_color_scheme = settings.badge_sold_out_color_scheme -%}
+    {%- assign badge_radius = settings.badge_sold_out_corner_radius | default: settings.badge_corner_radius -%}
   {%- elsif product.compare_at_price > product.price and product.available -%}
-    {%- assign badge_text = 'content.product_badge_sale' | t -%}
+    {%- assign badge_text = settings.badge_sale_label | default: '' -%}
+    {%- if badge_text == blank -%}
+      {%- assign badge_text = 'content.product_badge_sale' | t -%}
+    {%- endif -%}
     {%- assign badge_color_scheme = settings.badge_sale_color_scheme -%}
+    {%- assign badge_radius = settings.badge_sale_corner_radius | default: settings.badge_corner_radius -%}
   {%- elsif has_new_tag -%}
-    {%- assign badge_text = 'content.product_badge_new' | t -%}
+    {%- assign badge_text = settings.badge_new_label | default: '' -%}
+    {%- if badge_text == blank -%}
+      {%- assign badge_text = 'content.product_badge_new' | t -%}
+    {%- endif -%}
     {%- assign badge_color_scheme = settings.badge_new_color_scheme -%}
+    {%- assign badge_radius = settings.badge_new_corner_radius | default: settings.badge_corner_radius -%}
   {%- endif -%}
 
+<div
+  class="product-badges product-badges--{{ settings.badge_position }}"
+  style="
+    --badge-border-radius: {{ badge_radius | default: settings.button_border_radius_primary | default: 0 }}px;
+    --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
+  "
+>
   {%- if badge_text != blank -%}
     <div
       class="

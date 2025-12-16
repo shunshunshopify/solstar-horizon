@@ -12,12 +12,14 @@
 {%- assign badge_color_scheme = '' -%}
 {%- assign badge_radius = '' -%}
 {%- assign has_new_tag = false -%}
+{%- assign has_bestseller_tag = false -%}
 
   {%- for tag in product.tags -%}
     {%- assign normalized_tag = tag | strip | handle -%}
     {%- if normalized_tag == 'new' -%}
       {%- assign has_new_tag = true -%}
-      {%- break -%}
+    {%- elsif normalized_tag == 'bestseller' -%}
+      {%- assign has_bestseller_tag = true -%}
     {%- endif -%}
   {%- endfor -%}
 
@@ -56,6 +58,13 @@
   {%- endif -%}
   {%- assign badge_color_scheme = settings.badge_new_color_scheme -%}
   {%- assign badge_radius = settings.badge_new_corner_radius | default: settings.badge_corner_radius -%}
+{%- elsif has_bestseller_tag -%}
+  {%- assign badge_text = settings.badge_bestseller_label | default: '' -%}
+  {%- if badge_text == blank -%}
+    {%- assign badge_text = 'Bestseller' -%}
+  {%- endif -%}
+  {%- assign badge_color_scheme = settings.badge_bestseller_color_scheme -%}
+  {%- assign badge_radius = settings.badge_bestseller_corner_radius | default: settings.badge_corner_radius -%}
 {%- endif -%}
 
 <div

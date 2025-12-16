@@ -1561,6 +1561,32 @@
       },
       {
         "type": "header",
+        "content": "Bestseller"
+      },
+      {
+        "type": "color_scheme",
+        "id": "badge_bestseller_color_scheme",
+        "label": "Color",
+        "default": "scheme-3"
+      },
+      {
+        "type": "text",
+        "id": "badge_bestseller_label",
+        "label": "Bestseller label",
+        "default": "Bestseller"
+      },
+      {
+        "type": "range",
+        "id": "badge_bestseller_corner_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings.badge_corner_radius",
+        "default": 40
+      },
+      {
+        "type": "header",
         "content": "t:names.typography"
       },
       {

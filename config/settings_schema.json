@@ -1470,6 +1470,12 @@
         "default": "scheme-4"
       },
       {
+        "type": "text",
+        "id": "badge_sale_label",
+        "label": "t:settings.badge_sale_label",
+        "default": ""
+      },
+      {
         "type": "range",
         "id": "badge_sale_corner_radius",
         "min": 0,
@@ -1490,6 +1496,12 @@
         "default": "scheme-5"
       },
       {
+        "type": "text",
+        "id": "badge_sold_out_label",
+        "label": "t:settings.badge_sold_out_label",
+        "default": ""
+      },
+      {
         "type": "range",
         "id": "badge_sold_out_corner_radius",
         "min": 0,
@@ -1508,6 +1520,12 @@
         "id": "badge_new_color_scheme",
         "label": "t:settings.badge_new_color_scheme",
         "default": "scheme-3"
+      },
+      {
+        "type": "text",
+        "id": "badge_new_label",
+        "label": "t:settings.badge_new_label",
+        "default": ""
       },
       {
         "type": "range",

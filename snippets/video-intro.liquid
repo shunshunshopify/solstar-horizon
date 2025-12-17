@@ -1,6 +1,39 @@
 {% comment %}theme-check-disable{% endcomment %}
-{% if settings.enable_video_intro == true and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
+{% if settings.enable_video_intro == true %}
 {%- liquid
+  assign desktop_video_source = settings.intro_desktop_video_source | default: 'external'
+  assign mobile_video_source = settings.intro_mobile_video_source | default: 'external'
+
+  assign has_desktop_video = false
+  if desktop_video_source == 'uploaded'
+    if settings.intro_desktop_video_uploaded != blank
+      assign has_desktop_video = true
+    endif
+  else
+    if settings.intro_desktop_video != blank
+      assign has_desktop_video = true
+    endif
+  endif
+
+  assign has_mobile_video = false
+  if mobile_video_source == 'uploaded'
+    if settings.intro_mobile_video_uploaded != blank
+      assign has_mobile_video = true
+    endif
+  else
+    if settings.intro_mobile_video != blank
+      assign has_mobile_video = true
+    endif
+  endif
+
+  assign has_any_video = false
+  if has_desktop_video or has_mobile_video
+    assign has_any_video = true
+  endif
+
+  assign intro_desktop_video_obj = settings.intro_desktop_video_uploaded
+  assign intro_mobile_video_obj = settings.intro_mobile_video_uploaded
+
   assign is_homepage = false
   if request.path == '/' or request.path == '/index'
     assign is_homepage = true
@@ -11,10 +44,11 @@
     assign should_show_intro = false
   endif
 -%}
+{% if has_any_video %}
 {% if should_show_intro %}
 <div id="shopi_video_intro" style="position: relative;" data-homepage-only="{{ settings.intro_homepage_only | default: false }}" data-is-homepage="{{ is_homepage }}">
 <div id="just-black" style="display: none;"></div>
-{% if settings.intro_skip != blank and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
+{% if settings.intro_skip != blank and has_any_video %}
 <button type="button" class="skip-button" onclick="skipVideoIntro()" aria-label="{{ settings.intro_skip }}" {% if settings.intro_autoplay %}style="display: none;"{% endif %}>{{ settings.intro_skip }}</button>
 {% endif %}
 {% if settings.intro_autoplay and settings.intro_audio_file != blank and settings.click_for_sound != blank %}
@@ -42,14 +76,26 @@
     endcase
   -%}
 
-  {% if settings.intro_desktop_video != blank %}
+  {% if has_desktop_video %}
   <video style='opacity:0;' class="vi-desktop-only vid" id="animation-desktop" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
-    <source src="{{ settings.intro_desktop_video }}">
+    {%- if desktop_video_source == 'uploaded' and intro_desktop_video_obj != blank -%}
+      {%- for sourceElement in intro_desktop_video_obj.sources -%}
+        <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
+      {%- endfor -%}
+    {%- else -%}
+      <source src="{{ settings.intro_desktop_video }}">
+    {%- endif -%}
   </video>
   {% endif %}
-  {% if settings.intro_mobile_video != blank %}
+  {% if has_mobile_video %}
   <video style='opacity:0;' class="vi-mobile-only vid" id="animation-mobile" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
-    <source src="{{ settings.intro_mobile_video }}">
+    {%- if mobile_video_source == 'uploaded' and intro_mobile_video_obj != blank -%}
+      {%- for sourceElement in intro_mobile_video_obj.sources -%}
+        <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
+      {%- endfor -%}
+    {%- else -%}
+      <source src="{{ settings.intro_mobile_video }}">
+    {%- endif -%}
   </video>
   {% endif %}
 
@@ -593,5 +639,6 @@ document.querySelectorAll('.vid').forEach(video => {
 {% endif %}
 {% else %}
 <!-- In order for the video intro to work you need to add at least one video (desktop or mobile) -->
+{% endif %}
 {% endif %}
 {% comment %}theme-check-enable{% endcomment %}

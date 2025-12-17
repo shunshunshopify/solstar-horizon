@@ -2285,16 +2285,60 @@
         "content": "t:settings.video_intro.videos"
       },
       {
+        "type": "header",
+        "content": "Desktop video"
+      },
+      {
+        "type": "select",
+        "id": "intro_desktop_video_source",
+        "label": "Source",
+        "default": "external",
+        "options": [
+          { "value": "uploaded", "label": "Uploaded" },
+          { "value": "external", "label": "External URL" }
+        ]
+      },
+      {
+        "type": "video",
+        "id": "intro_desktop_video_uploaded",
+        "label": "Uploaded video",
+        "visible_if": "{{ settings.intro_desktop_video_source == 'uploaded' }}"
+      },
+      {
         "type": "url",
         "id": "intro_desktop_video",
         "label": "t:settings.video_intro.intro_desktop_video.label",
         "info": "t:settings.video_intro.intro_desktop_video.info"
+        ,
+        "visible_if": "{{ settings.intro_desktop_video_source == 'external' }}"
+      },
+      {
+        "type": "header",
+        "content": "Mobile video"
+      },
+      {
+        "type": "select",
+        "id": "intro_mobile_video_source",
+        "label": "Source",
+        "default": "external",
+        "options": [
+          { "value": "uploaded", "label": "Uploaded" },
+          { "value": "external", "label": "External URL" }
+        ]
+      },
+      {
+        "type": "video",
+        "id": "intro_mobile_video_uploaded",
+        "label": "Uploaded video",
+        "visible_if": "{{ settings.intro_mobile_video_source == 'uploaded' }}"
       },
       {
         "type": "url",
         "id": "intro_mobile_video",
         "label": "t:settings.video_intro.intro_mobile_video.label",
         "info": "t:settings.video_intro.intro_mobile_video.info"
+        ,
+        "visible_if": "{{ settings.intro_mobile_video_source == 'external' }}"
       },
       {
         "type": "header",

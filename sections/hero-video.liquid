@@ -695,40 +695,6 @@
     },
     {
       "type": "select",
-      "id": "video_source_mobile",
-      "label": "Mobile source",
-      "default": "external",
-      "options": [
-        { "value": "uploaded", "label": "Uploaded" },
-        { "value": "external", "label": "External URL" }
-      ]
-    },
-    {
-      "type": "video",
-      "id": "video_uploaded_mobile",
-      "label": "Mobile video",
-      "visible_if": "{{ section.settings.video_source_mobile == 'uploaded' }}"
-    },
-    {
-      "type": "text",
-      "id": "video_url_mobile",
-      "label": "Mobile video",
-      "info": "Youtube or .MP4 - If left empty, desktop video will be used on mobile",
-      "visible_if": "{{ section.settings.video_source_mobile == 'external' }}"
-    },
-    {
-      "type": "range",
-      "id": "overlay_opacity",
-      "label": "t:sections.hero_video.settings.overlay_opacity.label",
-      "info": "t:sections.hero_video.settings.overlay_opacity.info",
-      "default": 0,
-      "min": 0,
-      "max": 100,
-      "step": 2,
-      "unit": "%"
-    },
-    {
-      "type": "select",
       "id": "section_height",
       "label": "t:sections.hero_video.settings.section_height.label",
       "default": "650px",
@@ -761,6 +727,29 @@
     },
     {
       "type": "select",
+      "id": "video_source_mobile",
+      "label": "Mobile source",
+      "default": "external",
+      "options": [
+        { "value": "uploaded", "label": "Uploaded" },
+        { "value": "external", "label": "External URL" }
+      ]
+    },
+    {
+      "type": "video",
+      "id": "video_uploaded_mobile",
+      "label": "Mobile video",
+      "visible_if": "{{ section.settings.video_source_mobile == 'uploaded' }}"
+    },
+    {
+      "type": "text",
+      "id": "video_url_mobile",
+      "label": "Mobile video",
+      "info": "Youtube or .MP4 - If left empty, desktop video will be used on mobile",
+      "visible_if": "{{ section.settings.video_source_mobile == 'external' }}"
+    },
+    {
+      "type": "select",
       "id": "mobile_height",
       "label": "t:sections.hero_video.settings.mobile_height.label",
       "default": "auto",
@@ -790,6 +779,17 @@
           "value": "850px"
         }
       ]
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:sections.hero_video.settings.overlay_opacity.label",
+      "info": "t:sections.hero_video.settings.overlay_opacity.info",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
     },
     {
       "type": "range",

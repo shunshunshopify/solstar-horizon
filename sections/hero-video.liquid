@@ -554,7 +554,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Typography"
+      "content": "t:sections.hero_video.settings.typography_heading"
     },
     {
       "type": "richtext",
@@ -620,7 +620,7 @@
     },
     {
       "type": "header",
-      "content": "Button"
+      "content": "t:sections.hero_video.settings.button_heading"
     },
     {
       "type": "text",
@@ -661,28 +661,28 @@
     },
     {
       "type": "header",
-      "content": "Video"
+      "content": "t:sections.hero_video.settings.video_heading"
     },
     {
       "type": "select",
       "id": "video_source",
-      "label": "Desktop source",
+      "label": "t:sections.hero_video.settings.video_source_desktop.label",
       "default": "external",
       "options": [
-        { "value": "uploaded", "label": "Uploaded" },
-        { "value": "external", "label": "External URL" }
+        { "value": "uploaded", "label": "t:sections.hero_video.settings.video_source_desktop.options.uploaded" },
+        { "value": "external", "label": "t:sections.hero_video.settings.video_source_desktop.options.external" }
       ]
     },
     {
       "type": "video",
       "id": "video_uploaded",
-      "label": "Desktop video",
+      "label": "t:sections.hero_video.settings.desktop_video.label",
       "visible_if": "{{ section.settings.video_source == 'uploaded' }}"
     },
     {
       "type": "text",
       "id": "video_url",
-      "label": "Desktop video",
+      "label": "t:sections.hero_video.settings.desktop_video.label",
       "info": "t:sections.hero_video.settings.video_url.info",
       "visible_if": "{{ section.settings.video_source == 'external' }}"
     },
@@ -721,24 +721,24 @@
     {
       "type": "select",
       "id": "video_source_mobile",
-      "label": "Mobile source",
+      "label": "t:sections.hero_video.settings.video_source_mobile.label",
       "default": "external",
       "options": [
-        { "value": "uploaded", "label": "Uploaded" },
-        { "value": "external", "label": "External URL" }
+        { "value": "uploaded", "label": "t:sections.hero_video.settings.video_source_mobile.options.uploaded" },
+        { "value": "external", "label": "t:sections.hero_video.settings.video_source_mobile.options.external" }
       ]
     },
     {
       "type": "video",
       "id": "video_uploaded_mobile",
-      "label": "Mobile video",
+      "label": "t:sections.hero_video.settings.mobile_video.label",
       "visible_if": "{{ section.settings.video_source_mobile == 'uploaded' }}"
     },
     {
       "type": "text",
       "id": "video_url_mobile",
-      "label": "Mobile video",
-      "info": "Youtube or .MP4 - If left empty, desktop video will be used on mobile",
+      "label": "t:sections.hero_video.settings.mobile_video.label",
+      "info": "t:sections.hero_video.settings.video_url_mobile.info",
       "visible_if": "{{ section.settings.video_source_mobile == 'external' }}"
     },
     {

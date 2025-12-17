@@ -275,10 +275,35 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "hero_video_hA3fDi": {
+      "type": "hero-video",
+      "name": "t:names.hero_video",
+      "settings": {
+        "title": "<p>This is heading</p>",
+        "title_size": 80,
+        "subheading": "<p>This is subheading</p>",
+        "subheading_size": 40,
+        "text_align": "vertical-center horizontal-center",
+        "link_text": "Button",
+        "link": "",
+        "color_scheme": "",
+        "style_class": "button",
+        "video_source": "external",
+        "video_url": "",
+        "section_height": "650px",
+        "video_source_mobile": "external",
+        "video_url_mobile": "",
+        "mobile_height": "auto",
+        "overlay_opacity": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
     "hero_A9LURP",
-    "collection_list_FcnB6W"
+    "collection_list_FcnB6W",
+    "hero_video_hA3fDi"
   ]
 }

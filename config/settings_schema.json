@@ -2,7 +2,7 @@
   {
     "name": "theme_info",
     "theme_name": "Cream",
-    "theme_version": "3.2.3",
+    "theme_version": "3.2.4",
     "theme_author": "Solstar",
     "theme_documentation_url": "https://www.solstar.co.jp/",
     "theme_support_url": "https://www.solstar.co.jp/"
@@ -2286,22 +2286,22 @@
       },
       {
         "type": "header",
-        "content": "Desktop video"
+        "content": "t:settings.video_intro.desktop_video_heading"
       },
       {
         "type": "select",
         "id": "intro_desktop_video_source",
-        "label": "Source",
+        "label": "t:settings.video_intro.video_source.label",
         "default": "external",
         "options": [
-          { "value": "uploaded", "label": "Uploaded" },
-          { "value": "external", "label": "External URL" }
+          { "value": "uploaded", "label": "t:settings.video_intro.video_source.options.uploaded" },
+          { "value": "external", "label": "t:settings.video_intro.video_source.options.external" }
         ]
       },
       {
         "type": "video",
         "id": "intro_desktop_video_uploaded",
-        "label": "Uploaded video",
+        "label": "t:settings.video_intro.uploaded_video.label",
         "visible_if": "{{ settings.intro_desktop_video_source == 'uploaded' }}"
       },
       {
@@ -2314,22 +2314,22 @@
       },
       {
         "type": "header",
-        "content": "Mobile video"
+        "content": "t:settings.video_intro.mobile_video_heading"
       },
       {
         "type": "select",
         "id": "intro_mobile_video_source",
-        "label": "Source",
+        "label": "t:settings.video_intro.video_source.label",
         "default": "external",
         "options": [
-          { "value": "uploaded", "label": "Uploaded" },
-          { "value": "external", "label": "External URL" }
+          { "value": "uploaded", "label": "t:settings.video_intro.video_source.options.uploaded" },
+          { "value": "external", "label": "t:settings.video_intro.video_source.options.external" }
         ]
       },
       {
         "type": "video",
         "id": "intro_mobile_video_uploaded",
-        "label": "Uploaded video",
+        "label": "t:settings.video_intro.uploaded_video.label",
         "visible_if": "{{ settings.intro_mobile_video_source == 'uploaded' }}"
       },
       {
@@ -2362,7 +2362,7 @@
       },
       {
         "type": "header",
-        "content": "Typography"
+        "content": "t:settings.video_intro.interface"
       },
       {
         "type": "text",
@@ -2386,29 +2386,29 @@
       },
       {
         "type": "header",
-        "content": "Button"
+        "content": "t:settings.video_intro.button_heading"
       },
       {
         "type": "text",
         "id": "intro_button_label",
-        "label": "Label",
+        "label": "t:settings.video_intro.intro_button_label.label",
         "default": "Enter"
       },
       {
         "type": "select",
         "id": "intro_button_style",
-        "label": "Style",
+        "label": "t:settings.video_intro.intro_button_style.label",
         "default": "primary",
         "options": [
-          { "value": "primary", "label": "Primary" },
-          { "value": "secondary", "label": "Secondary" },
-          { "value": "link", "label": "Link" }
+          { "value": "primary", "label": "t:options.primary" },
+          { "value": "secondary", "label": "t:options.secondary" },
+          { "value": "link", "label": "t:options.link" }
         ]
       },
       {
         "type": "color_scheme",
         "id": "intro_button_color_scheme",
-        "label": "Color scheme",
+        "label": "t:settings.color_scheme",
         "default": "scheme-1"
       },
       {
@@ -2418,7 +2418,7 @@
         "max": 32,
         "step": 1,
         "unit": "px",
-        "label": "Corner radius",
+        "label": "t:settings.video_intro.intro_button_corner_radius.label",
         "default": 0
       }
     ]

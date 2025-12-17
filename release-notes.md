@@ -1,3 +1,12 @@
+# Release Notes - Version 3.2.5
+
+This release improves sale price visibility by highlighting the current price when a compare-at price is set.
+
+## What's Changed
+
+### Fixes and improvements
+- [Pricing] When Compare-at price is present, the current price is now shown in red
+
 # Release Notes - Version 3.2.4
 
 This release improves Hero Video flexibility, syncs Newsletter Popup timing with Video Intro, and completes Video Intro translations and cleanup.

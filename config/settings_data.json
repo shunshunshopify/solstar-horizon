@@ -100,7 +100,7 @@
     "intro_audio_file": "",
     "volume_intro": 30,
     "intro_skip": "スキップ",
-    "intro_button_style": "primary",
+    "intro_button_style": "secondary",
     "intro_button_color_scheme": "scheme-14",
     "intro_button_corner_radius": 32,
     "product_corner_radius": 0,

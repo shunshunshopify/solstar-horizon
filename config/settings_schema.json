@@ -2339,6 +2339,43 @@
         "label": "t:settings.video_intro.click_for_sound.label",
         "default": "Click for sound",
         "info": "t:settings.video_intro.click_for_sound.info"
+      },
+      {
+        "type": "header",
+        "content": "Button"
+      },
+      {
+        "type": "text",
+        "id": "intro_button_label",
+        "label": "Label",
+        "default": "Enter"
+      },
+      {
+        "type": "select",
+        "id": "intro_button_style",
+        "label": "Style",
+        "default": "primary",
+        "options": [
+          { "value": "primary", "label": "Primary" },
+          { "value": "secondary", "label": "Secondary" },
+          { "value": "link", "label": "Link" }
+        ]
+      },
+      {
+        "type": "color_scheme",
+        "id": "intro_button_color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "range",
+        "id": "intro_button_corner_radius",
+        "min": 0,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "label": "Corner radius",
+        "default": 0
       }
     ]
   },

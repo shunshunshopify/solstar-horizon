@@ -27,6 +27,21 @@
 </audio>
 {% endif %}
 <div id="package3" class="vi-animation-container vi-animation">
+  {%- liquid
+    assign intro_button_label = settings.intro_button_label | default: ''
+    assign intro_button_style = settings.intro_button_style | default: 'primary'
+
+    assign intro_button_class = 'button'
+    case intro_button_style
+      when 'secondary'
+        assign intro_button_class = 'button-secondary'
+      when 'link'
+        assign intro_button_class = 'link vi-intro-button--link'
+      else
+        assign intro_button_class = 'button'
+    endcase
+  -%}
+
   {% if settings.intro_desktop_video != blank %}
   <video style='opacity:0;' class="vi-desktop-only vid" id="animation-desktop" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
     <source src="{{ settings.intro_desktop_video }}">
@@ -36,6 +51,18 @@
   <video style='opacity:0;' class="vi-mobile-only vid" id="animation-mobile" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
     <source src="{{ settings.intro_mobile_video }}">
   </video>
+  {% endif %}
+
+  {% if intro_button_label != blank and settings.intro_autoplay == false %}
+    <div
+      class="vi-intro-button-wrap color-{{ settings.intro_button_color_scheme | default: 'scheme-1' }}"
+      style="--vi-intro-button-radius: {{ settings.intro_button_corner_radius | default: 0 }}px;"
+      data-vi-intro-button-wrap
+    >
+      <button type="button" class="vi-intro-button {{ intro_button_class }}" data-vi-intro-button>
+        {{ intro_button_label }}
+      </button>
+    </div>
   {% endif %}
 </div>
 </div>
@@ -86,6 +113,47 @@ body.vi-video-active {
   height: 100%;
   z-index: 80;
   position: relative;
+}
+.vi-intro-button-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+.vi-intro-button-wrap.is-fading {
+  opacity: 0;
+  pointer-events: none;
+}
+.vi-intro-button-wrap.is-hidden {
+  display: none;
+}
+.vi-intro-button {
+  font-size: 32px;
+  line-height: 1.1;
+}
+.vi-intro-button.button,
+.vi-intro-button.button-secondary {
+  border-radius: var(--vi-intro-button-radius, 0px);
+}
+.vi-intro-button--link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  font-family: var(--button-font-family-primary);
+  text-transform: var(--button-text-case-primary);
+}
+@media (max-width: 768px) {
+  .vi-intro-button {
+    font-size: 26px;
+  }
 }
 .vi-animation-container video {
   width: 100%;
@@ -212,6 +280,16 @@ let videosLoaded = false;
 let hasSkipButton = !!skipButton;
 let hasAudio = !!enterSound;
 let isAudioEnabled = false;
+const introButtonWrap = document.querySelector('[data-vi-intro-button-wrap]');
+const introButton = document.querySelector('[data-vi-intro-button]');
+
+function fadeOutIntroButton() {
+  if (!introButtonWrap || introButtonWrap.classList.contains('is-fading')) return;
+  introButtonWrap.classList.add('is-fading');
+  window.setTimeout(() => {
+    introButtonWrap.classList.add('is-hidden');
+  }, 380);
+}
 
 function shouldShowIntro() {
   // If homepage-only mode is enabled and we're not on homepage, don't show
@@ -327,6 +405,7 @@ function removeIntroWindow() {
   document.body.classList.remove('vi-video-active');
   justBlack.style.display = "none";
   videoEnded = true;
+  fadeOutIntroButton();
   // Hide skip button when video section is removed
   if (hasSkipButton) {
     skipButton.classList.add('hidden');
@@ -431,6 +510,7 @@ animationVideoContainer.addEventListener("click", () => {
   if (!videosLoaded) {
     return;
   }
+  fadeOutIntroButton();
   // Only allow click to start video if autoplay is disabled
   if (!autoplayEnabled) {
     // For manual click (autoplay disabled), play with audio
@@ -488,6 +568,12 @@ animationVideoContainer.addEventListener("click", () => {
     }
   }
 });
+
+if (introButton) {
+  introButton.addEventListener('click', () => {
+    fadeOutIntroButton();
+  });
+}
 
 document.querySelectorAll('.vid').forEach(video => {
   video.addEventListener('ended', () => {

@@ -1084,6 +1084,28 @@
       "click_for_sound": {
         "label": "Sound prompt text",
         "info": "Shown when autoplay is enabled to prompt users they can click for audio"
+      },
+      "desktop_video_heading": "Desktop video",
+      "mobile_video_heading": "Mobile video",
+      "video_source": {
+        "label": "Source",
+        "options": {
+          "uploaded": "Uploaded",
+          "external": "External URL"
+        }
+      },
+      "uploaded_video": {
+        "label": "Uploaded video"
+      },
+      "button_heading": "Button",
+      "intro_button_label": {
+        "label": "Label"
+      },
+      "intro_button_style": {
+        "label": "Style"
+      },
+      "intro_button_corner_radius": {
+        "label": "Corner radius"
       }
     },
     "wishlist": {

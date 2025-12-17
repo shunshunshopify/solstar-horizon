@@ -2171,6 +2171,10 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
   text-decoration-thickness: 1.5px;
 }
 
+.price-container--on-sale .price {
+  color: #d0021b;
+}
+
 .card-gallery {
   position: relative;
 }

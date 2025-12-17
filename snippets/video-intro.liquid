@@ -503,7 +503,7 @@ function initializeVideoIntro() {
         skipButton.classList.add('show');
         skipButton.classList.remove('hidden');
       }
-      document.querySelectorAll('.vid').forEach(vid => {
+      getActiveVideosForCurrentDevice().forEach((vid) => {
         vid.style.opacity = '1';
         vid.addEventListener('error', () => {
           clearTimeout(videoLoadTimeout);
@@ -674,7 +674,7 @@ animationVideoContainer.addEventListener("click", () => {
    
     if (isAudioEnabled) {
       // Enable audio
-      const currentVideo = document.querySelector('.vi-desktop-only') || document.querySelector('.vi-mobile-only');
+      const currentVideo = getActiveVideosForCurrentDevice()[0];
       const currentTime = currentVideo ? currentVideo.currentTime : 0;
      
       animationVideo.forEach((vid) => {
@@ -717,21 +717,6 @@ if (introButton) {
     startManualPlayback();
   });
 }
-
-document.querySelectorAll('.vid').forEach(video => {
-  video.addEventListener('ended', () => {
-    introWindow.classList.add('fade-out');
-    justBlack.style.display = "none";
-    videoEnded = true;
-    setTimeout(() => {
-      introWindow.style.display = 'none';
-      sessionStorage.setItem('videoPlayed', true);
-    }, 1000);
-  });
-  video.addEventListener('error', () => {
-    showSkipButton();
-  });
-});
 </script>
 {% endif %}
 {% else %}

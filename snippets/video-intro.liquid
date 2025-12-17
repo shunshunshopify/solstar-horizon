@@ -77,7 +77,19 @@
   -%}
 
   {% if has_desktop_video %}
-  <video style='opacity:0;' class="vi-desktop-only vid" id="animation-desktop" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
+  <video
+    style="opacity:0;"
+    class="vi-desktop-only vid"
+    id="animation-desktop"
+    muted=""
+    playsinline=""
+    webkit-playsinline=""
+    onended="removeIntroWindow()"
+    preload="auto"
+    {% if desktop_video_source == 'uploaded' and intro_desktop_video_obj != blank and intro_desktop_video_obj.preview_image != blank %}
+      poster="{{ intro_desktop_video_obj.preview_image | image_url: width: 3840 }}"
+    {% endif %}
+  >
     {%- if desktop_video_source == 'uploaded' and intro_desktop_video_obj != blank -%}
       {%- for sourceElement in intro_desktop_video_obj.sources -%}
         <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
@@ -88,7 +100,19 @@
   </video>
   {% endif %}
   {% if has_mobile_video %}
-  <video style='opacity:0;' class="vi-mobile-only vid" id="animation-mobile" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
+  <video
+    style="opacity:0;"
+    class="vi-mobile-only vid"
+    id="animation-mobile"
+    muted=""
+    playsinline=""
+    webkit-playsinline=""
+    onended="removeIntroWindow()"
+    preload="auto"
+    {% if mobile_video_source == 'uploaded' and intro_mobile_video_obj != blank and intro_mobile_video_obj.preview_image != blank %}
+      poster="{{ intro_mobile_video_obj.preview_image | image_url: width: 3840 }}"
+    {% endif %}
+  >
     {%- if mobile_video_source == 'uploaded' and intro_mobile_video_obj != blank -%}
       {%- for sourceElement in intro_mobile_video_obj.sources -%}
         <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
@@ -528,6 +552,26 @@ function startVideoPlayback() {
   // Users can click the video to enable audio if needed
 }
 
+function startManualPlayback() {
+  if (checkConnectionSpeed() || videoEnded) return;
+  if (!videosLoaded) return;
+
+  animationVideo.forEach((vid) => {
+    vid.muted = false;
+    vid.volume = volumeIntro / 100;
+    vid.play();
+  });
+
+  if (hasAudio && enterSound) {
+    enterSound.volume = volumeIntro / 100;
+    enterSound.play();
+  }
+
+  if (hasSkipButton) {
+    hideSkipButton();
+  }
+}
+
 function skipVideoIntro() {
   // Stop all videos
   animationVideo.forEach(vid => {
@@ -559,21 +603,7 @@ animationVideoContainer.addEventListener("click", () => {
   fadeOutIntroButton();
   // Only allow click to start video if autoplay is disabled
   if (!autoplayEnabled) {
-    // For manual click (autoplay disabled), play with audio
-    animationVideo.forEach((vid) => {
-      vid.muted = false;
-      vid.volume = volumeIntro / 100;
-      vid.play();
-    });
-   
-    if (hasAudio && enterSound) {
-      enterSound.volume = volumeIntro / 100;
-      enterSound.play();
-    }
-   
-    if (hasSkipButton) {
-      hideSkipButton();
-    }
+    startManualPlayback();
   } else {
     // If autoplay is enabled, clicking toggles audio on/off
     isAudioEnabled = !isAudioEnabled;
@@ -616,8 +646,11 @@ animationVideoContainer.addEventListener("click", () => {
 });
 
 if (introButton) {
-  introButton.addEventListener('click', () => {
+  introButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     fadeOutIntroButton();
+    startManualPlayback();
   });
 }
 

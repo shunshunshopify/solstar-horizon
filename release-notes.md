@@ -1,3 +1,18 @@
+# Release Notes - Version 3.2.4
+
+This release improves Hero Video flexibility, syncs Newsletter Popup timing with Video Intro, and completes Video Intro translations and cleanup.
+
+## What's Changed
+
+### Added
+- [Hero video] Desktop + Mobile video sources (Uploaded or External URL) with automatic mobile fallback to desktop video
+
+### Fixes and improvements
+- [Newsletter popup] Delay countdown starts after Video Intro completes (when enabled)
+- [Video intro] Completed translation keys for new settings (including Japanese) and removed redundant event listeners
+- [Hero video] Device-aware playback (only the active device video plays) and removed unexpected uploaded-video overlay text
+- [Hero video] Settings reorganized into Typography / Button / Video and labels translated via keys (including Japanese)
+
 # Release Notes - Version 3.2.3
 
 This release improves the Video Intro experience with better source management, a configurable start button, and corrected playback behavior across devices.

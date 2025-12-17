@@ -93,11 +93,23 @@
     {%- if desktop_video_source == 'uploaded' and intro_desktop_video_obj != blank -%}
       {%- liquid
         assign mp4_sources = intro_desktop_video_obj.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
-        assign best_source = mp4_sources | last
+        assign best_mp4_source = mp4_sources | last
+
+        assign hls_source = blank
+        for sourceElement in intro_desktop_video_obj.sources
+          if sourceElement.mime_type contains 'mpegurl'
+            assign hls_source = sourceElement
+            break
+          endif
+        endfor
       -%}
-      {%- if best_source != blank -%}
-        <source src="{{ best_source.url }}" type="{{ best_source.mime_type }}">
-      {%- else -%}
+      {%- if hls_source != blank -%}
+        <source src="{{ hls_source.url }}" type="{{ hls_source.mime_type }}">
+      {%- endif -%}
+      {%- if best_mp4_source != blank -%}
+        <source src="{{ best_mp4_source.url }}" type="{{ best_mp4_source.mime_type }}">
+      {%- endif -%}
+      {%- if hls_source == blank and best_mp4_source == blank -%}
         {%- for sourceElement in intro_desktop_video_obj.sources -%}
           <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
         {%- endfor -%}
@@ -124,11 +136,23 @@
     {%- if mobile_video_source == 'uploaded' and intro_mobile_video_obj != blank -%}
       {%- liquid
         assign mp4_sources = intro_mobile_video_obj.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
-        assign best_source = mp4_sources | last
+        assign best_mp4_source = mp4_sources | last
+
+        assign hls_source = blank
+        for sourceElement in intro_mobile_video_obj.sources
+          if sourceElement.mime_type contains 'mpegurl'
+            assign hls_source = sourceElement
+            break
+          endif
+        endfor
       -%}
-      {%- if best_source != blank -%}
-        <source src="{{ best_source.url }}" type="{{ best_source.mime_type }}">
-      {%- else -%}
+      {%- if hls_source != blank -%}
+        <source src="{{ hls_source.url }}" type="{{ hls_source.mime_type }}">
+      {%- endif -%}
+      {%- if best_mp4_source != blank -%}
+        <source src="{{ best_mp4_source.url }}" type="{{ best_mp4_source.mime_type }}">
+      {%- endif -%}
+      {%- if hls_source == blank and best_mp4_source == blank -%}
         {%- for sourceElement in intro_mobile_video_obj.sources -%}
           <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
         {%- endfor -%}

@@ -91,9 +91,17 @@
     {% endif %}
   >
     {%- if desktop_video_source == 'uploaded' and intro_desktop_video_obj != blank -%}
-      {%- for sourceElement in intro_desktop_video_obj.sources -%}
-        <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
-      {%- endfor -%}
+      {%- liquid
+        assign mp4_sources = intro_desktop_video_obj.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
+        assign best_source = mp4_sources | last
+      -%}
+      {%- if best_source != blank -%}
+        <source src="{{ best_source.url }}" type="{{ best_source.mime_type }}">
+      {%- else -%}
+        {%- for sourceElement in intro_desktop_video_obj.sources -%}
+          <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
+        {%- endfor -%}
+      {%- endif -%}
     {%- else -%}
       <source src="{{ settings.intro_desktop_video }}">
     {%- endif -%}
@@ -114,9 +122,17 @@
     {% endif %}
   >
     {%- if mobile_video_source == 'uploaded' and intro_mobile_video_obj != blank -%}
-      {%- for sourceElement in intro_mobile_video_obj.sources -%}
-        <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
-      {%- endfor -%}
+      {%- liquid
+        assign mp4_sources = intro_mobile_video_obj.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
+        assign best_source = mp4_sources | last
+      -%}
+      {%- if best_source != blank -%}
+        <source src="{{ best_source.url }}" type="{{ best_source.mime_type }}">
+      {%- else -%}
+        {%- for sourceElement in intro_mobile_video_obj.sources -%}
+          <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
+        {%- endfor -%}
+      {%- endif -%}
     {%- else -%}
       <source src="{{ settings.intro_mobile_video }}">
     {%- endif -%}

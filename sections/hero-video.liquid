@@ -62,14 +62,35 @@
 
   <div class="hero__media hero__media--{{ section.id }}" style="position: absolute; top: 0; left: 0; z-index: -1;" aria-hidden="true">
 
-    {% assign current_video_url = section.settings.video_url | strip %}
-    {% if current_video_url != blank %}
-      {% assign has_video_url = true %}
-    {% else %}
-      {% assign has_video_url = false %}
-    {% endif %}
+    {%- liquid
+      assign video_source = section.settings.video_source | default: 'external'
+      assign uploaded_video = section.settings.video_uploaded
+      assign current_video_url = section.settings.video_url | strip
 
-    {% if has_video_url %}
+      assign has_uploaded_video = false
+      if video_source == 'uploaded' and uploaded_video != blank
+        assign has_uploaded_video = true
+      endif
+
+      assign has_video_url = false
+      if video_source == 'external' and current_video_url != blank
+        assign has_video_url = true
+      endif
+    -%}
+
+    {% if has_uploaded_video %}
+      {{
+        uploaded_video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          playsinline: true,
+          class: 'video-div',
+          id: 'UploadedVideo-' | append: section.id
+      }}
+    {% elsif has_video_url %}
       {% assign extension = current_video_url | slice: -4, 4 %}
       {% if extension == '.mp4' %}
       <video
@@ -592,10 +613,27 @@
       ]
     },
     {
+      "type": "select",
+      "id": "video_source",
+      "label": "Source",
+      "default": "external",
+      "options": [
+        { "value": "uploaded", "label": "Uploaded" },
+        { "value": "external", "label": "External URL" }
+      ]
+    },
+    {
+      "type": "video",
+      "id": "video_uploaded",
+      "label": "Uploaded video",
+      "visible_if": "{{ section.settings.video_source == 'uploaded' }}"
+    },
+    {
       "type": "text",
       "id": "video_url",
       "label": "t:sections.hero_video.settings.video_url.label",
-      "info": "t:sections.hero_video.settings.video_url.info"
+      "info": "t:sections.hero_video.settings.video_url.info",
+      "visible_if": "{{ section.settings.video_source == 'external' }}"
     },
     {
       "type": "range",

@@ -99,6 +99,8 @@
     "intro_mobile_video": "",
     "intro_audio_file": "",
     "intro_skip": "スキップ",
+    "intro_button_style": "primary",
+    "intro_button_color_scheme": "scheme-14",
     "product_corner_radius": 0,
     "card_corner_radius": 4,
     "show_variant_image": false,

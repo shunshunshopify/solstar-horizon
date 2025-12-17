@@ -83,11 +83,25 @@
       assign mobile_uploaded_video = section.settings.video_uploaded_mobile
       assign mobile_video_url = section.settings.video_url_mobile | strip
 
-      assign has_desktop_uploaded = desktop_video_source == 'uploaded' and desktop_uploaded_video != blank
-      assign has_desktop_external = desktop_video_source == 'external' and desktop_video_url != blank
+      assign has_desktop_uploaded = false
+      if desktop_video_source == 'uploaded' and desktop_uploaded_video != blank
+        assign has_desktop_uploaded = true
+      endif
 
-      assign has_mobile_uploaded = mobile_video_source == 'uploaded' and mobile_uploaded_video != blank
-      assign has_mobile_external = mobile_video_source == 'external' and mobile_video_url != blank
+      assign has_desktop_external = false
+      if desktop_video_source == 'external' and desktop_video_url != blank
+        assign has_desktop_external = true
+      endif
+
+      assign has_mobile_uploaded = false
+      if mobile_video_source == 'uploaded' and mobile_uploaded_video != blank
+        assign has_mobile_uploaded = true
+      endif
+
+      assign has_mobile_external = false
+      if mobile_video_source == 'external' and mobile_video_url != blank
+        assign has_mobile_external = true
+      endif
 
       if has_mobile_uploaded == false and has_mobile_external == false
         assign mobile_video_source = desktop_video_source
@@ -104,14 +118,18 @@
 
       assign desktop_is_mp4 = false
       if has_desktop_external and desktop_video_url != blank
-        assign desktop_is_mp4 = desktop_video_url | slice: -4, 4 | downcase
-        assign desktop_is_mp4 = desktop_is_mp4 == '.mp4'
+        assign desktop_extension = desktop_video_url | slice: -4, 4 | downcase
+        if desktop_extension == '.mp4'
+          assign desktop_is_mp4 = true
+        endif
       endif
 
       assign mobile_is_mp4 = false
       if has_mobile_external and mobile_video_url != blank
-        assign mobile_is_mp4 = mobile_video_url | slice: -4, 4 | downcase
-        assign mobile_is_mp4 = mobile_is_mp4 == '.mp4'
+        assign mobile_extension = mobile_video_url | slice: -4, 4 | downcase
+        if mobile_extension == '.mp4'
+          assign mobile_is_mp4 = true
+        endif
       endif
 
       assign desktop_youtube_id = ''

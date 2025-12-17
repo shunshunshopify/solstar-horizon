@@ -394,6 +394,7 @@ let hasAudio = !!enterSound;
 let isAudioEnabled = false;
 const introButtonWrap = document.querySelector('[data-vi-intro-button-wrap]');
 const introButton = document.querySelector('[data-vi-intro-button]');
+let hasDispatchedIntroComplete = false;
 
 function fadeOutIntroButton() {
   if (!introButtonWrap || introButtonWrap.classList.contains('is-fading')) return;
@@ -401,6 +402,12 @@ function fadeOutIntroButton() {
   window.setTimeout(() => {
     introButtonWrap.classList.add('is-hidden');
   }, 380);
+}
+
+function dispatchVideoIntroComplete() {
+  if (hasDispatchedIntroComplete) return;
+  hasDispatchedIntroComplete = true;
+  document.dispatchEvent(new CustomEvent('videoIntro:complete'));
 }
 
 function shouldShowIntro() {
@@ -480,6 +487,8 @@ function initializeVideoIntro() {
       skipButton.classList.remove('show');
       skipButton.classList.add('hidden');
     }
+    // Intro is not going to display; let downstream UI (e.g. newsletter) proceed.
+    dispatchVideoIntroComplete();
     return;
   }
   if (!checkConnectionSpeed()) {
@@ -514,6 +523,8 @@ function initializeVideoIntro() {
       skipButton.classList.remove('show');
       skipButton.classList.add('hidden');
     }
+    // Connection is too slow, skip intro but allow downstream UI to proceed.
+    dispatchVideoIntroComplete();
   }
 }
 
@@ -524,6 +535,7 @@ function removeIntroWindow() {
   justBlack.style.display = "none";
   videoEnded = true;
   fadeOutIntroButton();
+  dispatchVideoIntroComplete();
   // Hide skip button when video section is removed
   if (hasSkipButton) {
     skipButton.classList.add('hidden');

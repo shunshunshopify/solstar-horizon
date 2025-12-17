@@ -673,7 +673,7 @@
     {
       "type": "select",
       "id": "video_source",
-      "label": "Source",
+      "label": "Desktop source",
       "default": "external",
       "options": [
         { "value": "uploaded", "label": "Uploaded" },
@@ -683,7 +683,7 @@
     {
       "type": "video",
       "id": "video_uploaded",
-      "label": "Uploaded video",
+      "label": "Desktop video",
       "visible_if": "{{ section.settings.video_source == 'uploaded' }}"
     },
     {
@@ -706,7 +706,7 @@
     {
       "type": "video",
       "id": "video_uploaded_mobile",
-      "label": "Mobile uploaded video",
+      "label": "Mobile video",
       "visible_if": "{{ section.settings.video_source_mobile == 'uploaded' }}"
     },
     {

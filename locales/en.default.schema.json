@@ -1572,6 +1572,32 @@
     "hero_video": {
       "name": "Hero video",
       "settings": {
+        "typography_heading": "Typography",
+        "button_heading": "Button",
+        "video_heading": "Video",
+        "video_source_desktop": {
+          "label": "Desktop source",
+          "options": {
+            "uploaded": "Uploaded",
+            "external": "External URL"
+          }
+        },
+        "desktop_video": {
+          "label": "Desktop video"
+        },
+        "video_source_mobile": {
+          "label": "Mobile source",
+          "options": {
+            "uploaded": "Uploaded",
+            "external": "External URL"
+          }
+        },
+        "mobile_video": {
+          "label": "Mobile video"
+        },
+        "video_url_mobile": {
+          "info": "Youtube or .MP4 - If left empty, desktop video will be used on mobile"
+        },
         "title": {
           "label": "Heading"
         },

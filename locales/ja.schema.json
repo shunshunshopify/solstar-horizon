@@ -1477,6 +1477,32 @@
     "hero_video": {
       "name": "ヒーロービデオ",
       "settings": {
+        "typography_heading": "タイポグラフィ",
+        "button_heading": "ボタン",
+        "video_heading": "ビデオ",
+        "video_source_desktop": {
+          "label": "デスクトップソース",
+          "options": {
+            "uploaded": "アップロード",
+            "external": "外部URL"
+          }
+        },
+        "desktop_video": {
+          "label": "デスクトップビデオ"
+        },
+        "video_source_mobile": {
+          "label": "モバイルソース",
+          "options": {
+            "uploaded": "アップロード",
+            "external": "外部URL"
+          }
+        },
+        "mobile_video": {
+          "label": "モバイルビデオ"
+        },
+        "video_url_mobile": {
+          "info": "YouTubeまたは.MP4 - 空欄の場合はモバイルでもデスクトップビデオが使用されます"
+        },
         "title": {
           "label": "見出し"
         },

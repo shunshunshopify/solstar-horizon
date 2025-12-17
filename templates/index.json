@@ -112,32 +112,6 @@
         "padding-block-end": 40
       }
     },
-    "hero_video_fw9PNT": {
-      "type": "hero-video",
-      "name": "t:names.hero_video",
-      "settings": {
-        "title": "<p>This is heading</p>",
-        "title_size": 70,
-        "subheading": "<p>This is subheading</p>",
-        "subheading_size": 40,
-        "text_align": "vertical-center horizontal-center",
-        "link_text": "Button",
-        "link": "",
-        "color_scheme": "",
-        "style_class": "button",
-        "video_source": "uploaded",
-        "video_uploaded": "shopify://files/videos/Intro-Video-Desktop.mp4",
-        "video_url": "",
-        "video_source_mobile": "uploaded",
-        "video_uploaded_mobile": "shopify://files/videos/5.26.2023 Sandy Haze New Video0001-0753.mp4",
-        "video_url_mobile": "",
-        "overlay_opacity": 0,
-        "section_height": "650px",
-        "mobile_height": "850px",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
     "collection_list_FcnB6W": {
       "type": "collection-list",
       "blocks": {
@@ -305,7 +279,6 @@
   },
   "order": [
     "hero_A9LURP",
-    "hero_video_fw9PNT",
     "collection_list_FcnB6W"
   ]
 }

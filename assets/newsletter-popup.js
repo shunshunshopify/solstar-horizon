@@ -4,6 +4,7 @@
   const MODAL_SELECTOR = '[data-newsletter-modal]';
   const DEFAULT_DELAY = 5;
   const DEFAULT_DAYS_TO_WAIT = 3;
+  const VIDEO_INTRO_COMPLETE_EVENT = 'videoIntro:complete';
 
   const isDesignMode = () => Boolean(window.Shopify && Shopify.designMode);
 
@@ -53,6 +54,32 @@
 
   const shouldForceOpen = () => window.location.href.includes('eg-newsletter-popup');
 
+  /**
+   * Start a callback only after the video intro is complete (if present).
+   * @param {() => void} callback
+   */
+  const runAfterVideoIntroComplete = (callback) => {
+    const introElement = document.getElementById('shopi_video_intro');
+    if (!introElement) {
+      callback();
+      return;
+    }
+
+    let didRun = false;
+    const runOnce = () => {
+      if (didRun) return;
+      didRun = true;
+      callback();
+    };
+
+    document.addEventListener(VIDEO_INTRO_COMPLETE_EVENT, runOnce, { once: true });
+
+    // Fallback: if the intro disappears without emitting the event, proceed.
+    window.setTimeout(() => {
+      if (!document.getElementById('shopi_video_intro')) runOnce();
+    }, 0);
+  };
+
   /** @param {HTMLElement} modal */
   const initializeModal = (modal) => {
     if (!modal || modal.dataset.newsletterInitialized === 'true') return;
@@ -80,9 +107,13 @@
 
     if (!isDesignMode()) {
       if (hasCookie(cookieKey)) return;
-      window.setTimeout(() => {
-        showModal(modal);
-      }, Math.max(0, delay) * 1000);
+      const scheduleModal = () => {
+        window.setTimeout(() => {
+          showModal(modal);
+        }, Math.max(0, delay) * 1000);
+      };
+
+      runAfterVideoIntroComplete(scheduleModal);
     } else {
       // Ensure close buttons work in editor
       const closeButtons = modal.querySelectorAll('[data-micromodal-close]');

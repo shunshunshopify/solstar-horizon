@@ -1,6 +1,39 @@
 {% comment %}theme-check-disable{% endcomment %}
-{% if settings.enable_video_intro == true and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
+{% if settings.enable_video_intro == true %}
 {%- liquid
+  assign desktop_video_source = settings.intro_desktop_video_source | default: 'external'
+  assign mobile_video_source = settings.intro_mobile_video_source | default: 'external'
+
+  assign has_desktop_video = false
+  if desktop_video_source == 'uploaded'
+    if settings.intro_desktop_video_uploaded != blank
+      assign has_desktop_video = true
+    endif
+  else
+    if settings.intro_desktop_video != blank
+      assign has_desktop_video = true
+    endif
+  endif
+
+  assign has_mobile_video = false
+  if mobile_video_source == 'uploaded'
+    if settings.intro_mobile_video_uploaded != blank
+      assign has_mobile_video = true
+    endif
+  else
+    if settings.intro_mobile_video != blank
+      assign has_mobile_video = true
+    endif
+  endif
+
+  assign has_any_video = false
+  if has_desktop_video or has_mobile_video
+    assign has_any_video = true
+  endif
+
+  assign intro_desktop_video_obj = settings.intro_desktop_video_uploaded
+  assign intro_mobile_video_obj = settings.intro_mobile_video_uploaded
+
   assign is_homepage = false
   if request.path == '/' or request.path == '/index'
     assign is_homepage = true
@@ -11,10 +44,11 @@
     assign should_show_intro = false
   endif
 -%}
+{% if has_any_video %}
 {% if should_show_intro %}
 <div id="shopi_video_intro" style="position: relative;" data-homepage-only="{{ settings.intro_homepage_only | default: false }}" data-is-homepage="{{ is_homepage }}">
 <div id="just-black" style="display: none;"></div>
-{% if settings.intro_skip != blank and (settings.intro_desktop_video != blank or settings.intro_mobile_video != blank) %}
+{% if settings.intro_skip != blank and has_any_video %}
 <button type="button" class="skip-button" onclick="skipVideoIntro()" aria-label="{{ settings.intro_skip }}" {% if settings.intro_autoplay %}style="display: none;"{% endif %}>{{ settings.intro_skip }}</button>
 {% endif %}
 {% if settings.intro_autoplay and settings.intro_audio_file != blank and settings.click_for_sound != blank %}
@@ -27,15 +61,118 @@
 </audio>
 {% endif %}
 <div id="package3" class="vi-animation-container vi-animation">
-  {% if settings.intro_desktop_video != blank %}
-  <video style='opacity:0;' class="vi-desktop-only vid" id="animation-desktop" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
-    <source src="{{ settings.intro_desktop_video }}">
+  {%- liquid
+    assign intro_button_label = settings.intro_button_label | default: ''
+    assign intro_button_style = settings.intro_button_style | default: 'primary'
+
+    assign intro_button_class = 'button'
+    case intro_button_style
+      when 'secondary'
+        assign intro_button_class = 'button-secondary'
+      when 'link'
+        assign intro_button_class = 'link vi-intro-button--link'
+      else
+        assign intro_button_class = 'button'
+    endcase
+  -%}
+
+  {% if has_desktop_video %}
+  <video
+    style="opacity:0;"
+    class="vi-desktop-only vid"
+    id="animation-desktop"
+    muted=""
+    playsinline=""
+    webkit-playsinline=""
+    onended="removeIntroWindow()"
+    preload="auto"
+    {% if desktop_video_source == 'uploaded' and intro_desktop_video_obj != blank and intro_desktop_video_obj.preview_image != blank %}
+      poster="{{ intro_desktop_video_obj.preview_image | image_url: width: 3840 }}"
+    {% endif %}
+  >
+    {%- if desktop_video_source == 'uploaded' and intro_desktop_video_obj != blank -%}
+      {%- liquid
+        assign mp4_sources = intro_desktop_video_obj.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
+        assign best_mp4_source = mp4_sources | last
+
+        assign hls_source = blank
+        for sourceElement in intro_desktop_video_obj.sources
+          if sourceElement.mime_type contains 'mpegurl'
+            assign hls_source = sourceElement
+            break
+          endif
+        endfor
+      -%}
+      {%- if hls_source != blank -%}
+        <source src="{{ hls_source.url }}" type="{{ hls_source.mime_type }}">
+      {%- endif -%}
+      {%- if best_mp4_source != blank -%}
+        <source src="{{ best_mp4_source.url }}" type="{{ best_mp4_source.mime_type }}">
+      {%- endif -%}
+      {%- if hls_source == blank and best_mp4_source == blank -%}
+        {%- for sourceElement in intro_desktop_video_obj.sources -%}
+          <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
+        {%- endfor -%}
+      {%- endif -%}
+    {%- else -%}
+      <source src="{{ settings.intro_desktop_video }}">
+    {%- endif -%}
   </video>
   {% endif %}
-  {% if settings.intro_mobile_video != blank %}
-  <video style='opacity:0;' class="vi-mobile-only vid" id="animation-mobile" muted="" playsinline="" webkit-playsinline="" onended="removeIntroWindow()" preload="auto">
-    <source src="{{ settings.intro_mobile_video }}">
+  {% if has_mobile_video %}
+  <video
+    style="opacity:0;"
+    class="vi-mobile-only vid"
+    id="animation-mobile"
+    muted=""
+    playsinline=""
+    webkit-playsinline=""
+    onended="removeIntroWindow()"
+    preload="auto"
+    {% if mobile_video_source == 'uploaded' and intro_mobile_video_obj != blank and intro_mobile_video_obj.preview_image != blank %}
+      poster="{{ intro_mobile_video_obj.preview_image | image_url: width: 3840 }}"
+    {% endif %}
+  >
+    {%- if mobile_video_source == 'uploaded' and intro_mobile_video_obj != blank -%}
+      {%- liquid
+        assign mp4_sources = intro_mobile_video_obj.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
+        assign best_mp4_source = mp4_sources | last
+
+        assign hls_source = blank
+        for sourceElement in intro_mobile_video_obj.sources
+          if sourceElement.mime_type contains 'mpegurl'
+            assign hls_source = sourceElement
+            break
+          endif
+        endfor
+      -%}
+      {%- if hls_source != blank -%}
+        <source src="{{ hls_source.url }}" type="{{ hls_source.mime_type }}">
+      {%- endif -%}
+      {%- if best_mp4_source != blank -%}
+        <source src="{{ best_mp4_source.url }}" type="{{ best_mp4_source.mime_type }}">
+      {%- endif -%}
+      {%- if hls_source == blank and best_mp4_source == blank -%}
+        {%- for sourceElement in intro_mobile_video_obj.sources -%}
+          <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
+        {%- endfor -%}
+      {%- endif -%}
+    {%- else -%}
+      <source src="{{ settings.intro_mobile_video }}">
+    {%- endif -%}
   </video>
+  {% endif %}
+
+  {% if intro_button_label != blank and settings.intro_autoplay == false %}
+    <div
+      class="vi-intro-button-wrap color-{{ settings.intro_button_color_scheme | default: 'scheme-1' }}"
+      style="--vi-intro-button-radius: {{ settings.intro_button_corner_radius | default: 0 }}px;"
+      data-vi-intro-button-wrap
+    >
+      <button type="button" class="vi-intro-button {{ intro_button_class }}" data-vi-intro-button>
+        {{ intro_button_label }}
+      </button>
+    </div>
   {% endif %}
 </div>
 </div>
@@ -69,6 +206,7 @@
   left: 0;
   z-index: 9999;
   overflow: hidden;
+  background: #000;
 }
 .vi-intro-window.show {
   display: block;
@@ -87,10 +225,52 @@ body.vi-video-active {
   z-index: 80;
   position: relative;
 }
+.vi-intro-button-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+.vi-intro-button-wrap.is-fading {
+  opacity: 0;
+  pointer-events: none;
+}
+.vi-intro-button-wrap.is-hidden {
+  display: none;
+}
+.vi-intro-button {
+  font-size: 32px;
+  line-height: 1.1;
+}
+.vi-intro-button.button,
+.vi-intro-button.button-secondary {
+  border-radius: var(--vi-intro-button-radius, 0px);
+}
+.vi-intro-button--link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  font-family: var(--button-font-family-primary);
+  text-transform: var(--button-text-case-primary);
+}
+@media (max-width: 768px) {
+  .vi-intro-button {
+    font-size: 26px;
+  }
+}
 .vi-animation-container video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -212,6 +392,16 @@ let videosLoaded = false;
 let hasSkipButton = !!skipButton;
 let hasAudio = !!enterSound;
 let isAudioEnabled = false;
+const introButtonWrap = document.querySelector('[data-vi-intro-button-wrap]');
+const introButton = document.querySelector('[data-vi-intro-button]');
+
+function fadeOutIntroButton() {
+  if (!introButtonWrap || introButtonWrap.classList.contains('is-fading')) return;
+  introButtonWrap.classList.add('is-fading');
+  window.setTimeout(() => {
+    introButtonWrap.classList.add('is-hidden');
+  }, 380);
+}
 
 function shouldShowIntro() {
   // If homepage-only mode is enabled and we're not on homepage, don't show
@@ -237,6 +427,12 @@ function hasVideoForCurrentDevice() {
   }
 }
 
+function getActiveVideosForCurrentDevice() {
+  const isMobile = window.innerWidth <= 768;
+  const selector = isMobile ? '.vi-mobile-only.vid' : '.vi-desktop-only.vid';
+  return Array.from(document.querySelectorAll(selector));
+}
+
 function checkConnectionSpeed() {
   if ('connection' in navigator) {
     const connection = navigator.connection;
@@ -254,7 +450,7 @@ function checkConnectionSpeed() {
 }
 
 function preloadVideos() {
-  const videos = document.querySelectorAll('.vid');
+  const videos = getActiveVideosForCurrentDevice();
   if (videos.length === 0 || !hasVideoForCurrentDevice()) {
     removeIntroWindow();
     return;
@@ -327,6 +523,7 @@ function removeIntroWindow() {
   document.body.classList.remove('vi-video-active');
   justBlack.style.display = "none";
   videoEnded = true;
+  fadeOutIntroButton();
   // Hide skip button when video section is removed
   if (hasSkipButton) {
     skipButton.classList.add('hidden');
@@ -381,8 +578,10 @@ function showSoundPopupWithFade() {
 function startVideoPlayback() {
   if (!videosLoaded || videoEnded) return;
  
+  const activeVideos = getActiveVideosForCurrentDevice();
+
   // Play videos muted for reliable autoplay across all browsers
-  animationVideo.forEach((vid) => {
+  activeVideos.forEach((vid) => {
     vid.muted = true;
     vid.play();
   });
@@ -401,6 +600,28 @@ function startVideoPlayback() {
  
   // Note: Audio autoplay is disabled for maximum browser compatibility
   // Users can click the video to enable audio if needed
+}
+
+function startManualPlayback() {
+  if (checkConnectionSpeed() || videoEnded) return;
+  if (!videosLoaded) return;
+
+  const activeVideos = getActiveVideosForCurrentDevice();
+
+  activeVideos.forEach((vid) => {
+    vid.muted = false;
+    vid.volume = volumeIntro / 100;
+    vid.play();
+  });
+
+  if (hasAudio && enterSound) {
+    enterSound.volume = volumeIntro / 100;
+    enterSound.play();
+  }
+
+  if (hasSkipButton) {
+    hideSkipButton();
+  }
 }
 
 function skipVideoIntro() {
@@ -431,23 +652,10 @@ animationVideoContainer.addEventListener("click", () => {
   if (!videosLoaded) {
     return;
   }
+  fadeOutIntroButton();
   // Only allow click to start video if autoplay is disabled
   if (!autoplayEnabled) {
-    // For manual click (autoplay disabled), play with audio
-    animationVideo.forEach((vid) => {
-      vid.muted = false;
-      vid.volume = volumeIntro / 100;
-      vid.play();
-    });
-   
-    if (hasAudio && enterSound) {
-      enterSound.volume = volumeIntro / 100;
-      enterSound.play();
-    }
-   
-    if (hasSkipButton) {
-      hideSkipButton();
-    }
+    startManualPlayback();
   } else {
     // If autoplay is enabled, clicking toggles audio on/off
     isAudioEnabled = !isAudioEnabled;
@@ -489,6 +697,15 @@ animationVideoContainer.addEventListener("click", () => {
   }
 });
 
+if (introButton) {
+  introButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    fadeOutIntroButton();
+    startManualPlayback();
+  });
+}
+
 document.querySelectorAll('.vid').forEach(video => {
   video.addEventListener('ended', () => {
     introWindow.classList.add('fade-out');
@@ -507,5 +724,6 @@ document.querySelectorAll('.vid').forEach(video => {
 {% endif %}
 {% else %}
 <!-- In order for the video intro to work you need to add at least one video (desktop or mobile) -->
+{% endif %}
 {% endif %}
 {% comment %}theme-check-enable{% endcomment %}

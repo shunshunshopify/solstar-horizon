@@ -1,3 +1,20 @@
+# Release Notes - Version 3.2.3
+
+This release improves the Video Intro experience with better source management, a configurable start button, and corrected playback behavior across devices.
+
+## What's Changed
+
+### Added
+- [Video intro] Video Source selection for desktop and mobile (Uploaded via Shopify Files or External URL)
+- [Video intro] Configurable start button (label, style, color scheme, corner radius) with fade-out animation
+
+### Fixes and improvements
+- [Video intro] Clicking the start button now reliably starts playback
+- [Video intro] Uploaded videos now prefer HLS when available, with highest-quality MP4 fallback
+- [Video intro] Desktop/mobile playback now targets the correct device video only
+- [Video intro] Videos preserve their native aspect ratio (no stretching)
+- [Theme settings] Renamed Video intro settings label from “Interface” to “Typography”
+
 # Release Notes - Version 3.2.2
 
 This release adds configurable badge labels, per-badge corner radius, a Bestseller badge, and a sale discount toggle/format option. Badges now adopt primary button colors.

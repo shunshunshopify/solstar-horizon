@@ -1073,7 +1073,7 @@
       "volume_intro": {
         "label": "Audio volume"
       },
-      "interface": "Interface",
+      "interface": "Typography",
       "intro_skip": {
         "label": "Skip button text",
         "info": "Text shown on the skip button"

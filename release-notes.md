@@ -1,3 +1,18 @@
+# Release Notes - Version 3.2.6
+
+This release introduces a new Tab Collection section with richer controls and improves tab navigation behavior.
+
+## What's Changed
+
+### Added
+- [Tab collection] New tabbed collections section with per-tab collection selection
+- [Tab collection] Optional featured image card with image override, alignment, aspect ratio, and CTA button controls
+- [Tab collection] Product title and price styling controls per tab
+
+### Fixes and improvements
+- [Tabs] Prevent viewport jump when switching tabs
+- [Tab collection] Product card badges and wishlist icon rendering in tab cards
+
 # Release Notes - Version 3.2.5
 
 This release improves sale price visibility by highlighting the current price when a compare-at price is set.

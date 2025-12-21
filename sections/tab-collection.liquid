@@ -112,10 +112,32 @@
                 assign tab_collection = block.settings.collection_list | first
               endif
               assign max_items = block.settings.max_items | default: 6
-              assign slide_count = max_items
+              assign show_featured_image = block.settings.show_image
+              assign featured_image = block.settings.featured_image
 
+              if featured_image == blank and tab_collection != blank
+                assign featured_image = tab_collection.image
+                if featured_image == blank and tab_collection.products_count > 0
+                  assign featured_image = tab_collection.products.first.featured_image
+                endif
+              endif
+
+              assign product_limit = max_items
+              if show_featured_image
+                assign product_limit = max_items | minus: 1
+                if product_limit < 0
+                  assign product_limit = 0
+                endif
+              endif
+
+              assign product_count = product_limit
               if tab_collection != blank and tab_collection.products_count > 0
-                assign slide_count = tab_collection.products_count | at_most: max_items
+                assign product_count = tab_collection.products_count | at_most: product_limit
+              endif
+
+              assign slide_count = product_count
+              if show_featured_image
+                assign slide_count = slide_count | plus: 1
               endif
 
               assign image_ratio = 'adapt'
@@ -131,11 +153,70 @@
                 when 'adapt'
                   assign image_ratio = 'adapt'
               endcase
+
+              assign featured_ratio = image_ratio
+              if featured_ratio == 'adapt'
+                if featured_image != blank and featured_image.aspect_ratio != blank
+                  assign featured_ratio = featured_image.aspect_ratio
+                else
+                  assign featured_ratio = 1
+                endif
+              endif
             %}
 
-            {% capture list_items %}
-              {% if tab_collection != blank and tab_collection.products_count > 0 %}
-                {% for tab_product in tab_collection.products limit: max_items %}
+            {% capture featured_item %}
+              {% if show_featured_image %}
+                <div
+                  class="
+                    resource-list__item
+                    tab-collection__item
+                    tab-collection__item--featured
+                    border-style
+                    {% if block.settings.inherit_color_scheme == false %} color-{{ block.settings.color_scheme }}{% endif %}
+                  "
+                  style="
+                    {% render 'border-override', settings: block.settings %}
+                    --resource-card-corner-radius: {{ block.settings.border_radius }}px;
+                    --tab-collection-featured-ratio: {{ featured_ratio }};
+                  "
+                  {% if tab_collection != blank %}
+                    data-origin-collection-handle="{{ tab_collection.handle }}"
+                    data-origin-collection-title="{{ tab_collection.title | escape }}"
+                    data-origin-collection-url="{{ tab_collection.url | escape }}"
+                  {% endif %}
+                >
+                  {% capture featured_media %}
+                    <div class="tab-collection__featured-media{% if block.settings.align_with_product_images %} tab-collection__featured-media--aligned{% endif %}">
+                      {% if featured_image != blank %}
+                        {{
+                          featured_image
+                          | image_url: width: 2000
+                          | image_tag:
+                            loading: 'lazy',
+                            class: 'tab-collection__featured-image',
+                            widths: '320, 480, 640, 840, 1080, 1280, 1600, 2000',
+                            sizes: '(min-width: 750px) 30vw, 80vw'
+                        }}
+                      {% else %}
+                        {{ 'collection-apparel-1' | placeholder_svg_tag: 'tab-collection__featured-placeholder' }}
+                      {% endif %}
+                    </div>
+                  {% endcapture %}
+
+                  {% if tab_collection != blank %}
+                    <a class="tab-collection__featured-link" href="{{ tab_collection.url }}">
+                      {{ featured_media }}
+                    </a>
+                  {% else %}
+                    {{ featured_media }}
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endcapture %}
+
+            {% capture product_items %}
+              {% if product_limit > 0 and tab_collection != blank and tab_collection.products_count > 0 %}
+                {% for tab_product in tab_collection.products limit: product_limit %}
                   <div
                     class="
                       resource-list__item
@@ -164,8 +245,8 @@
                     <!--@list/split-->
                   {% endunless %}
                 {% endfor %}
-              {% else %}
-                {% for i in (1..max_items) %}
+              {% elsif product_limit > 0 %}
+                {% for i in (1..product_limit) %}
                   <div
                     class="
                       resource-list__item
@@ -190,6 +271,16 @@
                   {% endunless %}
                 {% endfor %}
               {% endif %}
+            {% endcapture %}
+
+            {% capture list_items %}
+              {% if show_featured_image %}
+                {{ featured_item }}
+                {% if product_items != blank %}
+                  <!--@list/split-->
+                {% endif %}
+              {% endif %}
+              {{ product_items }}
             {% endcapture %}
 
             {% assign list_items_array = list_items | strip | split: '<!--@list/split-->' %}
@@ -464,6 +555,26 @@
           "content": "Image"
         },
         {
+          "type": "checkbox",
+          "id": "show_image",
+          "label": "Show featured image",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "featured_image",
+          "label": "Replace collection image",
+          "info": "Optional. If set, this image replaces the collection image.",
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
+          "type": "checkbox",
+          "id": "align_with_product_images",
+          "label": "Align with product images",
+          "default": false,
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
           "type": "select",
           "id": "image_ratio",
           "label": "Image aspect ratio",
@@ -558,6 +669,43 @@
 
   .tab-collection__panels .tab-content {
     overflow-anchor: none;
+  }
+
+  .tab-collection__featured-link {
+    display: block;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .tab-collection__featured-media {
+    width: 100%;
+  }
+
+  .tab-collection__featured-media--aligned {
+    aspect-ratio: var(--tab-collection-featured-ratio, auto);
+  }
+
+  .tab-collection__featured-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .tab-collection__featured-media--aligned .tab-collection__featured-image {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .tab-collection__featured-placeholder {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+  }
+
+  .tab-collection__featured-media--aligned .tab-collection__featured-placeholder {
+    height: 100%;
   }
 
   .tab-collection__empty {

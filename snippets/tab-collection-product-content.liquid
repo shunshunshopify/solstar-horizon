@@ -22,10 +22,6 @@
   assign title_background = block_settings.product_title_background
   assign title_background_color = block_settings.product_title_background_color | default: '#00000026'
   assign title_corner_radius = block_settings.product_title_corner_radius | default: 0
-  assign title_padding_block_start = block_settings.product_title_padding_block_start | default: 0
-  assign title_padding_block_end = block_settings.product_title_padding_block_end | default: 0
-  assign title_padding_inline_start = block_settings.product_title_padding_inline_start | default: 0
-  assign title_padding_inline_end = block_settings.product_title_padding_inline_end | default: 0
 
   assign title_tag = 'p'
   assign title_typography_prefix = ''
@@ -90,10 +86,6 @@
     if title_width == '100%'
       echo '--text-align: ' | append: title_alignment | append: ';'
     endif
-    echo '--padding-block-start: ' | append: title_padding_block_start | append: 'px;'
-    echo '--padding-block-end: ' | append: title_padding_block_end | append: 'px;'
-    echo '--padding-inline-start: ' | append: title_padding_inline_start | append: 'px;'
-    echo '--padding-inline-end: ' | append: title_padding_inline_end | append: 'px;'
     if title_color != blank
       echo '--color: ' | append: title_color | append: ';'
     endif

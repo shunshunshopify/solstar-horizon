@@ -299,11 +299,89 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "tab_collection_WWWamq": {
+      "type": "tab-collection",
+      "blocks": {
+        "tab_KXyGWF": {
+          "type": "tab",
+          "settings": {
+            "title": "Collection",
+            "collection_list": [
+              "2025-summer-collection"
+            ],
+            "max_items": 6,
+            "placement": "on_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "collection_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "image_ratio": "portrait",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top"
+          }
+        },
+        "tab_XNMYF6": {
+          "type": "tab",
+          "settings": {
+            "title": "Collection",
+            "collection_list": [
+              "beach-towel"
+            ],
+            "max_items": 6,
+            "placement": "on_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "collection_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "image_ratio": "portrait",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top"
+          }
+        }
+      },
+      "block_order": [
+        "tab_KXyGWF",
+        "tab_XNMYF6"
+      ],
+      "name": "Tab collection",
+      "settings": {
+        "heading": "Shop collections",
+        "subheading": "",
+        "layout_type": "carousel",
+        "columns": 4,
+        "mobile_card_size": "60cqw",
+        "columns_gap": 16,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 12,
+        "section_color_scheme": "",
+        "padding-block-start": 32,
+        "padding-block-end": 32,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
     "hero_A9LURP",
     "collection_list_FcnB6W",
-    "hero_video_hA3fDi"
+    "hero_video_hA3fDi",
+    "tab_collection_WWWamq"
   ]
 }

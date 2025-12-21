@@ -15,13 +15,17 @@ class TabsComponent extends HTMLElement {
     this.disableScroll = this.hasAttribute('data-tabs-no-scroll');
 
     this.tabButtons.forEach((button) => {
-      button.addEventListener('click', () => this.activateTab(button.dataset.tab), { signal });
+      button.addEventListener(
+        'click',
+        () => this.activateTab(button.dataset.tab, { focus: !this.disableScroll }),
+        { signal }
+      );
       button.addEventListener(
         'keydown',
         (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            this.activateTab(button.dataset.tab);
+            this.activateTab(button.dataset.tab, { focus: !this.disableScroll });
           }
         },
         { signal }
@@ -56,6 +60,7 @@ class TabsComponent extends HTMLElement {
     const lockScroll = this.disableScroll;
     const scrollX = lockScroll ? window.scrollX : null;
     const scrollY = lockScroll ? window.scrollY : null;
+    const shouldFocus = focus && !lockScroll;
 
     this.tabButtons.forEach((button) => {
       const isActive = button.dataset.tab === tabId;
@@ -63,7 +68,7 @@ class TabsComponent extends HTMLElement {
       button.setAttribute('aria-selected', isActive ? 'true' : 'false');
       button.setAttribute('tabindex', isActive ? '0' : '-1');
 
-      if (isActive && focus) {
+      if (isActive && shouldFocus) {
         if (lockScroll) {
           if (document.activeElement !== button) {
             try {
@@ -109,12 +114,17 @@ class TabsComponent extends HTMLElement {
     const { signal } = controller;
     this.scrollLockController = controller;
 
+    const rootElement = document.documentElement;
+    const previousOverflowAnchor = rootElement.style.overflowAnchor;
+    rootElement.style.overflowAnchor = 'none';
+
     const startTime = performance.now();
     const maxDurationMs = 1000;
 
     const release = () => {
       if (signal.aborted) return;
       controller.abort();
+      rootElement.style.overflowAnchor = previousOverflowAnchor;
       if (this.scrollLockController === controller) {
         this.scrollLockController = null;
       }

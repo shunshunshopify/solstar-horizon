@@ -136,7 +136,7 @@
 
             {% capture list_items %}
               {% if tab_collection != blank and tab_collection.products_count > 0 %}
-                {% for product in tab_collection.products limit: max_items %}
+                {% for tab_product in tab_collection.products limit: max_items %}
                   <div
                     class="
                       resource-list__item
@@ -153,7 +153,7 @@
                     data-origin-collection-url="{{ tab_collection.url | escape }}"
                   >
                     {% render 'resource-card',
-                      resource: product,
+                      resource: tab_product,
                       resource_type: 'product',
                       image_aspect_ratio: image_ratio,
                       image_hover: settings.show_second_image_on_hover,

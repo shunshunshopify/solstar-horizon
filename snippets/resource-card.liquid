@@ -132,7 +132,13 @@
     {%- endif -%}
 
     {% if wishlist_enabled %}
-      {% render 'wishlist-button', product: resource, location: 'collection', collection: collection %}
+      {% assign wishlist_variant = resource.selected_or_first_available_variant | default: resource.variants.first %}
+      {% render 'wishlist-button',
+        product: resource,
+        variant: wishlist_variant,
+        location: 'collection',
+        collection: collection
+      %}
     {% endif %}
   </div>
 

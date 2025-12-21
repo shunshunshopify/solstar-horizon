@@ -10,10 +10,12 @@
   @param {boolean} [image_hover] - Whether to show a secondary image on hover and focus
   @param {string} [image_sizes] - The sizes attribute for responsive images. Defaults to 'auto'
   @param {boolean} [show_wishlist_button] - Whether to render the wishlist button on product cards.
+  @param {boolean} [show_badges] - Whether to render product badges on product cards.
 {%- enddoc -%}
 
 {% liquid
   assign show_wishlist_button = show_wishlist_button | default: false
+  assign show_badges = show_badges | default: false
   if image_aspect_ratio == blank or image_aspect_ratio == 'adapt'
     assign ratio = resource.featured_image.aspect_ratio
   else
@@ -67,6 +69,9 @@
       data-view-transition-to-main-product
     {% endif %}
   >
+    {% if resource_type == 'product' and show_badges and resource != blank %}
+      {% render 'product-card-badges', product: resource, settings: settings %}
+    {% endif %}
     {%- if resource_type == 'product' or single_thumbnail_collection -%}
       {% assign featured_image = resource.featured_image | default: resource.featured_media.preview_image %}
       {% liquid

@@ -114,12 +114,21 @@
               assign max_items = block.settings.max_items | default: 6
               assign show_featured_image = block.settings.show_image
               assign featured_image = block.settings.featured_image
+              assign button_label = block.settings.featured_button_text | strip
+              assign button_link = block.settings.featured_button_link
+              assign button_style = block.settings.featured_button_style | default: 'button'
+              assign button_size = block.settings.featured_button_size | default: 'medium'
+              assign button_color_scheme = block.settings.featured_button_color_scheme | default: section.settings.section_color_scheme
 
               if featured_image == blank and tab_collection != blank
                 assign featured_image = tab_collection.image
                 if featured_image == blank and tab_collection.products_count > 0
                   assign featured_image = tab_collection.products.first.featured_image
                 endif
+              endif
+
+              if button_link == blank and tab_collection != blank
+                assign button_link = tab_collection.url
               endif
 
               assign product_limit = max_items
@@ -200,16 +209,29 @@
                       {% else %}
                         {{ 'collection-apparel-1' | placeholder_svg_tag: 'tab-collection__featured-placeholder' }}
                       {% endif %}
+
+                      {% if tab_collection != blank %}
+                        <a
+                          class="tab-collection__featured-link"
+                          href="{{ tab_collection.url }}"
+                          aria-label="{{ tab_collection.title | escape }}"
+                        ></a>
+                      {% endif %}
+
+                      {% if button_label != blank and button_link != blank %}
+                        <div class="tab-collection__featured-button-wrap color-{{ button_color_scheme }}">
+                          <a
+                            class="tab-collection__featured-button {{ button_style }} tab-collection__featured-button--{{ button_size }}"
+                            href="{{ button_link }}"
+                          >
+                            {{- button_label -}}
+                          </a>
+                        </div>
+                      {% endif %}
                     </div>
                   {% endcapture %}
 
-                  {% if tab_collection != blank %}
-                    <a class="tab-collection__featured-link" href="{{ tab_collection.url }}">
-                      {{ featured_media }}
-                    </a>
-                  {% else %}
-                    {{ featured_media }}
-                  {% endif %}
+                  {{ featured_media }}
                 </div>
               {% endif %}
             {% endcapture %}
@@ -623,6 +645,54 @@
           ],
           "default": "to top",
           "visible_if": "{{ block.settings.toggle_overlay and block.settings.overlay_style == 'gradient' }}"
+        },
+        {
+          "type": "header",
+          "content": "Button",
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
+          "type": "text",
+          "id": "featured_button_text",
+          "label": "Button text",
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
+          "type": "url",
+          "id": "featured_button_link",
+          "label": "Button link",
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
+          "type": "select",
+          "id": "featured_button_style",
+          "label": "Button style",
+          "default": "button",
+          "options": [
+            { "value": "button", "label": "Primary" },
+            { "value": "button-secondary", "label": "Secondary" },
+            { "value": "link", "label": "Link" }
+          ],
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
+          "type": "select",
+          "id": "featured_button_size",
+          "label": "Button size",
+          "default": "medium",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ],
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
+          "type": "color_scheme",
+          "id": "featured_button_color_scheme",
+          "label": "Button color",
+          "default": "scheme-1",
+          "visible_if": "{{ block.settings.show_image }}"
         }
       ]
     }
@@ -677,10 +747,14 @@
     height: 100%;
     color: inherit;
     text-decoration: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
   }
 
   .tab-collection__featured-media {
     width: 100%;
+    position: relative;
   }
 
   .tab-collection__featured-media:not(.tab-collection__featured-media--aligned) {
@@ -720,6 +794,36 @@
 
   .tab-collection__featured-media--aligned .tab-collection__featured-placeholder {
     height: 100%;
+  }
+
+  .tab-collection__featured-button-wrap {
+    position: absolute;
+    inset: auto var(--padding-sm) var(--padding-sm) var(--padding-sm);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+  }
+
+  .tab-collection__featured-button {
+    pointer-events: auto;
+  }
+
+  .tab-collection__featured-button--small {
+    --button-padding-block: var(--padding-xs);
+    --button-padding-inline: var(--padding-md);
+    font-size: var(--font-size--sm);
+  }
+
+  .tab-collection__featured-button--medium {
+    --button-padding-block: var(--button-padding-block);
+    --button-padding-inline: var(--button-padding-inline);
+    font-size: var(--font-paragraph--size);
+  }
+
+  .tab-collection__featured-button--large {
+    --button-padding-block: var(--padding-lg);
+    --button-padding-inline: var(--padding-2xl);
+    font-size: var(--font-size--lg);
   }
 
   .tab-collection__empty {

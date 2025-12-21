@@ -316,6 +316,7 @@
             "border_opacity": 100,
             "border_radius": 0,
             "show_image": true,
+            "featured_image": "shopify://shop_images/IMG_1629_Original_copy.webp",
             "align_with_product_images": false,
             "image_ratio": "portrait",
             "toggle_overlay": false,

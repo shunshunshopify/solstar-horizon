@@ -157,7 +157,6 @@
                       resource_type: 'product',
                       image_aspect_ratio: image_ratio,
                       image_hover: settings.show_second_image_on_hover,
-                      resource_card_gap: block.settings.collection_card_gap,
                       show_wishlist_button: true,
                       collection: tab_collection
                     %}
@@ -184,7 +183,6 @@
                       resource: blank,
                       resource_type: 'product',
                       image_aspect_ratio: image_ratio,
-                      resource_card_gap: block.settings.collection_card_gap,
                       show_wishlist_button: false
                     %}
                   </div>
@@ -412,20 +410,6 @@
           "max": 16,
           "step": 1,
           "default": 6
-        },
-        {
-          "type": "header",
-          "content": "Card spacing"
-        },
-        {
-          "type": "range",
-          "id": "collection_card_gap",
-          "label": "Content gap",
-          "min": 0,
-          "max": 50,
-          "step": 1,
-          "unit": "px",
-          "default": 8
         },
         {
           "type": "header",

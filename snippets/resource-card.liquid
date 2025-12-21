@@ -10,11 +10,9 @@
   @param {boolean} [image_hover] - Whether to show a secondary image on hover and focus
   @param {string} [image_sizes] - The sizes attribute for responsive images. Defaults to 'auto'
   @param {boolean} [show_wishlist_button] - Whether to render the wishlist button on product cards.
-  @param {number} [resource_card_gap] - Gap in pixels between media/content and content items.
 {%- enddoc -%}
 
 {% liquid
-  assign resource_card_gap = resource_card_gap | default: blank
   assign show_wishlist_button = show_wishlist_button | default: false
   if image_aspect_ratio == blank or image_aspect_ratio == 'adapt'
     assign ratio = resource.featured_image.aspect_ratio
@@ -53,9 +51,6 @@
   class="resource-card{% if style == 'overlay' %} resource-card--overlay{% endif %}"
   href="{{ resource.url }}"
   data-resource-type="{{ resource_type }}"
-  {% if resource_card_gap != blank %}
-    style="--resource-card-gap: {{ resource_card_gap }}px;"
-  {% endif %}
 >
   <a
     class="resource-card__link"
@@ -176,7 +171,7 @@
 
     display: flex;
     flex-direction: column;
-    row-gap: var(--resource-card-gap, var(--padding-xs));
+    row-gap: var(--padding-xs);
     position: relative;
     text-decoration: none;
     height: 100%;
@@ -202,7 +197,7 @@
     display: flex;
     flex-direction: column;
     color: var(--color-foreground);
-    gap: var(--resource-card-gap, var(--padding-3xs));
+    gap: var(--padding-3xs);
 
     .price {
       font-weight: 500;

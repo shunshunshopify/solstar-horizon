@@ -9,9 +9,15 @@
   @param {string} [image_aspect_ratio] - The aspect ratio to display the image. Defaults to image's natural ratio
   @param {boolean} [image_hover] - Whether to show a secondary image on hover and focus
   @param {string} [image_sizes] - The sizes attribute for responsive images. Defaults to 'auto'
+  @param {boolean} [show_wishlist_button] - Whether to render the wishlist button on product cards.
+  @param {boolean} [show_badges] - Whether to render product badges on product cards.
+  @param {string} [content_markup] - Custom HTML for the card content block (title/price/etc).
 {%- enddoc -%}
 
 {% liquid
+  assign show_wishlist_button = show_wishlist_button | default: false
+  assign show_badges = show_badges | default: false
+  assign content_markup = content_markup | default: ''
   if image_aspect_ratio == blank or image_aspect_ratio == 'adapt'
     assign ratio = resource.featured_image.aspect_ratio
   else
@@ -30,6 +36,11 @@
     if featured_media_url == blank
       assign featured_media_url = resource.featured_media.preview_image | image_url: width: image_width
     endif
+  endif
+
+  assign wishlist_enabled = false
+  if show_wishlist_button and resource_type == 'product' and settings.enable_wishlist_icon and resource != blank
+    assign wishlist_enabled = true
   endif
 %}
 
@@ -60,6 +71,9 @@
       data-view-transition-to-main-product
     {% endif %}
   >
+    {% if resource_type == 'product' and show_badges and resource != blank %}
+      {% render 'product-card-badges', product: resource, settings: settings %}
+    {% endif %}
     {%- if resource_type == 'product' or single_thumbnail_collection -%}
       {% assign featured_image = resource.featured_image | default: resource.featured_media.preview_image %}
       {% liquid
@@ -123,23 +137,37 @@
         </div>
       {%- endif -%}
     {%- endif -%}
+
+    {% if wishlist_enabled %}
+      {% assign wishlist_variant = resource.selected_or_first_available_variant | default: resource.variants.first %}
+      {% render 'wishlist-button',
+        product: resource,
+        variant: wishlist_variant,
+        location: 'collection',
+        collection: collection
+      %}
+    {% endif %}
   </div>
 
   <div class="resource-card__content">
-    <p class="resource-card__title{% if style == 'overlay' %} h5{%else %} paragraph{% endif %}">
-      {{- resource.title -}}
-    </p>
-
-    {% if resource_type == 'product' %}
-      {% render 'price', product_resource: resource, show_unit_price: true %}
-    {% elsif resource_type == 'collection' and single_thumbnail_collection == false %}
-      <p class="resource-card__subtext paragraph">
-        {{- 'content.search_results_resource_products_count' | t: count: resource.all_products_count -}}
-      </p>
+    {% if content_markup != blank %}
+      {{ content_markup }}
     {% else %}
-      <p class="resource-card__subtext paragraph">
-        {{- resource.excerpt | default: resource.content | strip_html | truncate: 65 -}}
+      <p class="resource-card__title{% if style == 'overlay' %} h5{%else %} paragraph{% endif %}">
+        {{- resource.title -}}
       </p>
+
+      {% if resource_type == 'product' %}
+        {% render 'price', product_resource: resource, show_unit_price: true %}
+      {% elsif resource_type == 'collection' and single_thumbnail_collection == false %}
+        <p class="resource-card__subtext paragraph">
+          {{- 'content.search_results_resource_products_count' | t: count: resource.all_products_count -}}
+        </p>
+      {% else %}
+        <p class="resource-card__subtext paragraph">
+          {{- resource.excerpt | default: resource.content | strip_html | truncate: 65 -}}
+        </p>
+      {% endif %}
     {% endif %}
   </div>
 </div>
@@ -166,6 +194,14 @@
     position: absolute;
     inset: 0;
     z-index: 1;
+  }
+
+  .resource-card__media {
+    position: relative;
+  }
+
+  .resource-card__media .wishlist-button--collection {
+    z-index: 2;
   }
 
   .resource-card__content {

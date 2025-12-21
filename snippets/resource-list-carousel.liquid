@@ -36,17 +36,7 @@
   {% endcapture %}
 {% endif %}
 
-<div
-  class="resource-list__carousel"
-  style="
-    {% if settings.section_width == 'page-width' %}
-      --gutter-slide-width: var(--util-page-margin-offset);
-    {% elsif settings.section_width == 'full-width' %}
-      --gutter-slide-width: 0px;
-    {% endif %}
-    --slide-width-max: {{ slide_width_max | default: '300px' }};
-  "
->
+<div class="resource-list__carousel">
   {% render 'slideshow',
     ref: slideshow_ref,
     class: 'resource-list__carousel',

@@ -299,11 +299,116 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "tab_collection_WWWamq": {
+      "type": "tab-collection",
+      "blocks": {
+        "tab_KXyGWF": {
+          "type": "tab",
+          "settings": {
+            "title": "Collection",
+            "collection": "2025-summer-collection",
+            "max_items": 6,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "show_image": true,
+            "featured_image": "shopify://shop_images/IMG_1629_Original_copy.webp",
+            "align_with_product_images": false,
+            "image_ratio": "portrait",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "featured_button_text": "コレクションを見る",
+            "featured_button_link": "shopify://collections/2025-summer-collection",
+            "featured_button_style": "button",
+            "featured_button_size": "medium",
+            "featured_button_color_scheme": ""
+          }
+        },
+        "tab_XNMYF6": {
+          "type": "tab",
+          "settings": {
+            "title": "Collection",
+            "collection": "bikini",
+            "max_items": 6,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "show_image": false,
+            "align_with_product_images": false,
+            "image_ratio": "portrait",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "featured_button_text": "",
+            "featured_button_link": "",
+            "featured_button_style": "button",
+            "featured_button_size": "medium",
+            "featured_button_color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab_KXyGWF",
+        "tab_XNMYF6"
+      ],
+      "name": "Tab collection",
+      "settings": {
+        "heading": "Shop collections",
+        "subheading": "",
+        "layout_type": "carousel",
+        "columns": 4,
+        "columns_gap": 16,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 12,
+        "section_color_scheme": "",
+        "padding-block-start": 32,
+        "padding-block-end": 32,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "section_map_AkWL9b": {
+      "type": "section-map",
+      "name": "t:sections.map.presets.default.name",
+      "settings": {
+        "api_key": "",
+        "map_address": "1600 Amphitheatre Parkway, Mountain View, CA",
+        "enable_latlong": false,
+        "lat": "",
+        "long": "",
+        "zoom": 14,
+        "style": "basic",
+        "heading": "Visit our studio",
+        "heading_tag": "h2",
+        "address_content": "<p>123 Main Street<br>City, State</p><p>Mon–Fri: 10am–6pm</p>",
+        "button_label": "Get directions",
+        "button_style": "button",
+        "desktop_height": "image-height",
+        "mobile_height": "image-height--mobile",
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 24,
+        "padding-block-end": 24
+      }
     }
   },
   "order": [
     "hero_A9LURP",
     "collection_list_FcnB6W",
-    "hero_video_hA3fDi"
+    "hero_video_hA3fDi",
+    "tab_collection_WWWamq",
+    "section_map_AkWL9b"
   ]
 }

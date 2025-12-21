@@ -1,0 +1,198 @@
+{%- doc -%}
+  Renders product title and price for tab collection cards using prefixed block settings.
+
+  @param {product} product
+  @param {object} block_settings
+{%- enddoc -%}
+
+{% liquid
+  assign block_settings = block_settings | default: empty
+  assign product_title_text = product.title
+  if product_title_text == blank
+    assign product_title_text = 'placeholders.product_title' | t
+  endif
+
+  assign title_preset = block_settings.product_title_type_preset | default: 'paragraph'
+  assign title_width = block_settings.product_title_width | default: 'fit-content'
+  assign title_max_width = block_settings.product_title_max_width | default: 'normal'
+  assign title_alignment = block_settings.product_title_alignment | default: 'left'
+  assign title_heading_size = block_settings.product_title_heading_size
+  assign title_font = block_settings.product_title_font
+  assign title_color = block_settings.product_title_color
+  assign title_background = block_settings.product_title_background
+  assign title_background_color = block_settings.product_title_background_color | default: '#00000026'
+  assign title_corner_radius = block_settings.product_title_corner_radius | default: 0
+
+  assign title_tag = 'p'
+  assign title_typography_prefix = ''
+  case title_preset
+    when 'h1'
+      assign title_tag = 'h1'
+      assign title_typography_prefix = '--font-h1--'
+    when 'h2'
+      assign title_tag = 'h2'
+      assign title_typography_prefix = '--font-h2--'
+    when 'h3'
+      assign title_tag = 'h3'
+      assign title_typography_prefix = '--font-h3--'
+    when 'h4'
+      assign title_tag = 'h4'
+      assign title_typography_prefix = '--font-h4--'
+    when 'h5'
+      assign title_tag = 'h5'
+      assign title_typography_prefix = '--font-h5--'
+    when 'h6'
+      assign title_tag = 'h6'
+      assign title_typography_prefix = '--font-h6--'
+    when 'paragraph'
+      assign title_tag = 'p'
+      assign title_typography_prefix = '--font-paragraph--'
+  endcase
+
+  assign title_heading_style = ''
+  if title_heading_size != blank and title_typography_prefix != ''
+    assign title_heading_style = title_heading_style | append: title_typography_prefix | append: 'size: ' | append: title_heading_size | append: ';'
+  endif
+  if title_font != blank and title_typography_prefix != ''
+    assign title_heading_style = title_heading_style | append: title_typography_prefix | append: 'family: ' | append: title_font | append: ';'
+    assign title_font_weight = title_font | replace: 'family', 'weight'
+    assign title_heading_style = title_heading_style | append: title_typography_prefix | append: 'weight: ' | append: title_font_weight | append: ';'
+    assign title_font_style = title_font | replace: 'family', 'style'
+    assign title_heading_style = title_heading_style | append: title_typography_prefix | append: 'style: ' | append: title_font_style | append: ';'
+  endif
+
+  capture title_text_classes
+    if title_width == '100%'
+      echo ' text-block--align-' | append: title_alignment
+      if title_max_width == 'none'
+        echo ' text-block--full-width'
+      endif
+    endif
+    if title_background
+      echo ' text-block--background'
+    endif
+    if title_preset == 'rte' or title_preset == 'paragraph'
+      echo ' rte'
+    endif
+    if title_color != blank
+      echo ' custom-color'
+    endif
+  endcapture
+  assign title_text_classes = title_text_classes | strip
+
+  capture title_style
+    echo '--width: ' | append: title_width | append: ';'
+    echo '--max-width: var(--max-width--body-' | append: title_max_width | append: ');'
+    if title_width == '100%'
+      echo '--text-align: ' | append: title_alignment | append: ';'
+    endif
+    if title_color != blank
+      echo '--color: ' | append: title_color | append: ';'
+    endif
+    if title_background
+      echo '--text-background-color: ' | append: title_background_color | append: ';'
+      echo '--text-corner-radius: ' | append: title_corner_radius | append: 'px;'
+      echo '--text-padding: max(var(--padding-2xs), calc((var(--text-corner-radius) + var(--padding-xs)) * (1 - cos(45deg))));'
+    endif
+  endcapture
+  assign title_style = title_style | strip
+
+  assign price_show_sale_first = block_settings.product_price_show_sale_first | default: true
+  assign price_preset = block_settings.product_price_type_preset | default: 'paragraph'
+  assign price_width = block_settings.product_price_width | default: '100%'
+  assign price_alignment = block_settings.product_price_alignment | default: 'left'
+  assign price_font = block_settings.product_price_font
+  assign price_font_size = block_settings.product_price_font_size
+  assign price_line_height = block_settings.product_price_line_height | default: 'normal'
+  assign price_letter_spacing = block_settings.product_price_letter_spacing | default: 'normal'
+  assign price_case = block_settings.product_price_case | default: 'none'
+  assign price_color = block_settings.product_price_color
+  assign price_background = block_settings.product_price_background
+  assign price_background_color = block_settings.product_price_background_color | default: '#00000026'
+  assign price_corner_radius = block_settings.product_price_corner_radius | default: 0
+
+  assign price_is_custom = false
+  if price_preset == 'custom'
+    assign price_is_custom = true
+  endif
+
+  capture price_text_classes
+    if price_width == '100%'
+      echo ' text-block--align-' | append: price_alignment
+    endif
+    if price_is_custom
+      echo ' custom-typography'
+      if price_font_size != ''
+        echo ' custom-font-size'
+      endif
+      if price_color != ''
+        echo ' custom-color'
+      endif
+    endif
+    if price_background
+      echo ' text-block--background'
+    endif
+    if price_preset == 'rte' or price_preset == 'paragraph'
+      echo ' rte'
+    endif
+    if price_color != blank and price_is_custom == false
+      echo ' custom-color'
+    endif
+  endcapture
+  assign price_text_classes = price_text_classes | strip
+
+  capture price_style
+    echo '--width: ' | append: price_width | append: ';'
+    if price_width == '100%'
+      echo '--text-align: ' | append: price_alignment | append: ';'
+    endif
+    if price_color != blank
+      echo '--color: ' | append: price_color | append: ';'
+    endif
+    if price_background
+      echo '--text-background-color: ' | append: price_background_color | append: ';'
+      echo '--text-corner-radius: ' | append: price_corner_radius | append: 'px;'
+      echo '--text-padding: max(var(--padding-2xs), calc((var(--text-corner-radius) + var(--padding-xs)) * (1 - cos(45deg))));'
+    endif
+    if price_is_custom
+      if price_font != blank
+        echo '--font-family: ' | append: price_font | append: ';'
+        assign price_font_weight = price_font | replace: 'family', 'weight'
+        echo '--font-weight: ' | append: price_font_weight | append: ';'
+      endif
+      if price_font_size != blank
+        echo '--font-size: ' | append: price_font_size | append: ';'
+      endif
+      echo '--text-transform: ' | append: price_case | append: ';'
+      echo '--line-height: var(--line-height--body-' | append: price_line_height | append: ');'
+      echo '--letter-spacing: var(--letter-spacing--body-' | append: price_letter_spacing | append: ');'
+    endif
+  endcapture
+  assign price_style = price_style | strip
+%}
+
+{% if block_settings == empty %}
+  <p class="resource-card__title paragraph">{{ product_title_text }}</p>
+  {% render 'price', product_resource: product, show_unit_price: true %}
+{% else %}
+  <div
+    class="tab-collection__title text-block {{ title_preset }}{{ title_text_classes }} spacing-style"
+    style="{{ title_style }}"
+  >
+    <{{ title_tag }} class="resource-card__title"{% if title_heading_style != blank %} style="{{ title_heading_style }}"{% endif %}>
+      {{- product_title_text -}}
+    </{{ title_tag }}>
+  </div>
+
+  <product-price
+    class="tab-collection__price text-block {{ price_preset }} text-{{ price_alignment }}{{ price_text_classes }} spacing-style"
+    data-product-id="{{ product.id }}"
+    style="{{ price_style }}"
+  >
+    {% render 'price',
+      show_unit_price: true,
+      product_resource: product,
+      show_sale_price_first: price_show_sale_first
+    %}
+  </product-price>
+{% endif %}

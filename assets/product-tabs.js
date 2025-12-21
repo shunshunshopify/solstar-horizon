@@ -1,4 +1,21 @@
 class TabsComponent extends HTMLElement {
+  /** @type {AbortController} */
+  controller;
+  /** @type {HTMLElement | null} */
+  navList = null;
+  /** @type {HTMLButtonElement[]} */
+  tabButtons = [];
+  /** @type {HTMLElement[]} */
+  tabPanels = [];
+  /** @type {HTMLButtonElement | null} */
+  prevButton = null;
+  /** @type {HTMLButtonElement | null} */
+  nextButton = null;
+  /** @type {boolean} */
+  disableScroll = false;
+  /** @type {AbortController | null} */
+  scrollLockController = null;
+
   constructor() {
     super();
     this.controller = new AbortController();
@@ -7,25 +24,29 @@ class TabsComponent extends HTMLElement {
   connectedCallback() {
     const { signal } = this.controller;
 
-    this.navList = this.querySelector('.product-tabs-title');
-    this.tabButtons = Array.from(this.querySelectorAll('[data-tab]'));
-    this.tabPanels = Array.from(this.querySelectorAll('[data-tab-content]'));
-    this.prevButton = this.querySelector('[data-tabs-prev]');
-    this.nextButton = this.querySelector('[data-tabs-next]');
+    this.navList = /** @type {HTMLElement | null} */ (this.querySelector('.product-tabs-title'));
+    this.tabButtons = /** @type {HTMLButtonElement[]} */ (Array.from(this.querySelectorAll('[data-tab]')));
+    this.tabPanels = /** @type {HTMLElement[]} */ (Array.from(this.querySelectorAll('[data-tab-content]')));
+    this.prevButton = /** @type {HTMLButtonElement | null} */ (this.querySelector('[data-tabs-prev]'));
+    this.nextButton = /** @type {HTMLButtonElement | null} */ (this.querySelector('[data-tabs-next]'));
     this.disableScroll = this.hasAttribute('data-tabs-no-scroll');
 
     this.tabButtons.forEach((button) => {
+      const tabId = button.dataset.tab;
+      if (!tabId) return;
+
       button.addEventListener(
         'click',
-        () => this.activateTab(button.dataset.tab, { focus: !this.disableScroll }),
+        () => this.activateTab(tabId, { focus: !this.disableScroll }),
         { signal }
       );
       button.addEventListener(
         'keydown',
         (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            this.activateTab(button.dataset.tab, { focus: !this.disableScroll });
+          const keyboardEvent = /** @type {KeyboardEvent} */ (event);
+          if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
+            keyboardEvent.preventDefault();
+            this.activateTab(tabId, { focus: !this.disableScroll });
           }
         },
         { signal }
@@ -48,18 +69,23 @@ class TabsComponent extends HTMLElement {
   activateInitialTab() {
     const currentButton = this.tabButtons.find((button) => button.classList.contains('current'));
     const fallbackButton = currentButton || this.tabButtons[0];
+    const fallbackTabId = fallbackButton?.dataset.tab;
 
-    if (fallbackButton) {
-      this.activateTab(fallbackButton.dataset.tab, { focus: false });
+    if (fallbackTabId) {
+      this.activateTab(fallbackTabId, { focus: false });
     }
   }
 
+  /**
+   * @param {string} tabId
+   * @param {{ focus?: boolean }} [options]
+   */
   activateTab = (tabId, { focus = true } = {}) => {
     if (!tabId) return;
 
     const lockScroll = this.disableScroll;
-    const scrollX = lockScroll ? window.scrollX : null;
-    const scrollY = lockScroll ? window.scrollY : null;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
     const shouldFocus = focus && !lockScroll;
 
     this.tabButtons.forEach((button) => {
@@ -69,22 +95,8 @@ class TabsComponent extends HTMLElement {
       button.setAttribute('tabindex', isActive ? '0' : '-1');
 
       if (isActive && shouldFocus) {
-        if (lockScroll) {
-          if (document.activeElement !== button) {
-            try {
-              button.focus({ preventScroll: true });
-            } catch {
-              button.focus();
-            }
-
-            if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
-              window.scrollTo(scrollX, scrollY);
-            }
-          }
-        } else {
-          button.focus();
-          button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        }
+        button.focus();
+        button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       }
     });
 
@@ -103,9 +115,11 @@ class TabsComponent extends HTMLElement {
     }
   };
 
+  /**
+   * @param {number} scrollX
+   * @param {number} scrollY
+   */
   lockScrollPosition = (scrollX, scrollY) => {
-    if (scrollX == null || scrollY == null) return;
-
     if (this.scrollLockController) {
       this.scrollLockController.abort();
     }
@@ -152,8 +166,9 @@ class TabsComponent extends HTMLElement {
     window.addEventListener(
       'keydown',
       (event) => {
+        const keyboardEvent = /** @type {KeyboardEvent} */ (event);
         const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
-        if (keys.includes(event.code)) {
+        if (keys.includes(keyboardEvent.code)) {
           release();
         }
       },
@@ -182,7 +197,10 @@ class TabsComponent extends HTMLElement {
     this.nextButton?.classList.toggle('is-hidden', !overflow || atEnd);
   };
 
-  refreshEllipsis() {
+  /**
+   * @param {HTMLElement} [_panel]
+   */
+  refreshEllipsis(_panel) {
     // Read-more removed from tabs; no-op.
   }
 }

@@ -110,10 +110,6 @@
   assign price_background = block_settings.product_price_background
   assign price_background_color = block_settings.product_price_background_color | default: '#00000026'
   assign price_corner_radius = block_settings.product_price_corner_radius | default: 0
-  assign price_padding_block_start = block_settings.product_price_padding_block_start | default: 0
-  assign price_padding_block_end = block_settings.product_price_padding_block_end | default: 0
-  assign price_padding_inline_start = block_settings.product_price_padding_inline_start | default: 0
-  assign price_padding_inline_end = block_settings.product_price_padding_inline_end | default: 0
 
   assign price_is_custom = false
   if price_preset == 'custom'
@@ -147,10 +143,6 @@
 
   capture price_style
     echo '--width: ' | append: price_width | append: ';'
-    echo '--padding-block-start: ' | append: price_padding_block_start | append: 'px;'
-    echo '--padding-block-end: ' | append: price_padding_block_end | append: 'px;'
-    echo '--padding-inline-start: ' | append: price_padding_inline_start | append: 'px;'
-    echo '--padding-inline-end: ' | append: price_padding_inline_end | append: 'px;'
     if price_width == '100%'
       echo '--text-align: ' | append: price_alignment | append: ';'
     endif

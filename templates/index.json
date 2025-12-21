@@ -316,12 +316,17 @@
             "border_opacity": 100,
             "border_radius": 0,
             "show_image": true,
-            "align_with_product_images": true,
+            "align_with_product_images": false,
             "image_ratio": "portrait",
             "toggle_overlay": false,
             "overlay_color": "#00000026",
             "overlay_style": "solid",
-            "gradient_direction": "to top"
+            "gradient_direction": "to top",
+            "featured_button_text": "コレクションを見る",
+            "featured_button_link": "shopify://collections/2025-summer-collection",
+            "featured_button_style": "button",
+            "featured_button_size": "medium",
+            "featured_button_color_scheme": ""
           }
         },
         "tab_XNMYF6": {
@@ -342,7 +347,12 @@
             "toggle_overlay": false,
             "overlay_color": "#00000026",
             "overlay_style": "solid",
-            "gradient_direction": "to top"
+            "gradient_direction": "to top",
+            "featured_button_text": "",
+            "featured_button_link": "",
+            "featured_button_style": "button",
+            "featured_button_size": "medium",
+            "featured_button_color_scheme": ""
           }
         }
       },

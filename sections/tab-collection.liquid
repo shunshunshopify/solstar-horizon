@@ -49,8 +49,10 @@
             {% for block in section.blocks %}
               {% liquid
                 assign tab_id = 'TabCollection-' | append: section.id | append: '-' | append: block.id
-                assign tab_collections = block.settings.collection_list
-                assign tab_collection = tab_collections | first
+                assign tab_collection = block.settings.collection
+                if tab_collection == blank
+                  assign tab_collection = block.settings.collection_list | first
+                endif
                 assign label = block.settings.title
 
                 if label == blank and tab_collection != blank
@@ -106,8 +108,10 @@
           {% for block in section.blocks %}
             {% liquid
               assign tab_id = 'TabCollection-' | append: section.id | append: '-' | append: block.id
-              assign tab_collections = block.settings.collection_list
-              assign tab_collection = tab_collections | first
+              assign tab_collection = block.settings.collection
+              if tab_collection == blank
+                assign tab_collection = block.settings.collection_list | first
+              endif
               assign max_items = block.settings.max_items | default: 6
               assign slide_count = max_items
 
@@ -152,7 +156,9 @@
                       resource: product,
                       resource_type: 'product',
                       image_aspect_ratio: image_ratio,
-                      image_hover: settings.show_second_image_on_hover
+                      image_hover: settings.show_second_image_on_hover,
+                      show_wishlist_button: true,
+                      collection: tab_collection
                     %}
                   </div>
                   {% unless forloop.last %}
@@ -176,7 +182,8 @@
                     {% render 'resource-card',
                       resource: blank,
                       resource_type: 'product',
-                      image_aspect_ratio: image_ratio
+                      image_aspect_ratio: image_ratio,
+                      show_wishlist_button: false
                     %}
                   </div>
                   {% unless forloop.last %}
@@ -391,9 +398,9 @@
           "default": "Collection"
         },
         {
-          "type": "collection_list",
-          "id": "collection_list",
-          "label": "Collections"
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
         },
         {
           "type": "range",
@@ -406,40 +413,7 @@
         },
         {
           "type": "header",
-          "content": "Card layout"
-        },
-        {
-          "type": "select",
-          "id": "placement",
-          "label": "Content placement",
-          "options": [
-            { "value": "on_image", "label": "On image" },
-            { "value": "below_image", "label": "Below image" }
-          ],
-          "default": "on_image"
-        },
-        {
-          "type": "select",
-          "id": "horizontal_alignment",
-          "label": "Content alignment",
-          "options": [
-            { "value": "flex-start", "label": "Left" },
-            { "value": "center", "label": "Center" },
-            { "value": "flex-end", "label": "Right" }
-          ],
-          "default": "flex-start"
-        },
-        {
-          "type": "select",
-          "id": "vertical_alignment",
-          "label": "Content position",
-          "options": [
-            { "value": "flex-start", "label": "Top" },
-            { "value": "center", "label": "Center" },
-            { "value": "flex-end", "label": "Bottom" }
-          ],
-          "default": "center",
-          "visible_if": "{{ block.settings.placement == 'on_image' }}"
+          "content": "Card spacing"
         },
         {
           "type": "range",

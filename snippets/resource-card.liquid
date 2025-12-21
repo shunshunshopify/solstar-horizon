@@ -9,9 +9,11 @@
   @param {string} [image_aspect_ratio] - The aspect ratio to display the image. Defaults to image's natural ratio
   @param {boolean} [image_hover] - Whether to show a secondary image on hover and focus
   @param {string} [image_sizes] - The sizes attribute for responsive images. Defaults to 'auto'
+  @param {boolean} [show_wishlist_button] - Whether to render the wishlist button on product cards.
 {%- enddoc -%}
 
 {% liquid
+  assign show_wishlist_button = show_wishlist_button | default: false
   if image_aspect_ratio == blank or image_aspect_ratio == 'adapt'
     assign ratio = resource.featured_image.aspect_ratio
   else
@@ -30,6 +32,11 @@
     if featured_media_url == blank
       assign featured_media_url = resource.featured_media.preview_image | image_url: width: image_width
     endif
+  endif
+
+  assign wishlist_enabled = false
+  if show_wishlist_button and resource_type == 'product' and settings.enable_wishlist_icon and resource != blank
+    assign wishlist_enabled = true
   endif
 %}
 
@@ -123,6 +130,10 @@
         </div>
       {%- endif -%}
     {%- endif -%}
+
+    {% if wishlist_enabled %}
+      {% render 'wishlist-button', product: resource, location: 'collection', collection: collection %}
+    {% endif %}
   </div>
 
   <div class="resource-card__content">
@@ -166,6 +177,14 @@
     position: absolute;
     inset: 0;
     z-index: 1;
+  }
+
+  .resource-card__media {
+    position: relative;
+  }
+
+  .resource-card__media .wishlist-button--collection {
+    z-index: 2;
   }
 
   .resource-card__content {

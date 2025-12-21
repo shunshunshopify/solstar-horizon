@@ -49,7 +49,17 @@
             {% for block in section.blocks %}
               {% liquid
                 assign tab_id = 'TabCollection-' | append: section.id | append: '-' | append: block.id
-                assign label = block.settings.title | default: 'Collection'
+                assign tab_collections = block.settings.collection_list
+                assign tab_collection = tab_collections | first
+                assign label = block.settings.title
+
+                if label == blank and tab_collection != blank
+                  assign label = tab_collection.title
+                endif
+
+                if label == blank
+                  assign label = 'Collection'
+                endif
 
                 if first_tab_id == ''
                   assign first_tab_id = tab_id
@@ -97,54 +107,83 @@
             {% liquid
               assign tab_id = 'TabCollection-' | append: section.id | append: '-' | append: block.id
               assign tab_collections = block.settings.collection_list
-              assign max_items = block.settings.max_items | default: section.settings.max_items
+              assign tab_collection = tab_collections | first
+              assign max_items = block.settings.max_items | default: 6
+              assign slide_count = max_items
 
-              if tab_collections == blank
-                assign max_items = max_items | default: 4
-              else
-                if max_items == blank
-                  assign max_items = tab_collections.count
-                endif
+              if tab_collection != blank and tab_collection.products_count > 0
+                assign slide_count = tab_collection.products_count | at_most: max_items
               endif
 
-              if tab_collections == blank
-                for i in (1..max_items)
-                  assign tab_collections = tab_collections | append: ', '
-                endfor
-                assign tab_collections = tab_collections | split: ','
-              endif
+              assign image_ratio = 'adapt'
+              case block.settings.image_ratio
+                when 'landscape'
+                  assign image_ratio = '16 / 9'
+                when 'portrait'
+                  assign image_ratio = '4 / 5'
+                when 'square'
+                  assign image_ratio = '1 / 1'
+                when 'circle'
+                  assign image_ratio = '1 / 1'
+                when 'adapt'
+                  assign image_ratio = 'adapt'
+              endcase
             %}
 
             {% capture list_items %}
-              {% for collection in tab_collections limit: max_items %}
-                <div class="resource-list__item">
-                  {% capture card_image %}
-                    {% render 'resource-image',
-                      content_type: 'collections',
-                      image_source: blank,
-                      parent_block_id: block.id,
-                      block_settings: block.settings,
-                      section_settings: section.settings,
-                      collection: collection
+              {% if tab_collection != blank and tab_collection.products_count > 0 %}
+                {% for product in tab_collection.products limit: max_items %}
+                  <div
+                    class="
+                      resource-list__item
+                      tab-collection__item
+                      border-style
+                      {% if block.settings.inherit_color_scheme == false %} color-{{ block.settings.color_scheme }}{% endif %}
+                    "
+                    style="
+                      {% render 'border-override', settings: block.settings %}
+                      --resource-card-corner-radius: {{ block.settings.border_radius }}px;
+                    "
+                    data-origin-collection-handle="{{ tab_collection.handle }}"
+                    data-origin-collection-title="{{ tab_collection.title | escape }}"
+                    data-origin-collection-url="{{ tab_collection.url | escape }}"
+                  >
+                    {% render 'resource-card',
+                      resource: product,
+                      resource_type: 'product',
+                      image_aspect_ratio: image_ratio,
+                      image_hover: settings.show_second_image_on_hover
                     %}
-                  {% endcapture %}
-
-                  {% capture card_children %}
-                    <p class="h5">{{ collection.title | default: 'Collection' }}</p>
-                  {% endcapture %}
-
-                  {% render 'collection-card',
-                    card_image: card_image,
-                    children: card_children,
-                    block: block,
-                    collection: collection,
-                    section: section
-                  %}
-                </div>
-                {% unless forloop.last %}
-                  <!--@list/split-->
-                {% endunless %}
-              {% endfor %}
+                  </div>
+                  {% unless forloop.last %}
+                    <!--@list/split-->
+                  {% endunless %}
+                {% endfor %}
+              {% else %}
+                {% for i in (1..max_items) %}
+                  <div
+                    class="
+                      resource-list__item
+                      tab-collection__item
+                      border-style
+                      {% if block.settings.inherit_color_scheme == false %} color-{{ block.settings.color_scheme }}{% endif %}
+                    "
+                    style="
+                      {% render 'border-override', settings: block.settings %}
+                      --resource-card-corner-radius: {{ block.settings.border_radius }}px;
+                    "
+                  >
+                    {% render 'resource-card',
+                      resource: blank,
+                      resource_type: 'product',
+                      image_aspect_ratio: image_ratio
+                    %}
+                  </div>
+                  {% unless forloop.last %}
+                    <!--@list/split-->
+                  {% endunless %}
+                {% endfor %}
+              {% endif %}
             {% endcapture %}
 
             {% assign list_items_array = list_items | strip | split: '<!--@list/split-->' %}
@@ -162,8 +201,8 @@
                 list_items_array: list_items_array,
                 settings: section.settings,
                 carousel_ref: 'TabCollectionCarousel-' | append: section.id | append: '-' | append: block.id,
-                slide_count: max_items,
-                content_type: 'collections',
+                slide_count: slide_count,
+                content_type: 'products',
                 test_id: 'tab-collection-carousel'
               %}
             </div>
@@ -359,7 +398,7 @@
         {
           "type": "range",
           "id": "max_items",
-          "label": "Max items",
+          "label": "Max products",
           "min": 1,
           "max": 16,
           "step": 1,

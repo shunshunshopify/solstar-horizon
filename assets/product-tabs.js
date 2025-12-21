@@ -63,17 +63,24 @@ class TabsComponent extends HTMLElement {
 
       if (isActive && focus) {
         if (this.disableScroll) {
-          const scrollX = window.scrollX;
-          const scrollY = window.scrollY;
+          if (document.activeElement !== button) {
+            const scrollX = window.scrollX;
+            const scrollY = window.scrollY;
 
-          try {
-            button.focus({ preventScroll: true });
-          } catch {
-            button.focus();
-          }
+            try {
+              button.focus({ preventScroll: true });
+            } catch {
+              button.focus();
+            }
 
-          if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
-            window.scrollTo(scrollX, scrollY);
+            const restoreScroll = () => {
+              if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
+                window.scrollTo(scrollX, scrollY);
+              }
+            };
+
+            restoreScroll();
+            requestAnimationFrame(restoreScroll);
           }
         } else {
           button.focus();
@@ -93,12 +100,17 @@ class TabsComponent extends HTMLElement {
     });
 
     if (this.disableScroll && anchorTop !== null) {
-      const newTop = this.getBoundingClientRect().top;
-      const delta = anchorTop - newTop;
+      const adjustScroll = () => {
+        const newTop = this.getBoundingClientRect().top;
+        const delta = anchorTop - newTop;
 
-      if (Math.abs(delta) > 1) {
-        window.scrollBy({ top: delta, left: 0 });
-      }
+        if (Math.abs(delta) > 1) {
+          window.scrollBy({ top: delta, left: 0 });
+        }
+      };
+
+      adjustScroll();
+      requestAnimationFrame(adjustScroll);
     }
   };
 

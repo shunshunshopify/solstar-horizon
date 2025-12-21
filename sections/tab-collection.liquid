@@ -147,7 +147,6 @@
                     style="
                       {% render 'border-override', settings: block.settings %}
                       --resource-card-corner-radius: {{ block.settings.border_radius }}px;
-                      --resource-card-gap: {{ block.settings.collection_card_gap }}px;
                     "
                     data-origin-collection-handle="{{ tab_collection.handle }}"
                     data-origin-collection-title="{{ tab_collection.title | escape }}"
@@ -158,6 +157,7 @@
                       resource_type: 'product',
                       image_aspect_ratio: image_ratio,
                       image_hover: settings.show_second_image_on_hover,
+                      resource_card_gap: block.settings.collection_card_gap,
                       show_wishlist_button: true,
                       collection: tab_collection
                     %}
@@ -178,13 +178,13 @@
                     style="
                       {% render 'border-override', settings: block.settings %}
                       --resource-card-corner-radius: {{ block.settings.border_radius }}px;
-                      --resource-card-gap: {{ block.settings.collection_card_gap }}px;
                     "
                   >
                     {% render 'resource-card',
                       resource: blank,
                       resource_type: 'product',
                       image_aspect_ratio: image_ratio,
+                      resource_card_gap: block.settings.collection_card_gap,
                       show_wishlist_button: false
                     %}
                   </div>

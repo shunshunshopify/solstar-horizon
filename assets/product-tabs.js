@@ -53,6 +53,8 @@ class TabsComponent extends HTMLElement {
   activateTab = (tabId, { focus = true } = {}) => {
     if (!tabId) return;
 
+    const anchorTop = this.disableScroll ? this.getBoundingClientRect().top : null;
+
     this.tabButtons.forEach((button) => {
       const isActive = button.dataset.tab === tabId;
       button.classList.toggle('current', isActive);
@@ -61,7 +63,18 @@ class TabsComponent extends HTMLElement {
 
       if (isActive && focus) {
         if (this.disableScroll) {
-          button.focus({ preventScroll: true });
+          const scrollX = window.scrollX;
+          const scrollY = window.scrollY;
+
+          try {
+            button.focus({ preventScroll: true });
+          } catch {
+            button.focus();
+          }
+
+          if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
+            window.scrollTo(scrollX, scrollY);
+          }
         } else {
           button.focus();
           button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
@@ -78,6 +91,15 @@ class TabsComponent extends HTMLElement {
         this.refreshEllipsis(panel);
       }
     });
+
+    if (this.disableScroll && anchorTop !== null) {
+      const newTop = this.getBoundingClientRect().top;
+      const delta = anchorTop - newTop;
+
+      if (Math.abs(delta) > 1) {
+        window.scrollBy({ top: delta, left: 0 });
+      }
+    }
   };
 
   scrollPrev = () => {

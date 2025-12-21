@@ -1,4 +1,23 @@
 class TabsComponent extends HTMLElement {
+  /** @type {boolean} */
+  static supportsPreventScroll = (() => {
+    if (typeof document === 'undefined') return false;
+    let supports = false;
+    const test = document.createElement('button');
+    test.tabIndex = -1;
+    try {
+      test.focus({
+        get preventScroll() {
+          supports = true;
+          return true;
+        },
+      });
+    } catch {
+      supports = false;
+    }
+    return supports;
+  })();
+
   /** @type {AbortController} */
   controller;
   /** @type {HTMLElement | null} */
@@ -131,11 +150,16 @@ class TabsComponent extends HTMLElement {
       return;
     }
 
-    try {
+    if (TabsComponent.supportsPreventScroll) {
       button.focus({ preventScroll: true });
-    } catch {
-      button.focus();
-      this.restoreScrollPosition(scrollX, scrollY);
+      return;
+    }
+
+    const prevScrollX = scrollX ?? window.scrollX;
+    const prevScrollY = scrollY ?? window.scrollY;
+    button.focus();
+    if (window.scrollX !== prevScrollX || window.scrollY !== prevScrollY) {
+      window.scrollTo(prevScrollX, prevScrollY);
     }
   }
 
@@ -144,16 +168,9 @@ class TabsComponent extends HTMLElement {
    * @param {number} scrollY
    */
   restoreScrollPosition = (scrollX, scrollY) => {
-    const restoreScroll = () => {
-      if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
-        window.scrollTo(scrollX, scrollY);
-      }
-    };
-
-    requestAnimationFrame(() => {
-      restoreScroll();
-      requestAnimationFrame(restoreScroll);
-    });
+    if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
+      window.scrollTo(scrollX, scrollY);
+    }
   };
 
   /**

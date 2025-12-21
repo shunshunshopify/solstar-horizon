@@ -545,10 +545,15 @@
 
   .tab-collection__panels {
     margin-top: 12px;
+    overflow-anchor: none;
   }
 
   .tab-collection__inner.page-width .tab-collection__panels {
     margin-inline: calc(-1 * var(--page-margin));
+  }
+
+  .tab-collection__panels .tab-content {
+    overflow-anchor: none;
   }
 
   .tab-collection__empty {

@@ -53,7 +53,9 @@ class TabsComponent extends HTMLElement {
   activateTab = (tabId, { focus = true } = {}) => {
     if (!tabId) return;
 
-    const anchorTop = this.disableScroll ? this.getBoundingClientRect().top : null;
+    const lockScroll = this.disableScroll;
+    const scrollX = lockScroll ? window.scrollX : null;
+    const scrollY = lockScroll ? window.scrollY : null;
 
     this.tabButtons.forEach((button) => {
       const isActive = button.dataset.tab === tabId;
@@ -62,25 +64,17 @@ class TabsComponent extends HTMLElement {
       button.setAttribute('tabindex', isActive ? '0' : '-1');
 
       if (isActive && focus) {
-        if (this.disableScroll) {
+        if (lockScroll) {
           if (document.activeElement !== button) {
-            const scrollX = window.scrollX;
-            const scrollY = window.scrollY;
-
             try {
               button.focus({ preventScroll: true });
             } catch {
               button.focus();
             }
 
-            const restoreScroll = () => {
-              if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
-                window.scrollTo(scrollX, scrollY);
-              }
-            };
-
-            restoreScroll();
-            requestAnimationFrame(restoreScroll);
+            if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
+              window.scrollTo(scrollX, scrollY);
+            }
           }
         } else {
           button.focus();
@@ -99,19 +93,64 @@ class TabsComponent extends HTMLElement {
       }
     });
 
-    if (this.disableScroll && anchorTop !== null) {
-      const adjustScroll = () => {
-        const newTop = this.getBoundingClientRect().top;
-        const delta = anchorTop - newTop;
-
-        if (Math.abs(delta) > 1) {
-          window.scrollBy({ top: delta, left: 0 });
-        }
-      };
-
-      adjustScroll();
-      requestAnimationFrame(adjustScroll);
+    if (lockScroll) {
+      this.lockScrollPosition(scrollX, scrollY);
     }
+  };
+
+  lockScrollPosition = (scrollX, scrollY) => {
+    if (scrollX == null || scrollY == null) return;
+
+    if (this.scrollLockController) {
+      this.scrollLockController.abort();
+    }
+
+    const controller = new AbortController();
+    const { signal } = controller;
+    this.scrollLockController = controller;
+
+    const startTime = performance.now();
+    const maxDurationMs = 1000;
+
+    const release = () => {
+      if (signal.aborted) return;
+      controller.abort();
+      if (this.scrollLockController === controller) {
+        this.scrollLockController = null;
+      }
+    };
+
+    const restoreScroll = () => {
+      if (signal.aborted) return;
+      if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
+        window.scrollTo(scrollX, scrollY);
+      }
+    };
+
+    const tick = () => {
+      if (signal.aborted) return;
+      restoreScroll();
+      if (performance.now() - startTime < maxDurationMs) {
+        requestAnimationFrame(tick);
+      } else {
+        release();
+      }
+    };
+
+    window.addEventListener('wheel', release, { signal, passive: true });
+    window.addEventListener('touchmove', release, { signal, passive: true });
+    window.addEventListener(
+      'keydown',
+      (event) => {
+        const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
+        if (keys.includes(event.code)) {
+          release();
+        }
+      },
+      { signal }
+    );
+
+    tick();
   };
 
   scrollPrev = () => {

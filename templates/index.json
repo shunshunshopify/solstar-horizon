@@ -363,12 +363,37 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "section_map_AkWL9b": {
+      "type": "section-map",
+      "name": "t:sections.map.presets.default.name",
+      "settings": {
+        "api_key": "",
+        "map_address": "1600 Amphitheatre Parkway, Mountain View, CA",
+        "enable_latlong": false,
+        "lat": "",
+        "long": "",
+        "zoom": 14,
+        "style": "basic",
+        "heading": "Visit our studio",
+        "heading_tag": "h2",
+        "address_content": "<p>123 Main Street<br>City, State</p><p>Mon–Fri: 10am–6pm</p>",
+        "button_label": "Get directions",
+        "button_style": "button",
+        "desktop_height": "image-height",
+        "mobile_height": "image-height--mobile",
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 24,
+        "padding-block-end": 24
+      }
     }
   },
   "order": [
     "hero_A9LURP",
     "collection_list_FcnB6W",
     "hero_video_hA3fDi",
-    "tab_collection_WWWamq"
+    "tab_collection_WWWamq",
+    "section_map_AkWL9b"
   ]
 }

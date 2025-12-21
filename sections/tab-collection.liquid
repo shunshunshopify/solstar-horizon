@@ -147,6 +147,7 @@
                     style="
                       {% render 'border-override', settings: block.settings %}
                       --resource-card-corner-radius: {{ block.settings.border_radius }}px;
+                      --resource-card-gap: {{ block.settings.collection_card_gap }}px;
                     "
                     data-origin-collection-handle="{{ tab_collection.handle }}"
                     data-origin-collection-title="{{ tab_collection.title | escape }}"
@@ -177,6 +178,7 @@
                     style="
                       {% render 'border-override', settings: block.settings %}
                       --resource-card-corner-radius: {{ block.settings.border_radius }}px;
+                      --resource-card-gap: {{ block.settings.collection_card_gap }}px;
                     "
                   >
                     {% render 'resource-card',

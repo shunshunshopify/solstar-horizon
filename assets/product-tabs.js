@@ -13,8 +13,6 @@ class TabsComponent extends HTMLElement {
   nextButton = null;
   /** @type {boolean} */
   disableScroll = false;
-  /** @type {AbortController | null} */
-  scrollLockController = null;
 
   constructor() {
     super();
@@ -37,7 +35,7 @@ class TabsComponent extends HTMLElement {
 
       button.addEventListener(
         'click',
-        () => this.activateTab(tabId, { focus: !this.disableScroll }),
+        () => this.activateTab(tabId, { focus: true, scrollToTab: true }),
         { signal }
       );
       button.addEventListener(
@@ -46,7 +44,7 @@ class TabsComponent extends HTMLElement {
           const keyboardEvent = /** @type {KeyboardEvent} */ (event);
           if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
             keyboardEvent.preventDefault();
-            this.activateTab(tabId, { focus: !this.disableScroll });
+            this.activateTab(tabId, { focus: true, scrollToTab: true });
           }
         },
         { signal }
@@ -72,21 +70,22 @@ class TabsComponent extends HTMLElement {
     const fallbackTabId = fallbackButton?.dataset.tab;
 
     if (fallbackTabId) {
-      this.activateTab(fallbackTabId, { focus: false });
+      this.activateTab(fallbackTabId, { focus: false, scrollToTab: false });
     }
   }
 
   /**
    * @param {string} tabId
-   * @param {{ focus?: boolean }} [options]
+   * @param {{ focus?: boolean, scrollToTab?: boolean }} [options]
    */
-  activateTab = (tabId, { focus = true } = {}) => {
+  activateTab = (tabId, { focus = true, scrollToTab = true } = {}) => {
     if (!tabId) return;
 
     const lockScroll = this.disableScroll;
     const scrollX = window.scrollX;
     const scrollY = window.scrollY;
-    const shouldFocus = focus && !lockScroll;
+    const shouldFocus = focus;
+    let activeButton = null;
 
     this.tabButtons.forEach((button) => {
       const isActive = button.dataset.tab === tabId;
@@ -94,11 +93,18 @@ class TabsComponent extends HTMLElement {
       button.setAttribute('aria-selected', isActive ? 'true' : 'false');
       button.setAttribute('tabindex', isActive ? '0' : '-1');
 
+      if (isActive) {
+        activeButton = button;
+      }
+
       if (isActive && shouldFocus) {
-        button.focus();
-        button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        this.focusTabButton(button, { preventScroll: lockScroll, scrollX, scrollY });
       }
     });
+
+    if (activeButton && scrollToTab) {
+      this.scrollTabIntoView(activeButton, lockScroll ? 'auto' : 'smooth');
+    }
 
     this.tabPanels.forEach((panel) => {
       const isActive = panel.dataset.tabContent === tabId;
@@ -111,71 +117,62 @@ class TabsComponent extends HTMLElement {
     });
 
     if (lockScroll) {
-      this.lockScrollPosition(scrollX, scrollY);
+      this.restoreScrollPosition(scrollX, scrollY);
     }
   };
+
+  /**
+   * @param {HTMLButtonElement} button
+   * @param {{ preventScroll: boolean, scrollX: number, scrollY: number }} options
+   */
+  focusTabButton(button, { preventScroll, scrollX, scrollY }) {
+    if (!preventScroll) {
+      button.focus();
+      return;
+    }
+
+    try {
+      button.focus({ preventScroll: true });
+    } catch {
+      button.focus();
+      this.restoreScrollPosition(scrollX, scrollY);
+    }
+  }
 
   /**
    * @param {number} scrollX
    * @param {number} scrollY
    */
-  lockScrollPosition = (scrollX, scrollY) => {
-    if (this.scrollLockController) {
-      this.scrollLockController.abort();
-    }
-
-    const controller = new AbortController();
-    const { signal } = controller;
-    this.scrollLockController = controller;
-
-    const rootElement = document.documentElement;
-    const previousOverflowAnchor = rootElement.style.overflowAnchor;
-    rootElement.style.overflowAnchor = 'none';
-
-    const startTime = performance.now();
-    const maxDurationMs = 1000;
-
-    const release = () => {
-      if (signal.aborted) return;
-      controller.abort();
-      rootElement.style.overflowAnchor = previousOverflowAnchor;
-      if (this.scrollLockController === controller) {
-        this.scrollLockController = null;
-      }
-    };
-
+  restoreScrollPosition = (scrollX, scrollY) => {
     const restoreScroll = () => {
-      if (signal.aborted) return;
       if (window.scrollX !== scrollX || window.scrollY !== scrollY) {
         window.scrollTo(scrollX, scrollY);
       }
     };
 
-    const tick = () => {
-      if (signal.aborted) return;
+    requestAnimationFrame(() => {
       restoreScroll();
-      if (performance.now() - startTime < maxDurationMs) {
-        requestAnimationFrame(tick);
-      } else {
-        release();
-      }
-    };
+      requestAnimationFrame(restoreScroll);
+    });
+  };
 
-    window.addEventListener('wheel', release, { signal, passive: true });
-    window.addEventListener('touchmove', release, { signal, passive: true });
-    window.addEventListener(
-      'keydown',
-      (event) => {
-        const keyboardEvent = /** @type {KeyboardEvent} */ (event);
-        const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
-        if (keys.includes(keyboardEvent.code)) {
-          release();
-        }
-      },
-      { signal }
-    );
+  /**
+   * @param {HTMLButtonElement} button
+   * @param {ScrollBehavior} behavior
+   */
+  scrollTabIntoView = (button, behavior) => {
+    if (!this.navList) return;
 
-    tick();
+    const navList = this.navList;
+    const navRect = navList.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    const buttonCenter = buttonRect.left + buttonRect.width / 2;
+    const navCenter = navRect.left + navRect.width / 2;
+    const delta = buttonCenter - navCenter;
+
+    if (Math.abs(delta) > 1) {
+      navList.scrollBy({ left: delta, behavior });
+    }
   };
 
   scrollPrev = () => {

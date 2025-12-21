@@ -307,13 +307,8 @@
           "type": "tab",
           "settings": {
             "title": "Collection",
-            "collection_list": [
-              "2025-summer-collection"
-            ],
+            "collection": "2025-summer-collection",
             "max_items": 6,
-            "placement": "on_image",
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
             "collection_card_gap": 8,
             "inherit_color_scheme": true,
             "color_scheme": "",
@@ -332,13 +327,8 @@
           "type": "tab",
           "settings": {
             "title": "Collection",
-            "collection_list": [
-              "beach-towel"
-            ],
+            "collection": "",
             "max_items": 6,
-            "placement": "on_image",
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
             "collection_card_gap": 8,
             "inherit_color_scheme": true,
             "color_scheme": "",

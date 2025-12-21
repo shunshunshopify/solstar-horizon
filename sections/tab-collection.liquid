@@ -3,7 +3,6 @@
   assign subheading = section.settings.subheading
   assign columns = section.settings.columns | default: 4
   assign columns_gap = section.settings.columns_gap | default: 16
-  assign mobile_card_size = section.settings.mobile_card_size | default: '60cqw'
   assign slider_gutters = ''
   assign first_tab_id = ''
 
@@ -261,16 +260,6 @@
       "max": 8,
       "step": 1,
       "default": 4
-    },
-    {
-      "type": "select",
-      "id": "mobile_card_size",
-      "label": "Mobile card size",
-      "options": [
-        { "value": "60cqw", "label": "1 per row" },
-        { "value": "44cqw", "label": "2 per row" }
-      ],
-      "default": "60cqw"
     },
     {
       "type": "range",

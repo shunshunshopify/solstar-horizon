@@ -42,7 +42,7 @@
     {% endif %}
 
     {% if section.blocks.size > 0 %}
-      <tabs-component class="product-tabs tab-collection__tabs">
+      <tabs-component class="product-tabs tab-collection__tabs" data-tabs-no-scroll>
         <native-scrollbar class="tabs__head product-tabs__head">
           <ul class="tabs product-tabs-title" role="tablist" data-scrollbar data-scrollbar-slider>
             {% for block in section.blocks %}

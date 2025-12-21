@@ -12,6 +12,7 @@ class TabsComponent extends HTMLElement {
     this.tabPanels = Array.from(this.querySelectorAll('[data-tab-content]'));
     this.prevButton = this.querySelector('[data-tabs-prev]');
     this.nextButton = this.querySelector('[data-tabs-next]');
+    this.disableScroll = this.hasAttribute('data-tabs-no-scroll');
 
     this.tabButtons.forEach((button) => {
       button.addEventListener('click', () => this.activateTab(button.dataset.tab), { signal });
@@ -59,8 +60,12 @@ class TabsComponent extends HTMLElement {
       button.setAttribute('tabindex', isActive ? '0' : '-1');
 
       if (isActive && focus) {
-        button.focus();
-        button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        if (this.disableScroll) {
+          button.focus({ preventScroll: true });
+        } else {
+          button.focus();
+          button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
       }
     });
 

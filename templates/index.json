@@ -411,9 +411,10 @@
       "settings": {
         "heading": "Shop collections",
         "subheading": "",
+        "header_alignment": "center",
         "layout_type": "carousel",
         "columns": 4,
-        "columns_gap": 16,
+        "columns_gap": 10,
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",

@@ -1,16 +1,8 @@
 {% liquid
   assign heading = section.settings.heading
   assign subheading = section.settings.subheading
-  assign columns = section.settings.columns | default: 4
-  assign columns_gap = section.settings.columns_gap | default: 16
-  assign slider_gutters = ''
-  assign first_tab_id = ''
-
-  if section.settings.section_width == 'page-width'
-    assign slider_gutters = 'start end'
-  endif
-
   assign header_alignment = section.settings.header_alignment | default: 'start'
+  assign first_tab_id = ''
 %}
 
 <div class="section-background color-{{ section.settings.section_color_scheme }}"></div>

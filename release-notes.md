@@ -1,3 +1,14 @@
+# Release Notes - Version 3.2.7
+
+This release aligns Tab Collection carousel cards with the grid on mobile and simplifies aspect ratio control.
+
+## What's Changed
+
+### Fixes and improvements
+- [Tab collection] Mobile carousel cards now use the same width math as the grid, removing the oversized single-card view.
+- [Tab collection] Carousel featured cards stretch to full height like grid cards for consistent media coverage.
+- [Tab collection] Section-level aspect ratio setting removed; block-level aspect ratio remains the single source of truth.
+
 # Release Notes - Version 3.2.6
 
 This release introduces a new Tab Collection section with richer controls and improves tab navigation behavior.

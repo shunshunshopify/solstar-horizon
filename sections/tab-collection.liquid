@@ -315,6 +315,7 @@
             {% endcapture %}
 
             {% assign list_items_array = list_items | strip | split: '<!--@list/split-->' %}
+            {% assign block_layout_type = block.settings.layout_type | default: section.settings.layout_type | default: 'carousel' %}
 
             <div
               class="tab-content{% if tab_id == first_tab_id %} current{% endif %}"
@@ -331,7 +332,8 @@
                 carousel_ref: 'TabCollectionCarousel-' | append: section.id | append: '-' | append: block.id,
                 slide_count: slide_count,
                 content_type: 'products',
-                test_id: 'tab-collection-carousel'
+                test_id: 'tab-collection-carousel',
+                layout_type_override: block_layout_type
               %}
             </div>
           {% endfor %}
@@ -521,6 +523,16 @@
           "max": 16,
           "step": 1,
           "default": 6
+        },
+        {
+          "type": "select",
+          "id": "layout_type",
+          "label": "Layout type",
+          "options": [
+            { "value": "grid", "label": "Grid" },
+            { "value": "carousel", "label": "Carousel" }
+          ],
+          "default": "carousel"
         },
         {
           "type": "header",

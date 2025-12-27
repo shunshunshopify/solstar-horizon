@@ -4016,7 +4016,7 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 
 @container resource-list-carousel (max-width: 749px) {
   .resource-list__carousel .resource-list__slide {
-    --slide-width: clamp(150px, var(--mobile-card-size, 60cqw), var(--slide-width-max));
+    --slide-width: calc((100% - var(--resource-list-column-gap)) / 2);
   }
 }
 

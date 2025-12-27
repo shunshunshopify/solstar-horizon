@@ -38,17 +38,19 @@
   assign list_items = list_items | default: ''
   assign list_items_array = list_items_array | default: empty
   assign settings = settings | default: empty
-  assign carousel_ref = carousel_ref | default: 'resourceListCarousel'
+ assign carousel_ref = carousel_ref | default: 'resourceListCarousel'
   assign slide_count = slide_count | default: 0
   assign content_type = content_type | default: 'collections'
   assign test_id = test_id | default: ''
+  assign layout_type_override = layout_type_override | default: ''
+  assign force_full_width_carousel = false
 
   unless settings != empty
     echo '<!-- Error: settings parameter required for resource-list snippet -->'
     break
   endunless
 
-  assign layout_type = settings.layout_type | default: 'grid'
+  assign layout_type = layout_type_override | default: settings.layout_type | default: 'grid'
   assign columns = settings.columns | default: 3
   assign mobile_columns = settings.mobile_columns | default: 2
   assign columns_gap = settings.columns_gap | default: 16
@@ -56,6 +58,12 @@
   assign bento_gap = settings.bento_gap | default: 16
   assign mobile_card_size = settings.mobile_card_size | default: '60cqw'
   assign slide_width_max = '450px'
+
+  if layout_type == 'carousel'
+    if settings.section_width == 'full-width' or settings.force_full_width_carousel
+      assign force_full_width_carousel = true
+    endif
+  endif
 
   case layout_type
     when 'grid'
@@ -107,7 +115,7 @@
 <div
   class="
     resource-list
-    {% if settings.layout_type == 'carousel' %}
+    {% if force_full_width_carousel %}
       force-full-width
     {% endif %}
     {% if settings.carousel_on_mobile and settings.layout_type != 'carousel' %}

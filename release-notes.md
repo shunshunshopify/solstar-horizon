@@ -9,6 +9,7 @@ This release aligns Tab Collection carousel cards with the grid on mobile and si
 - [Tab collection] Carousel featured cards stretch to full height like grid cards for consistent media coverage.
 - [Tab collection] Section-level aspect ratio setting removed; block-level aspect ratio remains the single source of truth.
 - [Tab collection] Section layout label clarified and width handling aligned with carousel layout.
+- [Featured collection] Carousel now respects the Page width option instead of forcing full width.
 
 ### Added
 - [Tab collection] Heading and tab title alignment control (Left/Center) at the section level.

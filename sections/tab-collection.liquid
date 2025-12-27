@@ -9,6 +9,8 @@
   if section.settings.section_width == 'page-width'
     assign slider_gutters = 'start end'
   endif
+
+  assign header_alignment = section.settings.header_alignment | default: 'start'
 %}
 
 <div class="section-background color-{{ section.settings.section_color_scheme }}"></div>
@@ -29,7 +31,7 @@
   "
   data-section-id="{{ section.id }}"
 >
-  <div class="tab-collection__inner">
+  <div class="tab-collection__inner tab-collection__inner--align-{{ header_alignment }}">
     {% if heading or subheading %}
       <div class="tab-collection__header">
         {% if heading %}
@@ -364,6 +366,16 @@
       "type": "richtext",
       "id": "subheading",
       "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Heading and tabs alignment",
+      "options": [
+        { "value": "start", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "start"
     },
     {
       "type": "select",
@@ -1004,6 +1016,19 @@
   .tab-collection__item .resource-card__media {
     --padding-block-start: 0px;
     --padding-inline-start: 0px;
+  }
+
+  .tab-collection__inner--align-center .tab-collection__header,
+  .tab-collection__inner--align-center .product-tabs__head {
+    justify-content: center;
+  }
+
+  .tab-collection__inner--align-center .tab-collection__header {
+    text-align: center;
+  }
+
+  .tab-collection__inner--align-center .product-tabs__head .tabs {
+    justify-content: center;
   }
 
   .tab-collection__featured-link {

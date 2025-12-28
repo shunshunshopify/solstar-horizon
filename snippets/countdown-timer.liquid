@@ -1,0 +1,115 @@
+<!-- /snippets/countdown-timer.liquid -->
+
+{% comment %}
+  Renders a countdown timer.
+
+  Accepts:
+  - end_date: {String} Expiration date (required)
+  - end_time: {String} Expiration time (required)
+  - period: {String} AM/PM (required)
+  - digits_size: {String} CSS font-size value for digits (optional)
+  - text_size: {String} CSS font-size value for unit labels (optional)
+  - end_message: {String} End of timer message (optional)
+  - hide_on_complete: {Boolean} Hide section when complete (optional)
+{% endcomment %}
+
+{%- liquid
+  assign digits_size = digits_size | default: 'var(--font-h2--size)'
+  assign text_size = text_size | default: 'var(--font-size--xs)'
+  assign end_time_hour = end_time | split: ':' | first | times: 1
+  assign end_time_minute = end_time | split: ':' | last
+
+  capture expiration_date
+    echo end_date
+    echo ' '
+    case period
+      when 'am'
+        case end_time_hour
+          when 0, 12
+            echo '00' | append: ':' | append: end_time_minute
+          else
+            echo end_time
+        endcase
+      when 'pm'
+        capture hour
+          case end_time_hour
+            when 0, 12
+              echo '12'
+            else
+              if end_time_hour < 12
+                echo end_time_hour | plus: 12
+              else
+                echo end_time_hour
+              endif
+          endcase
+        endcapture
+
+        echo hour | append: ':' | append: end_time_minute
+    endcase
+  endcapture
+
+  assign expiration_date = expiration_date | default: 'now' | date: '%s'
+  assign end_message = end_message | default: ''
+  assign hide_on_complete = hide_on_complete | default: false
+  assign current_date = 'now' | date: '%s'
+  assign time_difference = expiration_date | minus: current_date
+  assign days = time_difference | divided_by: 86400 | at_least: 0
+  assign remaining_seconds = time_difference | modulo: 86400
+  assign hours = remaining_seconds | divided_by: 3600 | at_least: 0
+  assign remaining_seconds = remaining_seconds | modulo: 3600
+  assign minutes = remaining_seconds | divided_by: 60 | at_least: 0
+  assign seconds = remaining_seconds | modulo: 60 | at_least: 0
+
+  if days < 10
+    assign days = days | prepend: '0'
+  endif
+  if hours < 10
+    assign hours = hours | prepend: '0'
+  endif
+  if minutes < 10
+    assign minutes = minutes | prepend: '0'
+  endif
+  if seconds < 10
+    assign seconds = seconds | prepend: '0'
+  endif
+
+  assign expiration_behavior = 'show-message'
+  if hide_on_complete
+    assign expiration_behavior = 'hide-section'
+  endif
+-%}
+
+<countdown-timer
+  data-expiration-behavior="{{ expiration_behavior }}"
+  style="
+    --countdown-digit-size: {{ digits_size }};
+    --countdown-unit-size: {{ text_size }};
+  "
+>
+  <div class="countdown-timer__timer">
+    <time class="countdown-timer__datetime" datetime="{{ expiration_date | date: '%Y-%m-%dT%H:%M:%S.%3N%z' }}">
+      <div class="countdown-timer__segment">
+        <strong class="countdown-timer__digit" data-days>{{ days }}</strong>
+        <small class="countdown-timer__unit">Days</small>
+      </div>
+      <div class="countdown-timer__segment">
+        <strong class="countdown-timer__digit" data-hours>{{ hours }}</strong>
+        <small class="countdown-timer__unit">Hours</small>
+      </div>
+      <div class="countdown-timer__segment">
+        <strong class="countdown-timer__digit" data-minutes>{{ minutes }}</strong>
+        <small class="countdown-timer__unit">Minutes</small>
+      </div>
+      <div class="countdown-timer__segment">
+        <strong class="countdown-timer__digit" data-seconds>{{ seconds }}</strong>
+        <small class="countdown-timer__unit">Seconds</small>
+      </div>
+    </time>
+  </div>
+
+  {%- if hide_on_complete == false and end_message != '' -%}
+    <div class="countdown-timer__message rte">
+      {{ end_message }}
+    </div>
+  {%- endif -%}
+</countdown-timer>

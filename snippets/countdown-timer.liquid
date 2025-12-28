@@ -90,19 +90,19 @@
     <time class="countdown-timer__datetime" datetime="{{ expiration_date | date: '%Y-%m-%dT%H:%M:%S.%3N%z' }}">
       <div class="countdown-timer__segment">
         <strong class="countdown-timer__digit" data-days>{{ days }}</strong>
-        <small class="countdown-timer__unit">Days</small>
+        <small class="countdown-timer__unit">{{ 'countdown_timer.days' | t }}</small>
       </div>
       <div class="countdown-timer__segment">
         <strong class="countdown-timer__digit" data-hours>{{ hours }}</strong>
-        <small class="countdown-timer__unit">Hours</small>
+        <small class="countdown-timer__unit">{{ 'countdown_timer.hours' | t }}</small>
       </div>
       <div class="countdown-timer__segment">
         <strong class="countdown-timer__digit" data-minutes>{{ minutes }}</strong>
-        <small class="countdown-timer__unit">Minutes</small>
+        <small class="countdown-timer__unit">{{ 'countdown_timer.minutes' | t }}</small>
       </div>
       <div class="countdown-timer__segment">
         <strong class="countdown-timer__digit" data-seconds>{{ seconds }}</strong>
-        <small class="countdown-timer__unit">Seconds</small>
+        <small class="countdown-timer__unit">{{ 'countdown_timer.seconds' | t }}</small>
       </div>
     </time>
   </div>

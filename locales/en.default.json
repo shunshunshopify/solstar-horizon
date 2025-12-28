@@ -296,6 +296,12 @@
     "recipient_form_error": "There was an error with the form submission",
     "product_custom_property_character_count": "{{ used_chars }}/{{ max_chars }} characters used"
   },
+  "countdown_timer": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
+  },
   "fields": {
     // Separates min and max values in price range filter
     "separator": "to"

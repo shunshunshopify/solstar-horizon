@@ -1787,8 +1787,8 @@
       "padding_header": "余白",
       "padding_block_start": "上",
       "padding_block_end": "下",
-      "height_desktop": "高さ（デスクトップ）",
-      "height_mobile": "高さ（モバイル）",
+      "height_desktop": "高さ",
+      "height_mobile": "高さ",
       "desktop_header": "デスクトップ",
       "mobile_header": "モバイル"
     },

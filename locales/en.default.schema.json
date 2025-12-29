@@ -299,8 +299,8 @@
       "padding_header": "Padding",
       "padding_block_start": "Top",
       "padding_block_end": "Bottom",
-      "height_desktop": "Height (desktop)",
-      "height_mobile": "Height (mobile)",
+      "height_desktop": "Height",
+      "height_mobile": "Height",
       "desktop_header": "Desktop",
       "mobile_header": "Mobile"
     },

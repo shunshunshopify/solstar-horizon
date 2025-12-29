@@ -255,6 +255,82 @@
     "minutes": "分",
     "seconds": "秒"
   },
+  "before_after": {
+    "name": "ビフォー／アフター",
+    "settings": {
+      "before_image": "ビフォー画像",
+      "after_image": "アフター画像",
+      "before_label": "ビフォーラベル",
+      "after_label": "アフターラベル",
+      "image_ratio": "画像のアスペクト比",
+      "image_ratio_info": "縦長〜横長",
+      "image_corner_radius": "画像の角丸",
+      "section_width": "セクション幅",
+      "color_scheme": "配色",
+      "text_alignment": "テキストの配置",
+      "gap": "ブロック間隔",
+      "padding_header": "余白",
+      "padding_block_start": "上",
+      "padding_block_end": "下"
+    },
+    "options": {
+      "section_width": {
+        "page": "ページ幅",
+        "full": "全幅"
+      },
+      "text_alignment": {
+        "left": "左揃え",
+        "center": "中央揃え",
+        "right": "右揃え"
+      },
+      "heading_tags": {
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6"
+      },
+      "button_style": {
+        "primary": "プライマリー",
+        "secondary": "セカンダリー",
+        "text": "テキスト"
+      }
+    },
+    "blocks": {
+      "subheading": {
+        "name": "サブ見出し",
+        "settings": {
+          "subheading": "サブ見出し"
+        }
+      },
+      "heading": {
+        "name": "見出し",
+        "settings": {
+          "heading": "見出し",
+          "heading_tag": "見出しタグ"
+        }
+      },
+      "text": {
+        "name": "テキスト",
+        "settings": {
+          "text": "テキスト"
+        }
+      },
+      "button": {
+        "name": "ボタン",
+        "settings": {
+          "button_label": "テキスト",
+          "button_link": "リンク",
+          "open_in_new_tab": "新しいタブで開く",
+          "button_style": "スタイル"
+        }
+      }
+    },
+    "presets": {
+      "name": "ビフォー／アフター"
+    }
+  },
   "gift_cards": {
     "issued": {
       "how_to_use_gift_card": "オンラインではギフトカードコード、実店舗ではQRコードを使用する",

@@ -137,7 +137,7 @@
     "visibility": "Visibility",
     "width": "Width",
     "width_is_automatically_optimized": "Width is automatically optimized for mobile.",
-    "app_required_for_ratings": "An app is required for product ratings. [Learn more](https://help.shopify.com/manual/apps)"
+    "app_required_for_ratings": "An app is required for product ratings. [Learn more](https://help.shopify.com/manual/apps)",
   },
   "html_defaults": {
     "bestseller_h2": "<h2>Bestsellers</h2>",
@@ -442,6 +442,7 @@
     "content": "Content",
     "content_grid": "Content grid",
     "copyright": "Copyright",
+    "before_after": "Before and after",
     "count": "Count",
     "custom_section": "Custom section",
     "description": "Description",

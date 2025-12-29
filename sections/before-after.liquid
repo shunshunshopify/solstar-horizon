@@ -1,8 +1,8 @@
 {%- liquid
   assign before_image = section.settings.before_image
   assign after_image = section.settings.after_image
-  assign before_label = section.settings.before_label | default: 'Before'
-  assign after_label = section.settings.after_label | default: 'After'
+  assign before_label = section.settings.before_label
+  assign after_label = section.settings.after_label
 
   assign has_content = false
 
@@ -128,13 +128,13 @@
       "type": "text",
       "id": "before_label",
       "label": "Before label",
-      "default": "Before"
+      "default": ""
     },
     {
       "type": "text",
       "id": "after_label",
       "label": "After label",
-      "default": "After"
+      "default": ""
     },
     {
       "type": "select",

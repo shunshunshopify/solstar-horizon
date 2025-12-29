@@ -4850,12 +4850,7 @@ text-component {
 }
 
 .compare__line {
-  position: absolute;
-  inset: 0;
-  left: var(--compare-position, 50%);
-  width: 1px;
-  background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.25);
-  transform: translateX(-50%);
+  display: none;
 }
 
 .compare__handle {

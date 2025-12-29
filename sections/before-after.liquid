@@ -3,24 +3,13 @@
   assign after_image = section.settings.after_image
   assign before_label = section.settings.before_label
   assign after_label = section.settings.after_label
-  assign image_ratio_setting = section.settings.image_ratio | default: 'adapt'
+  assign image_ratio_value = section.settings.image_ratio | default: 100
   assign image_corner_radius_value = section.settings.image_corner_radius | default: 24
 
   assign compare_aspect_ratio = ''
   assign compare_border_radius = ''
 
-  case image_ratio_setting
-    when 'landscape'
-      assign compare_aspect_ratio = '16 / 9'
-    when 'portrait'
-      assign compare_aspect_ratio = '4 / 5'
-    when 'square'
-      assign compare_aspect_ratio = '1 / 1'
-  endcase
-
-  if compare_aspect_ratio == ''
-    assign compare_aspect_ratio = after_image.aspect_ratio | default: before_image.aspect_ratio
-  endif
+  assign compare_aspect_ratio = image_ratio_value | append: ' / 100'
 
   assign compare_border_radius = image_corner_radius_value | append: 'px'
 
@@ -159,23 +148,21 @@
       "default": "After"
     },
     {
-      "type": "select",
+      "type": "range",
       "id": "image_ratio",
       "label": "Image aspect ratio",
-      "options": [
-        { "value": "adapt", "label": "Auto" },
-        { "value": "landscape", "label": "Landscape" },
-        { "value": "square", "label": "Square" },
-        { "value": "portrait", "label": "Portrait" }
-      ],
-      "default": "adapt"
+      "min": 50,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "default": 100
     },
     {
       "type": "range",
       "id": "image_corner_radius",
       "label": "Image corner radius",
       "min": 0,
-      "max": 64,
+      "max": 50,
       "step": 2,
       "unit": "px",
       "default": 24

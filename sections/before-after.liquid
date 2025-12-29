@@ -4,7 +4,7 @@
   assign before_label = section.settings.before_label
   assign after_label = section.settings.after_label
   assign image_ratio_setting = section.settings.image_ratio | default: 'adapt'
-  assign image_corner_radius = section.settings.image_corner_radius | default: 'large'
+  assign image_corner_radius_value = section.settings.image_corner_radius | default: 24
 
   assign compare_aspect_ratio = ''
   assign compare_border_radius = ''
@@ -22,18 +22,7 @@
     assign compare_aspect_ratio = after_image.aspect_ratio | default: before_image.aspect_ratio
   endif
 
-  case image_corner_radius
-    when 'none'
-      assign compare_border_radius = '0px'
-    when 'small'
-      assign compare_border_radius = '8px'
-    when 'medium'
-      assign compare_border_radius = '16px'
-    when 'large'
-      assign compare_border_radius = '24px'
-    when 'rounded'
-      assign compare_border_radius = '999px'
-  endcase
+  assign compare_border_radius = image_corner_radius_value | append: 'px'
 
   assign has_content = false
 
@@ -182,17 +171,14 @@
       "default": "adapt"
     },
     {
-      "type": "select",
+      "type": "range",
       "id": "image_corner_radius",
       "label": "Image corner radius",
-      "options": [
-        { "value": "none", "label": "None" },
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" },
-        { "value": "rounded", "label": "Pill" }
-      ],
-      "default": "large"
+      "min": 0,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 24
     },
     {
       "type": "select",

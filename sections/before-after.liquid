@@ -9,7 +9,7 @@
   assign compare_aspect_ratio = ''
   assign compare_border_radius = ''
 
-  assign compare_aspect_ratio = image_ratio_value | append: ' / 100'
+  assign compare_aspect_ratio = image_ratio_value | append: ' / 1'
 
   assign compare_border_radius = image_corner_radius_value | append: 'px'
 
@@ -151,11 +151,11 @@
       "type": "range",
       "id": "image_ratio",
       "label": "Image aspect ratio",
-      "min": 50,
-      "max": 150,
-      "step": 5,
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.05,
       "unit": ":1",
-      "default": 100,
+      "default": 1,
       "info": "Tall to wide"
     },
     {

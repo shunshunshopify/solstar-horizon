@@ -5,15 +5,16 @@
   @param {object} after_image - After state image object
   @param {string} before_label - Label shown on the before image
   @param {string} after_label - Label shown on the after image
+  @param {string} [aspect_ratio] - Optional aspect ratio override (e.g., "4 / 5")
 {%- enddoc -%}
 {%- liquid
-  assign aspect_ratio = after_image.aspect_ratio | default: before_image.aspect_ratio
+  assign resolved_aspect_ratio = aspect_ratio | default: after_image.aspect_ratio | default: before_image.aspect_ratio
 -%}
 
 <compare-images class="compare" style="--compare-position: 50%;">
   <div
     class="compare__frame"
-    style="{% if aspect_ratio %}aspect-ratio: {{ aspect_ratio }};{% endif %}"
+    style="{% if resolved_aspect_ratio %}aspect-ratio: {{ resolved_aspect_ratio }};{% endif %}"
   >
     <div class="compare__image compare__image--after">
       <div class="compare__media">

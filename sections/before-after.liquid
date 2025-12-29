@@ -3,6 +3,22 @@
   assign after_image = section.settings.after_image
   assign before_label = section.settings.before_label
   assign after_label = section.settings.after_label
+  assign image_ratio_setting = section.settings.image_ratio | default: 'adapt'
+
+  assign compare_aspect_ratio = ''
+
+  case image_ratio_setting
+    when 'landscape'
+      assign compare_aspect_ratio = '16 / 9'
+    when 'portrait'
+      assign compare_aspect_ratio = '4 / 5'
+    when 'square'
+      assign compare_aspect_ratio = '1 / 1'
+  endcase
+
+  if compare_aspect_ratio == ''
+    assign compare_aspect_ratio = after_image.aspect_ratio | default: before_image.aspect_ratio
+  endif
 
   assign has_content = false
 
@@ -96,7 +112,8 @@
         before_image: before_image,
         after_image: after_image,
         before_label: before_label,
-        after_label: after_label
+        after_label: after_label,
+        aspect_ratio: compare_aspect_ratio
       %}
 
       {%- if action_blocks != blank -%}
@@ -135,6 +152,18 @@
       "id": "after_label",
       "label": "After label",
       "default": "After"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "adapt", "label": "Auto" },
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" }
+      ],
+      "default": "adapt"
     },
     {
       "type": "select",

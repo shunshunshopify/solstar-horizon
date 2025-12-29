@@ -1,0 +1,63 @@
+{%- doc -%}
+  Renders a draggable before/after image comparison.
+
+  @param {object} before_image - Before state image object
+  @param {object} after_image - After state image object
+  @param {string} before_label - Label shown on the before image
+  @param {string} after_label - Label shown on the after image
+  @param {string} [aspect_ratio] - Optional aspect ratio override (e.g., "4 / 5")
+  @param {string} [border_radius] - Optional border radius override (e.g., "16px" or "50%")
+{%- enddoc -%}
+{%- liquid
+  assign resolved_aspect_ratio = aspect_ratio | default: after_image.aspect_ratio | default: before_image.aspect_ratio
+  assign resolved_border_radius = border_radius
+-%}
+
+<compare-images class="compare" style="--compare-position: 50%;">
+  <div
+    class="compare__frame"
+    style="
+      {% if resolved_aspect_ratio %}aspect-ratio: {{ resolved_aspect_ratio }};{% endif %}
+      {% if resolved_border_radius %}--compare-border-radius: {{ resolved_border_radius }};{% endif %}
+    "
+  >
+    <div class="compare__image compare__image--after">
+      <div class="compare__media">
+        {%- if after_image != blank -%}
+          {% render 'image', image: after_image, class: 'compare__image-media' %}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg compare__placeholder' }}
+        {%- endif -%}
+      </div>
+
+      {%- if after_label != blank -%}
+        <div class="compare__label compare__label--after">
+          {{ after_label }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="compare__image compare__image--before" data-compare-before>
+      <div class="compare__media">
+        {%- if before_image != blank -%}
+          {% render 'image', image: before_image, class: 'compare__image-media' %}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg compare__placeholder' }}
+        {%- endif -%}
+      </div>
+
+      {%- if before_label != blank -%}
+        <div class="compare__label compare__label--before">
+          {{ before_label }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="compare__divider" aria-hidden="true">
+      <span class="compare__line"></span>
+      <button class="compare__handle" type="button" aria-label="Drag to compare">
+        <span class="compare__handle-icon ri-expand-left-right-line" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</compare-images>

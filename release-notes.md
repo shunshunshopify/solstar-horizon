@@ -1,3 +1,13 @@
+# Release Notes - Version 3.2.9
+
+This release introduces the Before/After compare section with refined slider styling, range-based aspect ratio and corner radius controls, and completes localization keys (including Japanese).
+
+## What's Changed
+
+### Added
+- [Before/After] New compare section with draggable slider, Remixicon handle, and configurable aspect ratio (0.5–1.5) and corner radius.
+- [Localization] Translation keys added for all Before/After settings, options, blocks, and presets (en/ja).
+
 # Release Notes - Version 3.2.8
 
 This release adds a Countdown Timer section and localizes its unit labels using translation keys.

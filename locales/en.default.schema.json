@@ -137,7 +137,7 @@
     "visibility": "Visibility",
     "width": "Width",
     "width_is_automatically_optimized": "Width is automatically optimized for mobile.",
-    "app_required_for_ratings": "An app is required for product ratings. [Learn more](https://help.shopify.com/manual/apps)"
+    "app_required_for_ratings": "An app is required for product ratings. [Learn more](https://help.shopify.com/manual/apps)",
   },
   "html_defaults": {
     "bestseller_h2": "<h2>Bestsellers</h2>",
@@ -210,6 +210,82 @@
     "media_type_info": "Features are populated from your menu links",
     "optional_product_reference": "Optional product reference used for previews or overrides."
   },
+  "before_after": {
+    "name": "Before and after",
+    "settings": {
+      "before_image": "Before image",
+      "after_image": "After image",
+      "before_label": "Before label",
+      "after_label": "After label",
+      "image_ratio": "Image aspect ratio",
+      "image_ratio_info": "Tall to wide",
+      "image_corner_radius": "Image corner radius",
+      "section_width": "Section width",
+      "color_scheme": "Color scheme",
+      "text_alignment": "Text alignment",
+      "gap": "Block spacing",
+      "padding_header": "Padding",
+      "padding_block_start": "Top",
+      "padding_block_end": "Bottom"
+    },
+    "options": {
+      "section_width": {
+        "page": "Page",
+        "full": "Full"
+      },
+      "text_alignment": {
+        "left": "Left",
+        "center": "Center",
+        "right": "Right"
+      },
+      "heading_tags": {
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6"
+      },
+      "button_style": {
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "text": "Text"
+      }
+    },
+    "blocks": {
+      "subheading": {
+        "name": "Subheading",
+        "settings": {
+          "subheading": "Subheading"
+        }
+      },
+      "heading": {
+        "name": "Heading",
+        "settings": {
+          "heading": "Heading",
+          "heading_tag": "Heading tag"
+        }
+      },
+      "text": {
+        "name": "Text",
+        "settings": {
+          "text": "Text"
+        }
+      },
+      "button": {
+        "name": "Button",
+        "settings": {
+          "button_label": "Text",
+          "button_link": "Link",
+          "open_in_new_tab": "Open link in new tab",
+          "button_style": "Style"
+        }
+      }
+    },
+    "presets": {
+      "name": "Before and after"
+    }
+  },
   "names": {
     "product_title": "Product title",
     "custom_liquid": "Custom Liquid",
@@ -262,6 +338,7 @@
     "content": "Content",
     "content_grid": "Content grid",
     "copyright": "Copyright",
+    "before_after": "Before and after",
     "count": "Count",
     "custom_section": "Custom section",
     "description": "Description",

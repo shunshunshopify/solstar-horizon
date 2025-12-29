@@ -249,6 +249,12 @@
       "page": "{{ page }}ページ"
     }
   },
+  "countdown_timer": {
+    "days": "日",
+    "hours": "時間",
+    "minutes": "分",
+    "seconds": "秒"
+  },
   "gift_cards": {
     "issued": {
       "how_to_use_gift_card": "オンラインではギフトカードコード、実店舗ではQRコードを使用する",

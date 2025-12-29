@@ -418,7 +418,6 @@
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",
-        "gap": 12,
         "section_color_scheme": "",
         "padding-block-start": 32,
         "padding-block-end": 32,
@@ -640,6 +639,61 @@
         "padding-block-start": 24,
         "padding-block-end": 24
       }
+    },
+    "countdown_timer_REhPUD": {
+      "type": "countdown-timer",
+      "blocks": {
+        "timer_N3N9Q9": {
+          "type": "timer",
+          "settings": {
+            "end_date": "2025-12-31",
+            "end_time": "11:59",
+            "period": "am",
+            "end_message": "<p>Offer has expired</p>",
+            "digits_size": "var(--font-h1--size)",
+            "text_size": "var(--font-size--xs)"
+          }
+        },
+        "subheading_dUfFFm": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "Countdown is on"
+          }
+        },
+        "heading_kmDNk6": {
+          "type": "heading",
+          "settings": {
+            "heading": "Shop Before It Ends",
+            "heading_tag": "h2"
+          }
+        },
+        "button_YkqXCy": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop now",
+            "button_link": "shopify://collections/2025-summer-collection",
+            "open_in_new_tab": false,
+            "button_style": "button"
+          }
+        }
+      },
+      "block_order": [
+        "timer_N3N9Q9",
+        "subheading_dUfFFm",
+        "heading_kmDNk6",
+        "button_YkqXCy"
+      ],
+      "name": "Countdown timer",
+      "settings": {
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "layout": "split",
+        "text_alignment": "left",
+        "hide_on_complete": true,
+        "gap": 24,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
     }
   },
   "order": [
@@ -648,6 +702,7 @@
     "hero_video_hA3fDi",
     "tab_collection_WWWamq",
     "product_list_TgRgHT",
-    "section_map_AkWL9b"
+    "section_map_AkWL9b",
+    "countdown_timer_REhPUD"
   ]
 }

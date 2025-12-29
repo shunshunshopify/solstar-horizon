@@ -694,6 +694,51 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "before_after_aWJMVa": {
+      "type": "before-after",
+      "blocks": {
+        "heading_T3JV8n": {
+          "type": "heading",
+          "settings": {
+            "heading": "Before and after",
+            "heading_tag": "h2"
+          }
+        },
+        "text_YehXMH": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Show off how your product, treatment, or service transforms before and after.</p>"
+          }
+        },
+        "button_bcBict": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop now",
+            "button_link": "",
+            "open_in_new_tab": false,
+            "button_style": "button"
+          }
+        }
+      },
+      "block_order": [
+        "heading_T3JV8n",
+        "text_YehXMH",
+        "button_bcBict"
+      ],
+      "name": "Before and after",
+      "settings": {
+        "before_image": "shopify://shop_images/22.png",
+        "after_image": "shopify://shop_images/26.jpg",
+        "before_label": "Before",
+        "after_label": "After",
+        "section_width": "page-width",
+        "color_scheme": "",
+        "text_alignment": "left",
+        "gap": 32,
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
@@ -703,6 +748,7 @@
     "tab_collection_WWWamq",
     "product_list_TgRgHT",
     "section_map_AkWL9b",
-    "countdown_timer_REhPUD"
+    "countdown_timer_REhPUD",
+    "before_after_aWJMVa"
   ]
 }

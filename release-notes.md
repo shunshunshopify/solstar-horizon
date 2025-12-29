@@ -1,3 +1,12 @@
+# Release Notes - Version 3.2.8
+
+This release localizes Countdown Timer unit labels using translation keys.
+
+## What's Changed
+
+### Fixes and improvements
+- [Countdown timer] Unit labels now use translation keys, including Japanese.
+
 # Release Notes - Version 3.2.7
 
 This release aligns Tab Collection carousel cards with the grid on mobile and simplifies aspect ratio control.

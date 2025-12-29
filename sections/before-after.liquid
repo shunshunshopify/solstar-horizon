@@ -4,8 +4,10 @@
   assign before_label = section.settings.before_label
   assign after_label = section.settings.after_label
   assign image_ratio_setting = section.settings.image_ratio | default: 'adapt'
+  assign image_corner_radius = section.settings.image_corner_radius | default: 'large'
 
   assign compare_aspect_ratio = ''
+  assign compare_border_radius = ''
 
   case image_ratio_setting
     when 'landscape'
@@ -19,6 +21,19 @@
   if compare_aspect_ratio == ''
     assign compare_aspect_ratio = after_image.aspect_ratio | default: before_image.aspect_ratio
   endif
+
+  case image_corner_radius
+    when 'none'
+      assign compare_border_radius = '0px'
+    when 'small'
+      assign compare_border_radius = '8px'
+    when 'medium'
+      assign compare_border_radius = '16px'
+    when 'large'
+      assign compare_border_radius = '24px'
+    when 'rounded'
+      assign compare_border_radius = '999px'
+  endcase
 
   assign has_content = false
 
@@ -113,7 +128,8 @@
         after_image: after_image,
         before_label: before_label,
         after_label: after_label,
-        aspect_ratio: compare_aspect_ratio
+        aspect_ratio: compare_aspect_ratio,
+        border_radius: compare_border_radius
       %}
 
       {%- if action_blocks != blank -%}
@@ -164,6 +180,19 @@
         { "value": "portrait", "label": "Portrait" }
       ],
       "default": "adapt"
+    },
+    {
+      "type": "select",
+      "id": "image_corner_radius",
+      "label": "Image corner radius",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "rounded", "label": "Pill" }
+      ],
+      "default": "large"
     },
     {
       "type": "select",

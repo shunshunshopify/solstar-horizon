@@ -4815,7 +4815,7 @@ text-component {
   overflow: hidden;
   width: 100%;
   background: rgb(var(--color-background-rgb, 255 255 255) / 0.5);
-  border-radius: var(--style-border-radius-lg);
+  border-radius: var(--compare-border-radius, var(--style-border-radius-lg));
   isolation: isolate;
   touch-action: pan-y;
 }

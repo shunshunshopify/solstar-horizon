@@ -1,11 +1,11 @@
 # Release Notes - Version 3.2.8
 
-This release localizes Countdown Timer unit labels using translation keys.
+This release adds a Countdown Timer section and localizes its unit labels using translation keys.
 
 ## What's Changed
 
-### Fixes and improvements
-- [Countdown timer] Unit labels now use translation keys, including Japanese.
+### Added
+- [Countdown timer] New section to showcase a timed message with configurable end date, labels, and styling.
 
 # Release Notes - Version 3.2.7
 

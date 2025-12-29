@@ -1781,7 +1781,7 @@
       "color_scheme": "配色",
       "layout": "レイアウト",
       "text_alignment": "テキストの配置",
-      "text_alignment_mobile": "テキストの配置（モバイル）",
+      "text_alignment_mobile": "テキストの配置",
       "hide_on_complete": "タイマー終了後にセクションを非表示",
       "gap": "ブロック間隔",
       "padding_header": "余白",

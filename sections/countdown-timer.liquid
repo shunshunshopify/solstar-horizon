@@ -292,22 +292,22 @@
 
 {% schema %}
 {
-  "name": "Countdown timer",
+  "name": "t:names.countdown_timer",
   "tag": "section",
   "class": "section-wrapper",
   "settings": [
     {
       "type": "select",
       "id": "section_width",
-      "label": "Section width",
+      "label": "t:countdown_timer.settings.section_width",
       "options": [
         {
           "value": "page-width",
-          "label": "Page"
+          "label": "t:countdown_timer.options.section_width.page"
         },
         {
           "value": "full-width",
-          "label": "Full"
+          "label": "t:countdown_timer.options.section_width.full"
         }
       ],
       "default": "page-width"
@@ -315,21 +315,21 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:countdown_timer.settings.color_scheme",
       "default": "scheme-1"
     },
     {
       "type": "select",
       "id": "layout",
-      "label": "Layout",
+      "label": "t:countdown_timer.settings.layout",
       "options": [
         {
           "value": "split",
-          "label": "Split"
+          "label": "t:countdown_timer.options.layout.split"
         },
         {
           "value": "centered",
-          "label": "Centered"
+          "label": "t:countdown_timer.options.layout.centered"
         }
       ],
       "default": "split"
@@ -337,19 +337,19 @@
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "Text alignment",
+      "label": "t:countdown_timer.settings.text_alignment",
       "options": [
         {
           "value": "left",
-          "label": "Left"
+          "label": "t:countdown_timer.options.text_alignment.left"
         },
         {
           "value": "center",
-          "label": "Center"
+          "label": "t:countdown_timer.options.text_alignment.center"
         },
         {
           "value": "right",
-          "label": "Right"
+          "label": "t:countdown_timer.options.text_alignment.right"
         }
       ],
       "default": "left"
@@ -357,13 +357,13 @@
     {
       "type": "checkbox",
       "id": "hide_on_complete",
-      "label": "Hide section after end of timer",
+      "label": "t:countdown_timer.settings.hide_on_complete",
       "default": true
     },
     {
       "type": "range",
       "id": "gap",
-      "label": "Block spacing",
+      "label": "t:countdown_timer.settings.gap",
       "min": 0,
       "max": 60,
       "step": 2,
@@ -372,12 +372,12 @@
     },
     {
       "type": "header",
-      "content": "Padding"
+      "content": "t:countdown_timer.settings.padding_header"
     },
     {
       "type": "range",
       "id": "padding-block-start",
-      "label": "Top",
+      "label": "t:countdown_timer.settings.padding_block_start",
       "min": 0,
       "max": 100,
       "step": 2,
@@ -387,7 +387,7 @@
     {
       "type": "range",
       "id": "padding-block-end",
-      "label": "Bottom",
+      "label": "t:countdown_timer.settings.padding_block_end",
       "min": 0,
       "max": 100,
       "step": 2,
@@ -398,13 +398,13 @@
   "blocks": [
     {
       "type": "timer",
-      "name": "Timer",
+      "name": "t:countdown_timer.blocks.timer.name",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "end_date",
-          "label": "End date",
+          "label": "t:countdown_timer.blocks.timer.settings.end_date",
           "placeholder": "2025-12-31",
           "default": "2025-12-31",
           "info": "Use format \"YYYY-MM-DD\". Expiration date is based on the store primary timezone."
@@ -412,7 +412,7 @@
         {
           "type": "text",
           "id": "end_time",
-          "label": "End time",
+          "label": "t:countdown_timer.blocks.timer.settings.end_time",
           "default": "11:59",
           "placeholder": "11:59",
           "info": "Use 12-hour time convention in format \"HH:MM\""
@@ -420,15 +420,15 @@
         {
           "type": "radio",
           "id": "period",
-          "label": "AM/PM",
+          "label": "t:countdown_timer.blocks.timer.settings.period",
           "options": [
             {
               "value": "am",
-              "label": "AM"
+              "label": "t:countdown_timer.blocks.timer.options.period.am"
             },
             {
               "value": "pm",
-              "label": "PM"
+              "label": "t:countdown_timer.blocks.timer.options.period.pm"
             }
           ],
           "default": "am"
@@ -436,54 +436,54 @@
         {
           "type": "richtext",
           "id": "end_message",
-          "label": "End of timer message",
+          "label": "t:countdown_timer.blocks.timer.settings.end_message",
           "default": "<p>Offer has expired</p>"
         },
         {
           "type": "select",
           "id": "digits_size",
-          "label": "Digits size",
+          "label": "t:countdown_timer.blocks.timer.settings.digits_size",
           "default": "var(--font-h2--size)",
           "options": [
             {
               "value": "var(--font-h4--size)",
-              "label": "Small"
+              "label": "t:countdown_timer.blocks.timer.options.digits_size.small"
             },
             {
               "value": "var(--font-h3--size)",
-              "label": "Medium"
+              "label": "t:countdown_timer.blocks.timer.options.digits_size.medium"
             },
             {
               "value": "var(--font-h2--size)",
-              "label": "Large"
+              "label": "t:countdown_timer.blocks.timer.options.digits_size.large"
             },
             {
               "value": "var(--font-h1--size)",
-              "label": "Extra large"
+              "label": "t:countdown_timer.blocks.timer.options.digits_size.xlarge"
             }
           ]
         },
         {
           "type": "select",
           "id": "text_size",
-          "label": "Unit size",
+          "label": "t:countdown_timer.blocks.timer.settings.text_size",
           "default": "var(--font-size--xs)",
           "options": [
             {
               "value": "var(--font-size--2xs)",
-              "label": "Extra small"
+              "label": "t:countdown_timer.blocks.timer.options.text_size.xs"
             },
             {
               "value": "var(--font-size--xs)",
-              "label": "Small"
+              "label": "t:countdown_timer.blocks.timer.options.text_size.sm"
             },
             {
               "value": "var(--font-size--sm)",
-              "label": "Medium"
+              "label": "t:countdown_timer.blocks.timer.options.text_size.md"
             },
             {
               "value": "var(--font-size--md)",
-              "label": "Large"
+              "label": "t:countdown_timer.blocks.timer.options.text_size.lg"
             }
           ]
         }
@@ -491,55 +491,55 @@
     },
     {
       "type": "subheading",
-      "name": "Subheading",
+      "name": "t:countdown_timer.blocks.subheading.name",
       "settings": [
         {
           "type": "text",
           "id": "subheading",
-          "label": "Subheading",
+          "label": "t:countdown_timer.blocks.subheading.settings.subheading",
           "default": "Countdown is on"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:countdown_timer.blocks.heading.name",
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "Heading",
+          "label": "t:countdown_timer.blocks.heading.settings.heading",
           "default": "Shop Before It Ends"
         },
         {
           "type": "select",
           "id": "heading_tag",
-          "label": "Heading tag",
+          "label": "t:countdown_timer.blocks.heading.settings.heading_tag",
           "default": "h2",
           "options": [
             {
               "value": "h1",
-              "label": "H1"
+              "label": "t:countdown_timer.options.heading_tags.h1"
             },
             {
               "value": "h2",
-              "label": "H2"
+              "label": "t:countdown_timer.options.heading_tags.h2"
             },
             {
               "value": "h3",
-              "label": "H3"
+              "label": "t:countdown_timer.options.heading_tags.h3"
             },
             {
               "value": "h4",
-              "label": "H4"
+              "label": "t:countdown_timer.options.heading_tags.h4"
             },
             {
               "value": "h5",
-              "label": "H5"
+              "label": "t:countdown_timer.options.heading_tags.h5"
             },
             {
               "value": "h6",
-              "label": "H6"
+              "label": "t:countdown_timer.options.heading_tags.h6"
             }
           ]
         }
@@ -547,54 +547,54 @@
     },
     {
       "type": "text",
-      "name": "Text",
+      "name": "t:countdown_timer.blocks.text.name",
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "label": "Text",
+          "label": "t:countdown_timer.blocks.text.settings.text",
           "default": "<p>Share information about your limited offer or temporary promotion.</p>"
         }
       ]
     },
     {
       "type": "button",
-      "name": "Button",
+      "name": "t:countdown_timer.blocks.button.name",
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "label": "Text",
+          "label": "t:countdown_timer.blocks.button.settings.button_label",
           "default": "Shop now"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "Link"
+          "label": "t:countdown_timer.blocks.button.settings.button_link"
         },
         {
           "type": "checkbox",
           "id": "open_in_new_tab",
-          "label": "Open link in new tab",
+          "label": "t:countdown_timer.blocks.button.settings.open_in_new_tab",
           "default": false
         },
         {
           "type": "select",
           "id": "button_style",
-          "label": "Style",
+          "label": "t:countdown_timer.blocks.button.settings.button_style",
           "default": "button",
           "options": [
             {
               "value": "button",
-              "label": "Primary"
+              "label": "t:countdown_timer.options.button_style.primary"
             },
             {
               "value": "button-secondary",
-              "label": "Secondary"
+              "label": "t:countdown_timer.options.button_style.secondary"
             },
             {
               "value": "link",
-              "label": "Text"
+              "label": "t:countdown_timer.options.button_style.text"
             }
           ]
         }
@@ -603,7 +603,7 @@
   ],
   "presets": [
     {
-      "name": "Countdown timer",
+      "name": "t:countdown_timer.presets.name",
       "category": "Text",
       "blocks": [
         {

@@ -64,6 +64,8 @@
     "announcement": "お知らせ",
     "announcement_bar": "お知らせバー",
     "badges": "バッジ",
+    "before_after": "ビフォー／アフター",
+    "countdown_timer": "カウントダウンタイマー",
     "button": "ボタン",
     "cart": "カート",
     "cart_items": "カート内のアイテム",
@@ -173,6 +175,8 @@
     "split_showcase": "Split showcase",
     "variant_pickers": "バリエーションピッカー",
     "product_title": "商品名",
+    "before_after": "ビフォー／アフター",
+    "countdown_timer": "カウントダウンタイマー",
     "large_logo": "大きなロゴ",
     "product_list_button": "[すべて表示] ボタン",
     "product_inventory": "商品の在庫",
@@ -1768,6 +1772,108 @@
     },
     "presets": {
       "name": "ビフォー／アフター"
+    }
+  },
+  "countdown_timer": {
+    "name": "カウントダウンタイマー",
+    "settings": {
+      "section_width": "セクション幅",
+      "color_scheme": "配色",
+      "layout": "レイアウト",
+      "text_alignment": "テキストの配置",
+      "hide_on_complete": "タイマー終了後にセクションを非表示",
+      "gap": "ブロック間隔",
+      "padding_header": "余白",
+      "padding_block_start": "上",
+      "padding_block_end": "下"
+    },
+    "options": {
+      "section_width": {
+        "page": "ページ幅",
+        "full": "全幅"
+      },
+      "layout": {
+        "split": "分割",
+        "centered": "中央揃え"
+      },
+      "text_alignment": {
+        "left": "左揃え",
+        "center": "中央揃え",
+        "right": "右揃え"
+      },
+      "period": {
+        "am": "午前",
+        "pm": "午後"
+      },
+      "digits_size": {
+        "small": "小",
+        "medium": "中",
+        "large": "大",
+        "xlarge": "特大"
+      },
+      "text_size": {
+        "xs": "特小",
+        "sm": "小",
+        "md": "中",
+        "lg": "大"
+      },
+      "heading_tags": {
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6"
+      },
+      "button_style": {
+        "primary": "プライマリー",
+        "secondary": "セカンダリー",
+        "text": "テキスト"
+      }
+    },
+    "blocks": {
+      "timer": {
+        "name": "タイマー",
+        "settings": {
+          "end_date": "終了日",
+          "end_time": "終了時間",
+          "period": "午前/午後",
+          "end_message": "タイマー終了メッセージ",
+          "digits_size": "数字サイズ",
+          "text_size": "単位のサイズ"
+        }
+      },
+      "subheading": {
+        "name": "サブ見出し",
+        "settings": {
+          "subheading": "サブ見出し"
+        }
+      },
+      "heading": {
+        "name": "見出し",
+        "settings": {
+          "heading": "見出し",
+          "heading_tag": "見出しタグ"
+        }
+      },
+      "text": {
+        "name": "テキスト",
+        "settings": {
+          "text": "テキスト"
+        }
+      },
+      "button": {
+        "name": "ボタン",
+        "settings": {
+          "button_label": "テキスト",
+          "button_link": "リンク",
+          "open_in_new_tab": "新しいタブで開く",
+          "button_style": "スタイル"
+        }
+      }
+    },
+    "presets": {
+      "name": "カウントダウンタイマー"
     }
   },
   "categories": {

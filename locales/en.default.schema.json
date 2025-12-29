@@ -286,6 +286,108 @@
       "name": "Before and after"
     }
   },
+  "countdown_timer": {
+    "name": "Countdown timer",
+    "settings": {
+      "section_width": "Section width",
+      "color_scheme": "Color scheme",
+      "layout": "Layout",
+      "text_alignment": "Text alignment",
+      "hide_on_complete": "Hide section after end of timer",
+      "gap": "Block spacing",
+      "padding_header": "Padding",
+      "padding_block_start": "Top",
+      "padding_block_end": "Bottom"
+    },
+    "options": {
+      "section_width": {
+        "page": "Page",
+        "full": "Full"
+      },
+      "layout": {
+        "split": "Split",
+        "centered": "Centered"
+      },
+      "text_alignment": {
+        "left": "Left",
+        "center": "Center",
+        "right": "Right"
+      },
+      "period": {
+        "am": "AM",
+        "pm": "PM"
+      },
+      "digits_size": {
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large",
+        "xlarge": "Extra large"
+      },
+      "text_size": {
+        "xs": "Extra small",
+        "sm": "Small",
+        "md": "Medium",
+        "lg": "Large"
+      },
+      "heading_tags": {
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6"
+      },
+      "button_style": {
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "text": "Text"
+      }
+    },
+    "blocks": {
+      "timer": {
+        "name": "Timer",
+        "settings": {
+          "end_date": "End date",
+          "end_time": "End time",
+          "period": "AM/PM",
+          "end_message": "End of timer message",
+          "digits_size": "Digits size",
+          "text_size": "Unit size"
+        }
+      },
+      "subheading": {
+        "name": "Subheading",
+        "settings": {
+          "subheading": "Subheading"
+        }
+      },
+      "heading": {
+        "name": "Heading",
+        "settings": {
+          "heading": "Heading",
+          "heading_tag": "Heading tag"
+        }
+      },
+      "text": {
+        "name": "Text",
+        "settings": {
+          "text": "Text"
+        }
+      },
+      "button": {
+        "name": "Button",
+        "settings": {
+          "button_label": "Text",
+          "button_link": "Link",
+          "open_in_new_tab": "Open link in new tab",
+          "button_style": "Style"
+        }
+      }
+    },
+    "presets": {
+      "name": "Countdown timer"
+    }
+  },
   "names": {
     "product_title": "Product title",
     "custom_liquid": "Custom Liquid",
@@ -299,6 +401,8 @@
     "announcement": "Announcement",
     "announcement_bar": "Announcement bar",
     "badges": "Badges",
+    "before_after": "Before and after",
+    "countdown_timer": "Countdown timer",
     "blog": "Blog",
     "blog_card": "Blog card",
     "blog_post": "Blog post",

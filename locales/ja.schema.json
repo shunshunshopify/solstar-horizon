@@ -1780,11 +1780,14 @@
       "color_scheme": "配色",
       "layout": "レイアウト",
       "text_alignment": "テキストの配置",
+      "text_alignment_mobile": "テキストの配置（モバイル）",
       "hide_on_complete": "タイマー終了後にセクションを非表示",
       "gap": "ブロック間隔",
       "padding_header": "余白",
       "padding_block_start": "上",
-      "padding_block_end": "下"
+      "padding_block_end": "下",
+      "height_desktop": "高さ（デスクトップ）",
+      "height_mobile": "高さ（モバイル）"
     },
     "options": {
       "section_width": {
@@ -1799,6 +1802,15 @@
         "left": "左揃え",
         "center": "中央揃え",
         "right": "右揃え"
+      },
+      "height": {
+        "px_450": "450px",
+        "px_400": "400px",
+        "px_350": "350px",
+        "px_300": "300px",
+        "px_250": "250px",
+        "px_200": "200px",
+        "px_150": "150px"
       },
       "period": {
         "am": "午前",

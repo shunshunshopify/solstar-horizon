@@ -293,11 +293,14 @@
       "color_scheme": "Color scheme",
       "layout": "Layout",
       "text_alignment": "Text alignment",
+      "text_alignment_mobile": "Text alignment (mobile)",
       "hide_on_complete": "Hide section after end of timer",
       "gap": "Block spacing",
       "padding_header": "Padding",
       "padding_block_start": "Top",
-      "padding_block_end": "Bottom"
+      "padding_block_end": "Bottom",
+      "height_desktop": "Height (desktop)",
+      "height_mobile": "Height (mobile)"
     },
     "options": {
       "section_width": {
@@ -312,6 +315,15 @@
         "left": "Left",
         "center": "Center",
         "right": "Right"
+      },
+      "height": {
+        "px_450": "450px",
+        "px_400": "400px",
+        "px_350": "350px",
+        "px_300": "300px",
+        "px_250": "250px",
+        "px_200": "200px",
+        "px_150": "150px"
       },
       "period": {
         "am": "AM",

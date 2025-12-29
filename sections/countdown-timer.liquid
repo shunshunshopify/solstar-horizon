@@ -383,6 +383,10 @@
       "default": "split"
     },
     {
+      "type": "header",
+      "content": "t:countdown_timer.settings.desktop_header"
+    },
+    {
       "type": "select",
       "id": "text_alignment",
       "label": "t:countdown_timer.settings.text_alignment",
@@ -401,6 +405,25 @@
         }
       ],
       "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "height_desktop",
+      "label": "t:countdown_timer.settings.height_desktop",
+      "options": [
+        { "value": "450px", "label": "t:countdown_timer.options.height.px_450" },
+        { "value": "400px", "label": "t:countdown_timer.options.height.px_400" },
+        { "value": "350px", "label": "t:countdown_timer.options.height.px_350" },
+        { "value": "300px", "label": "t:countdown_timer.options.height.px_300" },
+        { "value": "250px", "label": "t:countdown_timer.options.height.px_250" },
+        { "value": "200px", "label": "t:countdown_timer.options.height.px_200" },
+        { "value": "150px", "label": "t:countdown_timer.options.height.px_150" }
+      ],
+      "default": "350px"
+    },
+    {
+      "type": "header",
+      "content": "t:countdown_timer.settings.mobile_header"
     },
     {
       "type": "select",
@@ -423,6 +446,21 @@
       "default": "center"
     },
     {
+      "type": "select",
+      "id": "height_mobile",
+      "label": "t:countdown_timer.settings.height_mobile",
+      "options": [
+        { "value": "450px", "label": "t:countdown_timer.options.height.px_450" },
+        { "value": "400px", "label": "t:countdown_timer.options.height.px_400" },
+        { "value": "350px", "label": "t:countdown_timer.options.height.px_350" },
+        { "value": "300px", "label": "t:countdown_timer.options.height.px_300" },
+        { "value": "250px", "label": "t:countdown_timer.options.height.px_250" },
+        { "value": "200px", "label": "t:countdown_timer.options.height.px_200" },
+        { "value": "150px", "label": "t:countdown_timer.options.height.px_150" }
+      ],
+      "default": "300px"
+    },
+    {
       "type": "checkbox",
       "id": "hide_on_complete",
       "label": "t:countdown_timer.settings.hide_on_complete",
@@ -437,36 +475,6 @@
       "step": 2,
       "unit": "px",
       "default": 24
-    },
-    {
-      "type": "select",
-      "id": "height_desktop",
-      "label": "t:countdown_timer.settings.height_desktop",
-      "options": [
-        { "value": "450px", "label": "t:countdown_timer.options.height.px_450" },
-        { "value": "400px", "label": "t:countdown_timer.options.height.px_400" },
-        { "value": "350px", "label": "t:countdown_timer.options.height.px_350" },
-        { "value": "300px", "label": "t:countdown_timer.options.height.px_300" },
-        { "value": "250px", "label": "t:countdown_timer.options.height.px_250" },
-        { "value": "200px", "label": "t:countdown_timer.options.height.px_200" },
-        { "value": "150px", "label": "t:countdown_timer.options.height.px_150" }
-      ],
-      "default": "350px"
-    },
-    {
-      "type": "select",
-      "id": "height_mobile",
-      "label": "t:countdown_timer.settings.height_mobile",
-      "options": [
-        { "value": "450px", "label": "t:countdown_timer.options.height.px_450" },
-        { "value": "400px", "label": "t:countdown_timer.options.height.px_400" },
-        { "value": "350px", "label": "t:countdown_timer.options.height.px_350" },
-        { "value": "300px", "label": "t:countdown_timer.options.height.px_300" },
-        { "value": "250px", "label": "t:countdown_timer.options.height.px_250" },
-        { "value": "200px", "label": "t:countdown_timer.options.height.px_200" },
-        { "value": "150px", "label": "t:countdown_timer.options.height.px_150" }
-      ],
-      "default": "300px"
     },
     {
       "type": "header",

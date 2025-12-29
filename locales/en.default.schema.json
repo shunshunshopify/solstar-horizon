@@ -300,7 +300,9 @@
       "padding_block_start": "Top",
       "padding_block_end": "Bottom",
       "height_desktop": "Height (desktop)",
-      "height_mobile": "Height (mobile)"
+      "height_mobile": "Height (mobile)",
+      "desktop_header": "Desktop",
+      "mobile_header": "Mobile"
     },
     "options": {
       "section_width": {

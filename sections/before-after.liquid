@@ -3,7 +3,7 @@
   assign after_image = section.settings.after_image
   assign before_label = section.settings.before_label
   assign after_label = section.settings.after_label
-  assign image_ratio_value = section.settings.image_ratio | default: 100
+  assign image_ratio_value = section.settings.image_ratio | default: 1
   assign image_corner_radius_value = section.settings.image_corner_radius | default: 24
 
   assign compare_aspect_ratio = ''
@@ -121,47 +121,47 @@
 
 {% schema %}
 {
-  "name": "Before and after",
+  "name": "t:names.before_after",
   "tag": "section",
   "class": "section-wrapper",
   "settings": [
     {
       "type": "image_picker",
       "id": "before_image",
-      "label": "Before image"
+      "label": "t:before_after.settings.before_image"
     },
     {
       "type": "image_picker",
       "id": "after_image",
-      "label": "After image"
+      "label": "t:before_after.settings.after_image"
     },
     {
       "type": "text",
       "id": "before_label",
-      "label": "Before label",
+      "label": "t:before_after.settings.before_label",
       "default": "Before"
     },
     {
       "type": "text",
       "id": "after_label",
-      "label": "After label",
+      "label": "t:before_after.settings.after_label",
       "default": "After"
     },
     {
       "type": "range",
       "id": "image_ratio",
-      "label": "Image aspect ratio",
+      "label": "t:before_after.settings.image_ratio",
       "min": 0.5,
       "max": 1.5,
       "step": 0.1,
       "unit": ":1",
       "default": 1,
-      "info": "Tall to wide"
+      "info": "t:before_after.settings.image_ratio_info"
     },
     {
       "type": "range",
       "id": "image_corner_radius",
-      "label": "Image corner radius",
+      "label": "t:before_after.settings.image_corner_radius",
       "min": 0,
       "max": 50,
       "step": 2,
@@ -171,15 +171,15 @@
     {
       "type": "select",
       "id": "section_width",
-      "label": "Section width",
+      "label": "t:before_after.settings.section_width",
       "options": [
         {
           "value": "page-width",
-          "label": "Page"
+          "label": "t:before_after.options.section_width.page"
         },
         {
           "value": "full-width",
-          "label": "Full"
+          "label": "t:before_after.options.section_width.full"
         }
       ],
       "default": "page-width"
@@ -187,25 +187,25 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:before_after.settings.color_scheme",
       "default": "scheme-1"
     },
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "Text alignment",
+      "label": "t:before_after.settings.text_alignment",
       "options": [
         {
           "value": "left",
-          "label": "Left"
+          "label": "t:before_after.options.text_alignment.left"
         },
         {
           "value": "center",
-          "label": "Center"
+          "label": "t:before_after.options.text_alignment.center"
         },
         {
           "value": "right",
-          "label": "Right"
+          "label": "t:before_after.options.text_alignment.right"
         }
       ],
       "default": "left"
@@ -213,7 +213,7 @@
     {
       "type": "range",
       "id": "gap",
-      "label": "Block spacing",
+      "label": "t:before_after.settings.gap",
       "min": 0,
       "max": 80,
       "step": 4,
@@ -222,12 +222,12 @@
     },
     {
       "type": "header",
-      "content": "Padding"
+      "content": "t:before_after.settings.padding_header"
     },
     {
       "type": "range",
       "id": "padding-block-start",
-      "label": "Top",
+      "label": "t:before_after.settings.padding_block_start",
       "min": 0,
       "max": 120,
       "step": 4,
@@ -237,7 +237,7 @@
     {
       "type": "range",
       "id": "padding-block-end",
-      "label": "Bottom",
+      "label": "t:before_after.settings.padding_block_end",
       "min": 0,
       "max": 120,
       "step": 4,
@@ -248,55 +248,55 @@
   "blocks": [
     {
       "type": "subheading",
-      "name": "Subheading",
+      "name": "t:before_after.blocks.subheading.name",
       "settings": [
         {
           "type": "text",
           "id": "subheading",
-          "label": "Subheading",
+          "label": "t:before_after.blocks.subheading.settings.subheading",
           "default": "Results you can see"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:before_after.blocks.heading.name",
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "Heading",
+          "label": "t:before_after.blocks.heading.settings.heading",
           "default": "Before and after"
         },
         {
           "type": "select",
           "id": "heading_tag",
-          "label": "Heading tag",
+          "label": "t:before_after.blocks.heading.settings.heading_tag",
           "default": "h2",
           "options": [
             {
               "value": "h1",
-              "label": "H1"
+              "label": "t:before_after.options.heading_tags.h1"
             },
             {
               "value": "h2",
-              "label": "H2"
+              "label": "t:before_after.options.heading_tags.h2"
             },
             {
               "value": "h3",
-              "label": "H3"
+              "label": "t:before_after.options.heading_tags.h3"
             },
             {
               "value": "h4",
-              "label": "H4"
+              "label": "t:before_after.options.heading_tags.h4"
             },
             {
               "value": "h5",
-              "label": "H5"
+              "label": "t:before_after.options.heading_tags.h5"
             },
             {
               "value": "h6",
-              "label": "H6"
+              "label": "t:before_after.options.heading_tags.h6"
             }
           ]
         }
@@ -304,54 +304,54 @@
     },
     {
       "type": "text",
-      "name": "Text",
+      "name": "t:before_after.blocks.text.name",
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "label": "Text",
+          "label": "t:before_after.blocks.text.settings.text",
           "default": "<p>Show off how your product, treatment, or service transforms before and after.</p>"
         }
       ]
     },
     {
       "type": "button",
-      "name": "Button",
+      "name": "t:before_after.blocks.button.name",
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "label": "Text",
+          "label": "t:before_after.blocks.button.settings.button_label",
           "default": "Shop now"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "Link"
+          "label": "t:before_after.blocks.button.settings.button_link"
         },
         {
           "type": "checkbox",
           "id": "open_in_new_tab",
-          "label": "Open link in new tab",
+          "label": "t:before_after.blocks.button.settings.open_in_new_tab",
           "default": false
         },
         {
           "type": "select",
           "id": "button_style",
-          "label": "Style",
+          "label": "t:before_after.blocks.button.settings.button_style",
           "default": "button",
           "options": [
             {
               "value": "button",
-              "label": "Primary"
+              "label": "t:before_after.options.button_style.primary"
             },
             {
               "value": "button-secondary",
-              "label": "Secondary"
+              "label": "t:before_after.options.button_style.secondary"
             },
             {
               "value": "link",
-              "label": "Text"
+              "label": "t:before_after.options.button_style.text"
             }
           ]
         }
@@ -360,7 +360,7 @@
   ],
   "presets": [
     {
-      "name": "Before and after",
+      "name": "t:before_after.presets.name",
       "category": "Media",
       "blocks": [
         {

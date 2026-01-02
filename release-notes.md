@@ -1,3 +1,12 @@
+# Release Notes - Version 3.2.11
+
+This release adds an optional link hover animation for the header menu.
+
+## What's Changed
+
+### Added
+- [Header menu] Optional link hover animation toggle with underline sweep and hover color highlight.
+
 # Release Notes - Version 3.2.10
 
 This release limits the Wishlist section to the wishlist page template.

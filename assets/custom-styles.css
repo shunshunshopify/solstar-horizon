@@ -13,13 +13,13 @@
     border: none;
 }
 
-/* Broadcast-style collection filters */
-main[data-template*='collection'] .collection-wrapper,
-main[data-template*='search'] .collection-wrapper {
-    align-items: start;
-}
-
 @media screen and (min-width: 750px) {
+    /* Broadcast-style collection filters */
+    main[data-template*='collection'] .collection-wrapper,
+    main[data-template*='search'] .collection-wrapper {
+        align-items: start;
+    }
+
     main[data-template*='collection'] .facets.facets-controls-wrapper,
     main[data-template*='search'] .facets.facets-controls-wrapper {
         position: sticky;

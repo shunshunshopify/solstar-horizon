@@ -155,7 +155,7 @@
                             <a
                               id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
                               href="{{ childlink.url }}"
-                              class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                              class="menu-drawer__menu-item link-underline menu-drawer__menu-item--child focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
                               {% if childlink.current %}
                                 aria-current="page"
                               {% endif %}
@@ -167,7 +167,7 @@
                                   sizes: 'auto, 400px'
                                 %}
                               {% endif %}
-                              <span class="menu-drawer__menu-item-text wrap-text">{{ childlink.title | escape }}</span>
+                              <span class="menu-drawer__menu-item-text wrap-text link-underline__text">{{ childlink.title | escape }}</span>
                             </a>
                           </li>
                         {%- endfor -%}
@@ -181,12 +181,12 @@
                   <a
                     id="HeaderDrawer-{{ link.handle }}"
                     href="{{ link.url }}"
-                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                    class="menu-drawer__menu-item link-underline menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
                     {% if link.current %}
                       aria-current="page"
                     {% endif %}
                   >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                    <span class="menu-drawer__menu-item-text wrap-text link-underline__text">{{ link.title | escape }}</span>
                   </a>
                   {% liquid
                     assign render_link_image = false
@@ -211,7 +211,7 @@
                       >
                         <a
                           href="{{ childlink.url }}"
-                          class="menu-drawer__menu-item menu-drawer__menu-item--child menu-drawer__animated-element focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                          class="menu-drawer__menu-item link-underline menu-drawer__menu-item--child menu-drawer__animated-element focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
                         >
                           {% if render_link_image %}
                             {% render 'link-featured-image',
@@ -220,7 +220,7 @@
                               sizes: 'auto, 400px'
                             %}
                           {% endif %}
-                          <span class="menu-drawer__menu-item-text wrap-text">{{ childlink.title | escape }}</span>
+                          <span class="menu-drawer__menu-item-text wrap-text link-underline__text">{{ childlink.title | escape }}</span>
                         </a>
                       </li>
                     {%- endfor -%}
@@ -232,12 +232,12 @@
                   <a
                     id="HeaderDrawer-{{ link.handle }}"
                     href="{{ link.url }}"
-                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                    class="menu-drawer__menu-item link-underline menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
                     {% if link.current %}
                       aria-current="page"
                     {% endif %}
                   >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                    <span class="menu-drawer__menu-item-text wrap-text link-underline__text">{{ link.title | escape }}</span>
                   </a>
                 {% endif %}
               </li>
@@ -336,7 +336,7 @@
                                 <a
                                   id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
                                   href="{{ childlink.url }}"
-                                  class="menu-drawer__menu-item menu-drawer__menu-item--parent focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                  class="menu-drawer__menu-item link-underline menu-drawer__menu-item--parent focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
                                   {% if childlink.current %}
                                     aria-current="page"
                                   {% endif %}
@@ -348,7 +348,7 @@
                                       sizes: 'auto, 400px'
                                     %}
                                   {% endif %}
-                                  <span class="menu-drawer__menu-item-text wrap-text">
+                                  <span class="menu-drawer__menu-item-text wrap-text link-underline__text">
                                     {{- childlink.title | escape -}}
                                   </span>
                                 </a>
@@ -403,7 +403,7 @@
                                             <a
                                               id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
                                               href="{{ grandchildlink.url }}"
-                                              class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                              class="menu-drawer__menu-item link-underline menu-drawer__menu-item--child focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
                                               {% if grandchildlink.current %}
                                                 aria-current="page"
                                               {% endif %}
@@ -415,7 +415,7 @@
                                                   sizes: 'auto, 400px'
                                                 %}
                                               {% endif %}
-                                              <span class="menu-drawer__menu-item-text wrap-text">
+                                              <span class="menu-drawer__menu-item-text wrap-text link-underline__text">
                                                 {{- grandchildlink.title | escape -}}
                                               </span>
                                             </a>
@@ -431,9 +431,9 @@
                                   <a
                                     id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
                                     href="{{ childlink.url }}"
-                                    class="menu-drawer__menu-item menu-drawer__menu-item--parent focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                    class="menu-drawer__menu-item link-underline menu-drawer__menu-item--parent focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"
                                   >
-                                    <span class="menu-drawer__menu-item-text wrap-text">
+                                    <span class="menu-drawer__menu-item-text wrap-text link-underline__text">
                                       {{- childlink.title | escape -}}
                                     </span>
                                   </a>
@@ -461,7 +461,7 @@
                                         <a
                                           id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
                                           href="{{ grandchildlink.url }}"
-                                          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                          class="menu-drawer__menu-item link-underline menu-drawer__menu-item--child focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
                                           {% if grandchildlink.current %}
                                             aria-current="page"
                                           {% endif %}
@@ -473,7 +473,7 @@
                                               sizes: 'auto, 400px'
                                             %}
                                           {% endif %}
-                                          <span class="menu-drawer__menu-item-text wrap-text">
+                                          <span class="menu-drawer__menu-item-text wrap-text link-underline__text">
                                             {{- grandchildlink.title | escape -}}
                                           </span>
                                         </a>
@@ -546,12 +546,12 @@
                   <a
                     id="HeaderDrawer-{{ link.handle }}"
                     href="{{ link.url }}"
-                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                    class="menu-drawer__menu-item link-underline menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
                     {% if link.current %}
                       aria-current="page"
                     {% endif %}
                   >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                    <span class="menu-drawer__menu-item-text wrap-text link-underline__text">{{ link.title | escape }}</span>
                   </a>
                 {%- endif -%}
               </li>

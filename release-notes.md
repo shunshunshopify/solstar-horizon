@@ -1,3 +1,12 @@
+# Release Notes - Version 3.2.10
+
+This release limits the Wishlist section to the wishlist page template.
+
+## What's Changed
+
+### Fixes and improvements
+- [Wishlist] Section now renders only on the wishlist page template.
+
 # Release Notes - Version 3.2.9
 
 This release introduces the Before/After compare section with refined slider styling, range-based aspect ratio and corner radius controls, and completes localization keys (including Japanese).

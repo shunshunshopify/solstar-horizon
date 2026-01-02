@@ -1,3 +1,4 @@
+{%- if template.suffix == 'wishlist' -%}
 {%- liquid
   assign page_title = page.title | strip
   assign page_description = page.content
@@ -552,9 +553,14 @@
 
 <!-- Notification element is now created dynamically in JavaScript -->
 
+{%- endif -%}
+
 {% schema %}
 {
   "name": "t:names.wishlist",
+  "enabled_on": {
+    "templates": ["page"]
+  },
   "settings": [
     {
       "type": "header",

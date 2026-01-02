@@ -956,6 +956,9 @@
 {% schema %}
 {
   "name": "t:names.sticky_atc",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
   "settings": [
     { "type": "header", "content": "t:sections.sticky_atc.settings.general" },
     { "type": "checkbox", "id": "enable_section", "label": "t:sections.sticky_atc.settings.enable_section.label", "default": true },
@@ -975,6 +978,6 @@
     { "type": "range", "id": "pt", "label": "t:sections.sticky_atc.settings.pt.label", "min": 0, "max": 5, "step": 0.5, "default": 0.5 },
     { "type": "range", "id": "pb", "label": "t:sections.sticky_atc.settings.pb.label", "min": 0, "max": 5, "step": 0.5, "default": 0.5 }
   ],
-  "presets": [{ "name": "t:names.sticky_atc" }]
+  "presets": [{ "name": "t:names.sticky_atc", "category": "t:categories.footer" }]
 }
 {% endschema %}

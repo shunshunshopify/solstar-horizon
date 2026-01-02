@@ -622,6 +622,9 @@ function openCartDrawer() {
 {% schema %}
 {
     "name": "t:names.sticky_bottom_menu",
+    "enabled_on": {
+        "groups": ["footer"]
+    },
     "settings": [
         {
             "type": "header",
@@ -936,6 +939,7 @@ function openCartDrawer() {
     "presets": [
         {
             "name": "t:names.sticky_bottom_menu",
+            "category": "t:categories.footer",
             "blocks": [
               {
               "type": "home_block"

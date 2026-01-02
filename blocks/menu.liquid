@@ -54,8 +54,8 @@
           <ul class="list-unstyled">
             {% for link in menu.links %}
               <li class="menu__item {{ block_settings.link_preset }}">
-                <a href="{{ link.url }}">
-                  {{ link.title }}
+                <a href="{{ link.url }}" class="link-underline">
+                  <span class="link-underline__text">{{ link.title }}</span>
                 </a>
               </li>
             {% endfor %}

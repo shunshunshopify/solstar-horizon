@@ -940,6 +940,40 @@ p:not(.h1, .h2, .h3, .h4, .h5, .h6) a:where(:not(.button, .button-primary, .butt
   }
 }
 
+.link-underline {
+  position: relative;
+}
+
+.link-underline__text {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline__text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+@media (hover: hover) {
+  .link-underline:hover .link-underline__text::after {
+    width: 100%;
+  }
+}
+
+.link-underline:focus-visible .link-underline__text::after {
+  width: 100%;
+}
+
+.header-menu--hover-animation .menu-list__link.link-underline::after {
+  content: none;
+}
+
 .container-background-image {
   background-repeat: no-repeat;
   background-size: cover;

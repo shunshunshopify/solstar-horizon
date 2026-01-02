@@ -126,7 +126,8 @@ class FacetInputsComponent extends Component {
   /**
    * Updates filters and the selected facet summary
    */
-  updateFilters() {
+  updateFilters(event) {
+    this.#enforceSingleAvailabilitySelection(event);
     const facetsForm = this.closest('facets-form-component');
 
     if (!(facetsForm instanceof FacetsFormComponent)) return;
@@ -148,7 +149,7 @@ class FacetInputsComponent extends Component {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       closestInput.checked = !closestInput.checked;
-      this.updateFilters();
+      this.updateFilters({ target: closestInput });
     }
   }
 
@@ -198,6 +199,19 @@ class FacetInputsComponent extends Component {
     if (!(statusComponent instanceof FacetStatusComponent)) return;
 
     statusComponent.updateListSummary(checkedInputElements);
+  }
+
+  #enforceSingleAvailabilitySelection(event) {
+    if (!(event?.target instanceof HTMLInputElement)) return;
+    if (event.target.name !== 'filter.v.availability') return;
+    if (!event.target.checked) return;
+    if (!this.refs.facetInputs) return;
+
+    this.refs.facetInputs.forEach((input) => {
+      if (input !== event.target && input.name === 'filter.v.availability') {
+        input.checked = false;
+      }
+    });
   }
 }
 

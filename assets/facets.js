@@ -8,7 +8,6 @@ import { debounce, formatMoney, startViewTransition } from '@theme/utilities';
  * @type {string}
  */
 const SEARCH_QUERY = 'q';
-const normalizeMoneyString = (value = '') => formatMoney(value.replace(/[\s']/g, ''));
 
 /**
  * Handles the main facets form functionality
@@ -30,19 +29,8 @@ class FacetsFormComponent extends Component {
   createURLParameters(formData = new FormData(this.refs.facetsForm)) {
     let newParameters = new URLSearchParams(/** @type any */ (formData));
 
-    const minPrice = newParameters.get('filter.v.price.gte');
-    if (minPrice !== null) {
-      const normalizedMinPrice = normalizeMoneyString(minPrice);
-      if (normalizedMinPrice === '') newParameters.delete('filter.v.price.gte');
-      else newParameters.set('filter.v.price.gte', normalizedMinPrice);
-    }
-
-    const maxPrice = newParameters.get('filter.v.price.lte');
-    if (maxPrice !== null) {
-      const normalizedMaxPrice = normalizeMoneyString(maxPrice);
-      if (normalizedMaxPrice === '') newParameters.delete('filter.v.price.lte');
-      else newParameters.set('filter.v.price.lte', normalizedMaxPrice);
-    }
+    if (newParameters.get('filter.v.price.gte') === '') newParameters.delete('filter.v.price.gte');
+    if (newParameters.get('filter.v.price.lte') === '') newParameters.delete('filter.v.price.lte');
 
     newParameters.delete('page');
 
@@ -232,7 +220,6 @@ class PriceFacetComponent extends Component {
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('keydown', this.#onKeyDown);
-    this.#normalizeInputs();
   }
 
   disconnectedCallback() {
@@ -257,7 +244,6 @@ class PriceFacetComponent extends Component {
   updatePriceFilterAndResults() {
     const { minInput, maxInput } = this.refs;
 
-    this.#normalizeInputs();
     this.#adjustToValidValues(minInput);
     this.#adjustToValidValues(maxInput);
 
@@ -274,24 +260,14 @@ class PriceFacetComponent extends Component {
    * @param {HTMLInputElement} input - The input element to adjust
    */
   #adjustToValidValues(input) {
-    const normalizedValue = normalizeMoneyString(input.value);
-    if (normalizedValue !== input.value) input.value = normalizedValue;
-    if (normalizedValue.trim() === '') return;
+    if (input.value.trim() === '') return;
 
-    const value = Number(normalizedValue);
-    const min = Number(normalizeMoneyString(input.getAttribute('data-min') ?? ''));
-    const max = Number(normalizeMoneyString(input.getAttribute('data-max') ?? ''));
-
-    if (Number.isNaN(value) || Number.isNaN(min) || Number.isNaN(max)) return;
+    const value = Number(input.value);
+    const min = Number(formatMoney(input.getAttribute('data-min') ?? ''));
+    const max = Number(formatMoney(input.getAttribute('data-max') ?? ''));
 
     if (value < min) input.value = min.toString();
     if (value > max) input.value = max.toString();
-  }
-
-  #normalizeInputs() {
-    const { minInput, maxInput } = this.refs;
-    if (minInput instanceof HTMLInputElement) minInput.value = normalizeMoneyString(minInput.value);
-    if (maxInput instanceof HTMLInputElement) maxInput.value = normalizeMoneyString(maxInput.value);
   }
 
   /**

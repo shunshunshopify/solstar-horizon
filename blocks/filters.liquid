@@ -247,73 +247,16 @@
     </div>
   </div>
 
-  <div
-    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
-    style="
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
-      {{ facets_margin_style }}
-    "
-  >
-    {% if block_settings.enable_filtering %}
-      <div class="facets-toggle__wrapper">
-        <button
-          class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
-          on:click="#filters-drawer/showDialog"
-          type="button"
-        >
-          <span class="svg-wrapper">
-            {{ 'icon-filter.svg' | inline_asset_content }}
-          </span>
-
-          {{ 'actions.show_filters' | t }}
-
-          {% if total_active_values > 0 %}
-            <div
-              id="filter-count-bubble-toggle"
-              class="filter-count-bubble"
-              aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
-            >
-              <span class="filter-count-bubble__background"></span>
-
-              <span
-                class="filter-count-bubble__text"
-                aria-hidden="true"
-              >
-                {{ total_active_values }}
-              </span>
-            </div>
-          {% endif %}
-        </button>
-      </div>
-    {% endif %}
-
-    <div class="facets-mobile-wrapper facets-controls-wrapper">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
-        <facets-form-component
-          section-id="{{ section.id }}"
-          id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-        >
-          <form
-            action="{{ results_url }}"
-            id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-            ref="facetsForm"
-          >
-            {% render 'sorting',
-              results: results,
-              sort_by: sort_by,
-              filter_style: block_settings.filter_style,
-              sort_position: 'mobile',
-              should_use_select_on_mobile: should_use_select_on_mobile,
-              section_id: section.id
-            %}
-          </form>
-        </facets-form-component>
-      {% endif %}
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'mobile' %}
-      {% endif %}
-    </div>
-  </div>
+  {% render 'filters-toggle',
+    block_settings: block_settings,
+    facets_margin_style: facets_margin_style,
+    total_active_values: total_active_values,
+    results: results,
+    sort_by: sort_by,
+    results_url: results_url,
+    section_id: section.id,
+    should_use_select_on_mobile: should_use_select_on_mobile
+  %}
 {% else %}
   <div></div>
 {% endif %}
@@ -542,88 +485,6 @@
       border-radius: var(--style-border-radius-md);
       font-size: var(--font-size--xs);
     }
-  }
-
-  /* Facets - Toggle */
-  .facets-toggle {
-    --icon-offset: -3px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: var(--minimum-touch-target);
-    margin: var(--facets-margin);
-    padding-block: var(--facets-inner-padding-block);
-    padding-inline: var(--facets-inner-padding-inline);
-
-    @media screen and (min-width: 750px) {
-      display: none;
-    }
-  }
-
-  .facets-toggle__wrapper {
-    margin-left: var(--icon-offset);
-  }
-
-  .facets-toggle__button {
-    box-shadow: none;
-
-    @media screen and (min-width: 750px) {
-      display: none;
-    }
-  }
-
-  .filter-count-bubble {
-    position: relative;
-    width: 20px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    display: grid;
-    line-height: normal;
-    place-content: center;
-    color: var(--color-foreground);
-    border: var(--icon-stroke-width) solid var(--color-background);
-  }
-
-  .filter-count-bubble__background {
-    position: absolute;
-    inset: 0;
-    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
-    border-radius: var(--style-border-radius-50);
-  }
-
-  .filter-count-bubble__text {
-    font-size: 11px;
-    font-weight: var(--font-paragraph--weight);
-    aspect-ratio: 1 / 1;
-  }
-
-  .facets-toggle--no-filters {
-    @media screen and (max-width: 749px) {
-      /* stylelint-disable-next-line declaration-no-important */
-      justify-content: unset !important;
-
-      & > .facets-mobile-wrapper {
-        width: 100%;
-      }
-    }
-  }
-
-  .facets-block-wrapper--vertical + .facets-toggle {
-    @media screen and (max-width: 749px) {
-      margin: 0;
-    }
-  }
-
-  .facets-mobile-wrapper {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-sm);
-    justify-content: flex-end;
-  }
-
-  .facets-mobile-wrapper:has(> :nth-child(2)) {
-    justify-content: space-between;
   }
 
   dialog-component.facets-block-wrapper:not(:has(.facets--drawer[open])) {

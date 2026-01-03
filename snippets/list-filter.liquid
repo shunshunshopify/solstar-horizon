@@ -36,10 +36,8 @@
     open
     open-by-default-on-desktop
   {% endif %}
-  data-filter-param-name="{{ filter.param_name | escape | replace: '.', '-' }}"
 >
   <details
-    id="Facet-Details-{{ sectionId }}-{{ filter.param_name | escape | replace: '.', '-' }}"
     class="facets__panel"
     {% if filter_style == 'horizontal' %}
       data-auto-close-details="desktop"

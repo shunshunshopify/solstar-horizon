@@ -589,6 +589,23 @@
     padding-inline: 0;
   }
 
+  @media screen and (max-width: 749px) {
+    .facets--drawer {
+      --dialog-drawer-opening-animation: slideInRight;
+      --dialog-drawer-closing-animation: slideOutRight;
+    }
+
+    .facets--drawer::backdrop {
+      background-color: rgb(0 0 0 / var(--menu-overlay-opacity, 0.4));
+      -webkit-backdrop-filter: blur(var(--menu-overlay-blur, 8px));
+      backdrop-filter: blur(var(--menu-overlay-blur, 8px));
+    }
+
+    .facets--drawer[open]::backdrop {
+      animation: none;
+    }
+  }
+
   .facets--drawer[open] {
     display: flex;
     flex-direction: column;

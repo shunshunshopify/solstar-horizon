@@ -1,13 +1,85 @@
 import { sectionRenderer } from '@theme/section-renderer';
 import { Component } from '@theme/component';
 import { FilterUpdateEvent, ThemeEvents } from '@theme/events';
-import { debounce, formatMoney, startViewTransition } from '@theme/utilities';
+import { debounce, startViewTransition } from '@theme/utilities';
 
 /**
  * Search query parameter.
  * @type {string}
  */
 const SEARCH_QUERY = 'q';
+const PRICE_FILTER_MIN_PARAM = 'filter.v.price.gte';
+const PRICE_FILTER_MAX_PARAM = 'filter.v.price.lte';
+
+/**
+ * @param {string} currency
+ * @returns {number}
+ */
+const getCurrencyPrecision = (currency) =>
+  CURRENCY_DECIMALS[currency?.toUpperCase() ?? ''] ?? DEFAULT_CURRENCY_DECIMALS;
+
+/**
+ * @param {ParentNode | null} root
+ * @returns {string}
+ */
+const getPriceFacetCurrency = (root) => {
+  const status = root?.querySelector?.('[ref="facetStatus"][data-currency]');
+  if (!(status instanceof HTMLElement)) return '';
+  return status.dataset.currency ?? '';
+};
+
+/**
+ * @param {string} value
+ * @param {number} [precision=DEFAULT_CURRENCY_DECIMALS]
+ * @returns {string}
+ */
+const normalizeMoneyInput = (value, precision = DEFAULT_CURRENCY_DECIMALS) => {
+  const raw = String(value ?? '').trim();
+  if (!raw) return '';
+
+  const cleaned = raw.replace(/[^\d.,' ]+/g, '').replace(/[\s']/g, '');
+  if (!cleaned) return '';
+
+  if (precision <= 0) return cleaned.replace(/[^\d]/g, '');
+
+  const hasDot = cleaned.includes('.');
+  const hasComma = cleaned.includes(',');
+
+  if (hasDot && hasComma) {
+    const lastDot = cleaned.lastIndexOf('.');
+    const lastComma = cleaned.lastIndexOf(',');
+    const decimalSeparator = lastDot > lastComma ? '.' : ',';
+    const thousandsSeparator = decimalSeparator === '.' ? ',' : '.';
+
+    return cleaned.split(thousandsSeparator).join('').replace(decimalSeparator, '.');
+  }
+
+  if (hasDot || hasComma) {
+    const separator = hasDot ? '.' : ',';
+    const parts = cleaned.split(separator);
+
+    if (parts.length > 2) return parts.join('');
+
+    const [whole = '', fraction = ''] = parts;
+    if (fraction.length === 0) return whole;
+    if (fraction.length > precision) return `${whole}${fraction}`;
+
+    return `${whole}.${fraction}`;
+  }
+
+  return cleaned;
+};
+
+/**
+ * @param {string} value
+ * @param {number} precision
+ * @returns {number}
+ */
+const parseMoneyInput = (value, precision) => {
+  const normalized = normalizeMoneyInput(value, precision);
+  if (normalized === '') return NaN;
+  return Number(normalized);
+};
 
 /**
  * Handles the main facets form functionality
@@ -29,8 +101,21 @@ class FacetsFormComponent extends Component {
   createURLParameters(formData = new FormData(this.refs.facetsForm)) {
     let newParameters = new URLSearchParams(/** @type any */ (formData));
 
-    if (newParameters.get('filter.v.price.gte') === '') newParameters.delete('filter.v.price.gte');
-    if (newParameters.get('filter.v.price.lte') === '') newParameters.delete('filter.v.price.lte');
+    const currencyPrecision = getCurrencyPrecision(getPriceFacetCurrency(this));
+    const minPrice = newParameters.get(PRICE_FILTER_MIN_PARAM);
+
+    if (minPrice !== null) {
+      const normalizedMinPrice = normalizeMoneyInput(minPrice, currencyPrecision);
+      if (normalizedMinPrice === '') newParameters.delete(PRICE_FILTER_MIN_PARAM);
+      else newParameters.set(PRICE_FILTER_MIN_PARAM, normalizedMinPrice);
+    }
+
+    const maxPrice = newParameters.get(PRICE_FILTER_MAX_PARAM);
+    if (maxPrice !== null) {
+      const normalizedMaxPrice = normalizeMoneyInput(maxPrice, currencyPrecision);
+      if (normalizedMaxPrice === '') newParameters.delete(PRICE_FILTER_MAX_PARAM);
+      else newParameters.set(PRICE_FILTER_MAX_PARAM, normalizedMaxPrice);
+    }
 
     newParameters.delete('page');
 
@@ -238,6 +323,14 @@ class PriceFacetComponent extends Component {
     if (!event.key.match(pattern)) event.preventDefault();
   };
 
+  #getCurrencyPrecision() {
+    return getCurrencyPrecision(this.#getCurrencyCode());
+  }
+
+  #getCurrencyCode() {
+    return getPriceFacetCurrency(this.closest('details') ?? this);
+  }
+
   /**
    * Updates price filter and results
    */
@@ -262,12 +355,15 @@ class PriceFacetComponent extends Component {
   #adjustToValidValues(input) {
     if (input.value.trim() === '') return;
 
-    const value = Number(input.value);
-    const min = Number(formatMoney(input.getAttribute('data-min') ?? ''));
-    const max = Number(formatMoney(input.getAttribute('data-max') ?? ''));
+    const precision = this.#getCurrencyPrecision();
+    const value = parseMoneyInput(input.value, precision);
+    const min = parseMoneyInput(input.getAttribute('data-min') ?? '', precision);
+    const max = parseMoneyInput(input.getAttribute('data-max') ?? '', precision);
 
-    if (value < min) input.value = min.toString();
-    if (value > max) input.value = max.toString();
+    if (Number.isNaN(value)) return;
+
+    if (!Number.isNaN(min) && value < min) input.value = min.toString();
+    if (!Number.isNaN(max) && value > max) input.value = max.toString();
   }
 
   /**
@@ -761,17 +857,20 @@ class FacetStatusComponent extends Component {
    * @returns {number} The money value in cents
    */
   #parseCents(value, fallback = '0') {
-    const parts = value ? value.trim().split(/[^0-9]/) : (parseInt(fallback, 10) / 100).toString();
-    const [wholeStr, fractionStr, ...rest] = parts;
-    if (typeof wholeStr !== 'string' || rest.length > 0) return parseInt(fallback, 10);
+    const currency = this.refs.facetStatus?.dataset.currency ?? '';
+    const precision = getCurrencyPrecision(currency);
+    const normalized = normalizeMoneyInput(value, precision);
 
-    const whole = parseInt(wholeStr, 10);
-    let fraction = parseInt(fractionStr || '0', 10);
+    if (normalized === '') return parseInt(fallback, 10);
 
-    // Use two most-significant digits, e.g. 1 -> 10, 12 -> 12, 123 -> 12.3, 1234 -> 12.34, etc
-    fraction = fraction * Math.pow(10, 2 - fraction.toString().length);
+    const [wholeStr, fractionStr = ''] = normalized.split('.');
+    const whole = parseInt(wholeStr || '0', 10);
+    if (Number.isNaN(whole)) return parseInt(fallback, 10);
 
-    return whole * 100 + fraction;
+    const fraction = fractionStr.padEnd(2, '0').slice(0, 2);
+    const fractionValue = parseInt(fraction || '0', 10);
+
+    return whole * 100 + (Number.isNaN(fractionValue) ? 0 : fractionValue);
   }
 
   /**

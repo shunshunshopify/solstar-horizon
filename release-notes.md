@@ -1,3 +1,14 @@
+# Release Notes - Version 3.2.12
+
+This release improves filters with currency-aware price parsing and reduces duplicate markup.
+
+## What's Changed
+
+### Fixes and improvements
+- [Filters] Price range input now normalizes values based on store currency for accurate filtering and summaries.
+- [Filters] Toggle markup and styles consolidated in the `filters-toggle` snippet to remove duplication.
+- [Filters] Removed unused filter IDs/data attributes to reduce DOM clutter.
+
 # Release Notes - Version 3.2.11
 
 This release adds an optional link hover animation for the header menu.

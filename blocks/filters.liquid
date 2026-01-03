@@ -247,74 +247,16 @@
     </div>
   </div>
 
-  <div
-    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
-    style="
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
-      {{ facets_margin_style }}
-    "
-  >
-    {% if block_settings.enable_filtering %}
-      <div class="facets-toggle__wrapper">
-        <button
-          class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
-          on:click="#filters-drawer/showDialog"
-          type="button"
-        >
-          <span class="svg-wrapper">
-            {{ 'icon-filter.svg' | inline_asset_content }}
-          </span>
-
-          {{ 'actions.show_filters' | t }}
-
-          {% if total_active_values > 0 %}
-            <div
-              id="filter-count-bubble-toggle"
-              class="filter-count-bubble"
-              aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
-            >
-              <span class="filter-count-bubble__background"></span>
-
-              <span
-                ref="cartBubbleText"
-                class="filter-count-bubble__text"
-                aria-hidden="true"
-              >
-                {{ total_active_values }}
-              </span>
-            </div>
-          {% endif %}
-        </button>
-      </div>
-    {% endif %}
-
-    <div class="facets-mobile-wrapper facets-controls-wrapper">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
-        <facets-form-component
-          section-id="{{ section.id }}"
-          id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-        >
-          <form
-            action="{{ results_url }}"
-            id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-            ref="facetsForm"
-          >
-            {% render 'sorting',
-              results: results,
-              sort_by: sort_by,
-              filter_style: block_settings.filter_style,
-              sort_position: 'mobile',
-              should_use_select_on_mobile: should_use_select_on_mobile,
-              section_id: section.id
-            %}
-          </form>
-        </facets-form-component>
-      {% endif %}
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'mobile' %}
-      {% endif %}
-    </div>
-  </div>
+  {% render 'filters-toggle',
+    block_settings: block_settings,
+    facets_margin_style: facets_margin_style,
+    total_active_values: total_active_values,
+    results: results,
+    sort_by: sort_by,
+    results_url: results_url,
+    section_id: section.id,
+    should_use_select_on_mobile: should_use_select_on_mobile
+  %}
 {% else %}
   <div></div>
 {% endif %}
@@ -326,7 +268,7 @@
   >
     <dialog
       ref="dialog"
-      class="facets facets--drawer dialog-modal drawer dialog-drawer dialog-drawer--right spacing-style"
+      class="facets facets--drawer dialog-modal drawer dialog-drawer spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}"
       scroll-lock
       aria-labelledby="filters-drawer-heading"
@@ -452,6 +394,7 @@
   .collection-wrapper {
     @media screen and (min-width: 750px) {
       --facets-vertical-col-width: 6;
+      align-items: start;
     }
 
     @media screen and (min-width: 990px) {
@@ -469,24 +412,79 @@
   .facets-block-wrapper--vertical {
     @media screen and (min-width: 750px) {
       grid-column: var(--grid-column--desktop);
+      position: static;
+      top: auto;
+      align-self: start;
+      height: auto;
+      max-height: none;
+      border-right: var(--style-border-width) solid var(--color-border);
+      background: var(--color-background);
+      overflow: visible;
     }
   }
 
-  .facets-block-wrapper--vertical + .facets-toggle {
-    @media screen and (max-width: 749px) {
-      margin: 0;
+  .facets-block-wrapper--vertical .facets--vertical {
+    @media screen and (min-width: 750px) {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-height: 100%;
+      overflow-y: auto;
+      padding: var(--padding-lg) var(--padding-lg) var(--padding-xl);
+      font-size: var(--font-paragraph--size);
     }
   }
 
-  .facets-mobile-wrapper {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-sm);
-    justify-content: flex-end;
+  .facets-block-wrapper--vertical .facets__item + .facets__item {
+    @media screen and (min-width: 750px) {
+      margin-top: var(--padding-lg);
+    }
   }
 
-  .facets-mobile-wrapper:has(> :nth-child(2)) {
-    justify-content: space-between;
+  .facets-block-wrapper--vertical .facets__summary {
+    @media screen and (min-width: 750px) {
+      border-bottom: var(--style-border-width) solid var(--color-border);
+      padding: 0 0 var(--padding-xs);
+      font-weight: 600;
+      font-size: var(--font-paragraph--size);
+    }
+  }
+
+  .facets-block-wrapper--vertical .facets__item::before {
+    @media screen and (min-width: 750px) {
+      content: none;
+    }
+  }
+
+  .facets-block-wrapper--vertical .facets__panel {
+    @media screen and (min-width: 750px) {
+      padding: 0;
+    }
+  }
+
+  .facets-block-wrapper--vertical .facets__inputs-wrapper {
+    @media screen and (min-width: 750px) {
+      margin-block: var(--padding-sm) var(--padding-md);
+    }
+  }
+
+  .facets-block-wrapper--vertical .show-more__button {
+    @media screen and (min-width: 750px) {
+      justify-content: flex-start;
+      padding: 0;
+      font-size: var(--font-size--xs);
+      letter-spacing: var(--letter-spacing-md);
+      text-transform: uppercase;
+    }
+  }
+
+  .facets-block-wrapper--vertical .facets-remove__pill {
+    @media screen and (min-width: 750px) {
+      background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
+      padding: 6px 10px;
+      border-radius: var(--style-border-radius-md);
+      font-size: var(--font-size--xs);
+    }
   }
 
   dialog-component.facets-block-wrapper:not(:has(.facets--drawer[open])) {
@@ -589,6 +587,23 @@
     padding-inline: 0;
   }
 
+  @media screen and (max-width: 749px) {
+    .facets--drawer {
+      --dialog-drawer-opening-animation: slideInRight;
+      --dialog-drawer-closing-animation: slideOutRight;
+    }
+
+    .facets--drawer::backdrop {
+      background-color: rgb(0 0 0 / var(--menu-overlay-opacity, 0.4));
+      -webkit-backdrop-filter: blur(var(--menu-overlay-blur, 8px));
+      backdrop-filter: blur(var(--menu-overlay-blur, 8px));
+    }
+
+    .facets--drawer[open]::backdrop {
+      animation: none;
+    }
+  }
+
   .facets--drawer[open] {
     display: flex;
     flex-direction: column;
@@ -598,6 +613,12 @@
   .facets.facets-controls-wrapper {
     @media screen and (min-width: 750px) {
       grid-column: column-1 / column-12;
+      position: static;
+      top: auto;
+      z-index: var(--layer-raised);
+      background: var(--color-background);
+      border-top: var(--style-border-width) solid var(--color-border);
+      border-bottom: var(--style-border-width) solid var(--color-border);
       color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
       gap: 0 var(--facets-form-horizontal-gap);
       padding-bottom: var(--padding-xs);
@@ -1030,6 +1051,9 @@
     margin-block-end: 0;
     color: var(--color-foreground);
     height: fit-content;
+    font-size: var(--font-paragraph--size);
+    letter-spacing: var(--letter-spacing-md);
+    text-transform: uppercase;
 
     @media screen and (max-width: 749px) {
       display: none;

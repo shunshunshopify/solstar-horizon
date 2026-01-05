@@ -12,12 +12,18 @@
   @param {boolean} [show_wishlist_button] - Whether to render the wishlist button on product cards.
   @param {boolean} [show_badges] - Whether to render product badges on product cards.
   @param {string} [content_markup] - Custom HTML for the card content block (title/price/etc).
+  @param {boolean} [show_quick_add] - Whether to render quick add on product cards.
+  @param {string} [quick_add_section_id] - Section ID for the quick add form.
+  @param {object} [quick_add_block] - Block context for unique quick add form IDs.
 {%- enddoc -%}
 
 {% liquid
   assign show_wishlist_button = show_wishlist_button | default: false
   assign show_badges = show_badges | default: false
   assign content_markup = content_markup | default: ''
+  assign show_quick_add = show_quick_add | default: false
+  assign quick_add_section_id = quick_add_section_id | default: ''
+  assign quick_add_block = quick_add_block | default: nil
   if image_aspect_ratio == blank or image_aspect_ratio == 'adapt'
     assign ratio = resource.featured_image.aspect_ratio
   else
@@ -41,6 +47,16 @@
   assign wishlist_enabled = false
   if show_wishlist_button and resource_type == 'product' and settings.enable_wishlist_icon and resource != blank
     assign wishlist_enabled = true
+  endif
+
+  assign has_quick_add = false
+  if show_quick_add and resource_type == 'product' and resource != blank and settings.quick_add and resource.available
+    assign has_quick_add = true
+  endif
+
+  assign has_mobile_quick_add = false
+  if has_quick_add and settings.mobile_quick_add
+    assign has_mobile_quick_add = true
   endif
 %}
 
@@ -66,13 +82,26 @@
   </a>
   <div
     class="resource-card__media"
-    style="--resource-card-aspect-ratio: {{ ratio }};"
+    style="
+      --resource-card-aspect-ratio: {{ ratio }};
+      {% if show_quick_add %}
+        --quick-add-display: {% if has_quick_add %}flex{% else %}none{% endif %};
+        --quick-add-mobile-display: {% if has_mobile_quick_add %}flex{% else %}none{% endif %};
+        --padding-block-start: 0px;
+        --padding-block-end: 0px;
+        --padding-inline-start: 0px;
+        --padding-inline-end: 0px;
+      {% endif %}
+    "
     {% if resource_type == 'product' and settings.transition_to_main_product %}
       data-view-transition-to-main-product
     {% endif %}
   >
     {% if resource_type == 'product' and show_badges and resource != blank %}
       {% render 'product-card-badges', product: resource, settings: settings %}
+    {% endif %}
+    {% if show_quick_add and resource_type == 'product' and resource != blank and (settings.quick_add or settings.mobile_quick_add) %}
+      {% render 'quick-add', product: resource, section_id: quick_add_section_id, block: quick_add_block %}
     {% endif %}
     {%- if resource_type == 'product' or single_thumbnail_collection -%}
       {% assign featured_image = resource.featured_image | default: resource.featured_media.preview_image %}

@@ -11,9 +11,7 @@ export class QuickAddComponent extends Component {
   #cachedContent = new Map();
 
   get productPageUrl() {
-    const productCard = /** @type {import('./product-card').ProductCard | null} */ (this.closest('product-card'));
-    const productLink = productCard?.getProductCardLink();
-
+    const productLink = this.#getProductLink();
     if (!productLink?.href) return '';
 
     const url = new URL(productLink.href);
@@ -31,12 +29,36 @@ export class QuickAddComponent extends Component {
   }
 
   /**
+   * Gets the product link for this quick add instance.
+   * @returns {HTMLAnchorElement | null} The product link or null.
+   */
+  #getProductLink() {
+    const productCard = /** @type {import('./product-card').ProductCard | null} */ (this.closest('product-card'));
+    const productLink = productCard?.getProductCardLink();
+    if (productLink) return productLink;
+
+    const resourceCard = this.closest('.resource-card');
+    const resourceLink = resourceCard?.querySelector('.resource-card__link');
+    if (resourceLink instanceof HTMLAnchorElement) return resourceLink;
+
+    return null;
+  }
+
+  /**
    * Gets the currently selected variant ID from the product card
    * @returns {string | null} The variant ID or null
    */
   #getSelectedVariantId() {
     const productCard = /** @type {import('./product-card').ProductCard | null} */ (this.closest('product-card'));
-    return productCard?.getSelectedVariantId() || null;
+    if (productCard) return productCard.getSelectedVariantId();
+
+    const resourceCard = this.closest('.resource-card');
+    const checkedInput = resourceCard?.querySelector(
+      'swatches-variant-picker-component input[type="radio"]:checked[data-variant-id]'
+    );
+
+    if (!(checkedInput instanceof HTMLInputElement)) return null;
+    return checkedInput.dataset.variantId || null;
   }
 
   connectedCallback() {

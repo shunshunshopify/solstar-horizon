@@ -298,19 +298,6 @@ export class ProductCard extends Component {
   };
 
   /**
-   * Previews a variant.
-   * @param {string} id - The id of the variant to preview.
-   */
-  previewVariant(id) {
-    const { slideshow } = this.refs;
-
-    if (!slideshow) return;
-
-    this.resetVariant.cancel();
-    slideshow.select({ id }, undefined, { animate: false });
-  }
-
-  /**
    * Previews the next image.
    * @param {PointerEvent} event - The pointer event.
    */

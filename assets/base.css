@@ -2018,7 +2018,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 /* Swatches */
 .swatch {
-  --color-border: rgb(var(--color-foreground-rgb) / var(--style-border-swatch-opacity));
+  --color-border: var(--swatch-border-color, rgb(var(--color-foreground-rgb) / var(--style-border-swatch-opacity)));
   --min-width-unitless: 15.9999; /* want to avoid division by 0 */
   --min-height-unitless: 15.9999; /* want to avoid division by 0 */
   --min-height: 16px;
@@ -2072,6 +2072,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   );
 
   display: block;
+  box-sizing: border-box;
   background: var(--swatch-background);
   background-position: var(--swatch-focal-point, center);
   border-radius: var(--variant-picker-swatch-radius);
@@ -2090,8 +2091,8 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
   &.swatch--unscaled {
     /* for when you want fixed sizing (e.g. pdp) */
-    --swatch-width: var(--variant-picker-swatch-width);
-    --swatch-height: var(--variant-picker-swatch-height);
+    --swatch-width: 35.2px;
+    --swatch-height: 35.2px;
   }
 
   &.swatch--filter {
@@ -2127,6 +2128,28 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 .variant-picker .variant-option--buttons label:has(.swatch) {
   border-radius: var(--variant-picker-swatch-radius);
+}
+
+.product-details .variant-option--swatches {
+  --variant-picker-swatch-width: 35.2px;
+  --variant-picker-swatch-height: 35.2px;
+}
+
+.product-details .variant-option--swatches .variant-option__buttons {
+  gap: 8px;
+}
+
+.product-details .variant-option__button-label--has-swatch {
+  padding: 0;
+  margin: 0;
+}
+.product-card .variant-option--swatches {
+  --variant-picker-swatch-width: 16px;
+  --variant-picker-swatch-height: 16px;
+}
+
+.product-card .variant-option__button-label--has-swatch {
+  padding: 0;
 }
 
 .product-details variant-picker .variant-option legend {

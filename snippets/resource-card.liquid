@@ -100,8 +100,10 @@
     {% if resource_type == 'product' and show_badges and resource != blank %}
       {% render 'product-card-badges', product: resource, settings: settings %}
     {% endif %}
-    {% if show_quick_add and resource_type == 'product' and resource != blank and (settings.quick_add or settings.mobile_quick_add) %}
-      {% render 'quick-add', product: resource, section_id: quick_add_section_id, block: quick_add_block %}
+    {% if show_quick_add and resource_type == 'product' and resource != blank %}
+      {% if settings.quick_add or settings.mobile_quick_add %}
+        {% render 'quick-add', product: resource, section_id: quick_add_section_id, block: quick_add_block %}
+      {% endif %}
     {% endif %}
     {%- if resource_type == 'product' or single_thumbnail_collection -%}
       {% assign featured_image = resource.featured_image | default: resource.featured_media.preview_image %}

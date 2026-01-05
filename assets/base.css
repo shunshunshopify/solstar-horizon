@@ -2126,6 +2126,14 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   }
 }
 
+/* Match filter swatch border style in product cards and PDP. */
+.product-card .swatch,
+.product-details .swatch {
+  --style-border-swatch-width: var(--variant-picker-border-width);
+  --style-border-swatch-style: var(--variant-picker-border-style);
+  --color-border: rgb(var(--color-foreground-rgb) / var(--variant-picker-border-opacity));
+}
+
 .variant-picker .variant-option--buttons label:has(.swatch) {
   border-radius: var(--variant-picker-swatch-radius);
 }

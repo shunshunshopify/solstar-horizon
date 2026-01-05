@@ -12,31 +12,25 @@ const PRICE_FILTER_MIN_PARAM = 'filter.v.price.gte';
 const PRICE_FILTER_MAX_PARAM = 'filter.v.price.lte';
 
 /**
- * @param {string | undefined | null} currency
- * @returns {string}
- */
-const normalizeCurrencyCode = (currency) => (currency ?? '').trim().toUpperCase();
-
-/**
  * @param {string} currency
  * @returns {number}
  */
 const getCurrencyPrecision = (currency) =>
-  CURRENCY_DECIMALS[normalizeCurrencyCode(currency)] ?? DEFAULT_CURRENCY_DECIMALS;
+  CURRENCY_DECIMALS[currency?.toUpperCase() ?? ''] ?? DEFAULT_CURRENCY_DECIMALS;
 
 /**
  * @param {ParentNode | null} root
  * @returns {string}
  */
 const getPriceFacetCurrency = (root) => {
-  if (root instanceof HTMLElement && root.dataset.currency) return normalizeCurrencyCode(root.dataset.currency);
+  if (root instanceof HTMLElement && root.dataset.currency) return root.dataset.currency;
 
   const status = root?.querySelector?.('[ref="facetStatus"][data-currency]');
-  if (status instanceof HTMLElement && status.dataset.currency) return normalizeCurrencyCode(status.dataset.currency);
+  if (status instanceof HTMLElement && status.dataset.currency) return status.dataset.currency;
 
   if (typeof window !== 'undefined') {
     const shopifyGlobal = /** @type {{ currency?: { active?: string } } | undefined} */ (/** @type {any} */ (window).Shopify);
-    if (shopifyGlobal?.currency?.active) return normalizeCurrencyCode(shopifyGlobal.currency.active);
+    if (shopifyGlobal?.currency?.active) return shopifyGlobal.currency.active;
   }
 
   return '';
@@ -379,7 +373,7 @@ class PriceFacetComponent extends Component {
   }
 
   #getCurrencyCode() {
-    return normalizeCurrencyCode(this.dataset.currency || getPriceFacetCurrency(this.closest('details') ?? this));
+    return this.dataset.currency || getPriceFacetCurrency(this.closest('details') ?? this);
   }
 
   /**
@@ -521,7 +515,7 @@ class PriceFacetComponent extends Component {
           )
         : undefined;
 
-    const currency = this.#getCurrencyCode() || normalizeCurrencyCode(shopifyGlobal?.currency?.active);
+    const currency = this.#getCurrencyCode() || shopifyGlobal?.currency?.active || '';
     const precision = getCurrencyPrecision(currency);
     const divisor = 10 ** precision;
     const locale = shopifyGlobal?.locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
@@ -1046,13 +1040,12 @@ class FacetStatusComponent extends Component {
    * @returns {number} The money value in cents
    */
   #parseCents(value, fallback = '0') {
-    const currency = normalizeCurrencyCode(
+    const currency =
       this.refs.facetStatus?.dataset.currency ??
-        (typeof window !== 'undefined'
-          ? /** @type {{ currency?: { active?: string } } | undefined} */ (/** @type {any} */ (window).Shopify)?.currency
-              ?.active
-          : '')
-    );
+      (typeof window !== 'undefined'
+        ? /** @type {{ currency?: { active?: string } } | undefined} */ (/** @type {any} */ (window).Shopify)?.currency
+            ?.active ?? ''
+        : '');
     const precision = getCurrencyPrecision(currency);
     const normalized = normalizeMoneyInput(value, precision);
 
@@ -1077,7 +1070,7 @@ class FacetStatusComponent extends Component {
    * @returns {string} The formatted money value
    */
   #formatMoney(moneyValue) {
-    const currency = normalizeCurrencyCode(this.refs.facetStatus?.dataset.currency ?? '');
+    const currency = this.refs.facetStatus?.dataset.currency ?? '';
     if (currency) {
       try {
         const precision = getCurrencyPrecision(currency);

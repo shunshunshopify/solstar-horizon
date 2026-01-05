@@ -396,34 +396,30 @@ class PriceFacetComponent extends Component {
 
     if (minRange.type !== 'range' || maxRange.type !== 'range') return;
 
-    const rangeMin = this.#parseRangeValue(minRange.min, 0);
-    const rangeMax = this.#parseRangeValue(maxRange.max, rangeMin);
-    let minCents = this.#parseRangeValue(minRange.value, rangeMin);
-    let maxCents = this.#parseRangeValue(maxRange.value, rangeMax);
+    const minValue = Number(minRange.value);
+    const maxValue = Number(maxRange.value);
 
-    minCents = Math.min(Math.max(minCents, rangeMin), rangeMax);
-    maxCents = Math.min(Math.max(maxCents, rangeMin), rangeMax);
-
-    if (minCents > maxCents) {
+    if (!Number.isNaN(minValue) && !Number.isNaN(maxValue) && minValue > maxValue) {
       if (event?.target === minRange) {
-        maxCents = minCents;
+        maxRange.value = minRange.value;
       } else {
-        minCents = maxCents;
+        minRange.value = maxRange.value;
       }
     }
 
-    if (minRange.value !== String(minCents)) minRange.value = String(minCents);
-    if (maxRange.value !== String(maxCents)) maxRange.value = String(maxCents);
-
     const precision = this.#getCurrencyPrecision();
-    const minDefault = rangeMin;
-    const maxDefault = rangeMax;
+    const divisor = 10 ** precision;
+    const minDefault = Number(minRange.min) || 0;
+    const maxDefault = Number(maxRange.max);
 
-    minInput.value = minCents === minDefault ? '' : this.#formatDecimalInput(minCents, precision);
-    maxInput.value = maxCents === maxDefault ? '' : this.#formatDecimalInput(maxCents, precision);
+    const minCents = Number(minRange.value);
+    const maxCents = Number(maxRange.value);
+
+    minInput.value = minCents === minDefault ? '' : this.#formatDecimalInput(minCents, divisor, precision);
+    maxInput.value = maxCents === maxDefault ? '' : this.#formatDecimalInput(maxCents, divisor, precision);
 
     this.#setMinAndMaxValues();
-    this.#updateRangeDisplay(minCents, maxCents, rangeMax);
+    this.#updateRangeDisplay(minCents, maxCents, maxDefault);
   }
 
   /**
@@ -469,29 +465,13 @@ class PriceFacetComponent extends Component {
     statusComponent?.updatePriceSummary(minInput, maxInput);
   }
 
-  #parseRangeValue(value, fallback = 0) {
-    const numericValue = Number(value);
-    return Number.isFinite(numericValue) ? Math.round(numericValue) : fallback;
-  }
-
-  #formatDecimalInput(cents, precision) {
+  #formatDecimalInput(cents, divisor, precision) {
     if (!Number.isFinite(cents)) return '';
-    const divisor = 10 ** precision;
-    if (!Number.isFinite(divisor) || divisor <= 0) return '';
-
-    const absValue = Math.abs(Math.round(cents));
-    const whole = Math.floor(absValue / divisor);
-    const fraction = absValue % divisor;
-    const sign = cents < 0 ? '-' : '';
-
-    if (precision <= 0) return `${sign}${whole}`;
-
-    return `${sign}${whole}.${String(fraction).padStart(precision, '0')}`;
+    return (cents / divisor).toFixed(precision);
   }
 
   #formatRangeValue(cents) {
     if (!Number.isFinite(cents)) return '';
-    const normalizedCents = Math.round(cents);
 
     const shopifyGlobal =
       typeof window !== 'undefined'
@@ -503,7 +483,7 @@ class PriceFacetComponent extends Component {
     if (shopifyGlobal && typeof shopifyGlobal.formatMoney === 'function') {
       const themeSettings = /** @type {{ moneyFormat?: string } | undefined} */ (/** @type {any} */ (window).theme);
       const format = themeSettings?.moneyFormat || shopifyGlobal.money_format || '${{amount}}';
-      return shopifyGlobal.formatMoney(normalizedCents, format);
+      return shopifyGlobal.formatMoney(cents, format);
     }
 
     const precision = this.#getCurrencyPrecision();
@@ -516,14 +496,13 @@ class PriceFacetComponent extends Component {
       currency,
       minimumFractionDigits: precision,
       maximumFractionDigits: precision,
-    }).format(normalizedCents / divisor);
+    }).format(cents / divisor);
   }
 
   #updateRangeDisplay(minCents, maxCents, rangeMaxCents) {
     const { minValue, maxValue } = this.refs;
-    const safeRangeMax = Number.isFinite(rangeMaxCents) && rangeMaxCents > 0 ? rangeMaxCents : 0;
-    const minPercent = safeRangeMax ? Math.min((minCents / safeRangeMax) * 100, 100) : 0;
-    const maxPercent = safeRangeMax ? Math.min((maxCents / safeRangeMax) * 100, 100) : 100;
+    const minPercent = rangeMaxCents ? Math.min((minCents / rangeMaxCents) * 100, 100) : 0;
+    const maxPercent = rangeMaxCents ? Math.min((maxCents / rangeMaxCents) * 100, 100) : 100;
 
     this.style.setProperty('--price-range-min', `${Math.min(minPercent, maxPercent)}%`);
     this.style.setProperty('--price-range-max', `${Math.max(minPercent, maxPercent)}%`);

@@ -317,10 +317,6 @@ if (!customElements.get('facet-inputs-component')) {
  * @typedef {Object} PriceFacetRefs
  * @property {HTMLInputElement} minInput - The minimum price input
  * @property {HTMLInputElement} maxInput - The maximum price input
- * @property {HTMLInputElement | undefined} minRange - The minimum price range input
- * @property {HTMLInputElement | undefined} maxRange - The maximum price range input
- * @property {HTMLElement | undefined} minValue - The minimum price label
- * @property {HTMLElement | undefined} maxValue - The maximum price label
  */
 
 /**
@@ -328,12 +324,9 @@ if (!customElements.get('facet-inputs-component')) {
  * @extends {Component<PriceFacetRefs>}
  */
 class PriceFacetComponent extends Component {
-  requiredRefs = ['minInput', 'maxInput'];
-
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('keydown', this.#onKeyDown);
-    this.syncRangeInputs();
   }
 
   disconnectedCallback() {
@@ -347,7 +340,6 @@ class PriceFacetComponent extends Component {
    */
   #onKeyDown = (event) => {
     if (event.metaKey) return;
-    if (event.target instanceof HTMLInputElement && event.target.type === 'range') return;
 
     const pattern = /[0-9]|\.|,|'| |Tab|Backspace|Enter|ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Delete|Escape/;
     if (!event.key.match(pattern)) event.preventDefault();
@@ -376,50 +368,6 @@ class PriceFacetComponent extends Component {
     facetsForm.updateFilters();
     this.#setMinAndMaxValues();
     this.#updateSummary();
-  }
-
-  /**
-   * Syncs range inputs with hidden inputs and updates the UI.
-   * @param {Event} [event] - The input event
-   */
-  syncRangeInputs(event) {
-    const { minInput, maxInput, minRange, maxRange } = this.refs;
-
-    if (
-      !(minInput instanceof HTMLInputElement) ||
-      !(maxInput instanceof HTMLInputElement) ||
-      !(minRange instanceof HTMLInputElement) ||
-      !(maxRange instanceof HTMLInputElement)
-    ) {
-      return;
-    }
-
-    if (minRange.type !== 'range' || maxRange.type !== 'range') return;
-
-    const minValue = Number(minRange.value);
-    const maxValue = Number(maxRange.value);
-
-    if (!Number.isNaN(minValue) && !Number.isNaN(maxValue) && minValue > maxValue) {
-      if (event?.target === minRange) {
-        maxRange.value = minRange.value;
-      } else {
-        minRange.value = maxRange.value;
-      }
-    }
-
-    const precision = this.#getCurrencyPrecision();
-    const divisor = 10 ** precision;
-    const minDefault = Number(minRange.min) || 0;
-    const maxDefault = Number(maxRange.max);
-
-    const minCents = Number(minRange.value);
-    const maxCents = Number(maxRange.value);
-
-    minInput.value = minCents === minDefault ? '' : this.#formatDecimalInput(minCents, divisor, precision);
-    maxInput.value = maxCents === maxDefault ? '' : this.#formatDecimalInput(maxCents, divisor, precision);
-
-    this.#setMinAndMaxValues();
-    this.#updateRangeDisplay(minCents, maxCents, maxDefault);
   }
 
   /**
@@ -464,52 +412,6 @@ class PriceFacetComponent extends Component {
 
     statusComponent?.updatePriceSummary(minInput, maxInput);
   }
-
-  #formatDecimalInput(cents, divisor, precision) {
-    if (!Number.isFinite(cents)) return '';
-    return (cents / divisor).toFixed(precision);
-  }
-
-  #formatRangeValue(cents) {
-    if (!Number.isFinite(cents)) return '';
-
-    const shopifyGlobal =
-      typeof window !== 'undefined'
-        ? /** @type {{ formatMoney?: (value: number, format: string) => string, money_format?: string, currency?: { active?: string }, locale?: string } | undefined} */ (
-            /** @type {any} */ (window).Shopify
-          )
-        : undefined;
-
-    if (shopifyGlobal && typeof shopifyGlobal.formatMoney === 'function') {
-      const themeSettings = /** @type {{ moneyFormat?: string } | undefined} */ (/** @type {any} */ (window).theme);
-      const format = themeSettings?.moneyFormat || shopifyGlobal.money_format || '${{amount}}';
-      return shopifyGlobal.formatMoney(cents, format);
-    }
-
-    const precision = this.#getCurrencyPrecision();
-    const divisor = 10 ** precision;
-    const currency = shopifyGlobal?.currency?.active || this.#getCurrencyCode() || 'USD';
-    const locale = shopifyGlobal?.locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
-
-    return new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency,
-      minimumFractionDigits: precision,
-      maximumFractionDigits: precision,
-    }).format(cents / divisor);
-  }
-
-  #updateRangeDisplay(minCents, maxCents, rangeMaxCents) {
-    const { minValue, maxValue } = this.refs;
-    const minPercent = rangeMaxCents ? Math.min((minCents / rangeMaxCents) * 100, 100) : 0;
-    const maxPercent = rangeMaxCents ? Math.min((maxCents / rangeMaxCents) * 100, 100) : 100;
-
-    this.style.setProperty('--price-range-min', `${Math.min(minPercent, maxPercent)}%`);
-    this.style.setProperty('--price-range-max', `${Math.max(minPercent, maxPercent)}%`);
-
-    if (minValue) minValue.textContent = this.#formatRangeValue(minCents);
-    if (maxValue) maxValue.textContent = this.#formatRangeValue(maxCents);
-  }
 }
 
 if (!customElements.get('price-facet-component')) {
@@ -549,26 +451,12 @@ class FacetClearComponent extends Component {
     }
 
     const container = event.target.closest('facet-inputs-component, price-facet-component');
-    container?.querySelectorAll('input').forEach((input) => {
-      if (!(input instanceof HTMLInputElement)) return;
-
-      if (input.type === 'checkbox' || input.type === 'radio') {
+    container?.querySelectorAll('[type="checkbox"]:checked, input').forEach((input) => {
+      if (input instanceof HTMLInputElement) {
         input.checked = false;
-        return;
+        input.value = '';
       }
-
-      if (input.type === 'range') {
-        const defaultValue = input.dataset.defaultValue ?? input.min ?? '';
-        input.value = defaultValue;
-        return;
-      }
-
-      input.value = '';
     });
-
-    if (container instanceof PriceFacetComponent) {
-      container.syncRangeInputs();
-    }
 
     const details = event.target.closest('details');
     const statusComponent = details?.querySelector('facet-status-component');

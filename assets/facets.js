@@ -48,10 +48,32 @@ const normalizeMoneyInput = (value, precision = DEFAULT_CURRENCY_DECIMALS) => {
   const cleaned = raw.replace(/[^\d.,' ]+/g, '').replace(/[\s']/g, '');
   if (!cleaned) return '';
 
-  if (precision <= 0) return cleaned.replace(/[^\d]/g, '');
-
   const hasDot = cleaned.includes('.');
   const hasComma = cleaned.includes(',');
+
+  if (precision <= 0) {
+    if (hasDot && hasComma) {
+      const lastDot = cleaned.lastIndexOf('.');
+      const lastComma = cleaned.lastIndexOf(',');
+      const decimalSeparator = lastDot > lastComma ? '.' : ',';
+      const thousandsSeparator = decimalSeparator === '.' ? ',' : '.';
+      const normalized = cleaned.split(thousandsSeparator).join('').replace(decimalSeparator, '.');
+      return normalized.split('.')[0].replace(/[^\d]/g, '');
+    }
+
+    if (hasDot || hasComma) {
+      const separator = hasDot ? '.' : ',';
+      const parts = cleaned.split(separator);
+
+      if (parts.length > 2) return parts.join('').replace(/[^\d]/g, '');
+
+      const [whole = '', fraction = ''] = parts;
+      const normalized = fraction.length <= 2 ? whole : whole + fraction;
+      return normalized.replace(/[^\d]/g, '');
+    }
+
+    return cleaned.replace(/[^\d]/g, '');
+  }
 
   if (hasDot && hasComma) {
     const lastDot = cleaned.lastIndexOf('.');

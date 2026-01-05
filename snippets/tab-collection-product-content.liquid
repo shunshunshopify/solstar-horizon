@@ -111,6 +111,38 @@
   assign price_background_color = block_settings.product_price_background_color | default: '#00000026'
   assign price_corner_radius = block_settings.product_price_corner_radius | default: 0
 
+  assign swatches_alignment = block_settings.product_swatches_alignment | default: 'flex-start'
+  assign swatches_alignment_mobile = block_settings.product_swatches_alignment_mobile | default: 'flex-start'
+  assign swatches_padding_top = block_settings.product_swatches_padding_top | default: 4
+  assign swatches_padding_bottom = block_settings.product_swatches_padding_bottom | default: 0
+  assign swatches_padding_left = block_settings.product_swatches_padding_left | default: 0
+  assign swatches_padding_right = block_settings.product_swatches_padding_right | default: 0
+
+  assign swatches_alignment_value = 'center'
+  if swatches_alignment == 'flex-start'
+    assign swatches_alignment_value = 'start'
+  elsif swatches_alignment == 'flex-end'
+    assign swatches_alignment_value = 'end'
+  endif
+
+  assign swatches_alignment_mobile_value = 'center'
+  if swatches_alignment_mobile == 'flex-start'
+    assign swatches_alignment_mobile_value = 'start'
+  elsif swatches_alignment_mobile == 'flex-end'
+    assign swatches_alignment_mobile_value = 'end'
+  endif
+
+  assign product_has_swatches = false
+  if product != blank
+    for product_option in product.options_with_values
+      assign swatch_count = product_option.values | map: 'swatch' | compact | size
+      if swatch_count > 0
+        assign product_has_swatches = true
+        break
+      endif
+    endfor
+  endif
+
   assign price_is_custom = false
   if price_preset == 'custom'
     assign price_is_custom = true
@@ -195,4 +227,24 @@
       show_sale_price_first: price_show_sale_first
     %}
   </product-price>
+
+  {% if product_has_swatches %}
+    <product-swatches
+      class="tab-collection__swatches"
+      data-product-id="{{ product.id }}"
+      data-product-url="{{ product.url }}"
+      style="
+        --overflow-list-alignment: {{ swatches_alignment }};
+        --overflow-list-alignment-mobile: {{ swatches_alignment_mobile }};
+        --product-swatches-alignment: {{ swatches_alignment_value }};
+        --product-swatches-alignment-mobile: {{ swatches_alignment_mobile_value }};
+        --product-swatches-padding-block-start: {{ swatches_padding_top }}px;
+        --product-swatches-padding-block-end: {{ swatches_padding_bottom }}px;
+        --product-swatches-padding-inline-start: {{ swatches_padding_left }}px;
+        --product-swatches-padding-inline-end: {{ swatches_padding_right }}px;
+      "
+    >
+      {% render 'variant-swatches', product_resource: product %}
+    </product-swatches>
+  {% endif %}
 {% endif %}

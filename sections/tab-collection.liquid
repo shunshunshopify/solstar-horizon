@@ -15,11 +15,9 @@
     tab-collection
     section-resource-list
     spacing-style
-    gap-style
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
-    {% render 'gap-style', value: section.settings.gap %}
   "
   data-section-id="{{ section.id }}"
 >
@@ -43,9 +41,6 @@
               {% liquid
                 assign tab_id = 'TabCollection-' | append: section.id | append: '-' | append: block.id
                 assign tab_collection = block.settings.collection
-                if tab_collection == blank
-                  assign tab_collection = block.settings.collection_list | first
-                endif
                 assign label = block.settings.title
 
                 if label == blank and tab_collection != blank
@@ -102,9 +97,6 @@
             {% liquid
               assign tab_id = 'TabCollection-' | append: section.id | append: '-' | append: block.id
               assign tab_collection = block.settings.collection
-              if tab_collection == blank
-                assign tab_collection = block.settings.collection_list | first
-              endif
               assign max_items = block.settings.max_items | default: 6
               assign show_featured_image = block.settings.show_image
               assign featured_image = block.settings.featured_image
@@ -259,7 +251,10 @@
                       show_wishlist_button: true,
                       show_badges: true,
                       content_markup: tab_product_content,
-                      collection: tab_collection
+                      collection: tab_collection,
+                      show_quick_add: true,
+                      quick_add_section_id: section.id,
+                      quick_add_block: block
                     %}
                   </div>
                   {% unless forloop.last %}
@@ -338,6 +333,36 @@
     {% endif %}
   </div>
 </section>
+
+<script>
+  (() => {
+    const section = document.querySelector('.tab-collection[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    section.addEventListener('variant:update', (event) => {
+      if (!(event.target instanceof HTMLElement)) return;
+      const swatchComponent = event.target.closest('swatches-variant-picker-component');
+      if (!swatchComponent) return;
+      const card = swatchComponent.closest('.tab-collection__item');
+      if (!card) return;
+      const link = card.querySelector('.resource-card__link');
+      if (!(link instanceof HTMLAnchorElement)) return;
+
+      const newProductUrl = event.detail?.data?.newProduct?.url || swatchComponent.dataset.productUrl;
+      if (!newProductUrl) return;
+
+      const url = new URL(newProductUrl, window.location.origin);
+      const variantId = event.detail?.resource?.id;
+      if (variantId) {
+        url.searchParams.set('variant', variantId);
+      } else {
+        url.searchParams.delete('variant');
+      }
+
+      link.href = url.toString();
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -470,26 +495,6 @@
       "step": 4,
       "unit": "px",
       "default": 32
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "t:sections.tab_collection.settings.padding_inline_start.label",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "t:sections.tab_collection.settings.padding_inline_end.label",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "default": 0
     }
   ],
   "blocks": [
@@ -613,42 +618,6 @@
             { "value": "landscape", "label": "t:sections.tab_collection.blocks.tab.settings.image_ratio.options.landscape" }
           ],
           "default": "portrait"
-        },
-        {
-          "type": "checkbox",
-          "id": "toggle_overlay",
-          "label": "t:sections.tab_collection.blocks.tab.settings.toggle_overlay.label",
-          "default": false
-        },
-        {
-          "type": "color",
-          "id": "overlay_color",
-          "label": "t:sections.tab_collection.blocks.tab.settings.overlay_color.label",
-          "alpha": true,
-          "default": "#00000026",
-          "visible_if": "{{ block.settings.toggle_overlay }}"
-        },
-        {
-          "type": "select",
-          "id": "overlay_style",
-          "label": "t:sections.tab_collection.blocks.tab.settings.overlay_style.label",
-          "options": [
-            { "value": "solid", "label": "t:sections.tab_collection.blocks.tab.settings.overlay_style.options.solid" },
-            { "value": "gradient", "label": "t:sections.tab_collection.blocks.tab.settings.overlay_style.options.gradient" }
-          ],
-          "default": "solid",
-          "visible_if": "{{ block.settings.toggle_overlay }}"
-        },
-        {
-          "type": "select",
-          "id": "gradient_direction",
-          "label": "t:sections.tab_collection.blocks.tab.settings.gradient_direction.label",
-          "options": [
-            { "value": "to top", "label": "t:sections.tab_collection.blocks.tab.settings.gradient_direction.options.to_top" },
-            { "value": "to bottom", "label": "t:sections.tab_collection.blocks.tab.settings.gradient_direction.options.to_bottom" }
-          ],
-          "default": "to top",
-          "visible_if": "{{ block.settings.toggle_overlay and block.settings.overlay_style == 'gradient' }}"
         },
         {
           "type": "header",
@@ -951,6 +920,76 @@
           "max": 50,
           "step": 1,
           "visible_if": "{{ block.settings.product_price_background }}"
+        },
+        {
+          "type": "header",
+          "content": "t:names.swatches"
+        },
+        {
+          "type": "select",
+          "id": "product_swatches_alignment",
+          "label": "t:settings.alignment",
+          "options": [
+            { "value": "flex-start", "label": "t:options.left" },
+            { "value": "center", "label": "t:options.center" },
+            { "value": "flex-end", "label": "t:options.right" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "select",
+          "id": "product_swatches_alignment_mobile",
+          "label": "t:settings.alignment_mobile",
+          "options": [
+            { "value": "flex-start", "label": "t:options.left" },
+            { "value": "center", "label": "t:options.center" },
+            { "value": "flex-end", "label": "t:options.right" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "header",
+          "content": "t:content.padding"
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_top",
+          "label": "t:settings.top",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_bottom",
+          "label": "t:settings.bottom",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_left",
+          "label": "t:settings.left",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_right",
+          "label": "t:settings.right",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 0
         }
       ]
     }
@@ -1100,6 +1139,81 @@
     --button-padding-block: var(--padding-xl);
     --button-padding-inline: var(--padding-3xl);
     font-size: var(--font-size--lg);
+  }
+
+  @media screen and (min-width: 750px) {
+    .tab-collection .resource-card:focus-within .quick-add__button,
+    .tab-collection .resource-card:hover .quick-add__button {
+      display: grid;
+      will-change: margin, opacity;
+      animation: elementSlideInTop var(--animation-speed) var(--animation-easing);
+    }
+  }
+
+  .tab-collection__swatches {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  .tab-collection__swatches swatches-variant-picker-component {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: var(--product-swatches-alignment-mobile);
+
+    @media (min-width: 750px) {
+      justify-content: var(--product-swatches-alignment);
+    }
+  }
+
+  .tab-collection__swatches swatches-variant-picker-component .variant-option--swatches {
+    padding-block: calc(
+        var(--product-swatches-padding-block-start) + var(--focus-outline-offset) + var(--focus-outline-width)
+      )
+      calc(var(--product-swatches-padding-block-end) + var(--focus-outline-offset) + var(--focus-outline-width));
+    padding-inline: calc(
+        var(--product-swatches-padding-inline-start) + var(--focus-outline-offset) + (1.5 * var(--focus-outline-width))
+      )
+      calc(var(--product-swatches-padding-inline-end) + var(--focus-outline-offset) + var(--focus-outline-width));
+  }
+
+  .tab-collection .variant-option--swatches {
+    overflow-list::part(list) {
+      gap: var(--gap-sm);
+    }
+
+    overflow-list[defer]::part(list) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .tab-collection .hidden-swatches__count {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+
+    &::before {
+      /* This doesn't work in Safari without the counter-reset. https://stackoverflow.com/a/40179718 */
+      counter-reset: overflow-count var(--overflow-count);
+      content: '+' counter(overflow-count);
+      line-height: 1;
+      cursor: pointer;
+    }
+  }
+
+  .tab-collection .hidden-swatches__count:hover {
+    color: var(--color-foreground-rgb);
   }
 
   .tab-collection__empty {

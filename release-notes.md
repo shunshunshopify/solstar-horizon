@@ -1,3 +1,17 @@
+# Release Notes - Version 3.2.13
+
+This release adds product swatches and quick add to tab collection cards and aligns featured collection card swatches with collection pages.
+
+## What's Changed
+
+### Added
+- [Featured collection] Color swatches now appear after price on grid and carousel cards.
+- [Tab collection] Color swatches now appear after price on product cards.
+- [Tab collection] Quick add to cart is now available on product cards.
+
+### Fixes and improvements
+- [Tab collection] Removed unused settings and dead references to keep the section lean.
+
 # Release Notes - Version 3.2.12
 
 This release improves filters with currency-aware price parsing and reduces duplicate markup.

@@ -31,7 +31,7 @@
   >
     <summary class="facets__summary">
       <span class="facets__label">{{ filter.label }}</span>
-      {% assign price_currency = cart.currency.iso_code | default: localization.country.currency.iso_code | default: shop.currency %}
+      {% assign price_currency = localization.country.currency.iso_code | default: shop.currency | strip | upcase %}
 
       <facet-status-component class="facets__status">
         <template ref="moneyFormat">{{ shop.money_format }}</template>

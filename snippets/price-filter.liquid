@@ -37,7 +37,7 @@
         <span
           class="hide-when-empty"
           ref="facetStatus"
-          data-currency="{{ cart.currency.iso_code | default: localization.country.currency.iso_code | default: shop.currency }}"
+          data-currency="{{ localization.country.currency.iso_code }}"
           data-range-max="{{ filter.range_max | money_without_currency }}"
         >
           {%- if filter.min_value.value != null or filter.max_value.value != null %}

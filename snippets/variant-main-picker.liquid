@@ -88,8 +88,6 @@
                       {% if product_option_value.swatch.color %}
                         style="--swatch-border-color: rgb({{ product_option_value.swatch.color.rgb }});"
                       {% endif %}
-                      on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
-                      on:pointerleave="product-card/resetVariant"
                     >
                       <input
                         type="radio"

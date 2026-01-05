@@ -2129,6 +2129,24 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   border-radius: var(--variant-picker-swatch-radius);
 }
 
+.product-details .variant-option--swatches {
+  --variant-picker-swatch-width: 28px;
+  --variant-picker-swatch-height: 28px;
+}
+
+.product-details .variant-option__button-label--has-swatch {
+  padding: 4px;
+}
+
+.product-card .variant-option--swatches {
+  --variant-picker-swatch-width: 16px;
+  --variant-picker-swatch-height: 16px;
+}
+
+.product-card .variant-option__button-label--has-swatch {
+  padding: 0;
+}
+
 .product-details variant-picker .variant-option legend {
   font-weight: 700;
   font-size: 12.5px;

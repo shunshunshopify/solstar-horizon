@@ -11,6 +11,7 @@
 
 {% liquid
   assign swatch_value = null
+  assign swatch_border_color = null
   if settings.show_variant_image and variant_image
     assign swatch_image_width = settings.variant_swatch_width | times: 2
     assign swatch_image_url = variant_image | image_url: width: swatch_image_width
@@ -20,6 +21,7 @@
     assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
   elsif swatch.color
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
+    assign swatch_border_color = swatch.color.rgb
   endif
 
   case mode
@@ -36,6 +38,6 @@
 
 <span
   class="swatch{{ extra_classes }}{% if swatch_value == null %} swatch--unavailable{% endif %}"
-  style="--swatch-background: {{ swatch_value }};{% if swatch.image and settings.show_variant_image == false %} --swatch-focal-point: {{ swatch.image.presentation.focal_point }};{% endif %}"
+  style="--swatch-background: {{ swatch_value }};{% if swatch_border_color %} --swatch-border-color: rgb({{ swatch_border_color }});{% endif %}{% if swatch.image and settings.show_variant_image == false %} --swatch-focal-point: {{ swatch.image.presentation.focal_point }};{% endif %}"
 >
 </span>

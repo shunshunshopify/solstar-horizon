@@ -430,7 +430,6 @@
       height: 100%;
       max-height: 100%;
       overflow-y: auto;
-      padding: var(--padding-lg) var(--padding-lg) var(--padding-xl);
       font-size: var(--font-paragraph--size);
     }
   }
@@ -944,6 +943,10 @@
     .facets--vertical .facets__item:not(:first-of-type)::before,
     .facets--vertical .sorting-filter::before {
       content: '';
+    }
+
+    .facets--vertical .facets__item:first-of-type::before {
+      content: none;
     }
   }
 

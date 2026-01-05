@@ -31,13 +31,15 @@
   >
     <summary class="facets__summary">
       <span class="facets__label">{{ filter.label }}</span>
+      {% assign price_currency = shop.currency %}
+
       <facet-status-component class="facets__status">
         <template ref="moneyFormat">{{ shop.money_format }}</template>
 
         <span
           class="hide-when-empty"
           ref="facetStatus"
-          data-currency="{{ cart.currency.iso_code | default: localization.country.currency.iso_code | default: shop.currency }}"
+          data-currency="{{ price_currency }}"
           data-range-max="{{ filter.range_max | money_without_currency }}"
         >
           {%- if filter.min_value.value != null or filter.max_value.value != null %}
@@ -75,6 +77,7 @@
         class="price-facet"
         id="facet-inputs-{{ filter.param_name | escape | replace: '.', '-' }}"
         on:change="/updatePriceFilterAndResults"
+        data-currency="{{ price_currency }}"
       >
         <div class="price-facet__inputs-wrapper facets__inputs-wrapper price-facet__inputs-wrapper--range">
           <div class="price-facet__range">

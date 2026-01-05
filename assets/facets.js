@@ -23,6 +23,8 @@ const getCurrencyPrecision = (currency) =>
  * @returns {string}
  */
 const getPriceFacetCurrency = (root) => {
+  if (root instanceof HTMLElement && root.dataset.currency) return root.dataset.currency;
+
   const status = root?.querySelector?.('[ref="facetStatus"][data-currency]');
   if (status instanceof HTMLElement && status.dataset.currency) return status.dataset.currency;
 
@@ -349,7 +351,7 @@ class PriceFacetComponent extends Component {
   }
 
   #getCurrencyCode() {
-    return getPriceFacetCurrency(this.closest('details') ?? this);
+    return this.dataset.currency || getPriceFacetCurrency(this.closest('details') ?? this);
   }
 
   /**

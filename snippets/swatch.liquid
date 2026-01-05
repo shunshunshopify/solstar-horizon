@@ -21,10 +21,13 @@
     assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
   elsif swatch.color
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
-    assign swatch_border_color = swatch.color.rgb
-    assign swatch_border_color_normalized = swatch_border_color | replace: ' ', ''
-    if swatch_border_color_normalized == '255,255,255'
+    assign swatch_red = swatch.color.red
+    assign swatch_green = swatch.color.green
+    assign swatch_blue = swatch.color.blue
+    if swatch_red == 255 and swatch_green == 255 and swatch_blue == 255
       assign swatch_border_color = '0, 0, 0'
+    else
+      assign swatch_border_color = swatch_red | append: ', ' | append: swatch_green | append: ', ' | append: swatch_blue
     endif
   endif
 

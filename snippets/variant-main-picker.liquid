@@ -81,12 +81,28 @@
                       if featured_media == blank and product_option_value.product_url
                         assign featured_media = product_option_value.variant.product.featured_media
                       endif
+
+                      assign swatch_border_color = nil
+                      if product_option_value.swatch.color
+                        assign swatch_red = product_option_value.swatch.color.red
+                        assign swatch_green = product_option_value.swatch.color.green
+                        assign swatch_blue = product_option_value.swatch.color.blue
+                        if swatch_red == 255 and swatch_green == 255 and swatch_blue == 255
+                          assign swatch_border_color = '0, 0, 0'
+                        else
+                          assign swatch_border_color = swatch_red
+                            | append: ', '
+                            | append: swatch_green
+                            | append: ', '
+                            | append: swatch_blue
+                        endif
+                      endif
                     %}
                     <label
                       data-media-id="{{ featured_media.id }}"
                       class="variant-option__button-label variant-option__button-label--has-swatch swatch-rounded"
-                      {% if product_option_value.swatch.color %}
-                        style="--swatch-border-color: rgb({{ product_option_value.swatch.color.rgb }});"
+                      {% if swatch_border_color %}
+                        style="--swatch-border-color: rgb({{ swatch_border_color }});"
                       {% endif %}
                     >
                       <input

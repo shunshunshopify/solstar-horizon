@@ -8,6 +8,7 @@ This release refines swatch visuals and removes unused hover code.
 - Swatch borders now follow the swatch color unless a variant image is used, avoiding black outlines on color chips.
 - Standardized swatch sizing (35.2px on PDP, smaller on collection cards) and spacing between swatch inputs without enlarging selected states.
 - Removed hover preview wiring/code now that swatch hover previews are disabled.
+- [Product recommendations] Recommendation cards now include color swatches by default.
 
 # Release Notes - Version 3.2.13
 

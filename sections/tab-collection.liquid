@@ -339,6 +339,36 @@
   </div>
 </section>
 
+<script>
+  (() => {
+    const section = document.querySelector('.tab-collection[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    section.addEventListener('variant:update', (event) => {
+      if (!(event.target instanceof HTMLElement)) return;
+      const swatchComponent = event.target.closest('swatches-variant-picker-component');
+      if (!swatchComponent) return;
+      const card = swatchComponent.closest('.tab-collection__item');
+      if (!card) return;
+      const link = card.querySelector('.resource-card__link');
+      if (!(link instanceof HTMLAnchorElement)) return;
+
+      const newProductUrl = event.detail?.data?.newProduct?.url || swatchComponent.dataset.productUrl;
+      if (!newProductUrl) return;
+
+      const url = new URL(newProductUrl, window.location.origin);
+      const variantId = event.detail?.resource?.id;
+      if (variantId) {
+        url.searchParams.set('variant', variantId);
+      } else {
+        url.searchParams.delete('variant');
+      }
+
+      link.href = url.toString();
+    });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "t:sections.tab_collection.name",
@@ -951,6 +981,76 @@
           "max": 50,
           "step": 1,
           "visible_if": "{{ block.settings.product_price_background }}"
+        },
+        {
+          "type": "header",
+          "content": "t:names.swatches"
+        },
+        {
+          "type": "select",
+          "id": "product_swatches_alignment",
+          "label": "t:settings.alignment",
+          "options": [
+            { "value": "flex-start", "label": "t:options.left" },
+            { "value": "center", "label": "t:options.center" },
+            { "value": "flex-end", "label": "t:options.right" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "select",
+          "id": "product_swatches_alignment_mobile",
+          "label": "t:settings.alignment_mobile",
+          "options": [
+            { "value": "flex-start", "label": "t:options.left" },
+            { "value": "center", "label": "t:options.center" },
+            { "value": "flex-end", "label": "t:options.right" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "header",
+          "content": "t:content.padding"
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_top",
+          "label": "t:settings.top",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_bottom",
+          "label": "t:settings.bottom",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_left",
+          "label": "t:settings.left",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "product_swatches_padding_right",
+          "label": "t:settings.right",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 0
         }
       ]
     }
@@ -1100,6 +1200,72 @@
     --button-padding-block: var(--padding-xl);
     --button-padding-inline: var(--padding-3xl);
     font-size: var(--font-size--lg);
+  }
+
+  .tab-collection__swatches {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  .tab-collection__swatches swatches-variant-picker-component {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: var(--product-swatches-alignment-mobile);
+
+    @media (min-width: 750px) {
+      justify-content: var(--product-swatches-alignment);
+    }
+  }
+
+  .tab-collection__swatches swatches-variant-picker-component .variant-option--swatches {
+    padding-block: calc(
+        var(--product-swatches-padding-block-start) + var(--focus-outline-offset) + var(--focus-outline-width)
+      )
+      calc(var(--product-swatches-padding-block-end) + var(--focus-outline-offset) + var(--focus-outline-width));
+    padding-inline: calc(
+        var(--product-swatches-padding-inline-start) + var(--focus-outline-offset) + (1.5 * var(--focus-outline-width))
+      )
+      calc(var(--product-swatches-padding-inline-end) + var(--focus-outline-offset) + var(--focus-outline-width));
+  }
+
+  .tab-collection .variant-option--swatches {
+    overflow-list::part(list) {
+      gap: var(--gap-sm);
+    }
+
+    overflow-list[defer]::part(list) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .tab-collection .hidden-swatches__count {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+
+    &::before {
+      /* This doesn't work in Safari without the counter-reset. https://stackoverflow.com/a/40179718 */
+      counter-reset: overflow-count var(--overflow-count);
+      content: '+' counter(overflow-count);
+      line-height: 1;
+      cursor: pointer;
+    }
+  }
+
+  .tab-collection .hidden-swatches__count:hover {
+    color: var(--color-foreground-rgb);
   }
 
   .tab-collection__empty {

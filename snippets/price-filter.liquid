@@ -38,7 +38,7 @@
           class="hide-when-empty"
           ref="facetStatus"
           data-currency="{{ localization.country.currency.iso_code }}"
-          data-range-max="{{ filter.range_max | money_without_currency }}"
+          data-range-max="{{ filter.range_max }}"
         >
           {%- if filter.min_value.value != null or filter.max_value.value != null %}
             {%- if filter.min_value.value != null and filter.max_value.value != null %}

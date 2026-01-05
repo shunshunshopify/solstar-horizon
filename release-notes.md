@@ -1,3 +1,14 @@
+# Release Notes - Version 3.2.14
+
+This release refines swatch visuals and removes unused hover code.
+
+## What's Changed
+
+### Fixes and improvements
+- Swatch borders now follow the swatch color unless a variant image is used, avoiding black outlines on color chips.
+- Standardized swatch sizing (35.2px on PDP, smaller on collection cards) and spacing between swatch inputs without enlarging selected states.
+- Removed hover preview wiring/code now that swatch hover previews are disabled.
+
 # Release Notes - Version 3.2.13
 
 This release adds product swatches and quick add to tab collection cards and aligns featured collection card swatches with collection pages.

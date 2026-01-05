@@ -110,15 +110,13 @@
               endif
 
               assign swatch_border_color = nil
+              assign swatch_outline_color = nil
               if product_option_value.swatch.color
                 assign swatch_red = product_option_value.swatch.color.red
                 assign swatch_green = product_option_value.swatch.color.green
                 assign swatch_blue = product_option_value.swatch.color.blue
-                if swatch_red == 255 and swatch_green == 255 and swatch_blue == 255
-                  assign swatch_border_color = '0, 0, 0'
-                else
-                  assign swatch_border_color = swatch_red | append: ', ' | append: swatch_green | append: ', ' | append: swatch_blue
-                endif
+                assign swatch_border_color = swatch_red | append: ', ' | append: swatch_green | append: ', ' | append: swatch_blue
+                assign swatch_outline_color = '0, 0, 0'
               endif
             %}
 
@@ -126,8 +124,8 @@
               <label
                 data-media-id="{{ featured_media.id }}"
                 class="variant-option__button-label variant-option__button-label--has-swatch swatch-rounded"
-                {% if swatch_border_color %}
-                  style="--swatch-border-color: rgb({{ swatch_border_color }});"
+                {% if swatch_border_color or swatch_outline_color %}
+                  style="{% if swatch_border_color %}--swatch-border-color: rgb({{ swatch_border_color }});{% endif %}{% if swatch_outline_color %} --swatch-outline-color: rgb({{ swatch_outline_color }});{% endif %}"
                 {% endif %}
               >
                 <input

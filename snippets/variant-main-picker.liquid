@@ -90,11 +90,7 @@
                         if swatch_red == 255 and swatch_green == 255 and swatch_blue == 255
                           assign swatch_border_color = '0, 0, 0'
                         else
-                          assign swatch_border_color = swatch_red
-                            | append: ', '
-                            | append: swatch_green
-                            | append: ', '
-                            | append: swatch_blue
+                          assign swatch_border_color = swatch_red | append: ', ' | append: swatch_green | append: ', ' | append: swatch_blue
                         endif
                       endif
                     %}

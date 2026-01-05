@@ -2135,10 +2135,14 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   --variant-picker-swatch-height: 35.2px;
 }
 
-.product-details .variant-option__button-label--has-swatch {
-  padding: 4px;
+.product-details .variant-option--swatches .variant-option__buttons {
+  gap: 8px;
 }
 
+.product-details .variant-option__button-label--has-swatch {
+  padding: 0;
+  margin: 0;
+}
 .product-card .variant-option--swatches {
   --variant-picker-swatch-width: 16px;
   --variant-picker-swatch-height: 16px;

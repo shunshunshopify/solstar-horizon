@@ -85,6 +85,9 @@
                     <label
                       data-media-id="{{ featured_media.id }}"
                       class="variant-option__button-label variant-option__button-label--has-swatch swatch-rounded"
+                      {% if product_option_value.swatch.color %}
+                        style="--swatch-border-color: rgb({{ product_option_value.swatch.color.rgb }});"
+                      {% endif %}
                       on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
                       on:pointerleave="product-card/resetVariant"
                     >
@@ -516,8 +519,18 @@
     outline-offset: var(--focus-outline-offset);
   }
 
+  .variant-option__button-label--has-swatch:has(:focus-visible) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .variant-option__button-label--has-swatch:has(:focus-visible) .swatch {
+    --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
+  }
+
   .variant-option__button-label--has-swatch {
     --focus-outline-radius: var(--variant-picker-swatch-radius);
+    --focus-outline-color: var(--swatch-border-color, var(--color-foreground));
 
     padding: 0;
     border: none;
@@ -545,14 +558,14 @@
   }
 
   .facets__inputs-list--swatches-grid .variant-option__button-label--has-swatch:hover .swatch {
-    --focus-outline: var(--focus-outline-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
+    --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
 
     outline: var(--focus-outline);
     outline-offset: var(--focus-outline-offset);
   }
 
   .facets__inputs-list--swatches-grid .variant-option__button-label:has(:focus-visible) .swatch {
-    --focus-outline: var(--focus-outline-width) solid currentcolor;
+    --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
 
     outline: var(--focus-outline);
     outline-offset: var(--focus-outline-offset);
@@ -567,7 +580,7 @@
   }
 
   .variant-option__button-label--has-swatch:hover {
-    outline: var(--focus-outline-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
     outline-offset: var(--focus-outline-offset);
   }
 
@@ -581,7 +594,7 @@
   }
 
   .variant-option__button-label--has-swatch:has(:checked) {
-    --focus-outline: var(--focus-outline-width) solid var(--color-foreground);
+    --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
 
     outline: var(--focus-outline);
     outline-offset: var(--focus-outline-offset);

@@ -24,8 +24,14 @@ const getCurrencyPrecision = (currency) =>
  */
 const getPriceFacetCurrency = (root) => {
   const status = root?.querySelector?.('[ref="facetStatus"][data-currency]');
-  if (!(status instanceof HTMLElement)) return '';
-  return status.dataset.currency ?? '';
+  if (status instanceof HTMLElement && status.dataset.currency) return status.dataset.currency;
+
+  if (typeof window !== 'undefined') {
+    const shopifyGlobal = /** @type {{ currency?: { active?: string } } | undefined} */ (/** @type {any} */ (window).Shopify);
+    if (shopifyGlobal?.currency?.active) return shopifyGlobal.currency.active;
+  }
+
+  return '';
 };
 
 /**
@@ -332,7 +338,14 @@ class PriceFacetComponent extends Component {
   };
 
   #getCurrencyPrecision() {
-    return getCurrencyPrecision(this.#getCurrencyCode());
+    const currency =
+      this.#getCurrencyCode() ||
+      (typeof window !== 'undefined'
+        ? /** @type {{ currency?: { active?: string } } | undefined} */ (/** @type {any} */ (window).Shopify)?.currency
+            ?.active ?? ''
+        : '');
+
+    return getCurrencyPrecision(currency);
   }
 
   #getCurrencyCode() {
@@ -478,20 +491,33 @@ class PriceFacetComponent extends Component {
           )
         : undefined;
 
+    const currency = this.#getCurrencyCode() || shopifyGlobal?.currency?.active || '';
+    const precision = getCurrencyPrecision(currency);
+    const divisor = 10 ** precision;
+    const locale = shopifyGlobal?.locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
+
+    if (currency) {
+      try {
+        return new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency,
+          minimumFractionDigits: precision,
+          maximumFractionDigits: precision,
+        }).format(normalizedCents / divisor);
+      } catch (error) {
+        // Fall back when currency/locale is unsupported.
+      }
+    }
+
     if (shopifyGlobal && typeof shopifyGlobal.formatMoney === 'function') {
       const themeSettings = /** @type {{ moneyFormat?: string } | undefined} */ (/** @type {any} */ (window).theme);
       const format = themeSettings?.moneyFormat || shopifyGlobal.money_format || '${{amount}}';
       return shopifyGlobal.formatMoney(normalizedCents, format);
     }
 
-    const precision = this.#getCurrencyPrecision();
-    const divisor = 10 ** precision;
-    const currency = shopifyGlobal?.currency?.active || this.#getCurrencyCode() || 'USD';
-    const locale = shopifyGlobal?.locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
-
     return new Intl.NumberFormat(locale, {
       style: 'currency',
-      currency,
+      currency: 'USD',
       minimumFractionDigits: precision,
       maximumFractionDigits: precision,
     }).format(normalizedCents / divisor);
@@ -990,7 +1016,12 @@ class FacetStatusComponent extends Component {
    * @returns {number} The money value in cents
    */
   #parseCents(value, fallback = '0') {
-    const currency = this.refs.facetStatus?.dataset.currency ?? '';
+    const currency =
+      this.refs.facetStatus?.dataset.currency ??
+      (typeof window !== 'undefined'
+        ? /** @type {{ currency?: { active?: string } } | undefined} */ (/** @type {any} */ (window).Shopify)?.currency
+            ?.active ?? ''
+        : '');
     const precision = getCurrencyPrecision(currency);
     const normalized = normalizeMoneyInput(value, precision);
 
@@ -1000,10 +1031,13 @@ class FacetStatusComponent extends Component {
     const whole = parseInt(wholeStr || '0', 10);
     if (Number.isNaN(whole)) return parseInt(fallback, 10);
 
-    const fraction = fractionStr.padEnd(2, '0').slice(0, 2);
+    const precisionScale = 10 ** precision;
+    if (precision <= 0) return whole * precisionScale;
+
+    const fraction = fractionStr.padEnd(precision, '0').slice(0, precision);
     const fractionValue = parseInt(fraction || '0', 10);
 
-    return whole * 100 + (Number.isNaN(fractionValue) ? 0 : fractionValue);
+    return whole * precisionScale + (Number.isNaN(fractionValue) ? 0 : fractionValue);
   }
 
   /**
@@ -1012,18 +1046,40 @@ class FacetStatusComponent extends Component {
    * @returns {string} The formatted money value
    */
   #formatMoney(moneyValue) {
+    const currency = this.refs.facetStatus?.dataset.currency ?? '';
+    if (currency) {
+      try {
+        const precision = getCurrencyPrecision(currency);
+        const divisor = 10 ** precision;
+        const shopifyGlobal =
+          typeof window !== 'undefined'
+            ? /** @type {{ locale?: string } | undefined} */ (/** @type {any} */ (window).Shopify)
+            : undefined;
+        const locale = shopifyGlobal?.locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
+
+        return new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency,
+          minimumFractionDigits: precision,
+          maximumFractionDigits: precision,
+        }).format(moneyValue / divisor);
+      } catch (error) {
+        // Fall back to template formatting when Intl fails.
+      }
+    }
+
     if (!(this.refs.moneyFormat instanceof HTMLTemplateElement)) return '';
 
     const template = this.refs.moneyFormat.content.textContent || '{{amount}}';
-    const currency = this.refs.facetStatus.dataset.currency || '';
+    const templateCurrency = this.refs.facetStatus?.dataset.currency || '';
 
     return template.replace(/{{\s*(\w+)\s*}}/g, (_, placeholder) => {
       if (typeof placeholder !== 'string') return '';
-      if (placeholder === 'currency') return currency;
+      if (placeholder === 'currency') return templateCurrency;
 
       let thousandsSeparator = ',';
       let decimalSeparator = '.';
-      let precision = CURRENCY_DECIMALS[currency.toUpperCase()] ?? DEFAULT_CURRENCY_DECIMALS;
+      let precision = CURRENCY_DECIMALS[templateCurrency.toUpperCase()] ?? DEFAULT_CURRENCY_DECIMALS;
 
       if (placeholder === 'amount') {
         // Check first since it's the most common, use defaults.
@@ -1058,14 +1114,15 @@ class FacetStatusComponent extends Component {
 
   /**
    * Formats money in cents
-   * @param {number} moneyValue - The money value in cents (hundredths of one major currency unit)
+   * @param {number} moneyValue - The money value in minor currency units
    * @param {string} thousandsSeparator - The thousands separator
    * @param {string} decimalSeparator - The decimal separator
    * @param {number} precision - The precision
    * @returns {string} The formatted money value
    */
   #formatCents(moneyValue, thousandsSeparator, decimalSeparator, precision) {
-    const roundedNumber = (moneyValue / 100).toFixed(precision);
+    const divisor = 10 ** precision;
+    const roundedNumber = (moneyValue / divisor).toFixed(precision);
 
     let [a, b] = roundedNumber.split('.');
     if (!a) a = '0';

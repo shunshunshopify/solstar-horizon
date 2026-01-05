@@ -22,6 +22,10 @@
   elsif swatch.color
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
     assign swatch_border_color = swatch.color.rgb
+    assign swatch_border_color_normalized = swatch_border_color | replace: ' ', ''
+    if swatch_border_color_normalized == '255,255,255'
+      assign swatch_border_color = '0, 0, 0'
+    endif
   endif
 
   case mode

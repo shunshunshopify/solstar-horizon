@@ -1205,6 +1205,15 @@
     font-size: var(--font-size--lg);
   }
 
+  @media screen and (min-width: 750px) {
+    .tab-collection .resource-card:focus-within .quick-add__button,
+    .tab-collection .resource-card__media:hover .quick-add__button {
+      display: grid;
+      will-change: margin, opacity;
+      animation: elementSlideInTop var(--animation-speed) var(--animation-easing);
+    }
+  }
+
   .tab-collection__swatches {
     position: relative;
     z-index: 2;

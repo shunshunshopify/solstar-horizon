@@ -267,7 +267,7 @@
                     on:keydown="#facet-inputs-component-{{ filter.param_name | escape | replace: '.', '-' }}/handleKeyDown"
                   >
                     <label
-                      class="variant-option__button-label variant-option__button-label--has-swatch swatch-rounded"
+                      class="variant-option__button-label variant-option__button-label--has-swatch"
                       on:pointerenter="/prefetchPage"
                       on:pointerleave="/cancelPrefetchPage"
                     >
@@ -305,13 +305,11 @@
                           </svg>
                         {% endif %}
                       </div>
-                      <label
+                      <span
                         class="{% if show_swatch_label %}facets__swatch-label{% else %}hidden{% endif %}"
-                        for="{{ input_id }}"
-                        tabindex="-1"
                       >
                         {{- value.label }}
-                      </label>
+                      </span>
                     </label>
                   </fieldset>
                 {% else %}

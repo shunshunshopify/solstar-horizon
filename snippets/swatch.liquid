@@ -21,7 +21,10 @@
     assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
   elsif swatch.color
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
-    assign swatch_border_color = swatch.color.rgb
+    assign swatch_red = swatch.color.red
+    assign swatch_green = swatch.color.green
+    assign swatch_blue = swatch.color.blue
+    assign swatch_border_color = swatch_red | append: ', ' | append: swatch_green | append: ', ' | append: swatch_blue
   endif
 
   case mode

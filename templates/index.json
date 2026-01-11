@@ -290,7 +290,7 @@
         "color_scheme": "",
         "style_class": "button",
         "video_source": "external",
-        "video_url": "",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/3b006df35e594c39bf3e61b0f4fbaf57.mp4",
         "section_height": "650px",
         "video_source_mobile": "external",
         "video_url_mobile": "",
@@ -319,10 +319,6 @@
             "featured_image": "shopify://shop_images/IMG_1629_Original_copy.webp",
             "align_with_product_images": false,
             "image_ratio": "portrait",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
             "featured_button_text": "コレクションを見る",
             "featured_button_link": "shopify://collections/2025-summer-collection",
             "featured_button_style": "button",
@@ -350,7 +346,13 @@
             "product_price_color": "var(--color-foreground)",
             "product_price_background": false,
             "product_price_background_color": "#00000026",
-            "product_price_corner_radius": 0
+            "product_price_corner_radius": 0,
+            "product_swatches_alignment": "flex-start",
+            "product_swatches_alignment_mobile": "flex-start",
+            "product_swatches_padding_top": 4,
+            "product_swatches_padding_bottom": 0,
+            "product_swatches_padding_left": 0,
+            "product_swatches_padding_right": 0
           }
         },
         "tab_XNMYF6": {
@@ -368,10 +370,6 @@
             "show_image": false,
             "align_with_product_images": false,
             "image_ratio": "portrait",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
             "featured_button_text": "",
             "featured_button_link": "",
             "featured_button_style": "button",
@@ -399,7 +397,13 @@
             "product_price_color": "var(--color-foreground)",
             "product_price_background": false,
             "product_price_background_color": "#00000026",
-            "product_price_corner_radius": 0
+            "product_price_corner_radius": 0,
+            "product_swatches_alignment": "flex-start",
+            "product_swatches_alignment_mobile": "flex-start",
+            "product_swatches_padding_top": 4,
+            "product_swatches_padding_bottom": 0,
+            "product_swatches_padding_left": 0,
+            "product_swatches_padding_right": 0
           }
         }
       },
@@ -420,9 +424,7 @@
         "section_width": "page-width",
         "section_color_scheme": "",
         "padding-block-start": 32,
-        "padding-block-end": 32,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-block-end": 32
       }
     },
     "product_list_TgRgHT": {
@@ -592,7 +594,6 @@
               "settings": {
                 "product_swatches_alignment": "flex-start",
                 "product_swatches_alignment_mobile": "flex-start",
-                "hide_padding": false,
                 "product_swatches_padding_top": 4,
                 "product_swatches_padding_bottom": 0,
                 "product_swatches_padding_left": 0,
@@ -703,9 +704,12 @@
         "section_width": "page-width",
         "color_scheme": "scheme-1",
         "layout": "split",
-        "text_alignment": "left",
         "hide_on_complete": true,
         "gap": 24,
+        "text_alignment": "left",
+        "height_desktop": "350px",
+        "text_alignment_mobile": "center",
+        "height_mobile": "300px",
         "padding-block-start": 40,
         "padding-block-end": 40
       }
@@ -747,6 +751,8 @@
         "after_image": "shopify://shop_images/26.jpg",
         "before_label": "Before",
         "after_label": "After",
+        "image_ratio": 1,
+        "image_corner_radius": 24,
         "section_width": "page-width",
         "color_scheme": "",
         "text_alignment": "left",

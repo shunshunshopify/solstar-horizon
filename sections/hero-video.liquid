@@ -213,44 +213,20 @@
     {% if has_any_video %}
       <div class="hero-video__media hero-video__media--desktop" data-hero-video-media="desktop">
         {% if has_desktop_uploaded %}
-          {%- liquid
-            assign desktop_hls_source = blank
-            for sourceElement in desktop_uploaded_video.sources
-              if sourceElement.mime_type contains 'mpegurl'
-                assign desktop_hls_source = sourceElement
-                break
-              endif
-            endfor
-
-            assign desktop_mp4_sources = desktop_uploaded_video.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
-            assign desktop_best_mp4_source = desktop_mp4_sources | last
-          -%}
-          <video
-            id="UploadedVideo-Desktop-{{ section.id }}"
-            class="video-div"
-            aria-label="Background video"
-            aria-hidden="true"
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            preload="metadata"
-            {% if desktop_uploaded_video.preview_image != blank %}
-              poster="{{ desktop_uploaded_video.preview_image | image_url: width: 3840 }}"
-            {% endif %}
-          >
-            {%- if desktop_hls_source != blank -%}
-              <source src="{{ desktop_hls_source.url }}" type="{{ desktop_hls_source.mime_type }}">
-            {%- endif -%}
-            {%- if desktop_best_mp4_source != blank -%}
-              <source src="{{ desktop_best_mp4_source.url }}" type="{{ desktop_best_mp4_source.mime_type }}">
-            {%- endif -%}
-            {%- if desktop_hls_source == blank and desktop_best_mp4_source == blank -%}
-              {%- for sourceElement in desktop_uploaded_video.sources -%}
-                <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
-              {%- endfor -%}
-            {%- endif -%}
-          </video>
+          {%- capture desktop_video_tag -%}
+            {{
+              desktop_uploaded_video
+              | video_tag:
+                image_size: '3840x',
+                loop: true,
+                muted: true,
+                playsinline: true,
+                preload: 'metadata',
+                controls: false,
+                class: 'video-div'
+            }}
+          {%- endcapture -%}
+          {{ desktop_video_tag | replace_first: '<video ', '<video aria-label="Background video" aria-hidden="true" ' }}
         {% elsif has_desktop_external %}
           {% if desktop_is_mp4 %}
             <video
@@ -278,44 +254,20 @@
 
       <div class="hero-video__media hero-video__media--mobile" data-hero-video-media="mobile">
         {% if has_mobile_uploaded %}
-          {%- liquid
-            assign mobile_hls_source = blank
-            for sourceElement in mobile_uploaded_video.sources
-              if sourceElement.mime_type contains 'mpegurl'
-                assign mobile_hls_source = sourceElement
-                break
-              endif
-            endfor
-
-            assign mobile_mp4_sources = mobile_uploaded_video.sources | where: 'mime_type', 'video/mp4' | sort: 'height'
-            assign mobile_best_mp4_source = mobile_mp4_sources | last
-          -%}
-          <video
-            id="UploadedVideo-Mobile-{{ section.id }}"
-            class="video-div"
-            aria-label="Background video"
-            aria-hidden="true"
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            preload="metadata"
-            {% if mobile_uploaded_video.preview_image != blank %}
-              poster="{{ mobile_uploaded_video.preview_image | image_url: width: 3840 }}"
-            {% endif %}
-          >
-            {%- if mobile_hls_source != blank -%}
-              <source src="{{ mobile_hls_source.url }}" type="{{ mobile_hls_source.mime_type }}">
-            {%- endif -%}
-            {%- if mobile_best_mp4_source != blank -%}
-              <source src="{{ mobile_best_mp4_source.url }}" type="{{ mobile_best_mp4_source.mime_type }}">
-            {%- endif -%}
-            {%- if mobile_hls_source == blank and mobile_best_mp4_source == blank -%}
-              {%- for sourceElement in mobile_uploaded_video.sources -%}
-                <source src="{{ sourceElement.url }}" type="{{ sourceElement.mime_type }}">
-              {%- endfor -%}
-            {%- endif -%}
-          </video>
+          {%- capture mobile_video_tag -%}
+            {{
+              mobile_uploaded_video
+              | video_tag:
+                image_size: '3840x',
+                loop: true,
+                muted: true,
+                playsinline: true,
+                preload: 'metadata',
+                controls: false,
+                class: 'video-div'
+            }}
+          {%- endcapture -%}
+          {{ mobile_video_tag | replace_first: '<video ', '<video aria-label="Background video" aria-hidden="true" ' }}
         {% elsif has_mobile_external %}
           {% if mobile_is_mp4 %}
             <video

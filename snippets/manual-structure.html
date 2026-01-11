@@ -33,6 +33,7 @@
   --text: #FCFBF9;
   --muted: #6b7280;
   --line: #e5e7eb;
+  --card: #ffffff;
 
   --accent: #AB8C52;
 
@@ -111,6 +112,7 @@
   overflow-wrap: anywhere;
   word-break: break-word;
   text-decoration: none !important;
+  border: none !important;
   border-bottom: none !important;
   box-shadow: none !important;
   background-image: none !important;
@@ -133,7 +135,16 @@
 }
 
 /* Content */
-.cream-content { min-width: 0; }
+.cream-content {
+  min-width: 0;
+  text-align: left;
+}
+
+/* Keep sidebar text aligned even if parent is centered */
+.cream-sidebar { text-align: left; }
+
+/* Utility: opt-in centering for specific blocks */
+.cream-text-center { text-align: center !important; }
 
 .cream-content p {
   margin: 0 0 14px;
@@ -184,9 +195,12 @@
 .cream-section-block > :first-child { margin-top: 0; }
 .cream-section-block > :last-child { margin-bottom: 0; }
 
-/* ===== Table Design (User Provided) ===== */
-/* Tables (light) */
-.cream-table-wrap {
+/* ===== Table ===== */
+.solstar-table-wrap {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
   margin: 10px 0 16px;
 
   /* ✅ デフォルトは横スクロール許可（PC/タブで崩れにくい） */
@@ -201,55 +215,66 @@
   overscroll-behavior: contain;
 }
 
-.cream-table {
-  width: min(100%, 960px);
-  min-width: 520px;
-  margin: 0 auto;
-
-  /* 角丸安定 */
-  border-collapse: separate;
-  border-spacing: 0;
-
-  border: 1px solid var(--tbl-line);
-  border-radius: var(--tbl-radius);
+.solstar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-radius: 14px;
   overflow: hidden;
-  background: var(--tbl-body-bg);
-  color: var(--tbl-text);
-
-  /* ✅ shadow削除 */
-  box-shadow: none !important;
+  background: var(--card);
+  color: #111111;
 }
 
-.cream-table thead th {
-  background: var(--tbl-head-bg);
-  color: var(--tbl-text);
-  font-weight: 900;
-  font-size: 13px;
-  padding: 12px;
-  border-bottom: 1px solid var(--tbl-line);
-  text-align: left;
+.solstar-table th,
+.solstar-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
   vertical-align: middle;
-}
-
-.cream-table tbody td {
-  background: var(--tbl-body-bg);
-  color: var(--tbl-text);
-  font-size: 13px;
-  line-height: 1.75;
-  padding: 12px;
-  border-bottom: 1px solid var(--tbl-line);
-  vertical-align: top;
-}
-
-.cream-table tbody tr:last-child td { border-bottom: 0; }
-.cream-table thead th + th,
-.cream-table tbody td + td { border-left: 1px solid var(--tbl-line); }
-
-/* ✅ セル内の長文が原因でテーブルが“想定以上に横に膨らむ”のを防止 */
-.cream-table th,
-.cream-table td {
+  text-align: left;
+  white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
+  color: #111111;
+}
+
+.solstar-table tr:first-child th,
+.solstar-table tr:first-child td {
+  border-top: none;
+}
+
+.solstar-table th {
+  width: 34%;
+  font-size: 12px;
+  font-weight: 700;
+  border-right: 1px solid var(--line);
+  background: rgba(120, 120, 120, 0.14);
+}
+
+.solstar-table td {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ===== Table inner list ===== */
+.solstar-table-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.2em;
+  color: #111111;
+}
+
+.solstar-table-list li {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.solstar-table-list li:first-child {
+  margin-top: 0;
 }
 
 /* Anchor offset */
@@ -260,7 +285,7 @@
   .cream-manual { padding: 28px 14px; }
   .cream-layout { grid-template-columns: 1fr; }
   .cream-sidebar { display: none; } /* ✅ Mobileでは非表示 */
-  .cream-table { min-width: 420px; }
+  .solstar-table { min-width: 420px; }
 }
 
 /* ✅ Mobile: 横スライド根絶（テーブルを画面にフィットさせる） */
@@ -268,19 +293,18 @@
   .cream-anchor { scroll-margin-top: 88px; }
 
   /* wrapは横スクロールさせない（= “スライドする”原因を断つ） */
-  .cream-table-wrap {
+  .solstar-table-wrap {
     overflow-x: hidden;
     touch-action: pan-y;
   }
 
-  .cream-table {
+  .solstar-table {
     width: 100%;
     min-width: 0;
     table-layout: fixed;
   }
 }
 
-html { scroll-behavior: smooth; }
 </style>
 
 <section class="cream-manual">
@@ -289,12 +313,12 @@ html { scroll-behavior: smooth; }
       <!-- Sidebar (Desktop only) -->
       <aside class="cream-sidebar" aria-label="Document Sidebar">
         <nav class="cream-sidebar__nav" aria-label="H2/H3 Navigation">
-          <ul class="cream-sidebar__list" id="creamSidebarList"></ul>
+          <ul class="cream-sidebar__list"></ul>
         </nav>
       </aside>
 
       <!-- Content -->
-      <article class="cream-content" id="creamContent">
+      <article class="cream-content">
 
         <!-- ✅ Intro removed:
           # Cream by Solstar マニュアル
@@ -308,12 +332,6 @@ html { scroll-behavior: smooth; }
           <li>セクション編集: 左サイドバーでセクション/ブロックを追加・並べ替え・非表示・削除。</li>
           <li>メディア管理: 画像/動画は「設定 &gt; ファイル」にアップロードして選択。</li>
           <li>反映確認: 保存後にプレビュー/公開で確認。</li>
-        </ul>
-
-        <h2>セクション共通の見た目調整</h2>
-        <ul>
-          <li>よく使う項目: 幅（ページ幅/全幅）、カラースキーム、上下余白、ブロック間隔、テキスト配置。</li>
-          <li>ヒント: カラースキームは「テーマ設定 &gt; 色」で事前に作っておくと、複数セクションで統一感を出しやすくなります。</li>
         </ul>
 
         <!-- ✅ 「セクション一覧（カテゴリ別ガイド）」はコンテンツから削除 -->
@@ -1635,140 +1653,156 @@ html { scroll-behavior: smooth; }
 
 <script>
 (function () {
-  const content = document.getElementById('creamContent');
-  const list = document.getElementById('creamSidebarList');
-  if (!content || !list) return;
+  const manuals = Array.from(document.querySelectorAll('.cream-manual'));
+  if (!manuals.length) return;
 
-  // ===== 1) Tables: add class + wrap =====
-  const tables = Array.from(content.querySelectorAll('table'));
-  tables.forEach((tbl) => {
-    if (!tbl.classList.contains('cream-table')) tbl.classList.add('cream-table');
+  manuals.forEach((manual) => {
+    const content = manual.querySelector('.cream-content');
+    const list = manual.querySelector('.cream-sidebar__list');
+    if (!content || !list) return;
 
-    const parent = tbl.parentElement;
-    const alreadyWrapped = parent && parent.classList && parent.classList.contains('cream-table-wrap');
-    if (!alreadyWrapped) {
-      const wrap = document.createElement('div');
-      wrap.className = 'cream-table-wrap';
-      tbl.parentNode.insertBefore(wrap, tbl);
-      wrap.appendChild(tbl);
-    }
-  });
+    // ===== 1) Tables: add class + wrap =====
+    const tables = Array.from(content.querySelectorAll('table'));
+    tables.forEach((tbl) => {
+      if (!tbl.classList.contains('solstar-table')) tbl.classList.add('solstar-table');
 
-  // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
-  const isStrongSectionTitleP = (p) => {
-    if (!p || p.tagName !== 'P') return false;
-    if (p.children.length !== 1) return false;
-    const child = p.firstElementChild;
-    if (!child || child.tagName !== 'STRONG') return false;
-    // Ensure p contains only the strong text (no extra)
-    const plain = (p.textContent || '').trim();
-    const strongText = (child.textContent || '').trim();
-    return plain === strongText && strongText.length > 0;
-  };
-
-  const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
-
-  let alt = false;
-  strongTitlePs.forEach((p) => {
-    // Skip if already wrapped
-    if (p.closest('.cream-section-block')) return;
-
-    const block = document.createElement('section');
-    block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
-    alt = !alt;
-
-    const parent = p.parentNode;
-    parent.insertBefore(block, p);
-
-    let node = p;
-    while (node) {
-      const next = node.nextSibling;
-      block.appendChild(node);
-
-      if (!next) break;
-
-      if (next.nodeType === 1) {
-        const tag = next.tagName.toLowerCase();
-        // Stop at next heading or next strong-section title
-        if (tag === 'h2' || tag === 'h3') break;
-        if (tag === 'p' && isStrongSectionTitleP(next)) break;
+      const parent = tbl.parentElement;
+      const alreadyWrapped = parent && parent.classList && parent.classList.contains('solstar-table-wrap');
+      if (!alreadyWrapped) {
+        const wrap = document.createElement('div');
+        wrap.className = 'solstar-table-wrap';
+        tbl.parentNode.insertBefore(wrap, tbl);
+        wrap.appendChild(tbl);
       }
-      node = next;
-    }
-  });
+    });
 
-  // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
-  const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
-    '基本操作',
-    'セクション共通の見た目調整',
-    '連携・注意事項',
-    'Tips（運用のコツ）',
-    '公開前チェックリスト',
-    'セクション一覧（カテゴリ別ガイド）'
-  ]);
+    // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
+    const isStrongSectionTitleP = (p) => {
+      if (!p || p.tagName !== 'P') return false;
+      if (p.children.length !== 1) return false;
+      const child = p.firstElementChild;
+      if (!child || child.tagName !== 'STRONG') return false;
+      // Ensure p contains only the strong text (no extra)
+      const plain = (p.textContent || '').trim();
+      const strongText = (child.textContent || '').trim();
+      return plain === strongText && strongText.length > 0;
+    };
 
-  const used = new Set();
-  const unicodePropsSupported = (() => {
-    try {
-      new RegExp('\\p{L}', 'u');
-      return true;
-    } catch (err) {
-      return false;
-    }
-  })();
-  const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
-  const slugify = (str) => {
-    return String(str || '')
-      .trim()
-      .toLowerCase()
-      .replace(slugSeparatorRegex, '-')
-      .replace(/(^-+|-+$)/g, '')
-      .slice(0, 80) || 'section';
-  };
-  const uniqueId = (base) => {
-    let id = base;
-    let i = 2;
-    while (used.has(id)) id = `${base}-${i++}`;
-    used.add(id);
-    return id;
-  };
+    const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
 
-  const headings = Array.from(content.querySelectorAll('h2, h3'));
-  list.innerHTML = '';
+    let alt = false;
+    strongTitlePs.forEach((p) => {
+      // Skip if already wrapped
+      if (p.closest('.cream-section-block')) return;
 
-  let currentH2Included = false;
+      const block = document.createElement('section');
+      block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
+      alt = !alt;
 
-  headings.forEach((hd) => {
-    const tag = hd.tagName.toLowerCase();
-    const level = tag === 'h2' ? 2 : 3;
-    const text = (hd.textContent || '').trim();
-    if (!text) return;
+      const parent = p.parentNode;
+      parent.insertBefore(block, p);
 
-    if (!hd.id) {
-      hd.id = uniqueId(slugify(text));
-    } else {
-      used.add(hd.id);
-    }
-    hd.classList.add('cream-anchor');
+      let node = p;
+      while (node) {
+        const next = node.nextSibling;
+        block.appendChild(node);
 
-    if (level === 2) {
-      currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(text);
-      if (!currentH2Included) return;
-    } else {
-      if (!currentH2Included) return;
-    }
+        if (!next) break;
 
-    const li = document.createElement('li');
-    li.className = 'cream-sidebar__item';
+        if (next.nodeType === 1) {
+          const tag = next.tagName.toLowerCase();
+          // Stop at next heading or next strong-section title
+          if (tag === 'h2' || tag === 'h3') break;
+          if (tag === 'p' && isStrongSectionTitleP(next)) break;
+        }
+        node = next;
+      }
+    });
 
-    const a = document.createElement('a');
-    a.className = 'cream-sidebar__link';
-    a.href = `#${hd.id}`;
-    a.textContent = text;
-    a.setAttribute('data-level', String(level));
+    // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
+    const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
+      '基本操作',
+      'セクション共通の見た目調整',
+      '連携・注意事項',
+      'Tips（運用のコツ）',
+      '公開前チェックリスト',
+      'セクション一覧（カテゴリ別ガイド）'
+    ]);
 
-    li.appendChild(a);
-    list.appendChild(li);
+    const used = new Set();
+    const unicodePropsSupported = (() => {
+      try {
+        new RegExp('\\p{L}', 'u');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    })();
+    const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
+    const slugify = (str) => {
+      return String(str || '')
+        .trim()
+        .toLowerCase()
+        .replace(slugSeparatorRegex, '-')
+        .replace(/(^-+|-+$)/g, '')
+        .slice(0, 80) || 'section';
+    };
+    const uniqueId = (base) => {
+      let id = base;
+      let i = 2;
+      while (used.has(id)) id = `${base}-${i++}`;
+      used.add(id);
+      return id;
+    };
+
+    const headings = Array.from(content.querySelectorAll('h2, h3'));
+    list.innerHTML = '';
+
+    let currentH2Included = false;
+
+    headings.forEach((hd) => {
+      const tag = hd.tagName.toLowerCase();
+      const level = tag === 'h2' ? 2 : 3;
+      const text = (hd.textContent || '').trim();
+      if (!text) return;
+
+      if (!hd.id) {
+        hd.id = uniqueId(slugify(text));
+      } else {
+        used.add(hd.id);
+      }
+      hd.classList.add('cream-anchor');
+
+      if (level === 2) {
+        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(text);
+        if (!currentH2Included) return;
+      } else {
+        if (!currentH2Included) return;
+      }
+
+      const li = document.createElement('li');
+      li.className = 'cream-sidebar__item';
+
+      const a = document.createElement('a');
+      a.className = 'cream-sidebar__link';
+      a.href = `#${hd.id}`;
+      a.textContent = text;
+      a.setAttribute('data-level', String(level));
+
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    // Smooth scroll for manual-only sidebar links
+    list.addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link || !link.hash) return;
+      const target = content.querySelector(link.hash);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', link.hash);
+    });
   });
 })();
 </script>

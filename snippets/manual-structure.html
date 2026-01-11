@@ -1,0 +1,1759 @@
+<style>
+/* ===========================
+  Cream by Solstar Manual Page
+  - Sidebar: Sticky (Desktop only), Hidden on mobile
+  - Sidebar: 18px / padding-y 6px
+  - Sidebar: H2 + H3 only (H2 top, H3 indented)
+  - Sidebar: remove links for specific H2 titles
+  - Remove intro block (H1 + lead)
+  - H2 rename: 「まずはここから（基本操作）」→「基本操作」
+  - Remove content: 「セクション一覧（カテゴリ別ガイド）」
+  - H2: larger than H3
+  - H3: color #144E94
+  - Alternating background: NOT by H3, but by each “section” (P > STRONG blocks)
+  - Alternating background color: use #FFFFFF (no gray)
+  - Tables: provided style, no shadow
+  =========================== */
+
+/* Override theme's containing block properties that break sticky positioning */
+.shopify-section:has(.cream-manual),
+.shopify-section:has(.cream-manual) > *,
+.shopify-section:has(.cream-manual) > * > * {
+  position: static !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+  overflow: visible !important;
+  will-change: auto !important;
+}
+
+.cream-manual {
+  --bg: #0D0326;
+  --text: #FCFBF9;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+
+  --accent: #AB8C52;
+
+  /* Section block bg (alternate) */
+  --section-bg-a: #ffffff;
+  --section-bg-b: #ffffff;
+
+  /* Table vars */
+  --tbl-text: #111111;
+  --tbl-line: #e5e7eb;
+  --tbl-head-bg: #ececf0;
+  --tbl-body-bg: #ffffff;
+  --tbl-radius: 12px;
+
+  background: var(--bg);
+  color: var(--text);
+  padding: 44px 16px;
+}
+
+.cream-manual__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Layout */
+.cream-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* Sidebar */
+.cream-sidebar {
+  position: sticky !important;
+  top: 110px;
+  max-height: calc(100vh - 140px);
+}
+
+.cream-sidebar__nav {
+  background: var(--bg);
+  color: var(--text) !important;
+  overflow: visible;
+  padding: 10px 0;
+  min-height: 100px;
+}
+
+.cream-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--text) !important;
+}
+
+.cream-sidebar__item { 
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Consolidated sidebar link styles - override theme with light color on dark background */
+.cream-sidebar a,
+.cream-sidebar__nav a,
+.cream-sidebar__list a,
+.cream-sidebar__link,
+.cream-sidebar__link:hover,
+.cream-sidebar__link:focus,
+.cream-sidebar__link:active,
+.cream-sidebar__link:visited {
+  display: block !important;
+  padding: 6px 14px;
+  color: var(--text) !important;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  position: relative !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hierarchy (indent only) */
+.cream-sidebar__link[data-level="2"] { font-weight: 900; }
+.cream-sidebar__link[data-level="3"] {
+  padding-left: 26px;
+  font-weight: 700;
+}
+
+/* Content */
+.cream-content { min-width: 0; }
+
+.cream-content p {
+  margin: 0 0 14px;
+  line-height: 1.9;  
+  color: var(--tbl-text);
+}
+
+.cream-content ul,
+.cream-content ol {
+  margin: 0 0 14px 1.2em;
+  padding: 0;
+  line-height: 1.9;
+}
+
+.cream-content li { margin: 6px 0; }
+
+/* ✅ H2 larger */
+.cream-content h2 {
+  margin: 34px 0 12px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+/* ✅ H3 distinct + accent */
+.cream-content h3 {
+  margin: 22px 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ===== Section Blocks (P > STRONG) ===== */
+.cream-section-block {
+  color: var(--tbl-text);
+  padding: 18px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 12px 0 18px;
+  background: var(--section-bg-a);
+}
+
+.cream-section-block.is-alt {
+  background: var(--section-bg-b);
+}
+
+.cream-section-block > :first-child { margin-top: 0; }
+.cream-section-block > :last-child { margin-bottom: 0; }
+
+/* ===== Table Design (User Provided) ===== */
+/* Tables (light) */
+.cream-table-wrap {
+  margin: 10px 0 16px;
+
+  /* ✅ デフォルトは横スクロール許可（PC/タブで崩れにくい） */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ “ページ全体が横に逃げる”体感を減らす */
+  touch-action: pan-y;
+
+  /* iOSで効きにくいこともあるが害はない */
+  overscroll-behavior: contain;
+}
+
+.cream-table {
+  width: min(100%, 960px);
+  min-width: 520px;
+  margin: 0 auto;
+
+  /* 角丸安定 */
+  border-collapse: separate;
+  border-spacing: 0;
+
+  border: 1px solid var(--tbl-line);
+  border-radius: var(--tbl-radius);
+  overflow: hidden;
+  background: var(--tbl-body-bg);
+  color: var(--tbl-text);
+
+  /* ✅ shadow削除 */
+  box-shadow: none !important;
+}
+
+.cream-table thead th {
+  background: var(--tbl-head-bg);
+  color: var(--tbl-text);
+  font-weight: 900;
+  font-size: 13px;
+  padding: 12px;
+  border-bottom: 1px solid var(--tbl-line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.cream-table tbody td {
+  background: var(--tbl-body-bg);
+  color: var(--tbl-text);
+  font-size: 13px;
+  line-height: 1.75;
+  padding: 12px;
+  border-bottom: 1px solid var(--tbl-line);
+  vertical-align: top;
+}
+
+.cream-table tbody tr:last-child td { border-bottom: 0; }
+.cream-table thead th + th,
+.cream-table tbody td + td { border-left: 1px solid var(--tbl-line); }
+
+/* ✅ セル内の長文が原因でテーブルが“想定以上に横に膨らむ”のを防止 */
+.cream-table th,
+.cream-table td {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Anchor offset */
+.cream-anchor { scroll-margin-top: 120px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .cream-manual { padding: 28px 14px; }
+  .cream-layout { grid-template-columns: 1fr; }
+  .cream-sidebar { display: none; } /* ✅ Mobileでは非表示 */
+  .cream-table { min-width: 420px; }
+}
+
+/* ✅ Mobile: 横スライド根絶（テーブルを画面にフィットさせる） */
+@media (max-width: 640px) {
+  .cream-anchor { scroll-margin-top: 88px; }
+
+  /* wrapは横スクロールさせない（= “スライドする”原因を断つ） */
+  .cream-table-wrap {
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  .cream-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+}
+
+html { scroll-behavior: smooth; }
+</style>
+
+<section class="cream-manual">
+  <div class="cream-manual__inner">
+    <div class="cream-layout">
+      <!-- Sidebar (Desktop only) -->
+      <aside class="cream-sidebar" aria-label="Document Sidebar">
+        <nav class="cream-sidebar__nav" aria-label="H2/H3 Navigation">
+          <ul class="cream-sidebar__list" id="creamSidebarList"></ul>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <article class="cream-content" id="creamContent">
+
+        <!-- ✅ Intro removed:
+          # Cream by Solstar マニュアル
+          Shopifyテーマ「Cream by Solstar」を最短で使いこなすための実践ガイドです。各セクションが「何をするか」「どこを触れば形になるか」「迷ったときのヒント」がすぐ分かるようにまとめています。
+        -->
+
+        <h2>基本操作</h2>
+        <ul>
+          <li>管理画面: 「オンラインストア &gt; テーマ &gt; カスタマイズ」から編集します。</li>
+          <li>テンプレート切替: 上部プルダウンでホーム/商品/コレクション/ブログ/検索/カートなどを選択。</li>
+          <li>セクション編集: 左サイドバーでセクション/ブロックを追加・並べ替え・非表示・削除。</li>
+          <li>メディア管理: 画像/動画は「設定 &gt; ファイル」にアップロードして選択。</li>
+          <li>反映確認: 保存後にプレビュー/公開で確認。</li>
+        </ul>
+
+        <h2>セクション共通の見た目調整</h2>
+        <ul>
+          <li>よく使う項目: 幅（ページ幅/全幅）、カラースキーム、上下余白、ブロック間隔、テキスト配置。</li>
+          <li>ヒント: カラースキームは「テーマ設定 &gt; 色」で事前に作っておくと、複数セクションで統一感を出しやすくなります。</li>
+        </ul>
+
+        <!-- ✅ 「セクション一覧（カテゴリ別ガイド）」はコンテンツから削除 -->
+
+        <h2>Header</h2>
+        <ul>
+          <li>サイト最上部で告知とナビゲーションを担う領域。ブランドの第一印象と主要導線をここで整えます。</li>
+        </ul>
+
+        <h3>お知らせバー</h3>
+        <ul>
+          <li>表示: 画面上部でメッセージをスライド表示。</li>
+          <li>主な設定: 切替間隔、幅、配色、区切り線。</li>
+          <li>使う場面: セール告知や配送案内を短文でループ表示したいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>告知テキスト（ブロック）</td>
+<td>Text</td>
+<td>1行メッセージ。複数追加でローテーション。</td>
+</tr>
+            <tr>
+<td>切替間隔</td>
+<td>Range</td>
+<td>メッセージの自動切替速度。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>区切り線</td>
+<td>Checkbox/Range</td>
+<td>上下の境界線有無と太さ。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>ヘッダー</h3>
+        <ul>
+          <li>表示: ロゴ、メニュー、検索、アカウント、ローカライズ。</li>
+          <li>主な設定: ロゴ位置、メニュー行構成、検索アイコン位置、国/言語セレクター、配色/余白/境界線。</li>
+          <li>使う場面: 常時表示のグローバルナビで主要導線を整理したいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>レイアウト（位置/行）</td>
+<td>Select</td>
+<td>ロゴ・メニュー・アイコンの並びを選択。</td>
+</tr>
+            <tr>
+<td>メニュー</td>
+<td>Link list</td>
+<td>メイン/サブのメニュー割り当て。</td>
+</tr>
+            <tr>
+<td>検索アイコン</td>
+<td>Checkbox</td>
+<td>ヘッダーに検索トリガーを表示。</td>
+</tr>
+            <tr>
+<td>アカウント/ローカライズ</td>
+<td>Checkbox</td>
+<td>アカウントリンク、国/言語セレクターの表示。</td>
+</tr>
+            <tr>
+<td>カラースキーム/境界線</td>
+<td>Color scheme/Range</td>
+<td>配色と上下ボーダーの有無・太さ。</td>
+</tr>
+            <tr>
+<td>パディング</td>
+<td>Range(px)</td>
+<td>ヘッダー上下余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h2>テンプレート</h2>
+        <ul>
+          <li>下記はHomepageで利用できるテンプレート（セクション）に限定したガイドです。コレクションページやブログページ専用のテンプレート機能は本マニュアルでは非表示にしています。</li>
+        </ul>
+
+        <h3>コレクション</h3>
+        <ul>
+          <li>目的: ホームで推すカテゴリやコレクション導線を並べ、回遊を促す。</li>
+          <li>含まれる機能: 特集コレクション、コレクションリスト、コレクションリンク、タブコレクション。</li>
+        </ul>
+
+        <p><strong>特集コレクション</strong></p>
+        <ul>
+          <li>表示: 指定コレクションの商品一覧をカードで訴求。</li>
+          <li>使う場面: トップで推したいカテゴリの紹介に。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>コレクション</td>
+<td>Collection</td>
+<td>表示するコレクション。</td>
+</tr>
+            <tr>
+<td>レイアウト</td>
+<td>Select(grid/carousel)</td>
+<td>グリッドか横スライドか。</td>
+</tr>
+            <tr>
+<td>列数/モバイル列</td>
+<td>Range</td>
+<td>PCとモバイルの列数。</td>
+</tr>
+            <tr>
+<td>商品数</td>
+<td>Range</td>
+<td>最大表示件数。</td>
+</tr>
+            <tr>
+<td>タイトル行数制限</td>
+<td>Range</td>
+<td>商品名の折返し行数。</td>
+</tr>
+            <tr>
+<td>カルーセルナビ</td>
+<td>Select</td>
+<td>矢印/ドットの表示。</td>
+</tr>
+            <tr>
+<td>カラースキーム/余白</td>
+<td>Color scheme/Range</td>
+<td>背景・文字色と外側余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>コレクションリスト</strong></p>
+        <ul>
+          <li>表示: 複数コレクションをグリッド/カルーセルで一覧化。</li>
+          <li>使う場面: ギフト/価格帯/テーマ別など複数カテゴリを早見で並べたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>コレクション</td>
+<td>Collection list</td>
+<td>複数のコレクションを選択。</td>
+</tr>
+            <tr>
+<td>レイアウト</td>
+<td>Select(grid/carousel)</td>
+<td>表示形式。</td>
+</tr>
+            <tr>
+<td>列数/モバイル列/間隔</td>
+<td>Range</td>
+<td>グリッドの設定。</td>
+</tr>
+            <tr>
+<td>カード背景/アイコン</td>
+<td>Color/Image</td>
+<td>カードの飾りを設定。</td>
+</tr>
+            <tr>
+<td>表示数</td>
+<td>Range</td>
+<td>最大表示件数。</td>
+</tr>
+            <tr>
+<td>カラースキーム/余白</td>
+<td>Color scheme/Range</td>
+<td>配色と上下余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>コレクションリンク</strong></p>
+        <ul>
+          <li>表示: コレクションカードとリンクを横並びで紹介。</li>
+          <li>使う場面: 1つのコレクションへの導線をビジュアルとテキストで強調したいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>コレクション</td>
+<td>Collection</td>
+<td>表示するコレクション。</td>
+</tr>
+            <tr>
+<td>画像位置/サイズ</td>
+<td>Select/Range</td>
+<td>カード内での画像比率や位置。</td>
+</tr>
+            <tr>
+<td>配列（左右）</td>
+<td>Select</td>
+<td>画像とテキストの左右配置。</td>
+</tr>
+            <tr>
+<td>カラースキーム/余白</td>
+<td>Color scheme/Range</td>
+<td>配色と上下余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>タブコレクション</strong></p>
+        <ul>
+          <li>表示: タブ切替で複数コレクションを表示。</li>
+          <li>使う場面: カテゴリを切替えながら同じ枠で商品を見せたいとき。</li>
+        </ul>
+
+        <p>設定詳細（セクション）</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>見出し/サブ見出し</td>
+<td>Text/Richtext</td>
+<td>タイトルと補足文。</td>
+</tr>
+            <tr>
+<td>見出し配置</td>
+<td>Select(start/center)</td>
+<td>タイトルとタブヘッダーの横位置。</td>
+</tr>
+            <tr>
+<td>レイアウト</td>
+<td>Select(grid/carousel)</td>
+<td>グリッドかカルーセルか。</td>
+</tr>
+            <tr>
+<td>列数</td>
+<td>Range(1-8)</td>
+<td>グリッド時のPC列数。</td>
+</tr>
+            <tr>
+<td>列間隔</td>
+<td>Range(px)</td>
+<td>カード間の余白。</td>
+</tr>
+            <tr>
+<td>カルーセル矢印</td>
+<td>Select</td>
+<td>矢印形状（arrow/chevron/large/非表示）。</td>
+</tr>
+            <tr>
+<td>矢印枠</td>
+<td>Select</td>
+<td>矢印の囲み形（なし/円/角丸）。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外側の余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p>設定詳細（タブブロック）</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>タイトル</td>
+<td>Text</td>
+<td>タブ名。未設定時はコレクション名を自動使用。</td>
+</tr>
+            <tr>
+<td>コレクション</td>
+<td>Collection</td>
+<td>表示するコレクションを選択。</td>
+</tr>
+            <tr>
+<td>商品数</td>
+<td>Range(1-16)</td>
+<td>1タブ内の最大商品数。</td>
+</tr>
+            <tr>
+<td>カラー継承</td>
+<td>Checkbox</td>
+<td>セクションの配色を引き継ぐか。</td>
+</tr>
+            <tr>
+<td>個別カラースキーム</td>
+<td>Color scheme</td>
+<td>カラー継承をオフにしたときの配色。</td>
+</tr>
+            <tr>
+<td>枠線/太さ/不透明度</td>
+<td>Select/Range</td>
+<td>カード枠線の有無と太さ・透過度。</td>
+</tr>
+            <tr>
+<td>角丸</td>
+<td>Range(px)</td>
+<td>カード角の丸み。</td>
+</tr>
+            <tr>
+<td>特集画像を表示</td>
+<td>Checkbox</td>
+<td>先頭に特集画像カードを追加。</td>
+</tr>
+            <tr>
+<td>特集画像</td>
+<td>Image</td>
+<td>任意の画像。無ければコレクション画像。</td>
+</tr>
+            <tr>
+<td>商品画像に合わせる</td>
+<td>Checkbox</td>
+<td>特集画像を商品画像と同じ比率に揃える。</td>
+</tr>
+            <tr>
+<td>画像比率</td>
+<td>Select</td>
+<td>アスペクト比（自動/縦長/正方形/円形/横長）。</td>
+</tr>
+            <tr>
+<td>特集ボタン文言/リンク</td>
+<td>Text/URL</td>
+<td>特集画像上のCTA。</td>
+</tr>
+            <tr>
+<td>ボタンスタイル/サイズ/配色</td>
+<td>Select/Select/Color scheme</td>
+<td>CTAの見た目と配色。</td>
+</tr>
+            <tr>
+<td>商品タイトルの書式</td>
+<td>Select</td>
+<td>タイトルタグ/プリセット。</td>
+</tr>
+            <tr>
+<td>タイトル文字サイズ/フォント/色</td>
+<td>Select</td>
+<td>タイトルのタイポ設定。</td>
+</tr>
+            <tr>
+<td>タイトル幅/最大幅/揃え</td>
+<td>Select/Text alignment</td>
+<td>タイトル行の幅と配置。</td>
+</tr>
+            <tr>
+<td>タイトル背景/角丸</td>
+<td>Checkbox/Color/Range</td>
+<td>タイトル背面の色と角丸。</td>
+</tr>
+            <tr>
+<td>価格の書式</td>
+<td>Select</td>
+<td>価格表示のタグ/カスタム。</td>
+</tr>
+            <tr>
+<td>価格幅/揃え</td>
+<td>Select/Text alignment</td>
+<td>価格行の幅と配置。</td>
+</tr>
+            <tr>
+<td>価格フォント/サイズ/行間/字間/ケース</td>
+<td>Select</td>
+<td>価格のタイポ設定。</td>
+</tr>
+            <tr>
+<td>価格色/背景/角丸</td>
+<td>Select/Color/Range</td>
+<td>価格テキストの色と背景装飾。</td>
+</tr>
+            <tr>
+<td>スウォッチ配置(PC/モバイル)</td>
+<td>Select</td>
+<td>カラーバリエーションの左右位置。</td>
+</tr>
+            <tr>
+<td>スウォッチ余白(上下左右)</td>
+<td>Range(px)</td>
+<td>スウォッチ周りの内側余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>ストーリーテリング</h3>
+        <ul>
+          <li>目的: ブランドの世界観を大きなビジュアルと文章で伝え、ホームの冒頭から印象付ける。</li>
+          <li>含まれる機能: ヒーロー、ヒーロービデオ、テキスト付きメディア。</li>
+        </ul>
+
+        <p><strong>ヒーロー</strong></p>
+        <ul>
+          <li>表示: 画像/動画＋テキストの大型ヒーロー。</li>
+          <li>使う場面: 新作ローンチやブランドメッセージの訴求に。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>メディア1/2</td>
+<td>Image/Video</td>
+<td>画像または動画を選択（左右/上下配置）。</td>
+</tr>
+            <tr>
+<td>モバイル画像</td>
+<td>Image</td>
+<td>スマホ用差し替え画像。</td>
+</tr>
+            <tr>
+<td>レイアウト方向/高さ/幅</td>
+<td>Select/Range</td>
+<td>横並び/縦並び、セクション高さ、ページ幅。</td>
+</tr>
+            <tr>
+<td>オーバーレイ</td>
+<td>Color/Range</td>
+<td>画像上の色ベールと不透明度。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>パディング</td>
+<td>Range(px)</td>
+<td>内側余白。</td>
+</tr>
+            <tr>
+<td>ブロック（テキスト/ボタン等）</td>
+<td>Preset</td>
+<td>文言・リンク・サイズを設定。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>ヒーロービデオ</strong></p>
+        <ul>
+          <li>表示: 動画を全面に敷いたヒーロー。</li>
+          <li>使う場面: ブランド/コレクションムービーを強く見せたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>動画ソース(PC/モバイル)</td>
+<td>Video</td>
+<td>デスクトップとモバイルの動画。</td>
+</tr>
+            <tr>
+<td>見出し/サブ見出し</td>
+<td>Text</td>
+<td>オーバーレイテキスト。</td>
+</tr>
+            <tr>
+<td>テキスト位置/サイズ</td>
+<td>Select</td>
+<td>左右/中央寄せとフォントスケール。</td>
+</tr>
+            <tr>
+<td>ボタン文言/リンク/スタイル</td>
+<td>Text/URL/Select</td>
+<td>CTA内容と見た目。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>テキスト/ボタンの配色。</td>
+</tr>
+            <tr>
+<td>パディング</td>
+<td>Range(px)</td>
+<td>内側余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>テキスト付きメディア</strong></p>
+        <ul>
+          <li>表示: 画像/動画とテキストの2カラム。</li>
+          <li>使う場面: ストーリー紹介や商品特徴の説明に。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>メディア</td>
+<td>Image/Video</td>
+<td>画像または動画を設定。</td>
+</tr>
+            <tr>
+<td>メディア位置/幅/高さ</td>
+<td>Select/Range</td>
+<td>左右の位置、比率、高さを指定。</td>
+</tr>
+            <tr>
+<td>テキスト配置</td>
+<td>Select</td>
+<td>左/中央/右寄せ。</td>
+</tr>
+            <tr>
+<td>セクション幅/端まで拡張</td>
+<td>Select/Checkbox</td>
+<td>ページ幅か全幅か、左右余白の有無。</td>
+</tr>
+            <tr>
+<td>カラースキーム/パディング</td>
+<td>Color scheme/Range</td>
+<td>背景・文字色と内側余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>テキスト</h3>
+        <ul>
+          <li>目的: 文章・コピーをリズムよく見せて情報を強調する。</li>
+          <li>含まれる機能: スクロールテキスト。</li>
+        </ul>
+
+        <p><strong>スクロールテキスト</strong></p>
+        <ul>
+          <li>表示: 横に流れるテキスト/アイコン/ロゴ。</li>
+          <li>使う場面: USPや送料条件をリズミカルに周知したいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>方向/速度/繰り返し</td>
+<td>Select/Range</td>
+<td>左右の流れ、スクロール速度、リピート間隔。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>行間/高さ</td>
+<td>Range(px)</td>
+<td>バーの高さや余白。</td>
+</tr>
+            <tr>
+<td>ブロック: テキスト/アイコン等</td>
+<td>Preset</td>
+<td>繰り返し表示する要素を追加。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>バナー</h3>
+        <ul>
+          <li>目的: キャンペーンや比較訴求を視覚的に届け、ホーム中盤のフックを作る。</li>
+          <li>含まれる機能: スライドショー、カウントダウンタイマー、ビフォー／アフター。</li>
+        </ul>
+
+        <p><strong>スライドショー</strong></p>
+        <ul>
+          <li>表示: 複数スライドの自動/手動切替。</li>
+          <li>使う場面: 複数キャンペーンやKVをローテーションで見せたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>自動切替/速度</td>
+<td>Checkbox/Range</td>
+<td>オートプレイ有無とインターバル。</td>
+</tr>
+            <tr>
+<td>高さ/幅</td>
+<td>Range/Select</td>
+<td>ビューポート高さやページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>ページネーション/矢印</td>
+<td>Checkbox/Select</td>
+<td>ドットや矢印の表示スタイル。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>ブロック: スライド</td>
+<td>Image/Video + Text</td>
+<td>各スライドの背景とテキスト/ボタン。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>カウントダウンタイマー</strong></p>
+        <ul>
+          <li>表示: 期限付きキャンペーンの残り時間。</li>
+          <li>使う場面: セール終了や予約締切を視覚的に急かしたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>終了日時（タイマーブロック）</td>
+<td>Datetime</td>
+<td>カウントダウンの終了時刻。</td>
+</tr>
+            <tr>
+<td>レイアウト/配置</td>
+<td>Select</td>
+<td>アイテムの並びと中央寄せ等。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>ボタン文言/リンク/スタイル</td>
+<td>Text/URL/Select</td>
+<td>CTA設定。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外側の余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>ビフォー／アフター</strong></p>
+        <ul>
+          <li>表示: 2枚の画像をスライダーで比較。</li>
+          <li>使う場面: 効果比較やビフォーアフター実績の提示に。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>ビフォー/アフター画像</td>
+<td>Image</td>
+<td>比較用の2枚を登録。</td>
+</tr>
+            <tr>
+<td>ラベル</td>
+<td>Text</td>
+<td>BEFORE/AFTERなどの表示文言。</td>
+</tr>
+            <tr>
+<td>画像比率/角丸</td>
+<td>Select/Range</td>
+<td>アスペクト比と角の丸み。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>ボタン文言/リンク</td>
+<td>Text/URL</td>
+<td>下部CTAの設定。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>フォーム</h3>
+        <ul>
+          <li>目的: ホームでメール登録や外部ウィジェットを案内する。</li>
+          <li>含まれる機能: ニュースレターポップアップ、カスタムLiquid。</li>
+        </ul>
+
+        <p><strong>ニュースレターポップアップ</strong></p>
+        <ul>
+          <li>表示: メール登録用ポップアップ。</li>
+          <li>使う場面: 新規訪問時にクーポン配布やメルマガ登録を促したいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>有効化/ホームのみ</td>
+<td>Checkbox</td>
+<td>ポップアップを出すか、ホーム限定か。</td>
+</tr>
+            <tr>
+<td>表示遅延/再表示日数</td>
+<td>Range</td>
+<td>初回表示の遅延秒数と再表示までの日数。</td>
+</tr>
+            <tr>
+<td>画像</td>
+<td>Image</td>
+<td>ポップアップ内のビジュアル。</td>
+</tr>
+            <tr>
+<td>見出し/本文/ボタン</td>
+<td>Text/URL/Select</td>
+<td>文言とCTAスタイル。</td>
+</tr>
+            <tr>
+<td>オーバーレイ不透明度/ぼかし</td>
+<td>Range</td>
+<td>背景の暗さとブラー。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>本体の配色。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>カスタムLiquid</strong></p>
+        <ul>
+          <li>表示: 任意のLiquid/HTMLを挿入し、外部フォームやウィジェットを配置。</li>
+          <li>使う場面: 外部配信システムのフォーム埋め込みや独自UI追加に。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>Liquidコード</td>
+<td>Liquid</td>
+<td>任意のマークアップを記述。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>上下余白/内側余白</td>
+<td>Range(px)</td>
+<td>セクション外側と内側の余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>マップ</h3>
+        <ul>
+          <li>目的: ホームで実店舗やポップアップストアの場所を案内する。</li>
+          <li>含まれる機能: 地図。</li>
+        </ul>
+
+        <p><strong>地図</strong></p>
+        <ul>
+          <li>表示: Google Mapsを利用した地図と案内情報。</li>
+          <li>使う場面: 店舗/会場の位置案内、経路リンクの提示に。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>APIキー</td>
+<td>Text</td>
+<td>Google Maps APIキー。</td>
+</tr>
+            <tr>
+<td>住所/緯度経度</td>
+<td>Text/Number</td>
+<td>ピン位置を指定。</td>
+</tr>
+            <tr>
+<td>ズーム</td>
+<td>Range</td>
+<td>地図の拡大度。</td>
+</tr>
+            <tr>
+<td>見出し/本文</td>
+<td>Text</td>
+<td>店舗名や住所説明。</td>
+</tr>
+            <tr>
+<td>ボタン文言/リンク</td>
+<td>Text/URL</td>
+<td>経路案内等へのリンク。</td>
+</tr>
+            <tr>
+<td>カラースキーム/余白</td>
+<td>Color scheme/Range</td>
+<td>配色とセクション余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>レイアウト</h3>
+        <ul>
+          <li>目的: コンテンツ間のつなぎ目や自由配置を整える。</li>
+          <li>含まれる機能: セクション（汎用）、区切り線。</li>
+        </ul>
+
+        <p><strong>セクション（汎用）</strong></p>
+        <ul>
+          <li>表示: テキスト/画像/ボタン/動画などを自由に組み合わせ。</li>
+          <li>使う場面: 既存テンプレでは足りない自由レイアウトを作りたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>レイアウト方向/揃え</td>
+<td>Select</td>
+<td>横並び/縦並びと配置。</td>
+</tr>
+            <tr>
+<td>セクション幅/高さ</td>
+<td>Select/Range</td>
+<td>ページ幅/全幅と高さ指定。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>ブロック間隔</td>
+<td>Range(px)</td>
+<td>子ブロック間の余白。</td>
+</tr>
+            <tr>
+<td>上下余白/パディング</td>
+<td>Range(px)</td>
+<td>セクション外側・内側の余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>区切り線</strong></p>
+        <ul>
+          <li>表示: セクション間の仕切り。</li>
+          <li>使う場面: コンテンツのブロック分けを強調し、読みやすさを上げたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>太さ/長さ</td>
+<td>Range(px)</td>
+<td>ラインの厚みと幅。</td>
+</tr>
+            <tr>
+<td>位置</td>
+<td>Select</td>
+<td>左寄せ/中央/右寄せ。</td>
+</tr>
+            <tr>
+<td>角丸</td>
+<td>Range(px)</td>
+<td>ライン端の丸み。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>線色を含む配色セット。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h3>商品</h3>
+        <ul>
+          <li>目的: ホームでピックアップ商品やレコメンドを訴求し、PDPへ誘導する。</li>
+          <li>含まれる機能: 商品のハイライト、おすすめ商品。</li>
+        </ul>
+
+        <p><strong>商品のハイライト</strong></p>
+        <ul>
+          <li>表示: 1商品の詳細を大きく訴求。</li>
+          <li>使う場面: 目玉商品や限定商品の単独訴求。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>商品</td>
+<td>Product</td>
+<td>訴求する商品を指定。</td>
+</tr>
+            <tr>
+<td>メディア位置/幅</td>
+<td>Select/Range</td>
+<td>画像の左右位置と比率。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>バッジ/価格表示</td>
+<td>Checkbox</td>
+<td>セール等の表示有無。</td>
+</tr>
+            <tr>
+<td>ボタン文言/リンク</td>
+<td>Text/URL</td>
+<td>CTAカスタマイズ。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>おすすめ商品</strong></p>
+        <ul>
+          <li>表示: 関連/補完商品のリスト。</li>
+          <li>使う場面: ホームでセット買い・関連商品の提案を行い客単価を伸ばしたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>対象商品</td>
+<td>Product</td>
+<td>おすすめの起点となる商品。</td>
+</tr>
+            <tr>
+<td>タイプ</td>
+<td>Select</td>
+<td>関連/補完を選択。</td>
+</tr>
+            <tr>
+<td>レイアウト</td>
+<td>Select(grid/carousel)</td>
+<td>表示形式。</td>
+</tr>
+            <tr>
+<td>列数/商品数</td>
+<td>Range</td>
+<td>PC列数と最大件数。</td>
+</tr>
+            <tr>
+<td>ナビゲーション</td>
+<td>Select</td>
+<td>矢印/ドット/なし。</td>
+</tr>
+            <tr>
+<td>カラースキーム/余白</td>
+<td>Color scheme/Range</td>
+<td>背景・文字色と外側余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h2>Footer</h2>
+        <ul>
+          <li>サイト下部のまとめエリア。導線、信頼性、法務情報を整理して締めくくります。</li>
+        </ul>
+
+        <h3>フッター</h3>
+        <ul>
+          <li>含まれる機能: フッター、ユーティリティ、ロゴ（フッター用）、パスワードフッター。</li>
+        </ul>
+
+        <p><strong>フッター</strong></p>
+        <ul>
+          <li>表示: サイト下部のリンク/フォーム/決済アイコンなど。</li>
+          <li>使う場面: 会社情報・サポート・SNS・決済手段をまとめ、信頼性と回遊導線を補強するとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>レイアウト/列数</td>
+<td>Select/Range</td>
+<td>ブロックの並べ方とカラム数。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>境界線/余白</td>
+<td>Range(px)</td>
+<td>上部ボーダーと内外の余白。</td>
+</tr>
+            <tr>
+<td>ブロック（メニュー/SNS等）</td>
+<td>Preset</td>
+<td>各ブロックでリンクやアイコンを設定。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>ユーティリティ</strong></p>
+        <ul>
+          <li>表示: 最下段のコピーライト/ポリシー/ソーシャル。</li>
+          <li>使う場面: 法務リンクや著作権表示を整理し、最低限の導線だけをコンパクトに残すとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>区切り線</td>
+<td>Checkbox/Range</td>
+<td>上境界線の有無と太さ。</td>
+</tr>
+            <tr>
+<td>ブロック: コピーライト/ポリシー/SNS</td>
+<td>Text/Link list</td>
+<td>表示文言とリンク先。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外側の余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>ロゴ（フッター用）</strong></p>
+        <ul>
+          <li>表示: フッター専用ロゴ。</li>
+          <li>使う場面: 背景色がヘッダーと異なるときに視認性の高いロゴを切り替えたい場合。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>画像</td>
+<td>Image</td>
+<td>フッターで使うロゴ。</td>
+</tr>
+            <tr>
+<td>サイズ単位/幅/高さ</td>
+<td>Select/Range</td>
+<td>pxまたは%でロゴサイズ調整。</td>
+</tr>
+            <tr>
+<td>配置</td>
+<td>Select</td>
+<td>左/中央/右寄せ。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>パスワードフッター</strong></p>
+        <ul>
+          <li>表示: パスワードページ用フッター。</li>
+          <li>使う場面: クローズド期間のランディングでブランドらしさを最低限示すとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h2>連携・注意事項</h2>
+        <ul>
+          <li>Search &amp; Discoveryアプリでフィルターや補完商品を設定できます。</li>
+          <li>商品レビュー表示には別途レビューアプリが必要です。</li>
+        </ul>
+
+        <h2>Tips（運用のコツ）</h2>
+        <ul>
+          <li>画像/動画: ヒーローは横長16:9か4:5、高さに迷ったら70vh。WebP優先、動画は短尺mp4(H.264)、モバイルは軽量版を用意。</li>
+          <li>配色とロゴ: カラースキームごとにロゴ（通常/逆さ）を確認。暗い背景では逆さロゴを使う。</li>
+          <li>モバイル最適化: 列数を減らし余白を詰める。追従メニューを有効化し、ヒーローはモバイル画像を別設定。</li>
+          <li>パフォーマンス: 不要なポップアップやオートプレイをオフ。画像は事前リサイズ、動画は音声オフ＋短尺を前提に。</li>
+          <li>アクセシビリティ: 画像代替テキストを入れる。ボタン文言は動詞から。コントラストが低い配色は避ける。</li>
+          <li>多言語/多通貨: ローカライズスイッチを有効にし、言語別ロゴ/コピーを確認。静的テキストは言語別で複製して出し分ける。</li>
+          <li>商品訴求: バリエーションが多い商品はスウォッチサイズを調整。追従カート＋クイック追加を併用するとCVR向上が期待できる。</li>
+          <li>検索/フィルター: Search &amp; Discoveryでフィルター/並び替えを設定し、空状態メッセージを編集して回遊先を提示。</li>
+          <li>よくあるつまずき: 地図はAPIキー未設定だと非表示。ニュースレターポップアップはPC/モバイル両方でテスト。動画が重いと再生が遅くなる。</li>
+        </ul>
+
+        <h2>公開前チェックリスト</h2>
+        <ul>
+          <li>ナビ/フッター: リンク切れなし、法務リンクとコピーライト更新、ロゴ視認性を各配色で確認。</li>
+          <li>配色: カラースキーム割当と文字コントラストをチェック。</li>
+          <li>モバイル: 列数・余白・フォント、追従メニュー、ヒーローのモバイル画像を確認。</li>
+          <li>商品ページ: バリエーション選択、スウォッチ、追従カート、クイック追加、価格/通貨表示を確認。</li>
+          <li>検索/フィルター: Search &amp; Discoveryの設定と空状態メッセージを確認。</li>
+          <li>カート/チェックアウト導線: メモ・割引・送料表示、ボタン文言、挙動を確認。</li>
+          <li>システムページ: 404とパスワードの文言と導線を差し替え済みか。</li>
+          <li>パフォーマンス: 不要セクション/ポップアップを無効化、画像圧縮、動画は短尺に。</li>
+        </ul>
+
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const content = document.getElementById('creamContent');
+  const list = document.getElementById('creamSidebarList');
+  if (!content || !list) return;
+
+  // ===== 1) Tables: add class + wrap =====
+  const tables = Array.from(content.querySelectorAll('table'));
+  tables.forEach((tbl) => {
+    if (!tbl.classList.contains('cream-table')) tbl.classList.add('cream-table');
+
+    const parent = tbl.parentElement;
+    const alreadyWrapped = parent && parent.classList && parent.classList.contains('cream-table-wrap');
+    if (!alreadyWrapped) {
+      const wrap = document.createElement('div');
+      wrap.className = 'cream-table-wrap';
+      tbl.parentNode.insertBefore(wrap, tbl);
+      wrap.appendChild(tbl);
+    }
+  });
+
+  // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
+  const isStrongSectionTitleP = (p) => {
+    if (!p || p.tagName !== 'P') return false;
+    if (p.children.length !== 1) return false;
+    const child = p.firstElementChild;
+    if (!child || child.tagName !== 'STRONG') return false;
+    // Ensure p contains only the strong text (no extra)
+    const plain = (p.textContent || '').trim();
+    const strongText = (child.textContent || '').trim();
+    return plain === strongText && strongText.length > 0;
+  };
+
+  const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
+
+  let alt = false;
+  strongTitlePs.forEach((p) => {
+    // Skip if already wrapped
+    if (p.closest('.cream-section-block')) return;
+
+    const block = document.createElement('section');
+    block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
+    alt = !alt;
+
+    const parent = p.parentNode;
+    parent.insertBefore(block, p);
+
+    let node = p;
+    while (node) {
+      const next = node.nextSibling;
+      block.appendChild(node);
+
+      if (!next) break;
+
+      if (next.nodeType === 1) {
+        const tag = next.tagName.toLowerCase();
+        // Stop at next heading or next strong-section title
+        if (tag === 'h2' || tag === 'h3') break;
+        if (tag === 'p' && isStrongSectionTitleP(next)) break;
+      }
+      node = next;
+    }
+  });
+
+  // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
+  const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
+    '基本操作',
+    'セクション共通の見た目調整',
+    '連携・注意事項',
+    'Tips（運用のコツ）',
+    '公開前チェックリスト',
+    'セクション一覧（カテゴリ別ガイド）'
+  ]);
+
+  const used = new Set();
+  const slugify = (str) => {
+    return String(str || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, '-')
+      .replace(/(^-+|-+$)/g, '')
+      .slice(0, 80) || 'section';
+  };
+  const uniqueId = (base) => {
+    let id = base;
+    let i = 2;
+    while (used.has(id)) id = `${base}-${i++}`;
+    used.add(id);
+    return id;
+  };
+
+  const headings = Array.from(content.querySelectorAll('h2, h3'));
+  list.innerHTML = '';
+
+  let currentH2Included = false;
+
+  headings.forEach((hd) => {
+    const tag = hd.tagName.toLowerCase();
+    const level = tag === 'h2' ? 2 : 3;
+    const text = (hd.textContent || '').trim();
+    if (!text) return;
+
+    if (!hd.id) {
+      hd.id = uniqueId(slugify(text));
+    } else {
+      used.add(hd.id);
+    }
+    hd.classList.add('cream-anchor');
+
+    if (level === 2) {
+      currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(text);
+      if (!currentH2Included) return;
+    } else {
+      if (!currentH2Included) return;
+    }
+
+    const li = document.createElement('li');
+    li.className = 'cream-sidebar__item';
+
+    const a = document.createElement('a');
+    a.className = 'cream-sidebar__link';
+    a.href = `#${hd.id}`;
+    a.textContent = text;
+    a.setAttribute('data-level', String(level));
+
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+})();
+</script>

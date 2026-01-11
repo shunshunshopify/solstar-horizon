@@ -304,7 +304,7 @@
             {% liquid
               assign list_items_array = list_items | strip | split: '<!--@list/split-->'
               if list_items == blank
-                assign list_items_array = empty
+                assign list_items_array = "" | split: ""
               endif
               assign slide_count = list_items_array | size
             %}

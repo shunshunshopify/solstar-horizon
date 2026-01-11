@@ -1,3 +1,14 @@
+# Release Notes - Version 3.2.15
+
+This release fixes theme validation errors and cleans up onboarding placeholders.
+
+## What's Changed
+
+### Fixes and improvements
+- Removed unsupported `hide_padding` from swatches block presets to resolve schema validation failures.
+- Added the missing onboarding translation used by Tab Collection empty states.
+- [Tab collection] Fixed placeholder card rendering and carousel slide calculations.
+
 # Release Notes - Version 3.2.14
 
 This release refines swatch visuals and removes unused hover code.

@@ -105,6 +105,7 @@
   display: block !important;
   padding: 6px 14px;
   color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
   font-size: 18px;
   line-height: 1.35;
   overflow-wrap: anywhere;
@@ -113,6 +114,11 @@
   border-bottom: none !important;
   box-shadow: none !important;
   background-image: none !important;
+  background-color: transparent !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  text-shadow: none !important;
+  mix-blend-mode: normal !important;
   position: relative !important;
   pointer-events: auto !important;
   opacity: 1 !important;
@@ -1702,11 +1708,20 @@ html { scroll-behavior: smooth; }
   ]);
 
   const used = new Set();
+  const unicodePropsSupported = (() => {
+    try {
+      new RegExp('\\p{L}', 'u');
+      return true;
+    } catch (err) {
+      return false;
+    }
+  })();
+  const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
   const slugify = (str) => {
     return String(str || '')
       .trim()
       .toLowerCase()
-      .replace(/[^\p{L}\p{N}]+/gu, '-')
+      .replace(slugSeparatorRegex, '-')
       .replace(/(^-+|-+$)/g, '')
       .slice(0, 80) || 'section';
   };

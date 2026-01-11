@@ -414,6 +414,9 @@
     "padding_bottom": "Bottom padding"
   },
   "sections": {
+    "onboarding": {
+      "no_content": "Add tabs to show collections."
+    },
     "marquee": {
       "name": "Scrolling text",
       "settings": {

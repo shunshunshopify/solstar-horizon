@@ -251,7 +251,6 @@
                       show_wishlist_button: true,
                       show_badges: true,
                       content_markup: tab_product_content,
-                      collection: tab_collection,
                       show_quick_add: true,
                       quick_add_section_id: section.id,
                       quick_add_block: block
@@ -279,7 +278,7 @@
                     "
                   >
                     {% render 'resource-card',
-                      resource: blank,
+                      resource: all_products['__placeholder__'],
                       resource_type: 'product',
                       image_aspect_ratio: image_ratio,
                       show_wishlist_button: false,
@@ -302,8 +301,13 @@
               {% endif %}
               {{ product_items }}
             {% endcapture %}
-
-            {% assign list_items_array = list_items | strip | split: '<!--@list/split-->' %}
+            {% liquid
+              assign list_items_array = list_items | strip | split: '<!--@list/split-->'
+              if list_items == blank
+                assign list_items_array = empty
+              endif
+              assign slide_count = list_items_array | size
+            %}
 
             <div
               class="tab-content{% if tab_id == first_tab_id %} current{% endif %}"

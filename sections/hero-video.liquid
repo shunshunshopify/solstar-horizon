@@ -226,7 +226,7 @@
                 class: 'video-div'
             }}
           {%- endcapture -%}
-          {{ desktop_video_tag | replace_first: '<video ', '<video aria-label="Background video" aria-hidden="true" ' }}
+          {{ desktop_video_tag }}
         {% elsif has_desktop_external %}
           {% if desktop_is_mp4 %}
             <video
@@ -267,7 +267,7 @@
                 class: 'video-div'
             }}
           {%- endcapture -%}
-          {{ mobile_video_tag | replace_first: '<video ', '<video aria-label="Background video" aria-hidden="true" ' }}
+          {{ mobile_video_tag }}
         {% elsif has_mobile_external %}
           {% if mobile_is_mp4 %}
             <video

@@ -507,6 +507,21 @@
           <li>レイアウト種別: グリッド/カルーセル/Bento/エディトリアル。</li>
         </ul>
 
+        <p><span><strong>基本操作</strong></span></p>
+        <ul>
+          <li>追加場所: テーマエディタで任意のテンプレートに「コレクションリスト」を追加。Heroやコピーの直下に置くと効果的。</li>
+          <li>対象コレクション: 表示したいコレクションを複数選択。未選択の場合はレイアウト種別ごとの上限数でプレースホルダーが生成。</li>
+          <li>レイアウト切替: grid / carousel / bento / editorial を切り替えながらPC/モバイルプレビューを確認。</li>
+          <li>リンク先確認: 各カードは該当コレクションURLへ遷移。URL変更はコレクション側で一括反映。</li>
+        </ul>
+
+        <p><span><strong>共通デザイン設定</strong></span></p>
+        <ul>
+          <li>ここを触る: 右サイドバー「セクション設定」。カード数・レイアウト・ギャップ・セクション幅・カラースキームをまとめて調整。</li>
+          <li>よく使う項目: layout_type、columns、carousel_on_mobile、section_width、gap、上下余白。</li>
+          <li>ヒント: section_widthをpage-widthにすると他セクションと左右余白が揃いやすい。全幅の場合はブロック側で余白を追加すると窮屈さを防げる。</li>
+        </ul>
+
         <p>設定詳細（共通）</p>
         <table>
           <thead>
@@ -565,39 +580,49 @@
           </tbody>
         </table>
 
-        <p>補足ポイント</p>
+        <p><span><strong>各レイアウトの概要</strong></span></p>
         <ul>
-          <li><strong>基本操作</strong>: テーマエディタで任意のテンプレートに「コレクションリスト」を追加。Heroやコピーの直下に置くと効果的。</li>
-          <li><strong>基本操作</strong>: 表示したいコレクションを複数選択。未選択の場合はレイアウト種別ごとの上限数でプレースホルダーが生成。</li>
-          <li><strong>基本操作</strong>: grid / carousel / bento / editorial を切り替えながらPC/モバイルプレビューを確認。</li>
-          <li><strong>基本操作</strong>: 各カードは該当コレクションURLへ遷移。URL変更はコレクション側で一括反映。</li>
-          <li><strong>共通設定</strong>: 右サイドバー「セクション設定」でカード数・レイアウト・ギャップ・セクション幅・カラースキームをまとめて調整。</li>
-          <li><strong>共通設定</strong>: layout_type、columns、carousel_on_mobile、section_width、gap、上下余白をよく使う。</li>
-          <li><strong>共通設定</strong>: section_widthをpage-widthにすると他セクションと左右余白が揃いやすい。全幅の場合はブロック側で余白を追加すると窮屈さを防げる。</li>
-          <li><strong>レイアウト別</strong>: Gridはcolumns（1-8列）、mobile_columns（1or2列）、columns_gap（横）、rows_gap（縦）、carousel_on_mobile（モバイルだけスライダー化）。</li>
-          <li><strong>レイアウト別</strong>: Carouselはcolumnsがスライド内カード数。mobile_card_sizeで60cqw/44cqw、icons_styleとicons_shapeでナビ設定。</li>
-          <li><strong>レイアウト別</strong>: Bentoはbento_gapでタイル間余白を管理。最大4枚のコレクションを不均等グリッドで配置。</li>
-          <li><strong>レイアウト別</strong>: Editorialはmax_collections（1-16）を手動指定し、余白広めのカードを段組表示。</li>
-          <li><strong>ブロック運用</strong>: テキスト/画像/アイコン/ボタン/グループ/動画/区切り等を追加可能。セクション冒頭にヘッダーを作ると管理しやすい。</li>
-          <li><strong>ブロック運用</strong>: ボタンブロックで「すべての商品を見る」リンクを設置。section_widthがpage-widthならブロック幅もfillで左右整列。</li>
-          <li><strong>Tips</strong>: カルーセルのcolumnsをPC4/モバイル1にし、carousel_on_mobileをOFFにするとPCはスライダー、モバイルは横スクロールカードで視認性が高い。</li>
-          <li><strong>Tips</strong>: Bentoは最大4枚。配置するコレクション画像は縦横比を揃えると連続性が出る。</li>
-          <li><strong>Tips</strong>: Editorialはコレクション未選択でもmax_collections分のプレースホルダーで骨組み確認が可能。</li>
-          <li><strong>Tips</strong>: 代表画像を単色に差し替えるか画像内にテキストを入れてタイル風にすると、カラー背景だけのカードが作れる。</li>
-          <li><strong>注意事項</strong>: 表示順は「コレクションリスト」で選択した順番に従い、管理画面のコレクションソートは影響しない。</li>
-          <li><strong>注意事項</strong>: コレクションに画像が未設定の場合はプレースホルダーが表示されるため、公開前に代表画像を登録。</li>
-          <li><strong>注意事項</strong>: カルーセルのナビアイコンはテーマ全体のIconフォントを利用。独自SVGはsnippets/resource-list-carousel.liquid側のカスタマイズが必要。</li>
-          <li><strong>公開前</strong>: 非公開コレクション混在や画像解像度の不足がないか確認。</li>
-          <li><strong>公開前</strong>: Grid/Carousel/Bento/Editorialの切替で余白や行数が崩れないか確認。</li>
-          <li><strong>公開前</strong>: モバイルで矢印やドットが押しやすいかプレビューで確認。</li>
-          <li><strong>公開前</strong>: 見出し・説明・ボタンのフォント設定やリンク先を再確認。</li>
-          <li><strong>公開前</strong>: 翻訳表示とコレクション画像の代替テキストを確認。</li>
+          <li><strong>Grid</strong>: columns（1-8列）、mobile_columns（1or2列）、columns_gap（横）、rows_gap（縦）、carousel_on_mobile（モバイルだけスライダー化）。</li>
+          <li><strong>Carousel</strong>: columnsはスライド内カード数。mobile_card_sizeで60cqw/44cqwを選択。icons_styleとicons_shapeで矢印/シェブロン＋円/角/なしを設定。</li>
+          <li><strong>Bento</strong>: bento_gapでタイル間余白を管理。最大4枚のコレクションを不均等グリッドで配置。</li>
+          <li><strong>Editorial</strong>: max_collections（1-16）を手動指定し、余白広めのカードを段組表示。文章ブロックでストーリー性を出す用途に向く。</li>
+        </ul>
+
+        <p><span><strong>ブロックの使い方</strong></span></p>
+        <ul>
+          <li>追加できるブロック: テキスト/画像/アイコン/ボタン/グループ/動画/区切り等。セクション冒頭にヘッダーを作ると管理しやすい。</li>
+          <li>カスタムCTA: ボタンブロックで「すべての商品を見る」リンクを設置。section_widthがpage-widthならブロック幅もfillで左右整列。</li>
+        </ul>
+
+        <p><span><strong>Tips</strong></span></p>
+        <ul>
+          <li>カルーセルのcolumnsをPC4/モバイル1にし、carousel_on_mobileをOFFにするとPCはスライダー、モバイルは横スクロールカードで視認性が高い。</li>
+          <li>Bentoレイアウトは最大4枚。配置するコレクション画像は縦横比を揃えると連続性が出る。</li>
+          <li>Editorialはコレクション未選択でもmax_collections分のプレースホルダーで骨組み確認が可能。</li>
+          <li>画像の代わりにカラー背景だけでカードを作りたい場合は、代表画像を単色に差し替えるか画像内にテキストを入れてタイル風に。</li>
+        </ul>
+
+        <p><span><strong>連携・注意事項</strong></span></p>
+        <ul>
+          <li>表示順は「コレクションリスト」で選択した順番に従い、管理画面のコレクションソートは影響しない。</li>
+          <li>コレクションに画像が未設定の場合はプレースホルダーが表示されるため、公開前に代表画像を登録。</li>
+          <li>カルーセルのナビアイコンはテーマ全体のIconフォントを利用。独自SVGはsnippets/resource-list-carousel.liquid側のカスタマイズが必要。</li>
+        </ul>
+
+        <p><span><strong>公開前チェックリスト</strong></span></p>
+        <ul>
+          <li>コレクション選択: 非公開コレクションが混ざっていないか、画像が高解像度で揃っているか。</li>
+          <li>レイアウト確認: Grid/Carousel/Bento/Editorialの切替で余白や行数が崩れないか。</li>
+          <li>モバイル: 矢印やドットが押しやすいか、プレビューで確認。</li>
+          <li>ブロック: 見出し・説明・ボタンのフォント設定やリンク先を再確認。</li>
+          <li>翻訳/アクセシビリティ: ラベルの翻訳表示と、コレクション画像の代替テキストを確認。</li>
         </ul>
 
         <p><strong>コレクションリンク</strong></p>
         <ul>
           <li>表示: コレクションカードとリンクを横並びで紹介。</li>
           <li>使う場面: 1つのコレクションへの導線をビジュアルとテキストで強調したいとき。</li>
+          <li>レイアウト種別: Spotlight / テキスト。</li>
         </ul>
 
         <p>設定詳細</p>
@@ -624,6 +649,26 @@
 <td>配列（左右）</td>
 <td>Select</td>
 <td>画像とテキストの左右配置。</td>
+</tr>
+            <tr>
+<td>レイアウト</td>
+<td>Select(spotlight/text)</td>
+<td>Spotlight / テキストを切り替え。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>配置</td>
+<td>Select(left/center/right)</td>
+<td>テキストとリンク群の寄せ位置。</td>
+</tr>
+            <tr>
+<td>画像位置</td>
+<td>Select(left/right)</td>
+<td>Spotlight選択時の画像位置。</td>
 </tr>
             <tr>
 <td>カラースキーム/余白</td>
@@ -833,7 +878,7 @@
         <h3>ストーリーテリング</h3>
         <ul>
           <li>目的: ブランドの世界観を大きなビジュアルと文章で伝え、ホームの冒頭から印象付ける。</li>
-          <li>含まれる機能: ヒーロー、ヒーロービデオ、テキスト付きメディア。</li>
+          <li>含まれる機能: ヒーロー、ヒーロービデオ、テキスト付き画像、編集セクション、編集：ジャンボ文字、ブログ記事（カルーセル/グリッド/編集）。</li>
         </ul>
 
         <p><strong>ヒーロー</strong></p>
@@ -939,7 +984,7 @@
           </tbody>
         </table>
 
-        <p><strong>テキスト付きメディア</strong></p>
+        <p><strong>テキスト付き画像</strong></p>
         <ul>
           <li>表示: 画像/動画とテキストの2カラム。</li>
           <li>使う場面: ストーリー紹介や商品特徴の説明に。</li>
@@ -979,6 +1024,209 @@
 <td>カラースキーム/パディング</td>
 <td>Color scheme/Range</td>
 <td>背景・文字色と内側余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>編集</strong></p>
+        <ul>
+          <li>表示: テキスト付き画像を編集レイアウトとして見せる構成。</li>
+          <li>使う場面: 見出し・本文・ボタンをまとめてストーリー性を出したいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>メディア位置</td>
+<td>Select(left/right)</td>
+<td>画像/動画の左右配置。</td>
+</tr>
+            <tr>
+<td>メディア幅</td>
+<td>Select(narrow/medium/wide)</td>
+<td>メディア領域の横幅。</td>
+</tr>
+            <tr>
+<td>メディア高さ</td>
+<td>Select(auto/50svh/60svh/80svh/100svh)</td>
+<td>メディアの縦サイズ。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select(page-width/full-width)</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>メディア端まで拡張</td>
+<td>Checkbox</td>
+<td>page-width時にメディアを画面端まで伸ばす。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外側の余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>編集：ジャンボ文字</strong></p>
+        <ul>
+          <li>表示: ジャンボ文字を主役にしたテキスト付き画像レイアウト。</li>
+          <li>使う場面: コピーやタイトルを強く印象付けたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>メディア位置</td>
+<td>Select(left/right)</td>
+<td>画像/動画の左右配置。</td>
+</tr>
+            <tr>
+<td>メディア幅</td>
+<td>Select(narrow/medium/wide)</td>
+<td>メディア領域の横幅。</td>
+</tr>
+            <tr>
+<td>メディア高さ</td>
+<td>Select(auto/50svh/60svh/80svh/100svh)</td>
+<td>メディアの縦サイズ。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select(page-width/full-width)</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>メディア端まで拡張</td>
+<td>Checkbox</td>
+<td>page-width時にメディアを画面端まで伸ばす。</td>
+</tr>
+            <tr>
+<td>ジャンボ文字</td>
+<td>Text/Select</td>
+<td>テキスト/配置/行間/字間/文字ケースを設定。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外側の余白。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>ブログ記事</strong></p>
+        <ul>
+          <li>表示: ブログ記事をカードで一覧化。</li>
+          <li>レイアウト種別: カルーセル/グリッド/編集。</li>
+          <li>使う場面: ブランドストーリーや読み物コンテンツをホームに組み込みたいとき。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>ブログ</td>
+<td>Blog</td>
+<td>表示対象のブログを選択。</td>
+</tr>
+            <tr>
+<td>レイアウト</td>
+<td>Select(grid/carousel/editorial)</td>
+<td>グリッド/カルーセル/編集を切り替え。</td>
+</tr>
+            <tr>
+<td>投稿数</td>
+<td>Range(2-10)</td>
+<td>表示する記事数。</td>
+</tr>
+            <tr>
+<td>列数</td>
+<td>Range(1-8)</td>
+<td>グリッド/カルーセル時の列数。</td>
+</tr>
+            <tr>
+<td>モバイル列数</td>
+<td>Select(1/2)</td>
+<td>グリッド表示時のモバイル列数。</td>
+</tr>
+            <tr>
+<td>モバイルカルーセル</td>
+<td>Checkbox</td>
+<td>モバイルのみカルーセルにする。</td>
+</tr>
+            <tr>
+<td>モバイルカードサイズ</td>
+<td>Select(60cqw/44cqw)</td>
+<td>カルーセル時のモバイルカード幅。</td>
+</tr>
+            <tr>
+<td>列間隔/行間隔</td>
+<td>Range(px)</td>
+<td>グリッド/カルーセルのカード間余白。</td>
+</tr>
+            <tr>
+<td>ナビゲーション</td>
+<td>Select</td>
+<td>矢印/シェブロン/大型/非表示。</td>
+</tr>
+            <tr>
+<td>ナビ形状</td>
+<td>Select</td>
+<td>なし/円/角。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅/全幅。</td>
+</tr>
+            <tr>
+<td>カード間ギャップ</td>
+<td>Range(px)</td>
+<td>タイトルとカード群などの内側余白。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景・文字色セット。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外側の余白。</td>
 </tr>
           </tbody>
         </table>
@@ -1782,7 +2030,9 @@
         return false;
       }
     })();
-    const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
+    const slugSeparatorRegex = unicodePropsSupported
+      ? /[^\p{L}\p{N}]+/gu
+      : /[^A-Za-z0-9\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF\u3000-\u303F\uFF00-\uFFEF]+/g;
     const slugify = (str) => {
       return String(str || '')
         .trim()

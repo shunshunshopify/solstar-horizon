@@ -1,0 +1,666 @@
+<style>
+/* ===========================
+  Cream by Solstar Manual Page
+  - Sidebar: Sticky (Desktop only), Hidden on mobile
+  - Sidebar: 18px / padding-y 6px
+  - Sidebar: H2 + H3 only (H2 top, H3 indented)
+  - Sidebar: remove links for specific H2 titles
+  - Remove intro block (H1 + lead)
+  - H2 rename: 「まずはここから（基本操作）」→「基本操作」
+  - Remove content: 「セクション一覧（カテゴリ別ガイド）」
+  - H2: larger than H3
+  - H3: color #144E94
+  - Alternating background: NOT by H3, but by each “section” (P > STRONG blocks)
+  - Alternating background color: use #FFFFFF (no gray)
+  - Tables: provided style, no shadow
+  =========================== */
+
+/* Override theme's containing block properties that break sticky positioning */
+.shopify-section:has(.cream-manual),
+.shopify-section:has(.cream-manual) > *,
+.shopify-section:has(.cream-manual) > * > * {
+  position: static !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+  overflow: visible !important;
+  will-change: auto !important;
+}
+
+.cream-manual {
+  --bg: #0D0326;
+  --text: #FCFBF9;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+
+  --accent: #AB8C52;
+
+  /* Section block bg (alternate) */
+  --section-bg-a: #ffffff;
+  --section-bg-b: #ffffff;
+
+  /* Table vars */
+  --tbl-text: #111111;
+  --tbl-line: #e5e7eb;
+  --tbl-head-bg: #ececf0;
+  --tbl-body-bg: #ffffff;
+  --tbl-radius: 12px;
+
+  background: var(--bg);
+  color: var(--text);
+  padding: 44px 16px;
+}
+
+.cream-manual__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Layout */
+.cream-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* Sidebar */
+.cream-sidebar {
+  position: sticky !important;
+  top: 110px;
+  max-height: calc(100vh - 140px);
+}
+
+.cream-sidebar__nav {
+  background: var(--bg);
+  color: var(--text) !important;
+  overflow: visible;
+  padding: 10px 0;
+  min-height: 100px;
+}
+
+.cream-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--text) !important;
+}
+
+.cream-sidebar__item { 
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Consolidated sidebar link styles - override theme with light color on dark background */
+.cream-sidebar a,
+.cream-sidebar__nav a,
+.cream-sidebar__list a,
+.cream-sidebar__link,
+.cream-sidebar__link:hover,
+.cream-sidebar__link:focus,
+.cream-sidebar__link:active,
+.cream-sidebar__link:visited {
+  display: block !important;
+  padding: 6px 14px;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-decoration: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  text-shadow: none !important;
+  mix-blend-mode: normal !important;
+  position: relative !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hierarchy (indent only) */
+.cream-sidebar__link[data-level="2"] { font-weight: 900; }
+.cream-sidebar__link[data-level="3"] {
+  padding-left: 26px;
+  font-weight: 700;
+}
+
+/* Content */
+.cream-content {
+  min-width: 0;
+  text-align: left;
+}
+
+/* Keep sidebar text aligned even if parent is centered */
+.cream-sidebar { text-align: left; }
+
+/* Utility: opt-in centering for specific blocks */
+.cream-text-center { text-align: center !important; }
+
+.cream-content p {
+  margin: 0 0 14px;
+  line-height: 1.9;  
+  color: var(--tbl-text);
+}
+
+.cream-content ul,
+.cream-content ol {
+  margin: 0 0 14px 1.2em;
+  padding: 0;
+  line-height: 1.9;
+}
+
+.cream-content li { margin: 6px 0; }
+
+/* ✅ H2 larger */
+.cream-content h2 {
+  margin: 34px 0 12px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+/* ✅ H3 distinct + accent */
+.cream-content h3 {
+  margin: 22px 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ===== Section Blocks (P > STRONG) ===== */
+.cream-section-block {
+  color: var(--tbl-text);
+  padding: 18px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 12px 0 18px;
+  background: var(--section-bg-a);
+}
+
+.cream-section-block.is-alt {
+  background: var(--section-bg-b);
+}
+
+.cream-section-block.is-flat {
+  background: var(--bg);
+  border-color: var(--bg);
+  color: var(--text);
+}
+
+.cream-section-block.is-flat * {
+  color: var(--text);
+}
+
+.cream-section-block > :first-child { margin-top: 0; }
+.cream-section-block > :last-child { margin-bottom: 0; }
+
+/* ===== Table ===== */
+.solstar-table-wrap {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+  margin: 10px 0 16px;
+
+  /* ✅ デフォルトは横スクロール許可（PC/タブで崩れにくい） */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ “ページ全体が横に逃げる”体感を減らす */
+  touch-action: pan-y;
+
+  /* iOSで効きにくいこともあるが害はない */
+  overscroll-behavior: contain;
+}
+
+.solstar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--card);
+  color: #111111;
+}
+
+.solstar-table th,
+.solstar-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #111111;
+}
+
+.solstar-table tr:first-child th,
+.solstar-table tr:first-child td {
+  border-top: none;
+}
+
+.solstar-table th {
+  width: 34%;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(120, 120, 120, 0.14);
+}
+
+.solstar-table td {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ===== Table inner list ===== */
+.solstar-table-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.2em;
+  color: #111111;
+}
+
+.solstar-table-list li {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.solstar-table-list li:first-child {
+  margin-top: 0;
+}
+
+/* Anchor offset */
+.cream-anchor { scroll-margin-top: 120px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .cream-manual { padding: 28px 14px; }
+  .cream-layout { grid-template-columns: 1fr; }
+  .cream-sidebar { display: none; } /* ✅ Mobileでは非表示 */
+  .solstar-table { min-width: 420px; }
+}
+
+/* ✅ Mobile: 横スライド根絶（テーブルを画面にフィットさせる） */
+@media (max-width: 640px) {
+  .cream-anchor { scroll-margin-top: 88px; }
+
+  /* wrapは横スクロールさせない（= “スライドする”原因を断つ） */
+  .solstar-table-wrap {
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  .solstar-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+}
+
+</style>
+
+<section class="cream-manual">
+  <div class="cream-manual__inner">
+    <div class="cream-layout">
+      <!-- Sidebar (Desktop only) -->
+      <aside class="cream-sidebar" aria-label="Document Sidebar">
+        <nav class="cream-sidebar__nav" aria-label="H2/H3 Navigation">
+          <ul class="cream-sidebar__list"></ul>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <article class="cream-content">
+
+        <!-- ✅ Intro removed:
+          # Cream by Solstar 商品ページマニュアル
+          商品詳細ページを最短で整えるための実践ガイドです。ホームページ版と同じ構成で、商品テンプレートに特有のセクションだけを抜粋しています。
+        -->
+
+        <h2>基本操作</h2>
+        <ul>
+          <li>テンプレート切替: エディタ上部のプルダウンで「商品」を選択し、任意の商品をプレビュー対象に指定。</li>
+          <li>商品の切替: 右上の「商品を変更」で想定バリエーション数や在庫状態が近い商品を選び確認。</li>
+          <li>ブロック編集: 「商品情報」セクション内のブロック構造を入れ替えて、見出し→価格→バッジ→フォームの順番を調整。</li>
+          <li>下部セクション: 商品ページでも一般セクションを追加できますが、本マニュアルでは商品専用テンプレートに絞っています。</li>
+          <li>反映確認: PC/モバイル両方でビューを切替え、スティッキーATCやギャラリー比率を実機幅で確認。</li>
+        </ul>
+
+        <h2>セクション共通の見た目調整</h2>
+        <ul>
+          <li>ここを触る: 各セクション右側の「セクション設定」タブ、またはブロックごとの設定パネル。</li>
+          <li>よく使う項目: セクション幅、カラースキーム、上下余白、列間隔、ギャラリー比率、ブロック内パディング。</li>
+          <li>ヒント: 商品ページは余白を詰めすぎると縦長になるため、デスクトップは16-24pxのギャップ、モバイルは12px目安で揃えると読みやすくなります。</li>
+        </ul>
+
+        <h2>テンプレート</h2>
+        <ul>
+          <li>本ガイドで紹介するのは「商品詳細ページでのみ利用できるセクション」です。共通セクション（テキスト、メディア付きテキスト等）はホームページマニュアルを参照してください。</li>
+        </ul>
+
+        <h3>商品情報</h3>
+        <ul>
+          <li>目的: メディアギャラリーと購入エリアを並べ、商品説明からCTAまでを1セクションで完結させる。</li>
+          <li>含まれる機能: メディアギャラリー（グリッド/スライド）、タイトル・価格グループ、バッジ、タブ/アコーディオン説明、サイズチャートポップアップ、バリエーション&amp;スウォッチ、購入ボタン、アプリブロック。</li>
+          <li>使う場面: PDPのメインコンテンツとして常設。ギャラリー左右入替や詳細エリアのスティッキー化でレイアウトを調整。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅/全幅を選択。全幅にすると等分レイアウト時に左右いっぱいまで広がる。</td>
+</tr>
+            <tr>
+<td>メディア位置</td>
+<td>Select</td>
+<td>PCでメディアを左/右に配置。右を選ぶと商品の詳細を先に見せたい場合に有効。</td>
+</tr>
+            <tr>
+<td>カラムバランス</td>
+<td>Checkbox</td>
+<td>「列を同じ幅にする」「詳細幅を制限」でギャラリーと詳細を1:1やサイドバー幅に固定。</td>
+</tr>
+            <tr>
+<td>ギャップ</td>
+<td>Range(px)</td>
+<td>ギャラリーと詳細間の余白。16-32pxで視線誘導がしやすい。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景と文字色のセット。ヒーローと同一配色にすると世界観が揃う。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外周の余白。ヘッダー直下は上余白0にして詰めるケースが多い。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>ブロックのポイント</strong></p>
+        <ul>
+          <li>メディアギャラリー: グリッド/スライド、列数、サムネイル位置、アスペクト比、ズーム、動画ループ、サムネ幅、ビューポート内での拡張を選択可能。</li>
+          <li>商品詳細ブロック: 詳細列の幅やスティッキーON/OFF、枠線/背景メディア/角丸を調整。背景メディアを設定するとカード型の購入ボックスが作れる。</li>
+          <li>Variant picker: ボタン/ドロップダウン切替、スウォッチ有無、整列（左/中央）を設定。サイズが多い場合はボタンよりドロップダウン推奨。</li>
+          <li>Popup link: サイズチャートや配送ポリシーなどの静的ページをモーダルで開ける。リンク文言を商品カテゴリごとに変えておくと親切。</li>
+          <li>Tabs &amp; Accordion: 詳細説明をタブ/折りたたみで整理。タブは最大5項目、アコーディオンはアイコンと開閉状態を設定可。長文は「続きを読む」を併用して折り返し。</li>
+          <li>Buy buttons: 数量欄、ギフトカード入力、Shop Payボタンなどを並べ替え可能。pickup availabilityをONにすると店舗受取情報が表示される。</li>
+        </ul>
+
+        <p><strong>Tips</strong></p>
+        <ul>
+          <li>ギャラリーをグリッド表示にする場合は「第一画像を拡大」をONにすると1枚目だけ大きく見せられる。</li>
+          <li>バリエーション画像が多い商品は「バリエーション画像を隠す」をOFFにしておくと切替時に別画像が表示される。</li>
+          <li>Sticky detailsはPCのみ有効。ヒーローの高さと重ならないようヘッダー高さ分のオフセットが自動計算される。</li>
+        </ul>
+
+        <h3>追従カート（Sticky add to cart）</h3>
+        <ul>
+          <li>目的: スクロールで購入フォームが画面外に出たあとも、画面下部からバリエーション選択と購入ボタンを常時表示。</li>
+          <li>含まれる機能: 商品サムネイル/タイトル/価格、ドロップダウン式バリエーション選択、数量調整、Add to Cartボタン、モバイル専用モード。</li>
+          <li>使う場面: コンテンツ量が多いPDPやモバイルでのスクロール距離が長い場合にCVRを維持。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>セクション有効化</td>
+<td>Checkbox</td>
+<td>商品ページかつ在庫あり時のみ表示。構築中は無効化してスクロール挙動を個別確認。</td>
+</tr>
+            <tr>
+<td>モバイルのみ</td>
+<td>Checkbox</td>
+<td>デスクトップを除外する場合に使用。</td>
+</tr>
+            <tr>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>バー全体の背景/文字色。透過はカスタムCSSで制御。</td>
+</tr>
+            <tr>
+<td>バリエーション/数量/画像表示</td>
+<td>Checkbox</td>
+<td>それぞれの表示可否を切替。バリエーションOFF時は現在選択されているSKUをそのまま使用。</td>
+</tr>
+            <tr>
+<td>上下パディング</td>
+<td>Range(rem)</td>
+<td>バー内部の縦余白。モバイルで0.5rem、デスクトップで1rem程度が推奨。</td>
+</tr>
+            <tr>
+<td>注意書き</td>
+<td>Paragraph</td>
+<td>フッター固定メニュー使用時のクリアランスに関するリマインダー。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>Tips</strong></p>
+        <ul>
+          <li>Bottom Menuと併用するときは、セクションの注意書きどおりバーの位置が自動で調整されるかを実機で検証。</li>
+          <li>バリエーション項目が多い場合、スティッキーATCでは自動でドロップダウン化されるため命名を短く整えておくとUIがすっきりする。</li>
+        </ul>
+
+        <h2>連携・注意事項</h2>
+        <ul>
+          <li>Product RecommendationsはSearch &amp; Discoveryアプリの設定を参照します。Complementaryタイプを使う場合はアプリ側でペアリングを作っておく必要があります。</li>
+          <li>Popup LinkやTabsに外部アプリブロックを挿入する場合、表示崩れが起きやすいので1ブロックずつ追加して確認しましょう。</li>
+        </ul>
+
+        <h2>Tips（運用のコツ）</h2>
+        <ul>
+          <li>画像: メインギャラリーは縦長(3:4)×4枚をベースにし、動画は最後尾に置くとカルーセル操作がシンプル。</li>
+          <li>コピーワーク: タブの見出しは名詞+一語（例: 素材、ケア）で揃えると国際対応しやすい。</li>
+          <li>変数確認: 価格表示が税込/税別で揺れないよう、priceブロックの「税込表記」設定を本番前に再チェック。</li>
+          <li>パフォーマンス: メディアを16MB以下に抑え、ズームON時は2048px以上の画像をアップロード。</li>
+        </ul>
+
+        <h2>公開前チェックリスト</h2>
+        <ul>
+          <li>バリエーション切替: 画像・価格・在庫・SKU表示が全組み合わせで正しく更新されるか。</li>
+          <li>サイズチャート: Popup Linkが正しいページを参照しているか、翻訳済みか。</li>
+          <li>タブ＆アコーディオン: 表示/非表示の文字数がバラつかないか、折返し高さを調整したか。</li>
+          <li>スティッキーATC: 在庫切れ状態やログアウト状態でも期待通りの表示になるか。</li>
+          <li>レコメンド: Search &amp; Discovery設定と一致するか、在庫切れ商品が混ざっていないか。</li>
+        </ul>
+
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const manuals = Array.from(document.querySelectorAll('.cream-manual'));
+  if (!manuals.length) return;
+
+  manuals.forEach((manual) => {
+    const content = manual.querySelector('.cream-content');
+    const list = manual.querySelector('.cream-sidebar__list');
+    if (!content || !list) return;
+
+    // ===== 1) Tables: add class + wrap =====
+    const tables = Array.from(content.querySelectorAll('table'));
+    tables.forEach((tbl) => {
+      if (!tbl.classList.contains('solstar-table')) tbl.classList.add('solstar-table');
+
+      const parent = tbl.parentElement;
+      const alreadyWrapped = parent && parent.classList && parent.classList.contains('solstar-table-wrap');
+      if (!alreadyWrapped) {
+        const wrap = document.createElement('div');
+        wrap.className = 'solstar-table-wrap';
+        tbl.parentNode.insertBefore(wrap, tbl);
+        wrap.appendChild(tbl);
+      }
+    });
+
+    // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
+    const isStrongSectionTitleP = (p) => {
+      if (!p || p.tagName !== 'P') return false;
+      if (p.children.length !== 1) return false;
+      const child = p.firstElementChild;
+      if (!child || child.tagName !== 'STRONG') return false;
+      // Ensure p contains only the strong text (no extra)
+      const plain = (p.textContent || '').trim();
+      const strongText = (child.textContent || '').trim();
+      return plain === strongText && strongText.length > 0;
+    };
+
+    const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
+
+    const flatTitles = new Set(['ブロックのポイント', 'Tips']);
+    let alt = false;
+    strongTitlePs.forEach((p) => {
+      // Skip if already wrapped
+      if (p.closest('.cream-section-block')) return;
+
+      const block = document.createElement('section');
+      const titleText = (p.textContent || '').trim();
+      block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
+      if (flatTitles.has(titleText)) block.classList.add('is-flat');
+      alt = !alt;
+
+      const parent = p.parentNode;
+      parent.insertBefore(block, p);
+
+      let node = p;
+      while (node) {
+        const next = node.nextSibling;
+        block.appendChild(node);
+
+        if (!next) break;
+
+        if (next.nodeType === 1) {
+          const tag = next.tagName.toLowerCase();
+          // Stop at next heading or next strong-section title
+          if (tag === 'h2' || tag === 'h3') break;
+          if (tag === 'p' && isStrongSectionTitleP(next)) break;
+        }
+        node = next;
+      }
+    });
+
+    // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
+    const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
+      '基本操作',
+      'セクション共通の見た目調整',
+      '連携・注意事項',
+      'Tips（運用のコツ）',
+      '公開前チェックリスト',
+      'セクション一覧（カテゴリ別ガイド）'
+    ]);
+
+    const used = new Set();
+    const unicodePropsSupported = (() => {
+      try {
+        new RegExp('\\p{L}', 'u');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    })();
+    const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
+    const slugify = (str) => {
+      return String(str || '')
+        .trim()
+        .toLowerCase()
+        .replace(slugSeparatorRegex, '-')
+        .replace(/(^-+|-+$)/g, '')
+        .slice(0, 80) || 'section';
+    };
+    const uniqueId = (base) => {
+      let id = base;
+      let i = 2;
+      while (used.has(id)) id = `${base}-${i++}`;
+      used.add(id);
+      return id;
+    };
+
+    const headings = Array.from(content.querySelectorAll('h2, h3'));
+    list.innerHTML = '';
+
+    let currentH2Included = false;
+
+    headings.forEach((hd) => {
+      const tag = hd.tagName.toLowerCase();
+      const level = tag === 'h2' ? 2 : 3;
+      const text = (hd.textContent || '').trim();
+      if (!text) return;
+
+      if (!hd.id) {
+        hd.id = uniqueId(slugify(text));
+      } else {
+        used.add(hd.id);
+      }
+      hd.classList.add('cream-anchor');
+
+      if (level === 2) {
+        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(text);
+        if (!currentH2Included) return;
+      } else {
+        if (!currentH2Included) return;
+      }
+
+      const li = document.createElement('li');
+      li.className = 'cream-sidebar__item';
+
+      const a = document.createElement('a');
+      a.className = 'cream-sidebar__link';
+      a.href = `#${hd.id}`;
+      a.textContent = text === '追従カート（Sticky add to cart）' ? '追従カート' : text;
+      a.setAttribute('data-level', String(level));
+
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    // Smooth scroll for manual-only sidebar links
+    list.addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link || !link.hash) return;
+      const target = content.querySelector(link.hash);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', link.hash);
+    });
+  });
+})();
+</script>

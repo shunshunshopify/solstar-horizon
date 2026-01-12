@@ -504,9 +504,10 @@
         <ul>
           <li>表示: 複数コレクションをグリッド/カルーセルで一覧化。</li>
           <li>使う場面: ギフト/価格帯/テーマ別など複数カテゴリを早見で並べたいとき。</li>
+          <li>レイアウト種別: グリッド/カルーセル/Bento/エディトリアル。</li>
         </ul>
 
-        <p>設定詳細</p>
+        <p>設定詳細（共通）</p>
         <table>
           <thead>
             <tr>
@@ -517,14 +518,24 @@
           </thead>
           <tbody>
             <tr>
-<td>コレクション</td>
+<td>コレクションリスト</td>
 <td>Collection list</td>
-<td>複数のコレクションを選択。</td>
+<td>表示したいコレクションを複数選択。空の場合はレイアウト種別別の最大数までプレースホルダーが生成。</td>
 </tr>
             <tr>
-<td>レイアウト</td>
-<td>Select(grid/carousel)</td>
-<td>表示形式。</td>
+<td>レイアウトタイプ</td>
+<td>Select(grid/carousel/bento/editorial)</td>
+<td>grid / carousel / bento / editorial。選択内容に応じて後続オプションが変化。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>page-width / full-width。Hero直下はpage、連続するコレクション群はfullが目安。</td>
+</tr>
+            <tr>
+<td>セクションギャップ</td>
+<td>Range(px)</td>
+<td>セクション内上下の要素間余白（ヘッダーとカード群の距離）。</td>
 </tr>
             <tr>
 <td>列数/モバイル列/間隔</td>
@@ -542,12 +553,46 @@
 <td>最大表示件数。</td>
 </tr>
             <tr>
-<td>カラースキーム/余白</td>
-<td>Color scheme/Range</td>
-<td>配色と上下余白。</td>
+<td>カラースキーム</td>
+<td>Color scheme</td>
+<td>背景と文字色セット。ブロック内のテキスト/ボタンも継承。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外周の余白。前後に同系色セクションがある場合は上下16px程度に詰めると一体感が出る。</td>
 </tr>
           </tbody>
         </table>
+
+        <p>補足ポイント</p>
+        <ul>
+          <li><strong>基本操作</strong>: テーマエディタで任意のテンプレートに「コレクションリスト」を追加。Heroやコピーの直下に置くと効果的。</li>
+          <li><strong>基本操作</strong>: 表示したいコレクションを複数選択。未選択の場合はレイアウト種別ごとの上限数でプレースホルダーが生成。</li>
+          <li><strong>基本操作</strong>: grid / carousel / bento / editorial を切り替えながらPC/モバイルプレビューを確認。</li>
+          <li><strong>基本操作</strong>: 各カードは該当コレクションURLへ遷移。URL変更はコレクション側で一括反映。</li>
+          <li><strong>共通設定</strong>: 右サイドバー「セクション設定」でカード数・レイアウト・ギャップ・セクション幅・カラースキームをまとめて調整。</li>
+          <li><strong>共通設定</strong>: layout_type、columns、carousel_on_mobile、section_width、gap、上下余白をよく使う。</li>
+          <li><strong>共通設定</strong>: section_widthをpage-widthにすると他セクションと左右余白が揃いやすい。全幅の場合はブロック側で余白を追加すると窮屈さを防げる。</li>
+          <li><strong>レイアウト別</strong>: Gridはcolumns（1-8列）、mobile_columns（1or2列）、columns_gap（横）、rows_gap（縦）、carousel_on_mobile（モバイルだけスライダー化）。</li>
+          <li><strong>レイアウト別</strong>: Carouselはcolumnsがスライド内カード数。mobile_card_sizeで60cqw/44cqw、icons_styleとicons_shapeでナビ設定。</li>
+          <li><strong>レイアウト別</strong>: Bentoはbento_gapでタイル間余白を管理。最大4枚のコレクションを不均等グリッドで配置。</li>
+          <li><strong>レイアウト別</strong>: Editorialはmax_collections（1-16）を手動指定し、余白広めのカードを段組表示。</li>
+          <li><strong>ブロック運用</strong>: テキスト/画像/アイコン/ボタン/グループ/動画/区切り等を追加可能。セクション冒頭にヘッダーを作ると管理しやすい。</li>
+          <li><strong>ブロック運用</strong>: ボタンブロックで「すべての商品を見る」リンクを設置。section_widthがpage-widthならブロック幅もfillで左右整列。</li>
+          <li><strong>Tips</strong>: カルーセルのcolumnsをPC4/モバイル1にし、carousel_on_mobileをOFFにするとPCはスライダー、モバイルは横スクロールカードで視認性が高い。</li>
+          <li><strong>Tips</strong>: Bentoは最大4枚。配置するコレクション画像は縦横比を揃えると連続性が出る。</li>
+          <li><strong>Tips</strong>: Editorialはコレクション未選択でもmax_collections分のプレースホルダーで骨組み確認が可能。</li>
+          <li><strong>Tips</strong>: 代表画像を単色に差し替えるか画像内にテキストを入れてタイル風にすると、カラー背景だけのカードが作れる。</li>
+          <li><strong>注意事項</strong>: 表示順は「コレクションリスト」で選択した順番に従い、管理画面のコレクションソートは影響しない。</li>
+          <li><strong>注意事項</strong>: コレクションに画像が未設定の場合はプレースホルダーが表示されるため、公開前に代表画像を登録。</li>
+          <li><strong>注意事項</strong>: カルーセルのナビアイコンはテーマ全体のIconフォントを利用。独自SVGはsnippets/resource-list-carousel.liquid側のカスタマイズが必要。</li>
+          <li><strong>公開前</strong>: 非公開コレクション混在や画像解像度の不足がないか確認。</li>
+          <li><strong>公開前</strong>: Grid/Carousel/Bento/Editorialの切替で余白や行数が崩れないか確認。</li>
+          <li><strong>公開前</strong>: モバイルで矢印やドットが押しやすいかプレビューで確認。</li>
+          <li><strong>公開前</strong>: 見出し・説明・ボタンのフォント設定やリンク先を再確認。</li>
+          <li><strong>公開前</strong>: 翻訳表示とコレクション画像の代替テキストを確認。</li>
+        </ul>
 
         <p><strong>コレクションリンク</strong></p>
         <ul>

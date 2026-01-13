@@ -31,7 +31,6 @@
 .cream-manual {
   --bg: #0D0326;
   --text: #FCFBF9;
-  --muted: #6b7280;
   --line: #e5e7eb;
   --card: #ffffff;
 
@@ -43,10 +42,6 @@
 
   /* Table vars */
   --tbl-text: #111111;
-  --tbl-line: #e5e7eb;
-  --tbl-head-bg: #ececf0;
-  --tbl-body-bg: #ffffff;
-  --tbl-radius: 12px;
 
   background: var(--bg);
   color: var(--text);
@@ -213,17 +208,13 @@
 /* Keep sidebar text aligned even if parent is centered */
 .cream-sidebar { text-align: left; }
 
-/* Utility: opt-in centering for specific blocks */
-.cream-text-center { text-align: center !important; }
-
 .cream-content p {
   margin: 0 0 14px;
   line-height: 1.9;  
   color: var(--tbl-text);
 }
 
-.cream-content ul,
-.cream-content ol {
+.cream-content ul {
   margin: 0 0 14px 1.2em;
   padding: 0;
   line-height: 1.9;
@@ -325,26 +316,6 @@
   line-height: 1.7;
 }
 
-/* ===== Table inner list ===== */
-.solstar-table-list {
-  list-style: disc;
-  margin: 0;
-  padding-left: 1.2em;
-  color: #111111;
-}
-
-.solstar-table-list li {
-  margin-top: 6px;
-  font-size: 14px;
-  line-height: 1.7;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.solstar-table-list li:first-child {
-  margin-top: 0;
-}
 
 /* Anchor offset */
 .cream-anchor { scroll-margin-top: 120px; }

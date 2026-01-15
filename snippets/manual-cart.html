@@ -1,0 +1,721 @@
+<style>
+/* ===========================
+  Cream by Solstar Manual Page
+  - Sidebar: Sticky (Desktop only), Hidden on mobile
+  - Sidebar: 18px / padding-y 6px
+  - Sidebar: H2 + H3 only (H2 top, H3 indented)
+  - Sidebar: remove links for specific H2 titles
+  - Remove intro block (H1 + lead)
+  - H2 rename: 「まずはここから（基本操作）」→「基本操作」
+  - Remove content: 「セクション一覧（カテゴリ別ガイド）」
+  - H2: larger than H3
+  - H3: color #144E94
+  - Alternating background: NOT by H3, but by each “section” (P > STRONG blocks)
+  - Alternating background color: use #FFFFFF (no gray)
+  - Tables: provided style, no shadow
+  =========================== */
+
+/* Override theme's containing block properties that break sticky positioning */
+.shopify-section:has(.cream-manual),
+.shopify-section:has(.cream-manual) > *,
+.shopify-section:has(.cream-manual) > * > * {
+  position: static !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+  overflow: visible !important;
+  will-change: auto !important;
+}
+
+.cream-manual {
+  --bg: #0D0326;
+  --text: #FCFBF9;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+
+  --accent: #AB8C52;
+
+  /* Section block bg (alternate) */
+  --section-bg-a: #ffffff;
+  --section-bg-b: #ffffff;
+
+  /* Table vars */
+  --tbl-text: #111111;
+  --tbl-line: #e5e7eb;
+  --tbl-head-bg: #ececf0;
+  --tbl-body-bg: #ffffff;
+  --tbl-radius: 12px;
+
+  background: var(--bg);
+  color: var(--text);
+  padding: 44px 16px;
+}
+
+.cream-manual__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Layout */
+.cream-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* Sidebar */
+.cream-sidebar {
+  position: sticky !important;
+  top: 110px;
+  max-height: calc(100vh - 140px);
+}
+
+.cream-sidebar__nav {
+  background: var(--bg);
+  color: var(--text) !important;
+  overflow: visible;
+  padding: 10px 0;
+  min-height: 100px;
+}
+
+.cream-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--text) !important;
+}
+
+.cream-sidebar__item { 
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Consolidated sidebar link styles - override theme with light color on dark background */
+.cream-sidebar a,
+.cream-sidebar__nav a,
+.cream-sidebar__list a,
+.cream-sidebar__link,
+.cream-sidebar__link:hover,
+.cream-sidebar__link:focus,
+.cream-sidebar__link:active,
+.cream-sidebar__link:visited {
+  display: block !important;
+  padding: 6px 14px;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-decoration: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  text-shadow: none !important;
+  mix-blend-mode: normal !important;
+  position: relative !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hierarchy (indent only) */
+.cream-sidebar__link[data-level="2"] { font-weight: 900; }
+.cream-sidebar__link[data-level="3"] {
+  padding-left: 26px;
+  font-weight: 700;
+}
+
+/* Content */
+.cream-content {
+  min-width: 0;
+  text-align: left;
+}
+
+/* Keep sidebar text aligned even if parent is centered */
+.cream-sidebar { text-align: left; }
+
+/* Utility: opt-in centering for specific blocks */
+.cream-text-center { text-align: center !important; }
+
+.cream-content p {
+  margin: 0 0 14px;
+  line-height: 1.9;  
+  color: var(--text);
+}
+
+.cream-content ul,
+.cream-content ol {
+  margin: 0 0 14px 1.2em;
+  padding: 0;
+  line-height: 1.9;
+}
+
+.cream-content li { margin: 6px 0; }
+
+/* ✅ H2 larger */
+.cream-content h2 {
+  margin: 16px 0 12px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+/* ✅ H3 distinct + accent */
+.cream-content h3 {
+  margin: 22px 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ===== Section Blocks (P > STRONG) ===== */
+.cream-section-block {
+  color: var(--tbl-text);
+  padding: 18px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 12px 0 18px;
+  background: var(--section-bg-a);
+}
+
+.cream-section-block.is-alt {
+  background: var(--section-bg-b);
+}
+
+.cream-section-block.is-flat {
+  background: var(--bg);
+  border-color: var(--bg);
+  color: var(--text);
+}
+
+.cream-section-block.is-flat * {
+  color: var(--text);
+}
+
+.cream-section-block p,
+.cream-section-block li {
+  color: var(--tbl-text);
+}
+
+.cream-section-block > :first-child { margin-top: 0; }
+.cream-section-block > :last-child { margin-bottom: 0; }
+
+/* ===== Table ===== */
+.solstar-table-wrap {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+  margin: 10px 0 16px;
+
+  /* ✅ デフォルトは横スクロール許可（PC/タブで崩れにくい） */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ “ページ全体が横に逃げる”体感を減らす */
+  touch-action: pan-y;
+
+  /* iOSで効きにくいこともあるが害はない */
+  overscroll-behavior: contain;
+}
+
+.solstar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--card);
+  color: #111111;
+}
+
+.solstar-table th,
+.solstar-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #111111;
+}
+
+.solstar-table tr:first-child th,
+.solstar-table tr:first-child td {
+  border-top: none;
+}
+
+.solstar-table th {
+  width: 34%;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(120, 120, 120, 0.14);
+}
+
+.solstar-table td {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ===== Table inner list ===== */
+.solstar-table-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.2em;
+  color: #111111;
+}
+
+.solstar-table-list li {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.solstar-table-list li:first-child {
+  margin-top: 0;
+}
+
+/* Anchor offset */
+.cream-anchor { scroll-margin-top: 120px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .cream-manual { padding: 28px 14px; }
+  .cream-layout { grid-template-columns: 1fr; }
+  .cream-sidebar { display: none; } /* ✅ Mobileでは非表示 */
+  .solstar-table { min-width: 420px; }
+}
+
+/* ✅ Mobile: 横スライド根絶（テーブルを画面にフィットさせる） */
+@media (max-width: 640px) {
+  .cream-anchor { scroll-margin-top: 88px; }
+
+  /* wrapは横スクロールさせない（= “スライドする”原因を断つ） */
+  .solstar-table-wrap {
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  .solstar-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+}
+
+</style>
+
+<section class="cream-manual">
+  <div class="cream-manual__inner">
+    <div class="cream-layout">
+      <!-- Sidebar (Desktop only) -->
+      <aside class="cream-sidebar" aria-label="Document Sidebar">
+        <nav class="cream-sidebar__nav" aria-label="H2/H3 Navigation">
+          <ul class="cream-sidebar__list"></ul>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <article class="cream-content">
+
+        <!-- ✅ Intro removed:
+          # Cream by Solstar カートページマニュアル
+          オンラインストアの「カート」テンプレートで利用する専用セクションとブロックの実装ガイドです。画面横から出るカートの挙動は別のセクションで管理されるため、本書ではページ型カートに特化しています。
+        -->
+
+        <h2>基本操作</h2>
+        <ul>
+          <li>テンプレート切替: テーマエディタ上部で「カート」を選択。プレビューがカートページに切り替わるのを確認。</li>
+          <li>テストデータ: テスト購入用の商品をカートに追加してからエディタを開くと、商品行やサマリーが表示され設定が分かりやすい。</li>
+          <li>ブロック整理: カートのメインセクション内でタイトル/商品リスト/サマリーの順序を固定しつつ、追加ブロック（テキストや動画など）は「続きのブロック」領域に追加して告知を差し込む。</li>
+          <li>空カート確認: カートが空の状態でプレビューすると、タイトルのみ中央寄せで表示され、追加ブロックは下部にまとまります。空状態の文言は翻訳ファイルで管理。</li>
+        </ul>
+
+        <h2>セクション共通の見た目調整</h2>
+        <ul>
+          <li>ここを触る: <code>main-cart</code>セクションの設定パネル。</li>
+          <li>主な項目: セクション幅（ページ幅/全幅）、配色、上下余白。</li>
+          <li>ヒント: 配色をサマリーと同じものにすると余白のつなぎ目が自然になります。ヒーローの直後に配置する場合は上余白を小さめに調整してください。</li>
+        </ul>
+
+        <h2>テンプレート</h2>
+
+        <h3>カート</h3>
+        <ul>
+          <li>目的: カートタイトル、商品リスト、注文サマリー、任意の追加ブロックを1つのセクションで管理。</li>
+          <li>含まれるブロック: タイトル、商品リスト、サマリー（固定）＋テキスト/画像/ボタン/グループ/アプリ等の追加ブロック。</li>
+          <li>使う場面: 既定のカートページ。追加ブロックにクーポン説明、FAQ、配送案内、決済ロゴ等を配置してコンバージョンを補強。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td>ページ幅はコンテンツを中央に収め、全幅は背景を端まで広げる。サマリーの固定幅を保ちたい場合はページ幅がおすすめ。</td>
+</tr>
+            <tr>
+<td>配色</td>
+<td>配色</td>
+<td>背景・テキスト・リンク色。サマリーブロックで別配色を使う場合でも、外枠色はこちらが基準。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外周。フッター直上では下余白を少し広めに取ると呼吸感が出る。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>タイトル</strong></p>
+        <p>このブロックは、カートページの「見出しになる文字」を決める場所です。空のときにも表示されるので、短く分かりやすい言葉にすると安心です。</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>タイトル</td>
+<td>Inline richtext</td>
+<td>タイトルの文言を設定。翻訳キーも使用可能。</td>
+</tr>
+            <tr>
+<td>点数表示</td>
+<td>Checkbox</td>
+<td>商品点数をタイトル横のバッジで表示するかを切り替える。</td>
+</tr>
+            <tr>
+<td>フォントプリセット</td>
+<td>Select</td>
+<td>タイトルの文字スタイルを選択。</td>
+</tr>
+            <tr>
+<td>テキストの寄せ</td>
+<td>Text alignment</td>
+<td>タイトルの左右寄せを設定。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>カート内の商品</strong></p>
+        <p>このブロックは、カートに入った商品の「一覧の見え方」を整える場所です。商品名が長くても見やすいように、余白や画像の大きさを調整します。</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>ギャップ</td>
+<td>Range(px)</td>
+<td>商品行の上下余白。デフォルト24px。</td>
+</tr>
+            <tr>
+<td>画像比率</td>
+<td>Select</td>
+<td>縦長・正方形・元画像に合わせるのいずれかで、商品画像の比率を統一。</td>
+</tr>
+            <tr>
+<td>罫線（dividers）</td>
+<td>Checkbox</td>
+<td>各行の境界線の有無。ONでリスト感、OFFでカード風に。</td>
+</tr>
+            <tr>
+<td>ベンダー表示</td>
+<td>Checkbox</td>
+<td>Vendor名をサブテキストに出すかを切替。</td>
+</tr>
+            <tr>
+<td>上余白</td>
+<td>Range(px)</td>
+<td>商品リスト上側の余白を調整。</td>
+</tr>
+            <tr>
+<td>下余白</td>
+<td>Range(px)</td>
+<td>商品リスト下側の余白を調整。</td>
+</tr>
+            <tr>
+<td>左余白</td>
+<td>Range(px)</td>
+<td>商品リスト左側の余白を調整。</td>
+</tr>
+            <tr>
+<td>右余白</td>
+<td>Range(px)</td>
+<td>商品リスト右側の余白を調整。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>サマリー</strong></p>
+        <p>このブロックは、合計金額や購入ボタンがまとまる「お会計エリア」です。目立ちすぎないけれど見落とされないように、色や枠の印象を整えます。</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>画面の端まで拡張する</td>
+<td>Checkbox</td>
+<td>ONでサマリーの背景ブロックをページ幅まで伸ばし、右カラムを大きく見せる。</td>
+</tr>
+            <tr>
+<td>配色を継承する</td>
+<td>Checkbox</td>
+<td>ONでセクションの配色を引き継ぐ。OFFのときは配色を個別指定。</td>
+</tr>
+            <tr>
+<td>配色</td>
+<td>配色</td>
+<td>サマリーの背景/文字色を設定。配色の継承をOFFにしたときのみ変更できる。</td>
+</tr>
+            <tr>
+<td>枠線スタイル</td>
+<td>Select</td>
+<td>枠線の有無とスタイルを指定。</td>
+</tr>
+            <tr>
+<td>枠線の太さ</td>
+<td>Range(px)</td>
+<td>枠線の太さ。枠線を表示する場合に有効。</td>
+</tr>
+            <tr>
+<td>枠線の不透明度</td>
+<td>Range(%)</td>
+<td>枠線の透明度。枠線を表示する場合に有効。</td>
+</tr>
+            <tr>
+<td>角丸</td>
+<td>Range(px)</td>
+<td>カード型にしたい場合に指定。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <h2>連携・注意事項</h2>
+        <ul>
+          <li>カートの入力項目（メモ欄・クーポン・分割払い表示など）は「テーマ設定 &gt; カート」で集中管理。ページマニュアルと合わせて確認。</li>
+          <li>サマリーブロックの色や角丸は、ギフトラップやアプリブロックが追加された場合にも適用されます。背景に半透明を使う場合、サマリー拡張をONにして高さを確保してください。</li>
+          <li>Cartページとドロワーカートは同じJavaScriptロジックを共有します。片方だけをCSSで非表示にするより、テーマ設定で挙動を切り替える方が安全です。</li>
+        </ul>
+
+        <h2>Tips（運用のコツ）</h2>
+        <ul>
+          <li>カラーリング: サマリーを淡色、商品リストを白背景にすると、支払い部分への視線が自然に誘導されます。</li>
+          <li>信頼性強化: 追加ブロックに「配送目安」「返品ポリシー」「セキュリティバッジ」を入れると離脱抑止に効果的。</li>
+          <li>クーポン表示: クーポンコードを案内する場合はテキストブロックをサマリー直下に設置し、テキストの折り返し設定を有効にして崩れを防ぐ。</li>
+          <li>空状態CTA: 空カート時に誘導したいページ（例: 新着コレクション）へのボタンを追加ブロックで設置しておくと回遊が途切れません。</li>
+        </ul>
+
+        <h2>公開前チェックリスト</h2>
+        <ul>
+          <li>配色: タイトル/商品行/サマリーで文字色・リンク色が十分なコントラストか。</li>
+          <li>メモ/割引欄: テーマ設定でONにした項目が実際に表示され、フォーム送信時に正しく渡るかテスト。</li>
+          <li>モバイル: 商品行のボタンや数量調整がタップしやすいか、サマリーが縦積みで読みやすいかを確認。</li>
+          <li>空カート: 翻訳文言やCTAが想定どおり表示されるか。余白が過度に大きくなっていないか。</li>
+          <li>レコメンド: <code>product-list</code>セクションを有効化した場合、在庫切れ/非公開商品が含まれていないか、カルーセルが滑らかに動くか。</li>
+        </ul>
+
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const manuals = Array.from(document.querySelectorAll('.cream-manual'));
+  if (!manuals.length) return;
+
+  manuals.forEach((manual) => {
+    const content = manual.querySelector('.cream-content');
+    const list = manual.querySelector('.cream-sidebar__list');
+    if (!content || !list) return;
+
+    // ===== 1) Tables: add class + wrap =====
+    const tables = Array.from(content.querySelectorAll('table'));
+    tables.forEach((tbl) => {
+      if (!tbl.classList.contains('solstar-table')) tbl.classList.add('solstar-table');
+
+      const parent = tbl.parentElement;
+      const alreadyWrapped = parent && parent.classList && parent.classList.contains('solstar-table-wrap');
+      if (!alreadyWrapped) {
+        const wrap = document.createElement('div');
+        wrap.className = 'solstar-table-wrap';
+        tbl.parentNode.insertBefore(wrap, tbl);
+        wrap.appendChild(tbl);
+      }
+    });
+
+    // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
+    const isStrongSectionTitleP = (p) => {
+      if (!p || p.tagName !== 'P') return false;
+      if (p.children.length !== 1) return false;
+      const child = p.firstElementChild;
+      if (!child || child.tagName !== 'STRONG') return false;
+      // Ensure p contains only the strong text (no extra)
+      const plain = (p.textContent || '').trim();
+      const strongText = (child.textContent || '').trim();
+      return plain === strongText && strongText.length > 0;
+    };
+
+    const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
+
+    const flatTitles = new Set(['ブロックのポイント', 'Tips']);
+    let alt = false;
+    strongTitlePs.forEach((p) => {
+      // Skip if already wrapped
+      if (p.closest('.cream-section-block')) return;
+
+      const block = document.createElement('section');
+      const titleText = (p.textContent || '').trim();
+      block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
+      if (flatTitles.has(titleText)) block.classList.add('is-flat');
+      alt = !alt;
+
+      const parent = p.parentNode;
+      parent.insertBefore(block, p);
+
+      let node = p;
+      while (node) {
+        const next = node.nextSibling;
+        block.appendChild(node);
+
+        if (!next) break;
+
+        if (next.nodeType === 1) {
+          const tag = next.tagName.toLowerCase();
+          // Stop at next heading or next strong-section title
+          if (tag === 'h2' || tag === 'h3') break;
+          if (tag === 'p' && isStrongSectionTitleP(next)) break;
+        }
+        node = next;
+      }
+    });
+
+    // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
+    const normalizeHeadingText = (value) => String(value || '').replace(/\s+/g, '').trim();
+    const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
+      '基本操作',
+      'セクション共通の見た目調整',
+      '連携・注意事項',
+      'Tips',
+      'Tips（運用のコツ）',
+      '公開前チェックリスト',
+      'セクション一覧（カテゴリ別ガイド）'
+    ].map(normalizeHeadingText));
+
+    const used = new Set();
+    const unicodePropsSupported = (() => {
+      try {
+        new RegExp('\\p{L}', 'u');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    })();
+    const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
+    const slugify = (str) => {
+      return String(str || '')
+        .trim()
+        .toLowerCase()
+        .replace(slugSeparatorRegex, '-')
+        .replace(/(^-+|-+$)/g, '')
+        .slice(0, 80) || 'section';
+    };
+    const uniqueId = (base) => {
+      let id = base;
+      let i = 2;
+      while (used.has(id)) id = `${base}-${i++}`;
+      used.add(id);
+      return id;
+    };
+
+    const headings = Array.from(content.querySelectorAll('h2, h3'));
+    list.innerHTML = '';
+
+    let currentH2Included = false;
+
+    headings.forEach((hd) => {
+      const tag = hd.tagName.toLowerCase();
+      const level = tag === 'h2' ? 2 : 3;
+      const text = (hd.textContent || '').trim();
+      const normalizedText = normalizeHeadingText(text);
+      if (!text) return;
+      if (normalizedText.toLowerCase().startsWith('tips')) return;
+
+      if (!hd.id) {
+        hd.id = uniqueId(slugify(text));
+      } else {
+        used.add(hd.id);
+      }
+      hd.classList.add('cream-anchor');
+
+      if (level === 2) {
+        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(normalizedText);
+        if (!currentH2Included) return;
+      } else {
+        if (!currentH2Included) return;
+      }
+
+      const li = document.createElement('li');
+      li.className = 'cream-sidebar__item';
+
+      const a = document.createElement('a');
+      a.className = 'cream-sidebar__link';
+      a.href = `#${hd.id}`;
+      a.textContent = text;
+      a.setAttribute('data-level', String(level));
+
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    // Smooth scroll for manual-only sidebar links
+    list.addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link || !link.hash) return;
+      const target = content.querySelector(link.hash);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', link.hash);
+    });
+  });
+})();
+</script>

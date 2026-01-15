@@ -1,0 +1,1418 @@
+<style>
+/* ===========================
+  Cream by Solstar Manual Page
+  - Sidebar: Sticky (Desktop only), Hidden on mobile
+  - Sidebar: 18px / padding-y 6px
+  - Sidebar: H2 + H3 only (H2 top, H3 indented)
+  - H2: larger than H3
+  - H3: color #144E94
+  - Alternating background: NOT by H3, but by each “section” (P > STRONG blocks)
+  - Alternating background color: use #FFFFFF (no gray)
+  - Tables: provided style, no shadow
+  =========================== */
+
+/* Override theme's containing block properties that break sticky positioning */
+.shopify-section:has(.cream-manual),
+.shopify-section:has(.cream-manual) > *,
+.shopify-section:has(.cream-manual) > * > * {
+  position: static !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+  overflow: visible !important;
+  will-change: auto !important;
+}
+
+.cream-manual {
+  --bg: #0D0326;
+  --text: #FCFBF9;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+
+  --accent: #AB8C52;
+
+  /* Section block bg (alternate) */
+  --section-bg-a: #ffffff;
+  --section-bg-b: #ffffff;
+
+  /* Table vars */
+  --tbl-text: #111111;
+  --tbl-line: #e5e7eb;
+  --tbl-head-bg: #ececf0;
+  --tbl-body-bg: #ffffff;
+  --tbl-radius: 12px;
+
+  background: var(--bg);
+  color: var(--text);
+  padding: 44px 16px;
+}
+
+.cream-manual__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Layout */
+.cream-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* Sidebar */
+.cream-sidebar {
+  position: sticky !important;
+  top: 110px;
+  max-height: calc(100vh - 140px);
+  overflow: hidden;
+}
+.cream-sidebar:hover,
+.cream-sidebar:focus-within {
+  overflow-y: auto;
+}
+
+.cream-sidebar__nav {
+  background: var(--bg);
+  color: var(--text) !important;
+  overflow: visible;
+  padding: 10px 0;
+  min-height: 100px;
+}
+
+.cream-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--text) !important;
+}
+
+.cream-sidebar__item {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Consolidated sidebar link styles - override theme with light color on dark background */
+.cream-sidebar a,
+.cream-sidebar__nav a,
+.cream-sidebar__list a,
+.cream-sidebar__link,
+.cream-sidebar__link:hover,
+.cream-sidebar__link:focus,
+.cream-sidebar__link:active,
+.cream-sidebar__link:visited {
+  display: block !important;
+  padding: 6px 14px;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-decoration: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  text-shadow: none !important;
+  mix-blend-mode: normal !important;
+  position: relative !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hierarchy (indent only) */
+.cream-sidebar__link[data-level="2"] { font-weight: 900; }
+.cream-sidebar__link[data-level="3"] {
+  padding-left: 26px;
+  font-weight: 700;
+}
+
+/* Content */
+.cream-content {
+  min-width: 0;
+  text-align: left;
+}
+
+/* Keep sidebar text aligned even if parent is centered */
+.cream-sidebar { text-align: left; }
+
+/* Utility: opt-in centering for specific blocks */
+.cream-text-center { text-align: center !important; }
+
+.cream-content p {
+  margin: 0 0 14px;
+  line-height: 1.9;
+  color: var(--text);
+}
+
+.cream-content ul,
+.cream-content ol {
+  margin: 0 0 14px 1.2em;
+  padding: 0;
+  line-height: 1.9;
+}
+
+.cream-content li { margin: 6px 0; }
+
+/* ✅ H2 larger */
+.cream-content h2 {
+  margin: 16px 0 12px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+/* ✅ H3 distinct + accent */
+.cream-content h3 {
+  margin: 22px 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ===== Section Blocks (P > STRONG) ===== */
+.cream-section-block {
+  color: var(--tbl-text);
+  padding: 18px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 12px 0 18px;
+  background: var(--section-bg-a);
+}
+
+.cream-section-block.is-alt {
+  background: var(--section-bg-b);
+}
+
+.cream-section-block.is-flat {
+  background: var(--bg);
+  border-color: var(--bg);
+  color: var(--text);
+}
+
+.cream-section-block.is-flat * {
+  color: var(--text);
+}
+
+.cream-section-block > :first-child { margin-top: 0; }
+.cream-section-block > :last-child { margin-bottom: 0; }
+
+/* ===== Table ===== */
+.solstar-table-wrap {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+  margin: 10px 0 16px;
+
+  /* ✅ デフォルトは横スクロール許可（PC/タブで崩れにくい） */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ “ページ全体が横に逃げる”体感を減らす */
+  touch-action: pan-y;
+
+  /* iOSで効きにくいこともあるが害はない */
+  overscroll-behavior: contain;
+}
+
+.solstar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--card);
+  color: #111111;
+}
+
+.solstar-table th,
+.solstar-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #111111;
+}
+
+.solstar-table tr:first-child th,
+.solstar-table tr:first-child td {
+  border-top: none;
+}
+
+.solstar-table th {
+  width: 34%;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(120, 120, 120, 0.14);
+}
+
+.solstar-table td {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ===== Table inner list ===== */
+.solstar-table-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.2em;
+  color: #111111;
+}
+
+.solstar-table-list li {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.solstar-table-list li:first-child {
+  margin-top: 0;
+}
+
+/* Anchor offset */
+.cream-anchor { scroll-margin-top: 120px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .cream-manual { padding: 28px 14px; }
+  .cream-layout { grid-template-columns: 1fr; }
+  .cream-sidebar { display: none; } /* ✅ Mobileでは非表示 */
+  .solstar-table { min-width: 420px; }
+}
+
+/* ✅ Mobile: 横スライド根絶（テーブルを画面にフィットさせる） */
+@media (max-width: 640px) {
+  .cream-anchor { scroll-margin-top: 88px; }
+
+  /* wrapは横スクロールさせない（= “スライドする”原因を断つ） */
+  .solstar-table-wrap {
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  .solstar-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+}
+</style>
+
+<section class="cream-manual">
+  <div class="cream-manual__inner">
+    <div class="cream-layout">
+      <!-- Sidebar (Desktop only) -->
+      <aside class="cream-sidebar" aria-label="Document Sidebar">
+        <nav class="cream-sidebar__nav" aria-label="H2/H3 Navigation">
+          <ul class="cream-sidebar__list"></ul>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <article class="cream-content">
+        <h2>基本操作</h2>
+        <ul>
+          <li>管理画面: 「オンラインストア &gt; テーマ &gt; カスタマイズ」から編集します。</li>
+          <li>テーマ設定タブ: 左サイドバー上部の「テーマ設定」を開きます。</li>
+          <li>反映確認: 保存後にプレビュー/公開で確認します。</li>
+          <li>使い回し: 配色や書体は先に整えると、各セクションで統一しやすくなります。</li>
+          <li>表示条件: 一部の項目は他設定の選択に応じて表示されます（例: ドロワー設定）。</li>
+        </ul>
+
+        <h2>ロゴとファビコン</h2>
+        <p>ヘッダーやフッターに表示されるロゴと、ブラウザタブのアイコン（ファビコン）をまとめて設定します。ブランドの見え方に直結するため、最初に整えるのがおすすめです。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>デフォルトロゴ</td>
+              <td>Image picker</td>
+              <td>通常時に表示されるロゴ画像です。</td>
+            </tr>
+            <tr>
+              <td>逆さロゴ</td>
+              <td>Image picker</td>
+              <td>暗い背景に切り替わる場合のロゴ画像です。</td>
+            </tr>
+            <tr>
+              <td>ロゴ高さ（PC）</td>
+              <td>Range(px)</td>
+              <td>PC表示時のロゴの高さです。</td>
+            </tr>
+            <tr>
+              <td>ロゴ高さ（モバイル）</td>
+              <td>Range(px)</td>
+              <td>スマホ表示時のロゴの高さです。</td>
+            </tr>
+            <tr>
+              <td>ファビコン</td>
+              <td>Image picker</td>
+              <td>ブラウザタブやブックマークに表示されるアイコンです。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>色</h2>
+        <p>サイト全体の雰囲気を決める配色セットを作成します。セクションごとに切り替えられるので、落ち着いた面と強調したい面を使い分けられます。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>配色セット</td>
+              <td>Color scheme group</td>
+              <td>配色セットを作成・管理します。セクションごとに選べます。</td>
+            </tr>
+            <tr>
+              <td>配色セット内の項目</td>
+              <td>Color</td>
+              <td>背景や文字、ボタン、入力欄、バリエーションの色をまとめて設定します。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>タイポグラフィー</h2>
+        <p>本文・見出し・アクセントに使うフォントと文字のサイズ感を整えます。読みやすさとブランドらしさのバランスを意識して調整してください。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>本文フォント</td>
+              <td>Font picker</td>
+              <td>本文に使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>サブ見出しフォント</td>
+              <td>Font picker</td>
+              <td>サブ見出しに使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>見出しフォント</td>
+              <td>Font picker</td>
+              <td>見出しに使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>アクセントフォント</td>
+              <td>Font picker</td>
+              <td>強調や装飾に使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>本文サイズ</td>
+              <td>Select(px)</td>
+              <td>本文の文字サイズです。</td>
+            </tr>
+            <tr>
+              <td>本文行間</td>
+              <td>Select</td>
+              <td>本文の行間です。</td>
+            </tr>
+            <tr>
+              <td>見出し1-6のフォント</td>
+              <td>Select</td>
+              <td>各見出しに使うフォント系統です。</td>
+            </tr>
+            <tr>
+              <td>見出し1-6のサイズ</td>
+              <td>Select(px)</td>
+              <td>各見出しの文字サイズです。</td>
+            </tr>
+            <tr>
+              <td>見出し1-6の行間</td>
+              <td>Select</td>
+              <td>各見出しの行間です。</td>
+            </tr>
+            <tr>
+              <td>見出し1-6の字間</td>
+              <td>Select</td>
+              <td>各見出しの文字間隔です。</td>
+            </tr>
+            <tr>
+              <td>見出し1-6の大文字化</td>
+              <td>Select</td>
+              <td>各見出しを大文字にするか設定します。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>ページレイアウト</h2>
+        <p>ページ全体の横幅と、パンくず（現在地の表示）の有無を決めます。情報量や導線の見せ方に影響します。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ページ幅</td>
+              <td>Select</td>
+              <td>ページの横幅を選びます。</td>
+            </tr>
+            <tr>
+              <td>パンくず表示</td>
+              <td>Checkbox</td>
+              <td>現在地を示すパンくずを表示します。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>アニメーション</h2>
+        <p>ページの切り替えやカードのホバーなど、動きの演出をまとめて設定します。動きを控えめにしたい場合はここで無効化できます。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ページ遷移アニメーション</td>
+              <td>Checkbox</td>
+              <td>ページ切り替え時の動きを有効にします。</td>
+            </tr>
+            <tr>
+              <td>商品ページ遷移アニメーション</td>
+              <td>Checkbox</td>
+              <td>一覧から詳細へ移動する演出を付けます。</td>
+            </tr>
+            <tr>
+              <td>カート追加アニメーション</td>
+              <td>Checkbox</td>
+              <td>カート追加時の動きを有効にします。</td>
+            </tr>
+            <tr>
+              <td>カードホバー効果</td>
+              <td>Select</td>
+              <td>商品カードにカーソルを置いた時の動きです。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>バッジ</h2>
+        <p>商品カードに表示されるバッジの見た目を調整します。セールや在庫切れなど、重要な情報をひと目で伝えるための設定です。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>表示位置</td>
+              <td>Select</td>
+              <td>バッジを表示する位置です。</td>
+            </tr>
+            <tr>
+              <td>Sale配色</td>
+              <td>Color scheme</td>
+              <td>Saleバッジに使う配色です。</td>
+            </tr>
+            <tr>
+              <td>Saleラベル</td>
+              <td>Text</td>
+              <td>Saleバッジの表示文言です。</td>
+            </tr>
+            <tr>
+              <td>Sale割引表示</td>
+              <td>Checkbox</td>
+              <td>割引値を表示するか設定します。</td>
+            </tr>
+            <tr>
+              <td>Sale割引形式</td>
+              <td>Select</td>
+              <td>割引の見せ方（％/金額）です。</td>
+            </tr>
+            <tr>
+              <td>Sale角丸</td>
+              <td>Range(px)</td>
+              <td>Saleバッジの丸みです。</td>
+            </tr>
+            <tr>
+              <td>Sold out配色</td>
+              <td>Color scheme</td>
+              <td>Sold outバッジに使う配色です。</td>
+            </tr>
+            <tr>
+              <td>Sold outラベル</td>
+              <td>Text</td>
+              <td>Sold outバッジの表示文言です。</td>
+            </tr>
+            <tr>
+              <td>Sold out角丸</td>
+              <td>Range(px)</td>
+              <td>Sold outバッジの丸みです。</td>
+            </tr>
+            <tr>
+              <td>New配色</td>
+              <td>Color scheme</td>
+              <td>Newバッジに使う配色です。</td>
+            </tr>
+            <tr>
+              <td>Newラベル</td>
+              <td>Text</td>
+              <td>Newバッジの表示文言です。</td>
+            </tr>
+            <tr>
+              <td>New角丸</td>
+              <td>Range(px)</td>
+              <td>Newバッジの丸みです。</td>
+            </tr>
+            <tr>
+              <td>Bestseller配色</td>
+              <td>Color scheme</td>
+              <td>Bestsellerバッジに使う配色です。</td>
+            </tr>
+            <tr>
+              <td>Bestsellerラベル</td>
+              <td>Text</td>
+              <td>Bestsellerバッジの表示文言です。</td>
+            </tr>
+            <tr>
+              <td>Bestseller角丸</td>
+              <td>Range(px)</td>
+              <td>Bestsellerバッジの丸みです。</td>
+            </tr>
+            <tr>
+              <td>バッジフォント</td>
+              <td>Select</td>
+              <td>バッジの文字に使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>テキストケース</td>
+              <td>Select</td>
+              <td>文字を大文字にするか設定します。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>ボタン</h2>
+        <p>主要ボタンと補助ボタン、ピル型ボタンの形や文字スタイルを整えます。押しやすさやブランド感を左右するポイントです。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>プライマリ枠線太さ</td>
+              <td>Range(px)</td>
+              <td>主要ボタンの枠線の太さです。</td>
+            </tr>
+            <tr>
+              <td>プライマリ角丸</td>
+              <td>Range(px)</td>
+              <td>主要ボタンの丸みです。</td>
+            </tr>
+            <tr>
+              <td>プライマリフォント</td>
+              <td>Select</td>
+              <td>主要ボタンの文字に使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>プライマリ文字ケース</td>
+              <td>Select</td>
+              <td>主要ボタンの文字の大文字化です。</td>
+            </tr>
+            <tr>
+              <td>セカンダリ枠線太さ</td>
+              <td>Range(px)</td>
+              <td>補助ボタンの枠線の太さです。</td>
+            </tr>
+            <tr>
+              <td>セカンダリ角丸</td>
+              <td>Range(px)</td>
+              <td>補助ボタンの丸みです。</td>
+            </tr>
+            <tr>
+              <td>セカンダリフォント</td>
+              <td>Select</td>
+              <td>補助ボタンの文字に使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>セカンダリ文字ケース</td>
+              <td>Select</td>
+              <td>補助ボタンの文字の大文字化です。</td>
+            </tr>
+            <tr>
+              <td>ピル角丸</td>
+              <td>Range(px)</td>
+              <td>ピル型ボタンの丸みです。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>カート</h2>
+        <p>カートの表示方法や補助機能（メモ欄、クーポン入力など）を調整します。購入体験のわかりやすさに直結します。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>カート形式</td>
+              <td>Select</td>
+              <td>ページ表示かドロワー表示かを選びます。</td>
+            </tr>
+            <tr>
+              <td>商品名ケース</td>
+              <td>Select</td>
+              <td>カート内の商品名の文字ケースです。</td>
+            </tr>
+            <tr>
+              <td>価格フォント</td>
+              <td>Select</td>
+              <td>価格表示に使うフォントです。</td>
+            </tr>
+            <tr>
+              <td>ドロワー自動表示</td>
+              <td>Checkbox</td>
+              <td>追加時にドロワーを自動で開きます。</td>
+            </tr>
+            <tr>
+              <td>メモ欄表示</td>
+              <td>Checkbox</td>
+              <td>購入メモ欄を表示します。</td>
+            </tr>
+            <tr>
+              <td>メモ欄の既定開閉</td>
+              <td>Checkbox</td>
+              <td>メモ欄の初期状態を設定します。</td>
+            </tr>
+            <tr>
+              <td>割引欄表示</td>
+              <td>Checkbox</td>
+              <td>クーポン入力欄を表示します。</td>
+            </tr>
+            <tr>
+              <td>分割払い表示</td>
+              <td>Checkbox</td>
+              <td>分割払いの案内を表示します。</td>
+            </tr>
+            <tr>
+              <td>クイックチェックアウト</td>
+              <td>Checkbox</td>
+              <td>簡易決済ボタンを表示します。</td>
+            </tr>
+            <tr>
+              <td>空カートボタンリンク</td>
+              <td>URL</td>
+              <td>空カート時のボタンのリンク先です。</td>
+            </tr>
+            <tr>
+              <td>サムネ枠線</td>
+              <td>Select</td>
+              <td>サムネイル枠線の有無を選びます。</td>
+            </tr>
+            <tr>
+              <td>サムネ枠線太さ</td>
+              <td>Range(px)</td>
+              <td>枠線の太さです。</td>
+            </tr>
+            <tr>
+              <td>サムネ枠線不透明度</td>
+              <td>Range(%)</td>
+              <td>枠線の濃さです。</td>
+            </tr>
+            <tr>
+              <td>サムネ角丸</td>
+              <td>Range(px)</td>
+              <td>サムネイルの丸みです。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>ドロワー</h2>
+        <p>カートや検索がスライド表示されるドロワーの見た目を整えます。配色や罫線の有無で印象が変わります。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>配色</td>
+              <td>Color scheme</td>
+              <td>ドロワー全体に使う配色です。</td>
+            </tr>
+            <tr>
+              <td>罫線</td>
+              <td>Select</td>
+              <td>境界線を表示するか選びます。</td>
+            </tr>
+            <tr>
+              <td>罫線太さ</td>
+              <td>Range(px)</td>
+              <td>境界線の太さです。</td>
+            </tr>
+            <tr>
+              <td>罫線不透明度</td>
+              <td>Range(%)</td>
+              <td>境界線の濃さです。</td>
+            </tr>
+            <tr>
+              <td>影</td>
+              <td>Checkbox</td>
+              <td>ドロワーに影を付けます。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>アイコン</h2>
+        <p>サイト内のアイコンの線の太さを一括で調整します。全体のトーンを軽く見せたい/しっかり見せたい場合に有効です。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>線幅</td>
+              <td>Select</td>
+              <td>アイコン線の太さを選びます。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>入力フィールド</h2>
+        <p>フォーム入力欄の見た目を整えます。境界線の太さや角丸で、やわらかさ・信頼感などの印象が変わります。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>枠線太さ</td>
+              <td>Range(px)</td>
+              <td>入力欄の枠線の太さです。</td>
+            </tr>
+            <tr>
+              <td>角丸</td>
+              <td>Range(px)</td>
+              <td>入力欄の丸みです。</td>
+            </tr>
+            <tr>
+              <td>文字スタイル</td>
+              <td>Select</td>
+              <td>入力欄の文字プリセットを選びます。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>ポップオーバーとモーダル</h2>
+        <p>ポップオーバーやモーダルの見た目（配色や影、角丸）を調整します。通知や確認画面の印象に影響します。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>配色</td>
+              <td>Color scheme</td>
+              <td>ポップオーバー/モーダルの配色です。</td>
+            </tr>
+            <tr>
+              <td>角丸</td>
+              <td>Range(px)</td>
+              <td>角の丸みです。</td>
+            </tr>
+            <tr>
+              <td>罫線</td>
+              <td>Select</td>
+              <td>境界線の有無を選びます。</td>
+            </tr>
+            <tr>
+              <td>罫線太さ</td>
+              <td>Range(px)</td>
+              <td>境界線の太さです。</td>
+            </tr>
+            <tr>
+              <td>罫線不透明度</td>
+              <td>Range(%)</td>
+              <td>境界線の濃さです。</td>
+            </tr>
+            <tr>
+              <td>影</td>
+              <td>Checkbox</td>
+              <td>影を表示します。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>価格</h2>
+        <p>価格の見せ方を設定します。通貨コードを表示するかどうかで、海外向けの分かりやすさが変わります。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>商品ページの通貨コード</td>
+              <td>Checkbox</td>
+              <td>商品詳細の価格に通貨コードを表示します。</td>
+            </tr>
+            <tr>
+              <td>商品カードの通貨コード</td>
+              <td>Checkbox</td>
+              <td>一覧カードの価格に通貨コードを表示します。</td>
+            </tr>
+            <tr>
+              <td>カート商品の通貨コード</td>
+              <td>Checkbox</td>
+              <td>カート内商品の価格に通貨コードを表示します。</td>
+            </tr>
+            <tr>
+              <td>カート合計の通貨コード</td>
+              <td>Checkbox</td>
+              <td>合計金額に通貨コードを表示します。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>商品カード</h2>
+        <p>商品カードの操作感や表示方法を設定します。商品一覧の使いやすさに関わる項目です。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>クイック追加</td>
+              <td>Checkbox</td>
+              <td>一覧カードから直接追加するボタンを表示します。</td>
+            </tr>
+            <tr>
+              <td>モバイルのクイック追加</td>
+              <td>Checkbox</td>
+              <td>モバイルでもクイック追加を表示します。</td>
+            </tr>
+            <tr>
+              <td>クイック追加の配色</td>
+              <td>Color scheme</td>
+              <td>クイック追加ボタンの配色です。</td>
+            </tr>
+            <tr>
+              <td>2枚目画像ホバー</td>
+              <td>Checkbox</td>
+              <td>ホバー時に2枚目の画像へ切り替えます。</td>
+            </tr>
+            <tr>
+              <td>カルーセル表示</td>
+              <td>Checkbox</td>
+              <td>カード内で画像をスライド表示します。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>お気に入りリスト</h2>
+        <p>お気に入り機能有効化及びお気に入りアイコンの表示や色を設定します。ブランドに合わせた見た目に整えられます。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>お気に入りアイコンを有効化</td>
+              <td>Checkbox</td>
+              <td>お気に入りアイコンをコレクション・商品詳細ページに表示させます。</td>
+            </tr>
+            <tr>
+              <td>ハート枠線色</td>
+              <td>Color</td>
+              <td>ハートの枠線の色です。</td>
+            </tr>
+            <tr>
+              <td>ハート塗り色</td>
+              <td>Color</td>
+              <td>ハートの塗りの色です。</td>
+            </tr>
+            <tr>
+              <td>ハート背景色</td>
+              <td>Color</td>
+              <td>アイコン背景の色です。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>ビデオイントロ</h2>
+        <p>初回訪問時に表示するイントロ動画を設定します。ブランドの世界観を伝える演出として使えます。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>有効化</td>
+              <td>Checkbox</td>
+              <td>イントロ動画を表示するか設定します。</td>
+            </tr>
+            <tr>
+              <td>ホームのみ表示</td>
+              <td>Checkbox</td>
+              <td>ホームページのみ表示します。</td>
+            </tr>
+            <tr>
+              <td>自動再生</td>
+              <td>Checkbox</td>
+              <td>自動再生の有無を選びます。</td>
+            </tr>
+            <tr>
+              <td>デスクトップ動画ソース</td>
+              <td>Select</td>
+              <td>PC用動画の指定方法です。</td>
+            </tr>
+            <tr>
+              <td>デスクトップ動画（アップロード）</td>
+              <td>Video</td>
+              <td>アップロード済みの動画を選択します。</td>
+            </tr>
+            <tr>
+              <td>デスクトップ動画（外部）</td>
+              <td>URL</td>
+              <td>外部動画のURLを入力します。</td>
+            </tr>
+            <tr>
+              <td>モバイル動画ソース</td>
+              <td>Select</td>
+              <td>スマホ用動画の指定方法です。</td>
+            </tr>
+            <tr>
+              <td>モバイル動画（アップロード）</td>
+              <td>Video</td>
+              <td>アップロード済みの動画を選択します。</td>
+            </tr>
+            <tr>
+              <td>モバイル動画（外部）</td>
+              <td>URL</td>
+              <td>外部動画のURLを入力します。</td>
+            </tr>
+            <tr>
+              <td>音声URL</td>
+              <td>URL</td>
+              <td>音声ファイルのURLを指定します。</td>
+            </tr>
+            <tr>
+              <td>音量</td>
+              <td>Range(%)</td>
+              <td>初期の音量です。</td>
+            </tr>
+            <tr>
+              <td>スキップ文言</td>
+              <td>Text</td>
+              <td>スキップボタンの表示文言です。</td>
+            </tr>
+            <tr>
+              <td>スキップ色</td>
+              <td>Color</td>
+              <td>スキップ文言の色です。</td>
+            </tr>
+            <tr>
+              <td>サウンド案内文言</td>
+              <td>Text</td>
+              <td>音声案内の表示文言です。</td>
+            </tr>
+            <tr>
+              <td>ボタン文言</td>
+              <td>Text</td>
+              <td>イントロ画面のボタン文言です。</td>
+            </tr>
+            <tr>
+              <td>ボタンスタイル</td>
+              <td>Select</td>
+              <td>ボタンの見た目タイプです。</td>
+            </tr>
+            <tr>
+              <td>ボタン配色</td>
+              <td>Color scheme</td>
+              <td>ボタンに使う配色です。</td>
+            </tr>
+            <tr>
+              <td>ボタン角丸</td>
+              <td>Range(px)</td>
+              <td>ボタンの丸みです。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>検索</h2>
+        <p>検索の見え方を整えます。検索結果がない場合の表示や、予測検索カードの角丸などを調整できます。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>空状態コレクション</td>
+              <td>Collection</td>
+              <td>検索結果がない場合に表示するコレクションです。</td>
+            </tr>
+            <tr>
+              <td>商品角丸</td>
+              <td>Range(px)</td>
+              <td>予測検索の商品カードの丸みです。</td>
+            </tr>
+            <tr>
+              <td>カード角丸</td>
+              <td>Range(px)</td>
+              <td>予測検索の枠の丸みです。</td>
+            </tr>
+            <tr>
+              <td>タイトルケース</td>
+              <td>Select</td>
+              <td>タイトルの文字ケースを選びます。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>見本（スウォッチ）</h2>
+        <p>色や柄を選ぶスウォッチのサイズや枠線を調整します。見やすさとデザインのバランスを取ってください。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>バリエーション画像表示</td>
+              <td>Checkbox</td>
+              <td>スウォッチに画像を使うか設定します。</td>
+            </tr>
+            <tr>
+              <td>幅</td>
+              <td>Range(px)</td>
+              <td>スウォッチの幅です。</td>
+            </tr>
+            <tr>
+              <td>高さ</td>
+              <td>Range(px)</td>
+              <td>スウォッチの高さです。</td>
+            </tr>
+            <tr>
+              <td>角丸</td>
+              <td>Range(px)</td>
+              <td>角の丸みです。</td>
+            </tr>
+            <tr>
+              <td>罫線</td>
+              <td>Select</td>
+              <td>枠線を表示するか選びます。</td>
+            </tr>
+            <tr>
+              <td>罫線太さ</td>
+              <td>Range(px)</td>
+              <td>枠線の太さです。</td>
+            </tr>
+            <tr>
+              <td>罫線不透明度</td>
+              <td>Range(%)</td>
+              <td>枠線の濃さです。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>バリエーションピッカー</h2>
+        <p>バリエーション選択ボタンの形と横幅の扱いを整えます。選択肢が多い場合の見やすさに影響します。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>枠線太さ</td>
+              <td>Range(px)</td>
+              <td>選択ボタンの枠線の太さです。</td>
+            </tr>
+            <tr>
+              <td>角丸</td>
+              <td>Range(px)</td>
+              <td>選択ボタンの丸みです。</td>
+            </tr>
+            <tr>
+              <td>幅</td>
+              <td>Select</td>
+              <td>ボタン幅を内容に合わせるか全幅にするか選びます。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>スプラッシュスクリーン</h2>
+        <p>ページ読み込み時に表示されるロゴ画面（スプラッシュ）の見た目を調整します。読み込み中の印象を整えたい場合に使用します。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>有効化</td>
+              <td>Checkbox</td>
+              <td>スプラッシュ画面を表示するか設定します。</td>
+            </tr>
+            <tr>
+              <td>ロゴ画像</td>
+              <td>Image picker</td>
+              <td>スプラッシュに表示するロゴ画像です。</td>
+            </tr>
+            <tr>
+              <td>ロゴ最大幅（モバイル）</td>
+              <td>Range(px)</td>
+              <td>スマホでのロゴの最大幅です。</td>
+            </tr>
+            <tr>
+              <td>ロゴ最大幅（デスクトップ）</td>
+              <td>Range(px)</td>
+              <td>PCでのロゴの最大幅です。</td>
+            </tr>
+            <tr>
+              <td>背景色</td>
+              <td>Color</td>
+              <td>スプラッシュ背景の色です。</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const manuals = Array.from(document.querySelectorAll('.cream-manual'));
+  if (!manuals.length) return;
+
+  manuals.forEach((manual) => {
+    const content = manual.querySelector('.cream-content');
+    const list = manual.querySelector('.cream-sidebar__list');
+    if (!content || !list) return;
+
+    // ===== 1) Tables: add class + wrap =====
+    const tables = Array.from(content.querySelectorAll('table'));
+    tables.forEach((tbl) => {
+      if (!tbl.classList.contains('solstar-table')) tbl.classList.add('solstar-table');
+
+      const parent = tbl.parentElement;
+      const alreadyWrapped = parent && parent.classList && parent.classList.contains('solstar-table-wrap');
+      if (!alreadyWrapped) {
+        const wrap = document.createElement('div');
+        wrap.className = 'solstar-table-wrap';
+        tbl.parentNode.insertBefore(wrap, tbl);
+        wrap.appendChild(tbl);
+      }
+    });
+
+    // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
+    const isStrongSectionTitleP = (p) => {
+      if (!p || p.tagName !== 'P') return false;
+      if (p.children.length !== 1) return false;
+      const child = p.firstElementChild;
+      if (!child || child.tagName !== 'STRONG') return false;
+      // Ensure p contains only the strong text (no extra)
+      const plain = (p.textContent || '').trim();
+      const strongText = (child.textContent || '').trim();
+      return plain === strongText && strongText.length > 0;
+    };
+
+    const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
+
+    let alt = false;
+    strongTitlePs.forEach((p) => {
+      // Skip if already wrapped
+      if (p.closest('.cream-section-block')) return;
+
+      const block = document.createElement('section');
+      block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
+      alt = !alt;
+
+      const parent = p.parentNode;
+      parent.insertBefore(block, p);
+
+      let node = p;
+      while (node) {
+        const next = node.nextSibling;
+        block.appendChild(node);
+
+        if (!next) break;
+
+        if (next.nodeType === 1) {
+          const tag = next.tagName.toLowerCase();
+          // Stop at next heading or next strong-section title
+          if (tag === 'h2' || tag === 'h3') break;
+          if (tag === 'p' && isStrongSectionTitleP(next)) break;
+        }
+        node = next;
+      }
+    });
+
+    // ===== 3) Sidebar: H2 + H3 =====
+    const normalizeHeadingText = (value) => String(value || '').replace(/\s+/g, '').trim();
+    const EXCLUDE_SIDEBAR_H2_TITLES = new Set([]);
+
+    const used = new Set();
+    const unicodePropsSupported = (() => {
+      try {
+        new RegExp('\\p{L}', 'u');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    })();
+    const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
+    const slugify = (str) => {
+      return String(str || '')
+        .trim()
+        .toLowerCase()
+        .replace(slugSeparatorRegex, '-')
+        .replace(/(^-+|-+$)/g, '')
+        .slice(0, 80) || 'section';
+    };
+    const uniqueId = (base) => {
+      let id = base;
+      let i = 2;
+      while (used.has(id)) id = `${base}-${i++}`;
+      used.add(id);
+      return id;
+    };
+
+    const headings = Array.from(content.querySelectorAll('h2, h3'));
+    list.innerHTML = '';
+
+    let currentH2Included = false;
+
+    headings.forEach((hd) => {
+      const tag = hd.tagName.toLowerCase();
+      const level = tag === 'h2' ? 2 : 3;
+      const text = (hd.textContent || '').trim();
+      const normalizedText = normalizeHeadingText(text);
+      if (!text) return;
+
+      if (!hd.id) {
+        hd.id = uniqueId(slugify(text));
+      } else {
+        used.add(hd.id);
+      }
+      hd.classList.add('cream-anchor');
+
+      if (level === 2) {
+        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(normalizedText);
+        if (!currentH2Included) return;
+      } else {
+        if (!currentH2Included) return;
+      }
+
+      const li = document.createElement('li');
+      li.className = 'cream-sidebar__item';
+
+      const a = document.createElement('a');
+      a.className = 'cream-sidebar__link';
+      a.href = `#${hd.id}`;
+      a.textContent = text;
+      a.setAttribute('data-level', String(level));
+
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    // Smooth scroll for manual-only sidebar links
+    list.addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link || !link.hash) return;
+      const target = content.querySelector(link.hash);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', link.hash);
+    });
+  });
+})();
+</script>

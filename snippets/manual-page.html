@@ -1,0 +1,634 @@
+<style>
+/* ===========================
+  Cream by Solstar Manual Page
+  - Sidebar: Sticky (Desktop only), Hidden on mobile
+  - Sidebar: 18px / padding-y 6px
+  - Sidebar: H2 + H3 only (H2 top, H3 indented)
+  - Sidebar: remove links for specific H2 titles
+  - Remove intro block (H1 + lead)
+  - H2 rename: 「まずはここから（基本操作）」→「基本操作」
+  - Remove content: 「セクション一覧（カテゴリ別ガイド）」
+  - H2: larger than H3
+  - H3: color #144E94
+  - Alternating background: NOT by H3, but by each “section” (P > STRONG blocks)
+  - Alternating background color: use #FFFFFF (no gray)
+  - Tables: provided style, no shadow
+  =========================== */
+
+/* Override theme's containing block properties that break sticky positioning */
+.shopify-section:has(.cream-manual),
+.shopify-section:has(.cream-manual) > *,
+.shopify-section:has(.cream-manual) > * > * {
+  position: static !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+  overflow: visible !important;
+  will-change: auto !important;
+}
+
+.cream-manual {
+  --bg: #0D0326;
+  --text: #FCFBF9;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+
+  --accent: #AB8C52;
+
+  /* Section block bg (alternate) */
+  --section-bg-a: #ffffff;
+  --section-bg-b: #ffffff;
+
+  /* Table vars */
+  --tbl-text: #111111;
+  --tbl-line: #e5e7eb;
+  --tbl-head-bg: #ececf0;
+  --tbl-body-bg: #ffffff;
+  --tbl-radius: 12px;
+
+  background: var(--bg);
+  color: var(--text);
+  padding: 44px 16px;
+}
+
+.cream-manual__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Layout */
+.cream-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* Sidebar */
+.cream-sidebar {
+  position: sticky !important;
+  top: 110px;
+  max-height: calc(100vh - 140px);
+}
+
+.cream-sidebar__nav {
+  background: var(--bg);
+  color: var(--text) !important;
+  overflow: visible;
+  padding: 10px 0;
+  min-height: 100px;
+}
+
+.cream-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--text) !important;
+}
+
+.cream-sidebar__item { 
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Consolidated sidebar link styles - override theme with light color on dark background */
+.cream-sidebar a,
+.cream-sidebar__nav a,
+.cream-sidebar__list a,
+.cream-sidebar__link,
+.cream-sidebar__link:hover,
+.cream-sidebar__link:focus,
+.cream-sidebar__link:active,
+.cream-sidebar__link:visited {
+  display: block !important;
+  padding: 6px 14px;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-decoration: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  text-shadow: none !important;
+  mix-blend-mode: normal !important;
+  position: relative !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hierarchy (indent only) */
+.cream-sidebar__link[data-level="2"] { font-weight: 900; }
+.cream-sidebar__link[data-level="3"] {
+  padding-left: 26px;
+  font-weight: 700;
+}
+
+/* Content */
+.cream-content {
+  min-width: 0;
+  text-align: left;
+}
+
+/* Keep sidebar text aligned even if parent is centered */
+.cream-sidebar { text-align: left; }
+
+/* Utility: opt-in centering for specific blocks */
+.cream-text-center { text-align: center !important; }
+
+.cream-content p {
+  margin: 0 0 14px;
+  line-height: 1.9;  
+  color: var(--text);
+}
+
+.cream-content ul,
+.cream-content ol {
+  margin: 0 0 14px 1.2em;
+  padding: 0;
+  line-height: 1.9;
+}
+
+.cream-content li { margin: 6px 0; }
+
+/* ✅ H2 larger */
+.cream-content h2 {
+  margin: 16px 0 12px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+/* ✅ H3 distinct + accent */
+.cream-content h3 {
+  margin: 22px 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ===== Section Blocks (P > STRONG) ===== */
+.cream-section-block {
+  color: var(--tbl-text);
+  padding: 18px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 12px 0 18px;
+  background: var(--section-bg-a);
+}
+
+.cream-section-block.is-alt {
+  background: var(--section-bg-b);
+}
+
+.cream-section-block.is-flat {
+  background: var(--bg);
+  border-color: var(--bg);
+  color: var(--text);
+}
+
+.cream-section-block.is-flat * {
+  color: var(--text);
+}
+
+.cream-section-block > :first-child { margin-top: 0; }
+.cream-section-block > :last-child { margin-bottom: 0; }
+
+/* ===== Table ===== */
+.solstar-table-wrap {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+  margin: 10px 0 16px;
+
+  /* ✅ デフォルトは横スクロール許可（PC/タブで崩れにくい） */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* ✅ “ページ全体が横に逃げる”体感を減らす */
+  touch-action: pan-y;
+
+  /* iOSで効きにくいこともあるが害はない */
+  overscroll-behavior: contain;
+}
+
+.solstar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--card);
+  color: #111111;
+}
+
+.solstar-table th,
+.solstar-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #111111;
+}
+
+.solstar-table tr:first-child th,
+.solstar-table tr:first-child td {
+  border-top: none;
+}
+
+.solstar-table th {
+  width: 34%;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(120, 120, 120, 0.14);
+}
+
+.solstar-table td {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ===== Table inner list ===== */
+.solstar-table-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.2em;
+  color: #111111;
+}
+
+.solstar-table-list li {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.solstar-table-list li:first-child {
+  margin-top: 0;
+}
+
+/* Anchor offset */
+.cream-anchor { scroll-margin-top: 120px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .cream-manual { padding: 28px 14px; }
+  .cream-layout { grid-template-columns: 1fr; }
+  .cream-sidebar { display: none; } /* ✅ Mobileでは非表示 */
+  .solstar-table { min-width: 420px; }
+}
+
+/* ✅ Mobile: 横スライド根絶（テーブルを画面にフィットさせる） */
+@media (max-width: 640px) {
+  .cream-anchor { scroll-margin-top: 88px; }
+
+  /* wrapは横スクロールさせない（= “スライドする”原因を断つ） */
+  .solstar-table-wrap {
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  .solstar-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+}
+
+</style>
+
+<section class="cream-manual">
+  <div class="cream-manual__inner">
+    <div class="cream-layout">
+      <!-- Sidebar (Desktop only) -->
+      <aside class="cream-sidebar" aria-label="Document Sidebar">
+        <nav class="cream-sidebar__nav" aria-label="H2/H3 Navigation">
+          <ul class="cream-sidebar__list"></ul>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <article class="cream-content">
+
+        <!-- ✅ Intro removed:
+          # Cream by Solstar デフォルトページマニュアル
+          固定ページ（Privacy / FAQ / ブランドストーリーなど）で利用する`page`テンプレート専用のガイドです。Heroや複雑なレイアウトが不要なページをシンプルに構築する際に使います。
+        -->
+
+        <h2>基本操作</h2>
+        <ul>
+          <li>テンプレート切替: テーマエディタ上部で「ページ &gt; 既定のページ」を選択し、対象ページをプレビューに指定。</li>
+          <li>コンテンツ編集: Shopify管理画面の「オンラインストア &gt; ページ」で本文（Rich text）を編集すると、<code>page-content</code>ブロックに反映されます。</li>
+          <li>ブロック構成: 既定の<code>main-page</code>はタイトル（text）と本文（page-content）の2ブロック構成です。</li>
+          <li>パンくずリスト: テンプレート側で自動出力される場合があります。不要な場合は<code>snippets/breadcrumbs</code>やテーマ設定を確認してください。</li>
+        </ul>
+
+        <h2>セクション共通の見た目調整</h2>
+        <ul>
+          <li>ここを触る: main-pageセクション全体の設定。</li>
+          <li>よく使う項目: セクション幅、配色、上下余白、ブロック間調整。</li>
+          <li>ヒント: 企業情報やFAQなど文章中心のページは<code>section_width = page-width</code>で中央揃え、隙間32px程度。写真を大きく見せたい場合はfull-width＋余白0でHero用途にも使えます。</li>
+        </ul>
+
+        <h2>テンプレート</h2>
+        <ul>
+          <li>固定ページテンプレートで利用する専用セクションとブロックに絞って解説します。</li>
+        </ul>
+
+        <h3>main-page</h3>
+        <ul>
+          <li>目的: シンプルなページタイトルと本文（記事コンテンツ）を表示。</li>
+          <li>含まれるブロック: <code>text</code>（タイトル）と<code>page-content</code>（本文）。</li>
+        </ul>
+
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>隙間</td>
+<td>Range(px)</td>
+<td>ブロック同士の間隔。タイトルと本文の距離、本文下の余白もここで制御。</td>
+</tr>
+            <tr>
+<td>配色</td>
+<td>Color scheme</td>
+<td>背景/テキスト/リンク色。本文内の段落もここで指定した前景色を継承する。</td>
+</tr>
+            <tr>
+<td>セクション幅</td>
+<td>Select</td>
+<td><code>page-width</code>で左右に余白を取り、<code>full-width</code>で背景を端まで広げる。</td>
+</tr>
+            <tr>
+<td>上下余白</td>
+<td>Range(px)</td>
+<td>セクション外周の余白。デフォルトは上40px/下80px。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>タイトル</strong></p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>本文</td>
+<td>Text</td>
+<td>説明文や補足情報などを入力できます。</td>
+</tr>
+            <tr>
+<td>見出しプリセット</td>
+<td>Select</td>
+<td>見出しプリセットを選択し、ページごとのアクセントを付ける。</td>
+</tr>
+            <tr>
+<td>整列/幅</td>
+<td>Select</td>
+<td>中央揃え/左揃えなどを選択。速やかに複数行にならないよう<code>max_width</code>を<code>normal</code>のままにするのがおすすめ。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p><strong>コンテンツ</strong></p>
+        <table>
+          <thead>
+            <tr>
+<th>設定</th>
+<th>種別</th>
+<th>説明</th>
+</tr>
+          </thead>
+          <tbody>
+            <tr>
+<td>幅</td>
+<td>Select</td>
+<td><code>fixed</code>（本文幅を制限）/<code>fluid</code>（左右いっぱいまで）。長文はfixedで可読性を確保。</td>
+</tr>
+          </tbody>
+        </table>
+
+        <p>本文の出力はShopifyのリッチテキストエディタで管理し、段落/見出し/画像/埋め込みがページレコードからそのまま挿入されます。</p>
+
+        <p><strong>追加ブロック</strong></p>
+        <ul>
+          <li>追加可能なブロック種別はセクション設定に従います。CTAや画像を差し込みたい場合はアプリブロックや別セクション（例: セクション（汎用））で補完してください。</li>
+        </ul>
+
+        <h2>連携・注意事項</h2>
+        <ul>
+          <li>ページ本文はマルチ言語対応済み。<code>{{ page.content }}</code>に含まれるリッチテキストが翻訳リソースに基づいて切り替わるか確認しましょう。</li>
+          <li>ページ内でフォームを使う場合は、本文にLiquidを記述するのではなく、<code>セクション（汎用）</code>や<code>カスタムLiquid</code>セクションを追加して管理するのがおすすめです。</li>
+          <li>main-pageセクション自体はヘッダーグループでは無効化されないので、Heroやギャラリーなど別セクションを追加する場合はこのセクションの上/下に追加してレイアウトを構成します。</li>
+        </ul>
+
+        <h2>Tips（運用のコツ）</h2>
+        <ul>
+          <li>長文ページでは本文中にアンカーリンクを設定し、冒頭に目次（通常のリスト）を設けるとUX向上。CSSで<code>.layout-panel-flex</code>を活用し、目次と本文を2カラム化することもできます。</li>
+          <li>企業情報ページなどでヘッダー背景色を変えたい場合は、main-pageとは別のセクションを上部に追加してビジュアル要素を作り、main-pageではタイポグラフィに集中。</li>
+          <li>画像を多用するエッセイページでは、本文中の画像サイズを100%にしつつ、<code>section_width = full-width</code>で背景だけ広げ、<code>page-content width_mode = fixed</code>にするなどメリハリを付けると読みやすいです。</li>
+        </ul>
+
+        <h2>公開前チェックリスト</h2>
+        <ul>
+          <li>ページ選択: プレビュー対象ページが正しいか。翻訳やドラフト状態のページを誤って参照していないか。</li>
+          <li>タイトル: H1が重複していないか、SEOキーワードが含まれているか。</li>
+          <li>本文: 画像の代替テキスト、リンク先、テーブル等が崩れていないか。</li>
+          <li>余白: セクション上下と本文幅がデバイス別に適切か。モバイルで余白が広すぎないか確認。</li>
+          <li>追加ブロック: Dividerやアプリブロックを追加した場合、背景色や配色が本文と整合しているか。</li>
+        </ul>
+
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const manuals = Array.from(document.querySelectorAll('.cream-manual'));
+  if (!manuals.length) return;
+
+  manuals.forEach((manual) => {
+    const content = manual.querySelector('.cream-content');
+    const list = manual.querySelector('.cream-sidebar__list');
+    if (!content || !list) return;
+
+    // ===== 1) Tables: add class + wrap =====
+    const tables = Array.from(content.querySelectorAll('table'));
+    tables.forEach((tbl) => {
+      if (!tbl.classList.contains('solstar-table')) tbl.classList.add('solstar-table');
+
+      const parent = tbl.parentElement;
+      const alreadyWrapped = parent && parent.classList && parent.classList.contains('solstar-table-wrap');
+      if (!alreadyWrapped) {
+        const wrap = document.createElement('div');
+        wrap.className = 'solstar-table-wrap';
+        tbl.parentNode.insertBefore(wrap, tbl);
+        wrap.appendChild(tbl);
+      }
+    });
+
+    // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
+    const isStrongSectionTitleP = (p) => {
+      if (!p || p.tagName !== 'P') return false;
+      if (p.children.length !== 1) return false;
+      const child = p.firstElementChild;
+      if (!child || child.tagName !== 'STRONG') return false;
+      // Ensure p contains only the strong text (no extra)
+      const plain = (p.textContent || '').trim();
+      const strongText = (child.textContent || '').trim();
+      return plain === strongText && strongText.length > 0;
+    };
+
+    const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
+
+    let alt = false;
+    strongTitlePs.forEach((p) => {
+      // Skip if already wrapped
+      if (p.closest('.cream-section-block')) return;
+
+      const block = document.createElement('section');
+      const titleText = (p.textContent || '').trim();
+      block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
+      alt = !alt;
+
+      const parent = p.parentNode;
+      parent.insertBefore(block, p);
+
+      let node = p;
+      while (node) {
+        const next = node.nextSibling;
+        block.appendChild(node);
+
+        if (!next) break;
+
+        if (next.nodeType === 1) {
+          const tag = next.tagName.toLowerCase();
+          // Stop at next heading or next strong-section title
+          if (tag === 'h2' || tag === 'h3') break;
+          if (tag === 'p' && isStrongSectionTitleP(next)) break;
+        }
+        node = next;
+      }
+    });
+
+    // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
+    const normalizeHeadingText = (value) => String(value || '').replace(/\s+/g, '').trim();
+    const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
+      '基本操作',
+      'セクション共通の見た目調整',
+      '連携・注意事項',
+      'Tips（運用のコツ）',
+      '公開前チェックリスト',
+      'セクション一覧（カテゴリ別ガイド）'
+    ].map(normalizeHeadingText));
+
+    const used = new Set();
+    const unicodePropsSupported = (() => {
+      try {
+        new RegExp('\\p{L}', 'u');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    })();
+    const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
+    const slugify = (str) => {
+      return String(str || '')
+        .trim()
+        .toLowerCase()
+        .replace(slugSeparatorRegex, '-')
+        .replace(/(^-+|-+$)/g, '')
+        .slice(0, 80) || 'section';
+    };
+    const uniqueId = (base) => {
+      let id = base;
+      let i = 2;
+      while (used.has(id)) id = `${base}-${i++}`;
+      used.add(id);
+      return id;
+    };
+
+    const headings = Array.from(content.querySelectorAll('h2, h3'));
+    list.innerHTML = '';
+
+    let currentH2Included = false;
+
+    headings.forEach((hd) => {
+      const tag = hd.tagName.toLowerCase();
+      const level = tag === 'h2' ? 2 : 3;
+      const text = (hd.textContent || '').trim();
+      const normalizedText = normalizeHeadingText(text);
+      if (!text) return;
+
+      if (!hd.id) {
+        hd.id = uniqueId(slugify(text));
+      } else {
+        used.add(hd.id);
+      }
+      hd.classList.add('cream-anchor');
+
+      if (level === 2) {
+        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(normalizedText);
+        if (!currentH2Included) return;
+      } else {
+        if (!currentH2Included) return;
+      }
+
+      const li = document.createElement('li');
+      li.className = 'cream-sidebar__item';
+
+      const a = document.createElement('a');
+      a.className = 'cream-sidebar__link';
+      a.href = `#${hd.id}`;
+      a.textContent = text;
+      a.setAttribute('data-level', String(level));
+
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    // Smooth scroll for manual-only sidebar links
+    list.addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link || !link.hash) return;
+      const target = content.querySelector(link.hash);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', link.hash);
+    });
+  });
+})();
+</script>

@@ -1,0 +1,584 @@
+<style>
+/* ===========================
+  Cream by Solstar Manual Page
+  - Sidebar: Sticky (Desktop only), Hidden on mobile
+  - Sidebar: 18px / padding-y 6px
+  - Sidebar: H2 + H3 only (H2 top, H3 indented)
+  - Sidebar: remove links for specific H2 titles
+  - Remove intro block (H1 + lead)
+  - H2 rename: 「まずはここから（基本操作）」→「基本操作」
+  - Remove content: 「セクション一覧（カテゴリ別ガイド）」
+  - H2: larger than H3
+  - H3: color #144E94
+  - Alternating background: NOT by H3, but by each “section” (P > STRONG blocks)
+  - Alternating background color: use #FFFFFF (no gray)
+  - Tables: provided style, no shadow
+  =========================== */
+
+/* Override theme's containing block properties that break sticky positioning */
+.shopify-section:has(.cream-manual),
+.shopify-section:has(.cream-manual) > *,
+.shopify-section:has(.cream-manual) > * > * {
+  position: static !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+  overflow: visible !important;
+  will-change: auto !important;
+}
+
+.cream-manual {
+  --bg: #0D0326;
+  --text: #FCFBF9;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+
+  --accent: #AB8C52;
+
+  /* Section block bg (alternate) */
+  --section-bg-a: #ffffff;
+  --section-bg-b: #ffffff;
+
+  /* Table vars */
+  --tbl-text: #111111;
+  --tbl-line: #e5e7eb;
+  --tbl-head-bg: #ececf0;
+  --tbl-body-bg: #ffffff;
+  --tbl-radius: 12px;
+
+  background: var(--bg);
+  color: var(--text);
+  padding: 44px 16px;
+}
+
+.cream-manual__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Layout */
+.cream-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* Sidebar */
+.cream-sidebar {
+  position: sticky !important;
+  top: 110px;
+  max-height: calc(100vh - 140px);
+}
+
+.cream-sidebar__nav {
+  background: var(--bg);
+  color: var(--text) !important;
+  overflow: visible;
+  padding: 10px 0;
+  min-height: 100px;
+}
+
+.cream-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--text) !important;
+}
+
+.cream-sidebar__item {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Consolidated sidebar link styles - override theme with light color on dark background */
+.cream-sidebar a,
+.cream-sidebar__nav a,
+.cream-sidebar__list a,
+.cream-sidebar__link,
+.cream-sidebar__link:hover,
+.cream-sidebar__link:focus,
+.cream-sidebar__link:active,
+.cream-sidebar__link:visited {
+  display: block !important;
+  padding: 6px 14px;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-decoration: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  text-shadow: none !important;
+  mix-blend-mode: normal !important;
+  position: relative !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hierarchy (indent only) */
+.cream-sidebar__link[data-level="2"] { font-weight: 900; }
+.cream-sidebar__link[data-level="3"] {
+  padding-left: 26px;
+  font-weight: 700;
+}
+
+/* Content */
+.cream-content {
+  min-width: 0;
+  text-align: left;
+  color: var(--text);
+}
+
+/* Keep sidebar text aligned even if parent is centered */
+.cream-sidebar { text-align: left; }
+
+/* Utility: opt-in centering for specific blocks */
+.cream-text-center { text-align: center !important; }
+
+.cream-content p {
+  margin: 0 0 14px;
+  line-height: 1.9;
+  color: inherit;
+}
+
+.cream-content ul,
+.cream-content ol {
+  margin: 0 0 14px 1.2em;
+  padding: 0;
+  line-height: 1.9;
+  color: inherit;
+}
+
+.cream-content li {
+  margin: 6px 0;
+  color: inherit;
+}
+
+/* H2 larger */
+.cream-content h2 {
+  margin: 16px 0 12px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+/* H3 distinct + accent */
+.cream-content h3 {
+  margin: 22px 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ===== Section Blocks (P > STRONG) ===== */
+.cream-section-block {
+  color: var(--tbl-text);
+  padding: 18px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 12px 0 18px;
+  background: var(--section-bg-a);
+}
+
+.cream-section-block.is-alt {
+  background: var(--section-bg-b);
+}
+
+.cream-section-block.is-flat {
+  background: var(--bg);
+  border-color: var(--bg);
+  color: var(--text);
+}
+
+.cream-section-block.is-flat * {
+  color: var(--text);
+}
+
+.cream-section-block > :first-child { margin-top: 0; }
+.cream-section-block > :last-child { margin-bottom: 0; }
+
+/* ===== Table ===== */
+.solstar-table-wrap {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+  margin: 10px 0 16px;
+
+  /* Default: allow horizontal scroll */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+
+.solstar-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--card);
+  color: #111111;
+}
+
+.solstar-table th,
+.solstar-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #111111;
+}
+
+.solstar-table tr:first-child th,
+.solstar-table tr:first-child td {
+  border-top: none;
+}
+
+.solstar-table th {
+  width: 34%;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(120, 120, 120, 0.14);
+}
+
+.solstar-table td {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ===== Table inner list ===== */
+.solstar-table-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.2em;
+  color: #111111;
+}
+
+.solstar-table-list li {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.solstar-table-list li:first-child {
+  margin-top: 0;
+}
+
+/* Anchor offset */
+.cream-anchor { scroll-margin-top: 120px; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .cream-manual { padding: 28px 14px; }
+  .cream-layout { grid-template-columns: 1fr; }
+  .cream-sidebar { display: none; }
+  .solstar-table { min-width: 420px; }
+}
+
+/* Mobile: prevent horizontal slide */
+@media (max-width: 640px) {
+  .cream-anchor { scroll-margin-top: 88px; }
+
+  .solstar-table-wrap {
+    overflow-x: hidden;
+    touch-action: pan-y;
+  }
+
+  .solstar-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+}
+</style>
+
+<section class="cream-manual">
+  <div class="cream-manual__inner">
+    <div class="cream-layout">
+      <!-- Sidebar (Desktop only) -->
+      <aside class="cream-sidebar" aria-label="Document Sidebar">
+        <nav class="cream-sidebar__nav" aria-label="H2/H3 Navigation">
+          <ul class="cream-sidebar__list"></ul>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <article class="cream-content">
+        <h2>基本操作</h2>
+        <ul>
+          <li>ページを用意する：Shopify管理画面で固定ページを作成し、テンプレートに <strong>page.wishlist</strong> を指定します。</li>
+          <li>表示を調整する：テーマエディタからwishlistページを開き、<code>お気に入りリスト</code> セクションで「見出し・カードサイズ・配色」などを調整します。</li>
+          <li>お気に入りアイコンを設定する：テーマ設定の「お気に入りリスト」で、お気に入りアイコンの表示ON/OFFと色を設定します。</li>
+          <li>動作を確認する：商品ページ／コレクションでお気に入りアイコンをクリックし、お気に入りリストに追加されることを確認します。あわせて、ヘッダーやボトムメニューの件数表示もチェックしてください。</li>
+        </ul>
+
+        <h2>お気に入りアイコン設定</h2>
+        <p>テーマエディタで「テーマ設定 ＞ Wishlist（お気に入り）」を開き、以下の項目を設定します。</p>
+        <p><strong>1) お気に入りアイコンの表示</strong></p>
+        <p>「お気に入りアイコンの表示」をON（enable_wishlist_icon）にすると、</p>
+        <ul>
+          <li>コレクションの各商品カード</li>
+          <li>商品詳細ページのタイトル付近</li>
+          <li>ヘッダーのお気に入りリスト</li>
+        </ul>
+        <p>に、お気に入り（ハート）アイコンが表示されます。</p>
+        <p><strong>2) お気に入りアイコンの配色</strong></p>
+        <p>お気に入りアイコンの線色・塗り色・背景色をそれぞれ設定できます。ブランドカラーに合わせて調整してください。</p>
+
+        <h2>お気に入りリスト設定</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明 / 使いどころ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>見出しプリセット / サイズ</td>
+              <td>Select + Range</td>
+              <td>ページタイトルのタグとサイズを制御。ブランドガイドに合わせて <code>h1</code>＋48-64px が推奨。</td>
+            </tr>
+            <tr>
+              <td>説明文を表示</td>
+              <td>Checkbox</td>
+              <td>管理画面のページ本文を見出し下に差し込みます。ガイド文が不要ならOFF。</td>
+            </tr>
+            <tr>
+              <td>見出し余白（上/下）</td>
+              <td>Range(px)</td>
+              <td>タイトルとグリッドの距離を微調整。ヒーロー直下で使う場合は上余白0〜16px。</td>
+            </tr>
+            <tr>
+              <td>商品カードサイズ（PC）</td>
+              <td>Select</td>
+              <td><code>small/medium/large</code> に応じて列数（4/3/2列）とカード比率を変更。商品数が多ければsmallで密度を上げる。</td>
+            </tr>
+            <tr>
+              <td>商品カードサイズ（モバイル）</td>
+              <td>Select</td>
+              <td><code>small</code>は2列、<code>large</code>は1列。画像把握優先ならlarge。</td>
+            </tr>
+            <tr>
+              <td>タイトル2行制限</td>
+              <td>Checkbox</td>
+              <td>ONで <code>-webkit-line-clamp:2</code> が付与され、長い商品名でも高さが揃います。</td>
+            </tr>
+            <tr>
+              <td>バリアントピッカーを表示</td>
+              <td>Checkbox</td>
+              <td>trueでセレクトボックスを差し込み、<code>wishlist.js</code> が在庫状況と同期。シンプルなSKUのみならOFFにしてボタンを短縮。</td>
+            </tr>
+            <tr>
+              <td>画像アスペクト比</td>
+              <td>Select</td>
+              <td><code>square/portrait/landscape/adapt</code>。全商品で揃えたい場合は固定比率、撮影比率がまちまちなら<code>adapt</code>。</td>
+            </tr>
+            <tr>
+              <td>グリッド幅</td>
+              <td>Select</td>
+              <td><code>centered</code> はページ幅、<code>full-width</code> は左右余白を削除。ヒーロー背景と合わせたい場合に使います。</td>
+            </tr>
+            <tr>
+              <td>カラム間隔</td>
+              <td>Range(px)</td>
+              <td>カード間ギャップを0〜50pxで調整。PC/モバイル共通で適用。</td>
+            </tr>
+            <tr>
+              <td>配色</td>
+              <td>Color scheme</td>
+              <td>背景とテキストカラー。ダーク背景でカードを浮かせたいときは専用配色を作成。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>公開前チェックリスト</h2>
+        <ul>
+          <li>ページ設定: 対象ページに <code>page.wishlist</code> テンプレートが割り当てられているか。</li>
+          <li>動作テスト: 商品追加→Wishlistページ表示→削除→空状態復帰の一連フローがPC/モバイル両方で成立するか。</li>
+          <li>カウンター: ヘッダーとボトムナビの数値・バッジ表示がアイテム数に追従するか、0件時に非表示になるか。</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const manuals = Array.from(document.querySelectorAll('.cream-manual'));
+  if (!manuals.length) return;
+
+  manuals.forEach((manual) => {
+    const content = manual.querySelector('.cream-content');
+    const list = manual.querySelector('.cream-sidebar__list');
+    if (!content || !list) return;
+
+    // ===== 1) Tables: add class + wrap =====
+    const tables = Array.from(content.querySelectorAll('table'));
+    tables.forEach((tbl) => {
+      if (!tbl.classList.contains('solstar-table')) tbl.classList.add('solstar-table');
+
+      const parent = tbl.parentElement;
+      const alreadyWrapped = parent && parent.classList && parent.classList.contains('solstar-table-wrap');
+      if (!alreadyWrapped) {
+        const wrap = document.createElement('div');
+        wrap.className = 'solstar-table-wrap';
+        tbl.parentNode.insertBefore(wrap, tbl);
+        wrap.appendChild(tbl);
+      }
+    });
+
+    // ===== 2) Wrap each "section" defined by <p><strong>...</strong></p> =====
+    const isStrongSectionTitleP = (p) => {
+      if (!p || p.tagName !== 'P') return false;
+      if (p.children.length !== 1) return false;
+      const child = p.firstElementChild;
+      if (!child || child.tagName !== 'STRONG') return false;
+      const plain = (p.textContent || '').trim();
+      const strongText = (child.textContent || '').trim();
+      return plain === strongText && strongText.length > 0;
+    };
+
+    const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
+
+    let alt = false;
+    strongTitlePs.forEach((p) => {
+      if (p.closest('.cream-section-block')) return;
+
+      const block = document.createElement('section');
+      const titleText = (p.textContent || '').trim();
+      block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
+      alt = !alt;
+
+      const parent = p.parentNode;
+      parent.insertBefore(block, p);
+
+      let node = p;
+      while (node) {
+        const next = node.nextSibling;
+        block.appendChild(node);
+
+        if (!next) break;
+
+        if (next.nodeType === 1) {
+          const tag = next.tagName.toLowerCase();
+          if (tag === 'h2' || tag === 'h3') break;
+          if (tag === 'p' && isStrongSectionTitleP(next)) break;
+        }
+        node = next;
+      }
+    });
+
+    // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
+    const normalizeHeadingText = (value) => String(value || '').replace(/\s+/g, '').trim();
+    const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
+      '基本操作',
+      'セクション共通の見た目調整',
+      '連携・注意事項',
+      'Tips（運用のコツ）',
+      '公開前チェックリスト',
+      'セクション一覧（カテゴリ別ガイド）'
+    ].map(normalizeHeadingText));
+
+    const used = new Set();
+    const unicodePropsSupported = (() => {
+      try {
+        new RegExp('\\p{L}', 'u');
+        return true;
+      } catch (err) {
+        return false;
+      }
+    })();
+    const slugSeparatorRegex = unicodePropsSupported ? /[^\p{L}\p{N}]+/gu : /[^A-Za-z0-9]+/g;
+    const slugify = (str) => {
+      return String(str || '')
+        .trim()
+        .toLowerCase()
+        .replace(slugSeparatorRegex, '-')
+        .replace(/(^-+|-+$)/g, '')
+        .slice(0, 80) || 'section';
+    };
+    const uniqueId = (base) => {
+      let id = base;
+      let i = 2;
+      while (used.has(id)) id = `${base}-${i++}`;
+      used.add(id);
+      return id;
+    };
+
+    const headings = Array.from(content.querySelectorAll('h2, h3'));
+    list.innerHTML = '';
+
+    let currentH2Included = false;
+
+    headings.forEach((hd) => {
+      const tag = hd.tagName.toLowerCase();
+      const level = tag === 'h2' ? 2 : 3;
+      const text = (hd.textContent || '').trim();
+      const normalizedText = normalizeHeadingText(text);
+      if (!text) return;
+
+      if (!hd.id) {
+        hd.id = uniqueId(slugify(text));
+      } else {
+        used.add(hd.id);
+      }
+      hd.classList.add('cream-anchor');
+
+      if (level === 2) {
+        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(normalizedText);
+        if (!currentH2Included) return;
+      } else {
+        if (!currentH2Included) return;
+      }
+
+      const li = document.createElement('li');
+      li.className = 'cream-sidebar__item';
+
+      const a = document.createElement('a');
+      a.className = 'cream-sidebar__link';
+      a.href = `#${hd.id}`;
+      a.textContent = text;
+      a.setAttribute('data-level', String(level));
+
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    // Smooth scroll for manual-only sidebar links
+    list.addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link || !link.hash) return;
+      const target = content.querySelector(link.hash);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', link.hash);
+    });
+  });
+})();
+</script>

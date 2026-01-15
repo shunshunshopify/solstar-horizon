@@ -27,7 +27,7 @@
 | 画像アスペクト比 | Select | `square/portrait/landscape/adapt`。全商品で揃えたい場合は固定比率、撮影比率がまちまちなら`adapt`。 |
 | グリッド幅 | Select | `centered` はページ幅、`full-width` は左右余白を削除。ヒーロー背景と合わせたい場合に使います。 |
 | カラム間隔 | Range(px) | カード間ギャップを0〜50pxで調整。PC/モバイル共通で適用。 |
-| カラースキーム | Color scheme | 背景とテキストカラー。ダーク背景でカードを浮かせたいときは専用スキームを作成。 |
+| 配色 | Color scheme | 背景とテキストカラー。ダーク背景でカードを浮かせたいときは専用配色を作成。 |
 
 ### グリッド/レスポンシブの挙動
 - モバイル列数は `mobile_product_card_size` に応じて1〜2列に固定。600px未満では `padding-inline` が自動追加されます。
@@ -44,13 +44,30 @@
 - ボタン属性: `data-product-*` 情報は `wishlist-button` スニペットが付与。コレクション/商品ページで違いはありませんが、aria-labelがロケーション別に変わります。
 - 商品データ: `/products/<handle>.js` をフェッチし、バリアントや追加画像を補完。`enable_variant_picker` がtrueのときだけ `<select>` 群を描画します。
 - Add to Cart: `<product-form-component>` 内の `<add-to-cart-component>` はテーマ標準のアニメーション設定 `settings.add_to_cart_animation` を読み込み、PDPと同じUXを維持します。
+- 通知表示: 追加/削除/エラー時に `wishlist-notification` を生成して表示します。
+- タブ同期: `storage` イベントで他タブの変更を検知し、一覧とカウンターを再描画します。
+- ホバー2枚目: `settings.show_second_image_on_hover` がtrueの場合、ギャラリーで2枚目をホバー表示します。
+- 更新イベント: `wishlist:updated` を `document` に発火し、`window.wishlist` でも参照できます。
 
 ## 運用Tips
 - **初回導線**: ヘッダーやフッターのハートにテキストラベルをつけると、ユーザーが Wishlist ページの存在に気づきやすくなります。
 - **カード密度**: `product_card_size = medium` と `columns_gap_horizontal = 24px` がもっともバランス良い組み合わせ。商品数が多い場合はギャップ12px＋smallで在庫一覧的に見せるのも有効。
 - **バリアント名**: セレクトの選択肢はそのままオプション名が出るため、長文化しやすいサイズ表記（例: "Size - Unisex Large"）は事前に整理しておくとUIが崩れません。
 - **翻訳**: 空状態メッセージ文はLiquid内で直書きされているため、別言語対応が必要なら多言語ラベルに置き換えるか、翻訳ファイルにキーを追加してください。
-- **パフォーマンス**: 画像は最大3840pxでリクエストされます。Wishlist専用の小サイズを使いたい場合は `wishlist-item-template` 内の `image_url` パラメータを調整すると帯域を抑えられます。
+- **パフォーマンス**: Wishlist内の画像は `wishlist.js` 側で `width=600/832` を付与して取得します。さらに軽量化したい場合は `wishlist.js` の `normalizeImageUrl` 幅を調整してください。
+
+## ボタン配置（wishlist-button）
+- 商品ページ: 価格ブロック内（[blocks/price.liquid](blocks/price.liquid)）。`location: 'product'` のボタンを表示します。
+- コレクションカード: 商品カード上（[snippets/product-card.liquid](snippets/product-card.liquid)）。`location: 'collection'` のアイコンのみ表示です。
+- 特集商品/リソースカード: [blocks/_featured-product.liquid](blocks/_featured-product.liquid) と [snippets/resource-card.liquid](snippets/resource-card.liquid) で `location: 'collection'` を利用します。
+- Buy buttons横: `location: 'buy_buttons'` でアイコンのみを追加できます（スタイルは [assets/wishlist-styles.css](assets/wishlist-styles.css)）。
+
+## テーマ設定（Wishlist）
+- Wishlistアイコン表示: `enable_wishlist_icon` がONのとき、ヘッダーやカードのハートが表示されます（[config/settings_schema.json](config/settings_schema.json)）。
+- アイコンカラー: `wishlist_heart_outline_color / wishlist_heart_fill_color / wishlist_heart_background_color` がハートの線/塗り/背景色に反映されます（[snippets/theme-styles-variables.liquid](snippets/theme-styles-variables.liquid)）。
+
+## 通知（Wishlist Notification）
+- 追加/削除/エラー時に `wishlist-notification` が中央表示されます。自動で3秒後に非表示になり、×ボタンで閉じられます（[assets/wishlist.js](assets/wishlist.js), [assets/wishlist-styles.css](assets/wishlist-styles.css)）。
 
 ## 公開前チェックリスト
 - ページ設定: 対象ページに `page.wishlist` テンプレートが割り当てられているか。

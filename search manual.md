@@ -10,15 +10,15 @@
 ## セクション構成
 | 項目 | 役割 | 主な設定 |
 | --- | --- | --- |
-| search-header | 検索タイトルと入力フィールドを1行にまとめる。検索済みかどうかで見出し文言を切替。 | アライメント、カラースキーム、上下余白（[sections/search-header.liquid](sections/search-header.liquid)） |
+| search-header | 検索タイトルと入力フィールドを1行にまとめる。検索済みかどうかで見出し文言を切替。 | アライメント、配色、上下余白（[sections/search-header.liquid](sections/search-header.liquid)） |
 | search-results | ファセット、結果グリッド、空状態を管理。`results-list.js` と `facets.js` を読み込み、無限スクロールやフィルタドロワーを制御。 | レイアウト種別、カードサイズ、無限スクロール、列幅、ギャップ、カラー（[sections/search-results.liquid](sections/search-results.liquid)） |
 | filtersブロック | Search & Discovery のファセットを再利用。縦置き／横置き／ドロワー表示、ソート、グリッド密度、スウォッチラベルなどを制御（[blocks/filters.liquid](blocks/filters.liquid)）。 | enable_filtering、filter_style、filter_width、enable_sorting、facets margin など |
 | _product-cardブロック | 検索結果カードのギャラリー、タイトル、価格を定義。商品カードのデザインはコレクションページと共通。 | 画像比率、タイポプリセット、セール表示 等 |
-| _search-inputブロック | 入力ボックス自体を描画し、`search-page-input.js` を読み込む（[blocks/_search-input.liquid](blocks/_search-input.liquid)）。 | 幅指定、カラースキーム継承 | 
+| _search-inputブロック | 入力ボックス自体を描画し、`search-page-input.js` を読み込む（[blocks/_search-input.liquid](blocks/_search-input.liquid)）。 | 幅指定、配色継承 | 
 
 ## search-header 詳細
 - 見出し: 検索前は `content.search`、検索後は `content.search_results` を表示。必要に応じて `_heading` ブロックのタイポプリセットを調整できます。
-- 入力欄: `_search-input` は `routes.search_url` にGET送信し、hiddenフィールドで `type=product` を固定。カラースキームを引き継がない場合はフォーム単体で配色を切り替え可能。
+- 入力欄: `_search-input` は `routes.search_url` にGET送信し、hiddenフィールドで `type=product` を固定。配色を引き継がない場合はフォーム単体で配色を切り替え可能。
 - レイアウト: `alignment` で左揃え／中央揃え／右寄せを指定。検索ボックスの横幅はブロック設定の `custom_width`（%）で制御します。
 
 ### search-page-input.js の挙動（[assets/search-page-input.js](assets/search-page-input.js)）

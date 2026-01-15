@@ -18,7 +18,7 @@
 | 設定 | 種別 | 説明 | 推奨値/ヒント |
 | --- | --- | --- | --- |
 | ギャップ | Range 0-100px | タイトル〜本文〜コメント間の縦方向スペース。([sections/main-blog-post.liquid](sections/main-blog-post.liquid#L7-L33)) | 長文記事は32-48px、短文は12-24pxでタイトに。 |
-| カラースキーム | Color scheme | 背景とテキストカラーセット。([sections/main-blog-post.liquid](sections/main-blog-post.liquid#L1-L33)) | 記事用の専用スキームを用意すると一覧との区切りが明確。 |
+| 配色 | Color scheme | 背景とテキストカラーセット。([sections/main-blog-post.liquid](sections/main-blog-post.liquid#L1-L33)) | 記事用の専用配色を用意すると一覧との区切りが明確。 |
 | 上下余白 | Range 0-100px | ページ上端/下端の余白。([sections/main-blog-post.liquid](sections/main-blog-post.liquid#L34-L74)) | Hero直下に置く場合は上余白0-16px。 |
 
 ## ブロック詳細

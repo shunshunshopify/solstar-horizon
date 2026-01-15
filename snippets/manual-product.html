@@ -149,7 +149,7 @@
 .cream-content p {
   margin: 0 0 14px;
   line-height: 1.9;  
-  color: var(--tbl-text);
+  color: var(--text);
 }
 
 .cream-content ul,
@@ -167,6 +167,10 @@
   font-size: 30px;
   line-height: 1.2;
   font-weight: 900;
+}
+
+.cream-content h2:first-of-type {
+  margin-top: 0;
 }
 
 /* ✅ H3 distinct + accent */
@@ -253,17 +257,29 @@
   border-top: none;
 }
 
+/* ✅ ここが統一の肝：th の width を固定で当てない */
 .solstar-table th {
-  width: 34%;
+  width: auto;
   font-size: 12px;
   font-weight: 700;
-  background: rgba(120, 120, 120, 0.14);
+  background: var(--tbl-head-bg);
 }
 
 .solstar-table td {
   font-size: 14px;
   line-height: 1.7;
 }
+
+/* ✅ 列数別の配分（JSで is-3col 等を付与） */
+.solstar-table.is-2col thead th:nth-child(1) { width: 34%; }
+.solstar-table.is-2col thead th:nth-child(2) { width: 66%; }
+
+.solstar-table.is-3col thead th:nth-child(1) { width: 26%; } /* 設定 */
+.solstar-table.is-3col thead th:nth-child(2) { width: 16%; } /* 種別 */
+.solstar-table.is-3col thead th:nth-child(3) { width: 58%; } /* 説明 */
+
+.solstar-table.is-4col thead th { width: 25%; }
+.solstar-table.is-5col thead th { width: 20%; }
 
 /* ===== Table inner list ===== */
 .solstar-table-list {
@@ -313,7 +329,6 @@
     table-layout: fixed;
   }
 }
-
 </style>
 
 <section class="cream-manual">
@@ -329,177 +344,667 @@
       <!-- Content -->
       <article class="cream-content">
 
-        <!-- ✅ Intro removed:
-          # Cream by Solstar 商品ページマニュアル
-          商品詳細ページを最短で整えるための実践ガイドです。ホームページ版と同じ構成で、商品テンプレートに特有のセクションだけを抜粋しています。
-        -->
-
-        <h2>基本操作</h2>
-        <ul>
-          <li>テンプレート切替: エディタ上部のプルダウンで「商品」を選択し、任意の商品をプレビュー対象に指定。</li>
-          <li>商品の切替: 右上の「商品を変更」で想定バリエーション数や在庫状態が近い商品を選び確認。</li>
-          <li>ブロック編集: 「商品情報」セクション内のブロック構造を入れ替えて、見出し→価格→バッジ→フォームの順番を調整。</li>
-          <li>下部セクション: 商品ページでも一般セクションを追加できますが、本マニュアルでは商品専用テンプレートに絞っています。</li>
-          <li>反映確認: PC/モバイル両方でビューを切替え、スティッキーATCやギャラリー比率を実機幅で確認。</li>
-        </ul>
-
-        <h2>セクション共通の見た目調整</h2>
-        <ul>
-          <li>ここを触る: 各セクション右側の「セクション設定」タブ、またはブロックごとの設定パネル。</li>
-          <li>よく使う項目: セクション幅、カラースキーム、上下余白、列間隔、ギャラリー比率、ブロック内パディング。</li>
-          <li>ヒント: 商品ページは余白を詰めすぎると縦長になるため、デスクトップは16-24pxのギャップ、モバイルは12px目安で揃えると読みやすくなります。</li>
-        </ul>
-
-        <h2>テンプレート</h2>
-        <ul>
-          <li>本ガイドで紹介するのは「商品詳細ページでのみ利用できるセクション」です。共通セクション（テキスト、メディア付きテキスト等）はホームページマニュアルを参照してください。</li>
-        </ul>
-
-        <h3>商品情報</h3>
-        <ul>
-          <li>目的: メディアギャラリーと購入エリアを並べ、商品説明からCTAまでを1セクションで完結させる。</li>
-          <li>含まれる機能: メディアギャラリー（グリッド/スライド）、タイトル・価格グループ、バッジ、タブ/アコーディオン説明、サイズチャートポップアップ、バリエーション&amp;スウォッチ、購入ボタン、アプリブロック。</li>
-          <li>使う場面: PDPのメインコンテンツとして常設。ギャラリー左右入替や詳細エリアのスティッキー化でレイアウトを調整。</li>
-        </ul>
-
+        <h2>商品情報</h2>
+        <p>ページ全体のトーンを統一したいときは、配色と上下余白を他セクションと同じ基準に揃えて使います。</p>
+        <p>セクション幅やメディア位置もここで合わせると、商品ページ全体のレイアウトが安定します。</p>
         <p>設定詳細</p>
         <table>
           <thead>
             <tr>
-<th>設定</th>
-<th>種別</th>
-<th>説明</th>
-</tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
           </thead>
           <tbody>
             <tr>
-<td>セクション幅</td>
-<td>Select</td>
-<td>ページ幅/全幅を選択。全幅にすると等分レイアウト時に左右いっぱいまで広がる。</td>
-</tr>
+              <td>セクション幅</td>
+              <td>Select</td>
+              <td>ページ幅（コンテンツ幅）か全幅かを切り替え、セクションの見せ方を整えます。</td>
+            </tr>
             <tr>
-<td>メディア位置</td>
-<td>Select</td>
-<td>PCでメディアを左/右に配置。右を選ぶと商品の詳細を先に見せたい場合に有効。</td>
-</tr>
+              <td>メディア位置</td>
+              <td>Select</td>
+              <td>画像・動画（メディア）を左／右のどちらに配置するかを設定します。</td>
+            </tr>
             <tr>
-<td>カラムバランス</td>
-<td>Checkbox</td>
-<td>「列を同じ幅にする」「詳細幅を制限」でギャラリーと詳細を1:1やサイドバー幅に固定。</td>
-</tr>
+              <td>カラムバランス</td>
+              <td>Checkbox</td>
+              <td>メディア列と詳細列の比率を調整し、読みやすいレイアウトに整えます。</td>
+            </tr>
             <tr>
-<td>ギャップ</td>
-<td>Range(px)</td>
-<td>ギャラリーと詳細間の余白。16-32pxで視線誘導がしやすい。</td>
-</tr>
+              <td>ギャップ</td>
+              <td>Range(px)</td>
+              <td>メディアと詳細の間隔（余白）を調整し、詰まり感を解消します。</td>
+            </tr>
             <tr>
-<td>カラースキーム</td>
-<td>Color scheme</td>
-<td>背景と文字色のセット。ヒーローと同一配色にすると世界観が揃う。</td>
-</tr>
+              <td>配色</td>
+              <td>Color scheme</td>
+              <td>背景色・文字色など、セクション全体のカラースキームを指定します。</td>
+            </tr>
             <tr>
-<td>上下余白</td>
-<td>Range(px)</td>
-<td>セクション外周の余白。ヘッダー直下は上余白0にして詰めるケースが多い。</td>
-</tr>
+              <td>上下余白</td>
+              <td>Range(px)</td>
+              <td>セクションの上／下の外側余白を調整し、前後セクションとのリズムを揃えます。</td>
+            </tr>
           </tbody>
         </table>
-
-        <p><strong>ブロックのポイント</strong></p>
-        <ul>
-          <li>メディアギャラリー: グリッド/スライド、列数、サムネイル位置、アスペクト比、ズーム、動画ループ、サムネ幅、ビューポート内での拡張を選択可能。</li>
-          <li>商品詳細ブロック: 詳細列の幅やスティッキーON/OFF、枠線/背景メディア/角丸を調整。背景メディアを設定するとカード型の購入ボックスが作れる。</li>
-          <li>Variant picker: ボタン/ドロップダウン切替、スウォッチ有無、整列（左/中央）を設定。サイズが多い場合はボタンよりドロップダウン推奨。</li>
-          <li>Popup link: サイズチャートや配送ポリシーなどの静的ページをモーダルで開ける。リンク文言を商品カテゴリごとに変えておくと親切。</li>
-          <li>Tabs &amp; Accordion: 詳細説明をタブ/折りたたみで整理。タブは最大5項目、アコーディオンはアイコンと開閉状態を設定可。長文は「続きを読む」を併用して折り返し。</li>
-          <li>Buy buttons: 数量欄、ギフトカード入力、Shop Payボタンなどを並べ替え可能。pickup availabilityをONにすると店舗受取情報が表示される。</li>
-        </ul>
-
-        <p><strong>Tips</strong></p>
-        <ul>
-          <li>ギャラリーをグリッド表示にする場合は「第一画像を拡大」をONにすると1枚目だけ大きく見せられる。</li>
-          <li>バリエーション画像が多い商品は「バリエーション画像を隠す」をOFFにしておくと切替時に別画像が表示される。</li>
-          <li>Sticky detailsはPCのみ有効。ヒーローの高さと重ならないようヘッダー高さ分のオフセットが自動計算される。</li>
-        </ul>
-
-        <h3>追従カート（Sticky add to cart）</h3>
-        <ul>
-          <li>目的: スクロールで購入フォームが画面外に出たあとも、画面下部からバリエーション選択と購入ボタンを常時表示。</li>
-          <li>含まれる機能: 商品サムネイル/タイトル/価格、ドロップダウン式バリエーション選択、数量調整、Add to Cartボタン、モバイル専用モード。</li>
-          <li>使う場面: コンテンツ量が多いPDPやモバイルでのスクロール距離が長い場合にCVRを維持。</li>
-        </ul>
-
+        <h2>商品メディア</h2>
+        <p>複数商品を並べたときの見た目を揃えるために、画像の比率と<strong>フィット（表示のされ方）</strong>を統一して使います。</p>
+        <p>グリッド/スライド、サムネイルの位置や幅まで揃えると、一覧時の“ガタつき”が出にくいです。</p>
         <p>設定詳細</p>
         <table>
           <thead>
             <tr>
-<th>設定</th>
-<th>種別</th>
-<th>説明</th>
-</tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
           </thead>
           <tbody>
             <tr>
-<td>セクション有効化</td>
-<td>Checkbox</td>
-<td>商品ページかつ在庫あり時のみ表示。構築中は無効化してスクロール挙動を個別確認。</td>
-</tr>
+              <td>レイアウト</td>
+              <td>Select</td>
+              <td>グリッド表示／スライド表示を切り替え、見せ方の密度を選択します。</td>
+            </tr>
             <tr>
-<td>モバイルのみ</td>
-<td>Checkbox</td>
-<td>デスクトップを除外する場合に使用。</td>
-</tr>
+              <td>列数/ギャップ</td>
+              <td>Range/Range</td>
+              <td>表示する列数と画像間の余白を調整し、一覧の見やすさを最適化します。</td>
+            </tr>
             <tr>
-<td>カラースキーム</td>
-<td>Color scheme</td>
-<td>バー全体の背景/文字色。透過はカスタムCSSで制御。</td>
-</tr>
+              <td>先頭画像の強調</td>
+              <td>Checkbox</td>
+              <td>先頭の画像を大きく表示して、メインビジュアルの訴求力を上げます。</td>
+            </tr>
             <tr>
-<td>バリエーション/数量/画像表示</td>
-<td>Checkbox</td>
-<td>それぞれの表示可否を切替。バリエーションOFF時は現在選択されているSKUをそのまま使用。</td>
-</tr>
+              <td>サムネイル位置/幅</td>
+              <td>Select/Range</td>
+              <td>サムネイルの配置場所とサイズを調整し、操作性と見栄えを整えます。</td>
+            </tr>
             <tr>
-<td>上下パディング</td>
-<td>Range(rem)</td>
-<td>バー内部の縦余白。モバイルで0.5rem、デスクトップで1rem程度が推奨。</td>
-</tr>
+              <td>比率/フィット</td>
+              <td>Select/Select</td>
+              <td>画像のアスペクト比とトリミング（表示の収まり方）を設定し、統一感を作ります。</td>
+            </tr>
             <tr>
-<td>注意書き</td>
-<td>Paragraph</td>
-<td>フッター固定メニュー使用時のクリアランスに関するリマインダー。</td>
-</tr>
+              <td>ズーム/動画ループ</td>
+              <td>Checkbox/Checkbox</td>
+              <td>ズーム挙動や動画ループのON/OFFを切り替え、閲覧体験を調整します。</td>
+            </tr>
+            <tr>
+              <td>バリエーション画像表示</td>
+              <td>Checkbox</td>
+              <td>バリエーションに紐づく画像を表示するかを設定し、SKUの見せ方を制御します。</td>
+            </tr>
+            <tr>
+              <td>ビューポート制約/余白</td>
+              <td>Checkbox/Range</td>
+              <td>画面内への収め方（見切れ防止）と周辺余白を調整し、表示の安定性を高めます。</td>
+            </tr>
           </tbody>
         </table>
-
-        <p><strong>Tips</strong></p>
-        <ul>
-          <li>Bottom Menuと併用するときは、セクションの注意書きどおりバーの位置が自動で調整されるかを実機で検証。</li>
-          <li>バリエーション項目が多い場合、スティッキーATCでは自動でドロップダウン化されるため命名を短く整えておくとUIがすっきりする。</li>
-        </ul>
-
-        <h2>連携・注意事項</h2>
-        <ul>
-          <li>Product RecommendationsはSearch &amp; Discoveryアプリの設定を参照します。Complementaryタイプを使う場合はアプリ側でペアリングを作っておく必要があります。</li>
-          <li>Popup LinkやTabsに外部アプリブロックを挿入する場合、表示崩れが起きやすいので1ブロックずつ追加して確認しましょう。</li>
-        </ul>
-
-        <h2>Tips（運用のコツ）</h2>
-        <ul>
-          <li>画像: メインギャラリーは縦長(3:4)×4枚をベースにし、動画は最後尾に置くとカルーセル操作がシンプル。</li>
-          <li>コピーワーク: タブの見出しは名詞+一語（例: 素材、ケア）で揃えると国際対応しやすい。</li>
-          <li>変数確認: 価格表示が税込/税別で揺れないよう、priceブロックの「税込表記」設定を本番前に再チェック。</li>
-          <li>パフォーマンス: メディアを16MB以下に抑え、ズームON時は2048px以上の画像をアップロード。</li>
-        </ul>
-
-        <h2>公開前チェックリスト</h2>
-        <ul>
-          <li>バリエーション切替: 画像・価格・在庫・SKU表示が全組み合わせで正しく更新されるか。</li>
-          <li>サイズチャート: Popup Linkが正しいページを参照しているか、翻訳済みか。</li>
-          <li>タブ＆アコーディオン: 表示/非表示の文字数がバラつかないか、折返し高さを調整したか。</li>
-          <li>スティッキーATC: 在庫切れ状態やログアウト状態でも期待通りの表示になるか。</li>
-          <li>レコメンド: Search &amp; Discovery設定と一致するか、在庫切れ商品が混ざっていないか。</li>
-        </ul>
+        <h2>詳細</h2>
+        <p>情報量が多い商品ほど、可読性を優先してギャップを広めに設定するのが推奨です。</p>
+        <p>列幅・縦配置・スティッキーを調整して、読み進めやすい導線に整えます。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>幅</td>
+              <td>Select/Range</td>
+              <td>詳細エリアの横幅（比率）を調整し、情報量に合わせて読みやすくします。</td>
+            </tr>
+            <tr>
+              <td>高さ</td>
+              <td>Select</td>
+              <td>詳細エリアの高さの扱いを設定し、メディアとのバランスを整えます。</td>
+            </tr>
+            <tr>
+              <td>配置/ギャップ</td>
+              <td>Select/Range</td>
+              <td>内部要素の並び（配置）と間隔を調整し、情報の視線誘導を最適化します。</td>
+            </tr>
+            <tr>
+              <td>スティッキー</td>
+              <td>Checkbox</td>
+              <td>スクロール時に詳細エリアを固定表示するかを設定し、購入導線を維持します（主にPC向け）。</td>
+            </tr>
+            <tr>
+              <td>配色継承</td>
+              <td>Checkbox</td>
+              <td>セクションのカラースキームを詳細エリアに引き継ぐかを設定します。</td>
+            </tr>
+            <tr>
+              <td>背景メディア</td>
+              <td>Select</td>
+              <td>詳細エリアの背景に画像／動画を設定し、印象づけを強化します。</td>
+            </tr>
+            <tr>
+              <td>枠線/角丸/余白</td>
+              <td>Select/Range</td>
+              <td>ボーダー・角丸・内側余白を調整し、カード感や情報のまとまりを作ります。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>Header</h2>
+        <p>タイトルと価格を読みやすくしたいときは、余白（gap）を広めに取って使います。</p>
+        <p>カード化（背景・枠線・角丸）もここでまとめて調整すると、視認性が上がります。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>レイアウト</td>
+              <td>Select/Range</td>
+              <td>タイトル・価格などの並び方と余白を調整し、情報の優先順位を整えます。</td>
+            </tr>
+            <tr>
+              <td>幅/高さ</td>
+              <td>Select/Range</td>
+              <td>ヘッダー領域のサイズを調整し、ページ上部の情報密度を最適化します。</td>
+            </tr>
+            <tr>
+              <td>配色継承</td>
+              <td>Checkbox</td>
+              <td>セクション配色をヘッダーに継承するかを設定します。</td>
+            </tr>
+            <tr>
+              <td>背景メディア</td>
+              <td>Select</td>
+              <td>ヘッダー背景に画像／動画を設定し、ファーストビューの印象を調整します。</td>
+            </tr>
+            <tr>
+              <td>枠線/角丸/余白</td>
+              <td>Select/Range</td>
+              <td>枠線・角丸・内側余白でカード化し、可読性とまとまりを強化します。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>タイトル</h2>
+        <p>商品名が長い場合のレイアウト崩れ対策として、折り返し（wrap）設定を優先して使います。</p>
+        <p>フォントサイズや行間より先に、折り返しの挙動を整えると事故りにくいです。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>テキスト</td>
+              <td>Rich text</td>
+              <td>商品名を表示します（見出しとして扱い、構造化にも寄与します）。</td>
+            </tr>
+            <tr>
+              <td>整列</td>
+              <td>Select</td>
+              <td>左／中央／右の寄せを設定し、レイアウトの基準線を揃えます。</td>
+            </tr>
+            <tr>
+              <td>フォント</td>
+              <td>Select/Range</td>
+              <td>フォントプリセットやサイズを調整し、ブランドトーンに合わせます。</td>
+            </tr>
+            <tr>
+              <td>行間/字間/大文字</td>
+              <td>Select</td>
+              <td>行間・文字間隔・大文字化などを調整し、視認性を整えます。</td>
+            </tr>
+            <tr>
+              <td>折返し</td>
+              <td>Select</td>
+              <td>長い商品名の改行ルールを設定し、崩れや段落ズレを防ぎます。</td>
+            </tr>
+            <tr>
+              <td>色/背景</td>
+              <td>Color/Checkbox</td>
+              <td>文字色と背景の有無を設定し、コントラスト（読みやすさ）を確保します。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>タイトル周辺の内側余白を調整し、詰まり感を解消します。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>価格</h2>
+        <p>税込/税別などの表示ルールを統一したいときは、税表示の設定を使い分けます。</p>
+        <p>セール価格の優先表示や分割表示の有無も、店舗の方針に合わせて揃えるのがベターです。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>セール優先</td>
+              <td>Checkbox</td>
+              <td>通常価格とセール価格の表示順を切り替え、訴求の見せ方を統一します。</td>
+            </tr>
+            <tr>
+              <td>税表示</td>
+              <td>Checkbox</td>
+              <td>税込／税別など、税情報の表示有無を設定します。</td>
+            </tr>
+            <tr>
+              <td>分割表示</td>
+              <td>Checkbox</td>
+              <td>分割払いの表示有無を設定し、購入のハードルを調整します。</td>
+            </tr>
+            <tr>
+              <td>フォント</td>
+              <td>Select/Range</td>
+              <td>価格表示のフォント・サイズを調整し、強調度をコントロールします。</td>
+            </tr>
+            <tr>
+              <td>整列</td>
+              <td>Select</td>
+              <td>左／中央／右の寄せを設定し、他要素との揃いを取ります。</td>
+            </tr>
+            <tr>
+              <td>色</td>
+              <td>Color</td>
+              <td>価格の文字色を設定し、可読性と視線誘導を最適化します。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>価格周りの余白を調整し、情報の密度と読みやすさを整えます。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>区切り線</h2>
+        <p>情報のまとまりを分けたい場所だけに、ピンポイントで使います。</p>
+        <p>入れすぎると逆に情報が散るので、必要箇所に限定するのがコツです。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>太さ</td>
+              <td>Range</td>
+              <td>区切り線のストローク（太さ）を調整します。</td>
+            </tr>
+            <tr>
+              <td>角丸</td>
+              <td>Select</td>
+              <td>線端の形状（角の丸み）を設定し、トーンを揃えます。</td>
+            </tr>
+            <tr>
+              <td>幅</td>
+              <td>Range</td>
+              <td>区切り線の横幅（占有率）を調整し、主張の強さをコントロールします。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>区切り線の上下余白を調整し、情報ブロック間の間隔を整えます。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>バリエーションピッカー</h2>
+        <p>バリエーション数が多いときは、選択UIをシンプルにするためにドロップダウン形式を基本に使います。</p>
+        <p>スウォッチ表示は商品特性（色が重要か）に合わせてON/OFFします。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>表示形式</td>
+              <td>Select</td>
+              <td>ボタン／ドロップダウンなど、選択UIの形式を切り替えます。</td>
+            </tr>
+            <tr>
+              <td>スウォッチ</td>
+              <td>Checkbox</td>
+              <td>色見本（スウォッチ）の表示有無を切り替えます。</td>
+            </tr>
+            <tr>
+              <td>整列</td>
+              <td>Select</td>
+              <td>UIの寄せ（左／中央／右）を設定し、レイアウトの整合性を取ります。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>ピッカー周辺の余白を調整し、タップしやすさと見た目を整えます。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>ポップアップリンク</h2>
+        <p>サイズチャートや素材説明など、補足情報を省スペースで見せたいときに使います。</p>
+        <p>リンク先ページ＋配色継承をセットで揃えると、デザインの一貫性が保てます。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>表示挙動</td>
+              <td>Select</td>
+              <td>ポップアップの開き方（挙動）を設定します。</td>
+            </tr>
+            <tr>
+              <td>見出し</td>
+              <td>Text</td>
+              <td>表示する見出し文言を設定します。</td>
+            </tr>
+            <tr>
+              <td>フォント</td>
+              <td>Select</td>
+              <td>見出しの文字サイズ（プリセット）を調整し、情報の優先度を整えます。</td>
+            </tr>
+            <tr>
+              <td>リンク先ページ</td>
+              <td>Page</td>
+              <td>ポップアップで表示するページコンテンツを指定します。</td>
+            </tr>
+            <tr>
+              <td>配色継承</td>
+              <td>Checkbox</td>
+              <td>セクション配色を引き継ぐかを設定し、デザインの一貫性を保ちます。</td>
+            </tr>
+            <tr>
+              <td>背景/余白</td>
+              <td>Checkbox/Range</td>
+              <td>背景の有無と内側余白を調整し、読みやすいカード表現にします。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>購入ボタン</h2>
+        <p>購入導線を強めたいときは、配色と余白を強調して使います。</p>
+        <p>縦積み/横並びの切替は、モバイルの視認性を基準に決めると安定します。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ボタン配置</td>
+              <td>Checkbox</td>
+              <td>購入導線の並べ方（縦積み／横並び）を切り替えます。</td>
+            </tr>
+            <tr>
+              <td>店舗受取</td>
+              <td>Checkbox</td>
+              <td>店舗受け取り可否（Pickup availability）の表示有無を設定します。</td>
+            </tr>
+            <tr>
+              <td>ギフトカード</td>
+              <td>Checkbox</td>
+              <td>ギフトカード向けの入力フォーム表示有無を設定します。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>Tabs</h2>
+        <p>情報をカテゴリで整理したいときに使います。</p>
+        <p>タブ数は増やしすぎず、必要最小限に絞ると理解が速いです（「もっと読む」も併用推奨）。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>説明の表示</td>
+              <td>Checkbox</td>
+              <td>商品説明（description）をタブ内に表示するかを設定します。</td>
+            </tr>
+            <tr>
+              <td>もっと読む</td>
+              <td>Checkbox</td>
+              <td>長文の折りたたみ（Read more / less）を有効化するかを設定します。</td>
+            </tr>
+            <tr>
+              <td>高さ/ラベル</td>
+              <td>Range/Text</td>
+              <td>折りたたみ時の高さと、開閉ボタンの文言を設定します。</td>
+            </tr>
+            <tr>
+              <td>タイトル/本文</td>
+              <td>Text/Textarea</td>
+              <td>各タブの見出しと本文コンテンツを入力・管理します。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>タブブロック下部の余白を調整し、次要素との詰まりを防ぎます。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>アコーディオン</h2>
+        <p>長文を折りたたみたいときに使います。</p>
+        <p>区切り線や枠線・角丸を調整して、<strong>“押せるUI”</strong>に見える状態を作るのが重要です。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>アイコン</td>
+              <td>Select</td>
+              <td>各見出しに表示するアイコンを指定します。</td>
+            </tr>
+            <tr>
+              <td>区切り線</td>
+              <td>Checkbox</td>
+              <td>行間の区切り線（dividers）の表示有無を設定します。</td>
+            </tr>
+            <tr>
+              <td>フォント</td>
+              <td>Select</td>
+              <td>見出しの文字サイズ（プリセット）を調整し、階層の見せ方を整えます。</td>
+            </tr>
+            <tr>
+              <td>配色継承</td>
+              <td>Checkbox</td>
+              <td>セクション配色の継承有無を設定します。</td>
+            </tr>
+            <tr>
+              <td>枠線/角丸/余白</td>
+              <td>Select/Range</td>
+              <td>枠線・角丸・内側余白を調整し、アコーディオン全体のカード感を作ります。</td>
+            </tr>
+            <tr>
+              <td>行設定</td>
+              <td>Text/Checkbox</td>
+              <td>各項目のタイトルと初期状態（開いた状態で表示するか）を設定します。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>商品の在庫</h2>
+        <p>在庫状況を購入判断の材料として出したいときに使います。</p>
+        <p>表示文言は、ブランドのトーンに合わせて言い回しを統一しておくと強いです。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>表示</td>
+              <td>Checkbox</td>
+              <td>在庫情報の表示有無を切り替えます。</td>
+            </tr>
+            <tr>
+              <td>文言</td>
+              <td>Text</td>
+              <td>在庫表示テキストを編集し、ブランドトーンに合わせて最適化します。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>在庫ブロック周辺の余白を調整し、視認性を整えます。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>特別な指示</h2>
+        <p>名入れ・配送メモなど、入力を受けたいときに使います。</p>
+        <p>短い入力例（プレースホルダー）を入れると、入力品質が上がります。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>表示</td>
+              <td>Checkbox</td>
+              <td>特別な指示（注文メモ）入力欄の表示有無を設定します。</td>
+            </tr>
+            <tr>
+              <td>ラベル</td>
+              <td>Text</td>
+              <td>入力欄の見出し（ラベル）文言を設定します。</td>
+            </tr>
+            <tr>
+              <td>プレースホルダー</td>
+              <td>Text</td>
+              <td>入力例を表示し、ユーザーの記入精度を上げます。</td>
+            </tr>
+            <tr>
+              <td>文字数/行数</td>
+              <td>Range</td>
+              <td>入力欄のサイズ感（入力容量の目安）を調整します。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>ブロック周辺の余白を調整し、フォームの圧迫感を抑えます。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>説明</h2>
+        <p>要点を先に伝えたい場合は、冒頭に“結論寄り”の情報を置く前提で使います。</p>
+        <p>表示量を調整して、最初に見せる情報の密度をコントロールします。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>表示</td>
+              <td>Checkbox</td>
+              <td>商品説明ブロックの表示有無を切り替えます。</td>
+            </tr>
+            <tr>
+              <td>表示量</td>
+              <td>Range</td>
+              <td>初期表示する本文量を調整し、要点優先の見せ方にできます。</td>
+            </tr>
+            <tr>
+              <td>整列</td>
+              <td>Select</td>
+              <td>テキストの寄せ（左／中央／右）を設定します。</td>
+            </tr>
+            <tr>
+              <td>余白</td>
+              <td>Range</td>
+              <td>説明ブロック周辺の余白を調整し、読みやすい行間・間隔に整えます。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>グループ</h2>
+        <p>複数ブロックをまとめて、背景色・余白・枠線を揃えたいときに使います。</p>
+        <p>ヘッダー直下に「ポイント／特典／保証」などをカード化して置くと、情報が整理されて見えます。</p>
+        <p>先頭に見出しを置くと、まとまりの入口が分かりやすくなります。</p>
+        <p>設定詳細</p>
+        <table>
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>種別</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>レイアウト</td>
+              <td>Select/Range</td>
+              <td>グループ内の並びと間隔を調整し、複数ブロックを一体として見せます。</td>
+            </tr>
+            <tr>
+              <td>幅/高さ</td>
+              <td>Select/Range</td>
+              <td>グループ全体のサイズを調整し、カードの存在感をコントロールします。</td>
+            </tr>
+            <tr>
+              <td>配色/背景</td>
+              <td>Color scheme/Image picker</td>
+              <td>背景色（カラースキーム）や背景画像を設定し、まとまりの演出を作ります。</td>
+            </tr>
+            <tr>
+              <td>枠線/角丸/余白</td>
+              <td>Select/Range</td>
+              <td>枠線・角丸・内側余白でカード化し、情報を整理して見せます。</td>
+            </tr>
+          </tbody>
+        </table>
 
       </article>
     </div>
@@ -518,8 +1023,30 @@
 
     // ===== 1) Tables: add class + wrap =====
     const tables = Array.from(content.querySelectorAll('table'));
+
+    // ✅ 列数判定（thead優先）
+    const detectColCount = (tbl) => {
+      const theadRow = tbl.querySelector('thead tr');
+      if (theadRow) {
+        const ths = theadRow.querySelectorAll('th');
+        if (ths && ths.length) return ths.length;
+      }
+      const firstRow = tbl.querySelector('tr');
+      if (firstRow) return firstRow.children.length || 0;
+      return 0;
+    };
+
     tables.forEach((tbl) => {
       if (!tbl.classList.contains('solstar-table')) tbl.classList.add('solstar-table');
+
+      // ✅ 列数クラス付与（is-3col など）
+      const colCount = detectColCount(tbl);
+      if (colCount >= 2) {
+        tbl.classList.add(`is-${colCount}col`);
+      } else {
+        // 念のためのフォールバック
+        tbl.classList.add('is-3col');
+      }
 
       const parent = tbl.parentElement;
       const alreadyWrapped = parent && parent.classList && parent.classList.contains('solstar-table-wrap');
@@ -545,7 +1072,8 @@
 
     const strongTitlePs = Array.from(content.querySelectorAll('p')).filter(isStrongSectionTitleP);
 
-    const flatTitles = new Set(['ブロックのポイント', 'Tips']);
+    const flatTitles = new Set(['Tips']);
+    const skipSectionBlockTitles = new Set(['ブロックのポイント']);
     let alt = false;
     strongTitlePs.forEach((p) => {
       // Skip if already wrapped
@@ -553,6 +1081,7 @@
 
       const block = document.createElement('section');
       const titleText = (p.textContent || '').trim();
+      if (skipSectionBlockTitles.has(titleText)) return;
       block.className = 'cream-section-block' + (alt ? ' is-alt' : '');
       if (flatTitles.has(titleText)) block.classList.add('is-flat');
       alt = !alt;
@@ -578,6 +1107,7 @@
     });
 
     // ===== 3) Sidebar: H2 + H3 (exclude specified H2 links) =====
+    const normalizeHeadingText = (value) => String(value || '').replace(/\s+/g, '').trim();
     const EXCLUDE_SIDEBAR_H2_TITLES = new Set([
       '基本操作',
       'セクション共通の見た目調整',
@@ -585,12 +1115,12 @@
       'Tips（運用のコツ）',
       '公開前チェックリスト',
       'セクション一覧（カテゴリ別ガイド）'
-    ]);
+    ].map(normalizeHeadingText));
 
     const used = new Set();
     const unicodePropsSupported = (() => {
       try {
-        new RegExp('\\p{L}', 'u');
+        new RegExp('\p{L}', 'u');
         return true;
       } catch (err) {
         return false;
@@ -622,6 +1152,7 @@
       const tag = hd.tagName.toLowerCase();
       const level = tag === 'h2' ? 2 : 3;
       const text = (hd.textContent || '').trim();
+      const normalizedText = normalizeHeadingText(text);
       if (!text) return;
 
       if (!hd.id) {
@@ -632,7 +1163,7 @@
       hd.classList.add('cream-anchor');
 
       if (level === 2) {
-        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(text);
+        currentH2Included = !EXCLUDE_SIDEBAR_H2_TITLES.has(normalizedText);
         if (!currentH2Included) return;
       } else {
         if (!currentH2Included) return;

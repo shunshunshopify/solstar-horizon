@@ -28,12 +28,6 @@
     "bottom_nav_bar_iCJF4N": {
       "type": "bottom-nav-bar",
       "blocks": {
-        "home_block_QgPG4Y": {
-          "type": "home_block",
-          "settings": {
-            "caption": "トップ"
-          }
-        },
         "cart_block_t4VLDG": {
           "type": "cart_block",
           "settings": {
@@ -58,14 +52,33 @@
           "settings": {
             "caption": "アカウント"
           }
+        },
+        "extended_menu_block_ktRkWL": {
+          "type": "extended_menu_block",
+          "settings": {
+            "caption": "More",
+            "show_search": true,
+            "search_caption": "Search",
+            "show_line": true,
+            "line_caption": "",
+            "line_link": "",
+            "show_wishlist": true,
+            "wishlist_caption": "",
+            "show_track": true,
+            "track_caption": "",
+            "track_url": "",
+            "show_help": true,
+            "help_caption": "",
+            "help_url": ""
+          }
         }
       },
       "block_order": [
-        "home_block_QgPG4Y",
         "cart_block_t4VLDG",
         "menu_block_Eaw84P",
         "wishlist_block_EKb9Cc",
-        "account_block_pHJqJ3"
+        "account_block_pHJqJ3",
+        "extended_menu_block_ktRkWL"
       ],
       "name": "t:names.sticky_bottom_menu",
       "settings": {

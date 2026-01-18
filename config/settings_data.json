@@ -77,7 +77,7 @@
     "cart_thumbnail_border_width": 0,
     "drawer_color_scheme": "scheme-1",
     "drawer_drop_shadow": true,
-    "icon_stroke": "heavy",
+    "icon_stroke": "thin",
     "input_border_width": 1,
     "inputs_border_radius": 4,
     "popover_border_radius": 14,

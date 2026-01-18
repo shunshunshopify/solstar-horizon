@@ -7,7 +7,7 @@
         fill: none;
         stroke: currentColor;
         stroke-miterlimit: 10;
-        stroke-width: 22px;
+        stroke-width: 25px;
       }
     </style>
   </defs>

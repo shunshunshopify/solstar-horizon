@@ -196,8 +196,10 @@
     }
 </style>
   {% assign line_icon_asset = 'line-icon-regular.svg' %}
-  {% if section.settings.icon_stroke == 'thin' %}
+  {% if settings.icon_stroke == 'thin' %}
     {% assign line_icon_asset = 'line-icon-thin.svg' %}
+  {% elsif settings.icon_stroke == 'heavy' %}
+    {% assign line_icon_asset = 'line-icon-regular.svg' %}
   {% endif %}
 </head>
 

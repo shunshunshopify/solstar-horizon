@@ -196,11 +196,14 @@
     }
 </style>
   {% assign line_icon_asset = 'line-icon-regular.svg' %}
-  {% if settings.icon_stroke == 'thin' %}
-    {% assign line_icon_asset = 'line-icon-thin.svg' %}
-  {% elsif settings.icon_stroke == 'thick' %}
-    {% assign line_icon_asset = 'line-icon-thick.svg' %}
-  {% endif %}
+  {% case settings.icon_stroke %}
+    {% when 'thin' %}
+      {% assign line_icon_asset = 'line-icon-thin.svg' %}
+    {% when 'heavy' %}
+      {% assign line_icon_asset = 'line-icon-thick.svg' %}
+    {% else %}
+      {% assign line_icon_asset = 'line-icon-regular.svg' %}
+  {% endcase %}
 </head>
 
 <body>

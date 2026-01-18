@@ -194,7 +194,11 @@
       --bottom-menu-border-color: transparent;
       {% endif %}
     }
-  </style>
+</style>
+  {% assign line_icon_asset = 'line-icon-regular.svg' %}
+  {% if section.settings.icon_stroke == 'thin' %}
+    {% assign line_icon_asset = 'line-icon-thin.svg' %}
+  {% endif %}
 </head>
 
 <body>
@@ -295,7 +299,7 @@
               {% if line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
             >
               <span class="svg-wrapper line-icon-wrapper" aria-hidden="true">
-                {{ 'line-icon-thin.svg' | inline_asset_content }}
+                {{ line_icon_asset | inline_asset_content }}
               </span>
               {{ line_caption | default: 'Line' }}
             </a>
@@ -409,7 +413,7 @@
                 {% if popup_line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
               >
                 <span class="svg-wrapper line-icon" aria-hidden="true">
-                  {{ 'line-icon-thin.svg' | inline_asset_content }}
+                  {{ line_icon_asset | inline_asset_content }}
                 </span>
                 {{ block.settings.line_caption | default: 'Line' }}
               </a>

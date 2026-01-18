@@ -274,6 +274,18 @@
     );
   }
 
+  .header-actions__cart-icon svg {
+    background-color: transparent;
+  }
+
+  .header-actions__cart-icon .svg-wrapper svg,
+  .header-actions__cart-icon .svg-wrapper svg path,
+  .header-actions__cart-icon .svg-wrapper svg circle {
+    fill: none !important;
+    stroke: currentColor;
+    stroke-width: var(--icon-stroke-width, 1.5px);
+  }
+
   .cart-drawer__heading .cart-bubble__background {
     background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
   }

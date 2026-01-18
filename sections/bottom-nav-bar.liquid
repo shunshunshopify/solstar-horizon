@@ -195,17 +195,6 @@
       {% endif %}
     }
 </style>
-  {% assign line_icon_asset = 'line-icon-regular.svg' %}
-  {% case settings.icon_stroke %}
-    {% when 'thin' %}
-      {% assign line_icon_asset = 'line-icon-thin.svg' %}
-    {% when 'thick' %}
-      {% assign line_icon_asset = 'line-icon-thick.svg' %}
-    {% when 'heavy' %}
-      {% assign line_icon_asset = 'line-icon-thick.svg' %}
-    {% else %}
-      {% assign line_icon_asset = 'line-icon-regular.svg' %}
-  {% endcase %}
 </head>
 
 <body>
@@ -306,7 +295,16 @@
               {% if line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
             >
               <span class="svg-wrapper line-icon-wrapper" aria-hidden="true">
-                {{ line_icon_asset | inline_asset_content }}
+                {% case settings.icon_stroke %}
+                  {% when 'thin' %}
+                    {{ 'line-icon-thin.svg' | inline_asset_content }}
+                  {% when 'thick' %}
+                    {{ 'line-icon-thick.svg' | inline_asset_content }}
+                  {% when 'heavy' %}
+                    {{ 'line-icon-thick.svg' | inline_asset_content }}
+                  {% else %}
+                    {{ 'line-icon-regular.svg' | inline_asset_content }}
+                {% endcase %}
               </span>
               {{ line_caption | default: 'Line' }}
             </a>
@@ -420,7 +418,16 @@
                 {% if popup_line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
               >
                 <span class="svg-wrapper line-icon" aria-hidden="true">
-                  {{ line_icon_asset | inline_asset_content }}
+                  {% case settings.icon_stroke %}
+                    {% when 'thin' %}
+                      {{ 'line-icon-thin.svg' | inline_asset_content }}
+                    {% when 'thick' %}
+                      {{ 'line-icon-thick.svg' | inline_asset_content }}
+                    {% when 'heavy' %}
+                      {{ 'line-icon-thick.svg' | inline_asset_content }}
+                    {% else %}
+                      {{ 'line-icon-regular.svg' | inline_asset_content }}
+                  {% endcase %}
                 </span>
                 {{ block.settings.line_caption | default: 'Line' }}
               </a>

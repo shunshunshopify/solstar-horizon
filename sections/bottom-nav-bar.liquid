@@ -295,7 +295,7 @@
               {% if line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
             >
               <span class="svg-wrapper line-icon-wrapper" aria-hidden="true">
-                {{ 'line-icon-regular.svg' | inline_asset_content }}
+                {{ 'line-icon-thin.svg' | inline_asset_content }}
               </span>
               {{ line_caption | default: 'Line' }}
             </a>
@@ -409,7 +409,7 @@
                 {% if popup_line_link contains '://' %}target="_blank" rel="noopener"{% endif %}
               >
                 <span class="svg-wrapper line-icon" aria-hidden="true">
-                  {{ 'line-icon-regular.svg' | inline_asset_content }}
+                  {{ 'line-icon-thin.svg' | inline_asset_content }}
                 </span>
                 {{ block.settings.line_caption | default: 'Line' }}
               </a>

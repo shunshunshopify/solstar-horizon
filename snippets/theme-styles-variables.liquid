@@ -457,7 +457,7 @@
     --icon-size-sm: 1.25rem;
     --icon-size-md: 1.375rem;
     --icon-size-lg: 1.5rem;
-    --icon-stroke-width: {% if settings.icon_stroke == 'thin' %}1px{% elsif settings.icon_stroke == 'heavy' %}2px{% else %}1.5px{% endif %};
+    --icon-stroke-width: {% if settings.icon_stroke == 'thin' %}1px{% elsif settings.icon_stroke == 'thick' or settings.icon_stroke == 'heavy' %}2px{% else %}1.5px{% endif %};
 
     /* Input */
     --input-email-min-width: 200px;

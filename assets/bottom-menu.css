@@ -147,6 +147,7 @@
 .sticky-section .svg-wrapper svg path[stroke],
 .sticky-section .svg-wrapper svg circle[stroke] {
   fill: none !important;
+  stroke-width: var(--icon-stroke-width, 1.5px);
 }
 
 /* Specific sizing for menu icon only - match header menu size */
@@ -446,7 +447,6 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 .extended-menu .container a .svg-wrapper {
   width: 24px;
   height: 24px;
-  --icon-stroke-width: 1.5px;
 }
 
 /* Extended menu SVG icons - Support both fill and stroke icons */

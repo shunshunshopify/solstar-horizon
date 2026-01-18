@@ -2003,7 +2003,7 @@
             "label": "t:options.default"
           },
           {
-            "value": "heavy",
+            "value": "thick",
             "label": "t:options.heavy"
           }
         ],

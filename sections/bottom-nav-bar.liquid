@@ -199,6 +199,8 @@
   {% case settings.icon_stroke %}
     {% when 'thin' %}
       {% assign line_icon_asset = 'line-icon-thin.svg' %}
+    {% when 'thick' %}
+      {% assign line_icon_asset = 'line-icon-thick.svg' %}
     {% when 'heavy' %}
       {% assign line_icon_asset = 'line-icon-thick.svg' %}
     {% else %}

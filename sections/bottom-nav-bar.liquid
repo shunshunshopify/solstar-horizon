@@ -110,7 +110,7 @@
       height: var(--bottom-menu-icon-size, 2.2rem);
       stroke: {{ section.settings.icon_color }};
       fill: none;
-      stroke-width: 1.5px;
+      stroke-width: var(--icon-stroke-width, 1.5px);
     }
     .account-block-link .account-button__avatar {
       --avatar-size: calc(var(--bottom-menu-icon-size, 2.2rem) - 0.2rem);
@@ -194,7 +194,6 @@
       --bottom-menu-color: {{ section.settings.color }};
       --bottom-menu-icon-color: {{ section.settings.icon_color }};
       --bottom-menu-font-size: {{ section.settings.font_size }}px;
-      --icon-stroke-width: 1.5px;
       {% if section.settings.hide-border %}
       --bottom-menu-border-color: transparent;
       {% endif %}

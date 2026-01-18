@@ -446,7 +446,6 @@ cart-icon.bottom-nav-cart-icon .btm_link {
 .extended-menu .container a .svg-wrapper {
   width: 24px;
   height: 24px;
-  --icon-stroke-width: 1.5px;
 }
 
 /* Extended menu SVG icons - Support both fill and stroke icons */

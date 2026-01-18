@@ -94,7 +94,7 @@
   font-size: 22px !important;
 }
 
-.sticky-section .sticky-section-extended-menu-drawer .svg-wrapper {
+.sticky-section .sticky-section-menu-drawer .svg-wrapper {
   width: var(--icon-size-xs, 0.85rem);
   height: var(--icon-size-xs, 0.85rem);
   font-size: var(--icon-size-xs, 0.85rem) !important;
@@ -106,7 +106,7 @@
   height: 22px;
 }
 
-.sticky-section .sticky-section-extended-menu-drawer .svg-wrapper svg {
+.sticky-section .sticky-section-menu-drawer .svg-wrapper svg {
   width: var(--icon-size-xs, 0.85rem);
   height: var(--icon-size-xs, 0.85rem);
 }

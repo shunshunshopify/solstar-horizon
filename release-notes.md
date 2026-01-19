@@ -1,14 +1,28 @@
-# Release Notes - Version 3.2.15
+# Release Notes - Version 3.2.17
 
-This release fixes theme validation errors and cleans up onboarding placeholders.
+This release introduces polished account, cart, and quick add icons that align with the new stroke settings.
 
 ## What's Changed
 
+### Added
+- [Icons] Distinct account, cart, and quick add glyphs replace the previous placeholders so users get clearer affordances across the header, drawers, and product cards.
+- [Icons] Icon strokes now adapt consistently across the new glyphs when merchants choose thin/default/thick in theme settings.
+
 ### Fixes and improvements
 - Removed unsupported `hide_padding` from swatches block presets to resolve schema validation failures.
-- Added the missing onboarding translation used by Tab Collection empty states.
-- [Tab collection] Fixed placeholder card rendering and carousel slide calculations.
-- [Tab collection] Removed the circle option from image ratio settings.
+
+# Release Notes - Version 3.2.16
+
+This release refreshes icon artwork and expands the icon controls so stores can better match their identity.
+
+## What's Changed
+
+### Added
+- [Icons] Theme settings now include a stroke weight selector so merchants can pick between thin/default/thick icon outlines to match their typography and button weights.
+- [Icons] All interface glyphs (navigation, controls, buttons, loaders) now use the refreshed artwork with consistent outlines and optimized spacing.
+
+### Fixes and improvements
+- Removed unsupported `hide_padding` from swatches block presets to resolve schema validation failures.
 
 # Release Notes - Version 3.2.14
 

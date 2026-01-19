@@ -261,6 +261,14 @@
     }
   }
 
+  .quick-add__button .add-to-cart-icon svg,
+  .quick-add__button .add-to-cart-icon--added svg {
+    fill: none !important;
+    stroke: currentColor;
+    stroke-width: var(--icon-stroke-width, 1.5px);
+    background: none;
+  }
+
   .quick-add__button.atc-added .add-to-cart-text {
     animation-name: atc-fade-out;
   }

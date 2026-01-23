@@ -20,6 +20,7 @@
     "rich_text_section": "リッチテキスト",
     "product_buy_buttons": "購入ボタン",
     "before_after": "ビフォー／アフター",
+    "countdown_timer": "カウントダウンタイマー",
     "product_description": "説明",
     "product_price": "価格",
     "product_variant_picker": "バリエーションピッカー",
@@ -64,8 +65,6 @@
     "announcement": "お知らせ",
     "announcement_bar": "お知らせバー",
     "badges": "バッジ",
-    "before_after": "ビフォー／アフター",
-    "countdown_timer": "カウントダウンタイマー",
     "button": "ボタン",
     "cart": "カート",
     "cart_items": "カート内のアイテム",
@@ -175,8 +174,6 @@
     "split_showcase": "Split showcase",
     "variant_pickers": "バリエーションピッカー",
     "product_title": "商品名",
-    "before_after": "ビフォー／アフター",
-    "countdown_timer": "カウントダウンタイマー",
     "large_logo": "大きなロゴ",
     "product_list_button": "[すべて表示] ボタン",
     "product_inventory": "商品の在庫",
@@ -198,8 +195,11 @@
   },
   "settings": {
     "badge_new_color_scheme": "新着バッジ",
+    "badge_new_label": "新着ラベル",
     "badge_sale_color_scheme": "セール",
+    "badge_sale_label": "セールラベル",
     "badge_sold_out_color_scheme": "売り切れ",
+    "badge_sold_out_label": "売り切れラベル",
     "enable_splash_screen": "スプラッシュスクリーンを有効にする",
     "splash_logo": "スプラッシュロゴ",
     "splash_logo_info": "ページ読み込み時に表示される任意のロゴです。",
@@ -945,6 +945,7 @@
     "swatches": "見本",
     "variant_settings": "バリエーションの設定",
     "background": "背景",
+    "background_toggle": "背景を表示",
     "cards_layout": "カードレイアウト",
     "section_layout": "セクションレイアウト",
     "mobile_size": "モバイルサイズ",
@@ -1483,6 +1484,14 @@
                 "small": "小",
                 "medium": "中",
                 "large": "大"
+              }
+            },
+            "featured_button_alignment": {
+              "label": "ボタンの配置",
+              "options": {
+                "left": "左",
+                "center": "中央",
+                "right": "右"
               }
             },
             "featured_button_color_scheme": {

@@ -104,6 +104,7 @@
               assign button_link = block.settings.featured_button_link
               assign button_style = block.settings.featured_button_style | default: 'button'
               assign button_size = block.settings.featured_button_size | default: 'medium'
+              assign button_alignment = block.settings.featured_button_alignment | default: 'left'
               assign button_color_scheme = block.settings.featured_button_color_scheme | default: section.settings.section_color_scheme
 
               if featured_image == blank and tab_collection != blank
@@ -125,7 +126,7 @@
                 endif
               endif
 
-              assign product_count = product_limit
+              assign product_count = 0
               if tab_collection != blank and tab_collection.products_count > 0
                 assign product_count = tab_collection.products_count | at_most: product_limit
               endif
@@ -203,7 +204,10 @@
                       {% endif %}
 
                       {% if button_label != blank and button_link != blank %}
-                        <div class="tab-collection__featured-button-wrap color-{{ button_color_scheme }}">
+                        <div
+                          class="tab-collection__featured-button-wrap color-{{ button_color_scheme }}"
+                          data-button-alignment="{{ button_alignment }}"
+                        >
                           <a
                             class="tab-collection__featured-button {{ button_style }} tab-collection__featured-button--{{ button_size }}"
                             href="{{ button_link }}"
@@ -221,8 +225,11 @@
             {% endcapture %}
 
             {% capture product_items %}
-              {% if product_limit > 0 and tab_collection != blank and tab_collection.products_count > 0 %}
-                {% for tab_product in tab_collection.products limit: product_limit %}
+              {% if product_count > 0 %}
+                {% for tab_product in tab_collection.products %}
+                  {% if forloop.index > product_limit %}
+                    {% break %}
+                  {% endif %}
                   {% capture tab_product_content %}
                     {% render 'tab-collection-product-content', product: tab_product, block_settings: block.settings %}
                   {% endcapture %}
@@ -254,7 +261,7 @@
                       quick_add_block: block
                     %}
                   </div>
-                  {% unless forloop.last %}
+                  {% unless forloop.index == product_count %}
                     <!--@list/split-->
                   {% endunless %}
                 {% endfor %}
@@ -659,6 +666,18 @@
             { "value": "medium", "label": "t:sections.tab_collection.blocks.tab.settings.featured_button_size.options.medium" },
             { "value": "large", "label": "t:sections.tab_collection.blocks.tab.settings.featured_button_size.options.large" }
           ],
+          "visible_if": "{{ block.settings.show_image }}"
+        },
+        {
+          "type": "select",
+          "id": "featured_button_alignment",
+          "label": "t:sections.tab_collection.blocks.tab.settings.featured_button_alignment.label",
+          "options": [
+            { "value": "left", "label": "t:options.left" },
+            { "value": "center", "label": "t:options.center" },
+            { "value": "right", "label": "t:options.right" }
+          ],
+          "default": "left",
           "visible_if": "{{ block.settings.show_image }}"
         },
         {
@@ -1110,18 +1129,37 @@
 
   .tab-collection__featured-button-wrap {
     position: absolute;
-    left: var(--padding-sm);
-    bottom: var(--padding-sm);
-    right: auto;
+    left: var(--padding-xs);
+    bottom: var(--padding-xs);
+    right: var(--padding-xs);
     z-index: 2;
     display: flex;
     align-items: center;
-    max-width: calc(100% - (var(--padding-sm) * 2));
+    width: fit-content;
+    max-width: 100%;
     background-color: transparent;
+  }
+
+  .tab-collection__featured-button-wrap[data-button-alignment='center'] {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .tab-collection__featured-button-wrap[data-button-alignment='right'] {
+    left: auto;
+    right: var(--padding-sm);
   }
 
   .tab-collection__featured-button {
     pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    gap: var(--gap-xs);
+    width: auto;
+    min-width: 0;
   }
 
   .tab-collection__featured-button--small {

@@ -1,6 +1,13 @@
-# Release Notes - Version 3.2.17
+# Release Notes - Version 3.2.18
 
-This release introduces polished account, cart, and quick add icons that align with the new stroke settings.
+This release refines the tab collection’s featured CTA button so it matches the general button styling and alignment controls.
+
+## What's Changed
+
+### Fixes and improvements
+- [Tab collection] Featured CTA now shares the standard button layouts (primary/secondary/link) and alignment offsets, so the `featured_button_alignment` picker consistently keeps the URL wrapped against the featured image instead of forcing a wide border.
+
+# Release Notes - Version 3.2.17
 
 ## What's Changed
 

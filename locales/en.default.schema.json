@@ -416,7 +416,6 @@
     "announcement": "Announcement",
     "announcement_bar": "Announcement bar",
     "badges": "Badges",
-    "before_after": "Before and after",
     "countdown_timer": "Countdown timer",
     "blog": "Blog",
     "blog_card": "Blog card",
@@ -1769,6 +1768,14 @@
                 "small": "Small",
                 "medium": "Medium",
                 "large": "Large"
+              }
+            },
+            "featured_button_alignment": {
+              "label": "Button alignment",
+              "options": {
+                "left": "Left",
+                "center": "Center",
+                "right": "Right"
               }
             },
             "featured_button_color_scheme": {

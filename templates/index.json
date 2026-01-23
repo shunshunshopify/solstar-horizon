@@ -359,7 +359,7 @@
           "type": "tab",
           "settings": {
             "title": "Collection",
-            "collection": "bikini",
+            "collection": "coverup",
             "max_items": 6,
             "inherit_color_scheme": true,
             "color_scheme": "",

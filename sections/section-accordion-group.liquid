@@ -26,22 +26,15 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
-            {%- liquid
-              assign heading_text = block.settings.title | default: 'text_defaults.accordion_heading' | t
-            -%}
-            {%- if heading_text != blank -%}
+            {%- if block.settings.title != blank -%}
               {%- assign heading_tag = block.settings.heading_tag | default: 'h2' -%}
               <{{ heading_tag }} class="accordion-group__heading" {{ block.shopify_attributes }}>
-                {{ heading_text | escape }}
+                {{ block.settings.title | escape }}
               </{{ heading_tag }}>
             {%- endif -%}
 
           {%- when 'question' -%}
-            {%- liquid
-              assign question_title = block.settings.title | default: 'text_defaults.what_is_return_policy' | t
-              assign question_content = block.settings.content | default: 'text_defaults.return_policy' | t
-            -%}
-            {%- if question_title != blank and question_content != blank -%}
+            {%- if block.settings.title != blank and block.settings.content != blank -%}
               <details
                 class="accordion-group__item"
                 {% if block.settings.default_open %}open{% endif %}
@@ -49,7 +42,7 @@
               >
                 <summary class="accordion-group__title">
                   <span class="accordion-group__title-text">
-                    {{ question_title }}
+                    {{ block.settings.title }}
                   </span>
                   <span class="accordion-group__icon" aria-hidden="true">
                     {{- 'icon-caret.svg' | inline_asset_content -}}
@@ -57,7 +50,7 @@
                 </summary>
                 <div class="accordion-group__body">
                   <div class="accordion-group__content rte">
-                    {{ question_content }}
+                    {{ block.settings.content }}
                   </div>
                 </div>
               </details>

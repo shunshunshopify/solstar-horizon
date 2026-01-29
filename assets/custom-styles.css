@@ -44,7 +44,7 @@
     border: 1px solid rgb(var(--color-border-rgb, var(--color-foreground-rgb, 0 0 0)) / 0.15);
     border-radius: var(--style-border-radius, 12px);
     background: var(--color-background);
-    padding: 0;
+    padding: 0 1.25rem;
     transition: border-color var(--animation-speed, 0.2s) ease;
     text-align: left;
 }
@@ -54,7 +54,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 1.25rem 1.25rem 1.25rem 0;
+    padding: 1.25rem 0;
     margin: 0;
     font-weight: 700;
     font-size: var(--font-h5--size, 1.05rem);
@@ -83,11 +83,10 @@
 }
 
 .accordion-group__body {
-    padding: 0 1.25rem 1rem 0;
+    padding: 0 0 1rem;
     border-top: 1px solid rgb(var(--color-border-rgb, var(--color-foreground-rgb, 0 0 0)) / 0.1);
 }
 
 .accordion-group__content {
     margin-top: 1rem;
-    padding-right: 0;
 }

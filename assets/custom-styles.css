@@ -16,7 +16,6 @@
 /* Accordion group (ported from Broadcast) */
 .accordion-group {
     position: relative;
-    --accordion-x: 1.25rem;
 }
 
 .accordion-group__inner {
@@ -39,14 +38,13 @@
 .accordion-group__heading {
     grid-column: 1 / -1;
     margin: 0 0 0.75rem;
-    padding-inline: var(--accordion-x);
 }
 
 .accordion-group__item {
     border: 1px solid rgb(var(--color-border-rgb, var(--color-foreground-rgb, 0 0 0)) / 0.15);
     border-radius: var(--style-border-radius, 12px);
     background: var(--color-background);
-    padding: 0 var(--accordion-x);
+    padding: 0 1.25rem;
     transition: border-color var(--animation-speed, 0.2s) ease;
     text-align: left;
 }
@@ -71,7 +69,6 @@
 
 .accordion-group__title-text {
     flex: 1;
-    min-width: 0;
 }
 
 .accordion-group__icon {
@@ -92,6 +89,4 @@
 
 .accordion-group__content {
     margin-top: 1rem;
-    width: 100%;
-    word-break: break-word;
 }

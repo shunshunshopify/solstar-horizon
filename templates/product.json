@@ -619,7 +619,7 @@
                   "settings": {
                     "text": "<p>すべてのお客様にご購入いただいた商品にご満足いただけるよう努めております。万が一ご満足いただけない場合は、お知らせください。誠心誠意対応させていただきます。</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -658,7 +658,7 @@
                   "settings": {
                     "text": "<p>一部の商品については返品をお受けできません。ご購入前に必ず返品種別を明記いたします。</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -699,7 +699,7 @@
                   "settings": {
                     "text": "<p>ご注文いただいた商品をできるだけ早く発送できるよう、迅速に対応いたします。ご注文の商品が発送され次第、詳細情報が記載されたメールが届きます。配達所要時間はお住まいの地域によって異なります。</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -740,7 +740,7 @@
                   "settings": {
                     "text": "<p>私たちの製品は、国内およびグローバルに製造されています。私たちは、商品が高品質で公正な価値であることを保証するために、製造パートナーを慎重に選択します。</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -781,7 +781,7 @@
                   "settings": {
                     "text": "<p>送料は、お客様の所在地とご注文の商品に基づいて計算されます。購入する前に、必ず送料をお知らせします。</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",

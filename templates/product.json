@@ -608,7 +608,7 @@
             "accordion_row_VB8nbr": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "missing translation: \"t:text_defaults.faq\"",
+                "heading": "購入後に不具合や気になる点があった場合、対応してもらえますか？",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
